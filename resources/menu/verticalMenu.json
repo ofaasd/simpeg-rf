@@ -1,0 +1,96 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Home",
+      "icon": "menu-icon tf-icons mdi mdi-home-outline",
+      "slug": "pages-home"
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-view-list-outline",
+      "name": "Master Data",
+      "slug": "master-data",
+      "submenu": [
+        {
+          "url": "/",
+          "name": "Sekolah",
+          "slug": "master-data-sekolah"
+        },
+        {
+          "url": "/",
+          "name": "Status Pegawai",
+          "slug": "master-data-status-pegawai"
+        },
+        {
+          "url": "/",
+          "name": "Detail Status Pegawai",
+          "slug": "master-data-detail-status"
+        },
+        {
+          "url": "/",
+          "name": "Jabatan Struktural",
+          "slug": "master-data-jabatan-struktural"
+        },
+        {
+          "url": "/academic",
+          "name": "Jabatan Akademik",
+          "slug": "master-data-jabatan-akademik"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-account-tie-outline",
+      "name": "Pegawai",
+      "slug": "pegawai",
+      "submenu": [
+        {
+          "url": "/pegawai",
+          "name": "Data Pegawai",
+          "slug": "pegawai-data"
+        },
+        {
+          "url": "/",
+          "name": "Monitoring Kenaikan Pangkat",
+          "slug": "pegawai-monitoring-pangkat"
+        }
+      ]
+    },
+    {
+      "url": "/murroby",
+      "icon": "menu-icon tf-icons mdi mdi-account-outline",
+      "name": "Ke-murobbyan",
+      "slug": "murroby"
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-account-tie-outline",
+      "name": "Penggajian",
+      "slug": "penggajian",
+      "submenu": [
+        {
+          "url": "/penggajian",
+          "name": "Nominal Penggajian",
+          "slug": "peggajian-nominal"
+        },
+        {
+          "url": "/proses-gaji",
+          "name": "Proses Gaji",
+          "slug": "penggajian-proses"
+        },
+        {
+          "url": "/rekap-gaji",
+          "name": "Rekap Gaji",
+          "slug": "penggajian-rekap"
+        }
+      ]
+    },
+    {
+      "url": "/user-list",
+      "icon": "menu-icon tf-icons mdi mdi-account-outline",
+      "name": "User",
+      "slug": "User Management"
+    }
+  ]
+}
