@@ -13,7 +13,7 @@
       "slug": "master-data",
       "submenu": [
         {
-          "url": "/",
+          "url": "/school",
           "name": "Sekolah",
           "slug": "master-data-sekolah"
         },

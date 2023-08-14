@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\UserManagement;
 use App\Http\Controllers\admin\Pegawai;
 use App\Http\Controllers\admin\AcademicController;
+use App\Http\Controllers\admin\SchoolController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,4 +41,5 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/user-list', UserManagement::class);
   Route::resource('/pegawai', Pegawai::class);
   Route::resource('/academic', AcademicController::class);
+  Route::resource('/school', SchoolController::class);
 });

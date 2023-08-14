@@ -13,8 +13,9 @@
     <h5 class="card-title mb-0">Search Filter</h5>
   </div>
   <div class="card-datatable table-responsive">
-<textarea name='column' id='my_column' style="display:none">@foreach($indexed as $value) '{{$value}}'
-@endforeach</textarea>
+<textarea name='column' id='my_column' style="display:none">@foreach($indexed as $value) {{$value . "\n"}} @endforeach</textarea>
+<input type="hidden" name="page" id='page' value='academic'>
+<input type="hidden" name="title" id='title' value='Academic'>
     <table class="datatables-{{strtolower($title)}} table">
       <thead class="table-light">
         <tr>

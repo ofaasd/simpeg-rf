@@ -7,15 +7,27 @@
 // Datatable (jquery)
 $(function () {
   //initial variabl
-  var page = 'academic';
-  var title = 'Academic';
+  var page = $('#page').val();
+  var title = $('#title').val();
+  var my_column = $('#my_column').val();
+  const pecah = my_column.split('\n');
+  let my_data = [];
+  console.log(my_data);
 
+  pecah.forEach((item, index) => {
+    let temp = item.replace(/ /g, '');
+    let data_obj = { data: temp };
+    //alert(data_obj.data);
+    my_data.push(data_obj);
+  });
+  //alert(data_obj);
+  console.log(my_data);
+  //alert(JSON.stringify(my_column.split('\n')));
   // Variable declaration for table
   var dt_table = $('.datatables-' + page),
     select2 = $('.select2'),
     view = baseUrl + 'app/' + page + '/view/',
     offCanvasForm = $('#offcanvasAdd' + title);
-
   if (select2.length) {
     var $this = select2;
     $this.wrap('<div class="position-relative"></div>').select2({
@@ -39,14 +51,7 @@ $(function () {
       ajax: {
         url: baseUrl + page
       },
-      columns: [
-        // columns according to JSON
-        { data: '' },
-        { data: 'id' },
-        { data: 'name' },
-        { data: 'description' },
-        { data: 'action' }
-      ],
+      columns: my_data,
       columnDefs: [
         {
           // For Responsive
@@ -55,7 +60,7 @@ $(function () {
           orderable: false,
           responsivePriority: 2,
           targets: 0,
-          render: function (data, type, full, meta) {
+          render: function render(data, type, full, meta) {
             return '';
           }
         },
@@ -63,8 +68,8 @@ $(function () {
           searchable: false,
           orderable: false,
           targets: 1,
-          render: function (data, type, full, meta) {
-            return `<span>${full.fake_id}</span>`;
+          render: function render(data, type, full, meta) {
+            return '<span>'.concat(full.fake_id, '</span>');
           }
         },
         {
@@ -73,11 +78,16 @@ $(function () {
           title: 'Actions',
           searchable: false,
           orderable: false,
-          render: function (data, type, full, meta) {
+          render: function render(data, type, full, meta) {
             return (
               '<div class="d-inline-block text-nowrap">' +
-              `<button class="btn btn-sm btn-icon edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAdd${title}"><i class="mdi mdi-pencil-outline mdi-20px"></i></button>` +
-              `<button class="btn btn-sm btn-icon delete-record" data-id="${full['id']}"><i class="mdi mdi-delete-outline mdi-20px"></i></button>`
+              '<button class="btn btn-sm btn-icon edit-record" data-id="'
+                .concat(full['id'], '" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAdd')
+                .concat(title, '"><i class="mdi mdi-pencil-outline mdi-20px"></i></button>') +
+              '<button class="btn btn-sm btn-icon delete-record" data-id="'.concat(
+                full['id'],
+                '"><i class="mdi mdi-delete-outline mdi-20px"></i></button>'
+              )
             );
           }
         }
@@ -110,23 +120,21 @@ $(function () {
               text: '<i class="mdi mdi-printer-outline me-1" ></i>Print',
               className: 'dropdown-item',
               exportOptions: {
-                columns: [1, 2],
+                columns: [2, 3],
                 // prevent avatar to be print
                 format: {
-                  body: function (inner, coldex, rowdex) {
+                  body: function body(inner, coldex, rowdex) {
                     if (inner.length <= 0) return inner;
                     var el = $.parseHTML(inner);
                     var result = '';
                     $.each(el, function (index, item) {
-                      if (item.classList !== undefined && item.classList.contains('user-name')) {
-                        result = result + item.lastChild.textContent;
-                      } else result = result + item.innerText;
+                      result = result + item.innerText;
                     });
                     return result;
                   }
                 }
               },
-              customize: function (win) {
+              customize: function customize(win) {
                 //customize print view for dark
                 $(win.document.body)
                   .css('color', config.colors.headingColor)
@@ -149,7 +157,7 @@ $(function () {
                 columns: [2, 3],
                 // prevent avatar to be print
                 format: {
-                  body: function (inner, coldex, rowdex) {
+                  body: function body(inner, coldex, rowdex) {
                     if (inner.length <= 0) return inner;
                     var el = $.parseHTML(inner);
                     var result = '';
@@ -172,7 +180,7 @@ $(function () {
                 columns: [2, 3],
                 // prevent avatar to be display
                 format: {
-                  body: function (inner, coldex, rowdex) {
+                  body: function body(inner, coldex, rowdex) {
                     if (inner.length <= 0) return inner;
                     var el = $.parseHTML(inner);
                     var result = '';
@@ -195,7 +203,7 @@ $(function () {
                 columns: [2, 3],
                 // prevent avatar to be display
                 format: {
-                  body: function (inner, coldex, rowdex) {
+                  body: function body(inner, coldex, rowdex) {
                     if (inner.length <= 0) return inner;
                     var el = $.parseHTML(inner);
                     var result = '';
@@ -218,7 +226,7 @@ $(function () {
                 columns: [2, 3],
                 // prevent avatar to be copy
                 format: {
-                  body: function (inner, coldex, rowdex) {
+                  body: function body(inner, coldex, rowdex) {
                     if (inner.length <= 0) return inner;
                     var el = $.parseHTML(inner);
                     var result = '';
@@ -277,12 +285,12 @@ $(function () {
         // delete the data
         $.ajax({
           type: 'DELETE',
-          url: `${baseUrl}${page}/${id}`,
-          success: function () {
+          url: ''.concat(baseUrl).concat(page, '/').concat(id),
+          success: function success() {
             dt.draw();
           },
-          error: function (error) {
-            console.log(error);
+          error: function error(_error) {
+            console.log(_error);
           }
         });
 
@@ -322,7 +330,7 @@ $(function () {
     $('#offcanvasAdd' + title + 'Label').html('Edit ' + title);
 
     // get data
-    $.get(`${baseUrl}${page}\/${id}\/edit`, function (data) {
+    $.get(''.concat(baseUrl).concat(page, '/').concat(id, '/edit'), function (data) {
       $('#' + page + '_id').val(data.id);
       $('#add-' + page + '-name').val(data.name);
       $('#add-' + page + '-description').val(data.description);
@@ -336,10 +344,10 @@ $(function () {
   });
 
   // validating form and updating data
-  const addNewForm = document.getElementById('addNew' + title + 'Form');
+  var addNewForm = document.getElementById('addNew' + title + 'Form');
 
   // user form validation
-  const fv = FormValidation.formValidation(addNewForm, {
+  var fv = FormValidation.formValidation(addNewForm, {
     fields: {
       name: {
         validators: {
@@ -348,7 +356,6 @@ $(function () {
           }
         }
       },
-
       description: {
         validators: {
           notEmpty: {
@@ -362,7 +369,7 @@ $(function () {
       bootstrap5: new FormValidation.plugins.Bootstrap5({
         // Use this for enabling/changing valid/invalid class
         eleValidClass: '',
-        rowSelector: function (field, ele) {
+        rowSelector: function rowSelector(field, ele) {
           // field is the field name & ele is the field element
           return '.mb-4';
         }
@@ -376,23 +383,23 @@ $(function () {
     // adding or updating user when form successfully validate
     $.ajax({
       data: $('#addNew' + title + 'Form').serialize(),
-      url: `${baseUrl}${page}`,
+      url: ''.concat(baseUrl).concat(page),
       type: 'POST',
-      success: function (status) {
+      success: function success(status) {
         dt.draw();
         offCanvasForm.offcanvas('hide');
 
         // sweetalert
         Swal.fire({
           icon: 'success',
-          title: `Successfully ${status}!`,
-          text: `${title} ${status} Successfully.`,
+          title: 'Successfully '.concat(status, '!'),
+          text: ''.concat(title, ' ').concat(status, ' Successfully.'),
           customClass: {
             confirmButton: 'btn btn-success'
           }
         });
       },
-      error: function (err) {
+      error: function error(err) {
         offCanvasForm.offcanvas('hide');
         Swal.fire({
           title: 'Duplicate Entry!',
