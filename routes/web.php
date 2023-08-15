@@ -6,6 +6,8 @@ use App\Http\Controllers\admin\UserManagement;
 use App\Http\Controllers\admin\Pegawai;
 use App\Http\Controllers\admin\AcademicController;
 use App\Http\Controllers\admin\SchoolController;
+use App\Http\Controllers\admin\EmployeeStatusController;
+use App\Http\Controllers\admin\EmployeeStatusDetailController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,4 +44,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/pegawai', Pegawai::class);
   Route::resource('/academic', AcademicController::class);
   Route::resource('/school', SchoolController::class);
+  Route::resource('/employee-status', EmployeeStatusController::class);
+  Route::resource('/employee-status-detail', EmployeeStatusDetailController::class);
 });
