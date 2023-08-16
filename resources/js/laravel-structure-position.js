@@ -337,6 +337,12 @@ $(function () {
         else $('#add-' + page + '-' + key).val(data[key]);
       });
     });
+    $.get(''.concat(baseUrl).concat(page, '/').concat(id, '/get-school'), function (data) {
+      Object.keys(data).forEach(key => {
+        //console.log(key);
+        $('#add-' + page + '-' + key).val(data[key]);
+      });
+    });
   });
 
   // changing the title

@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\AcademicController;
 use App\Http\Controllers\admin\SchoolController;
 use App\Http\Controllers\admin\EmployeeStatusController;
 use App\Http\Controllers\admin\EmployeeStatusDetailController;
+use App\Http\Controllers\admin\StrucutralPositionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,4 +47,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/school', SchoolController::class);
   Route::resource('/employee-status', EmployeeStatusController::class);
   Route::resource('/employee-status-detail', EmployeeStatusDetailController::class);
+  Route::resource('/structural-position', StrucutralPositionController::class);
+  Route::get('/structural-position/get-school/{$id}', '\admin\StrucutralPositionController@getSchool');
 });

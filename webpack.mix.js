@@ -131,6 +131,7 @@ mix.js('resources/js/laravel-crud-management.js', 'public/js/');
 mix.js('resources/js/laravel-pegawai-management.js', 'public/js/');
 mix.js('resources/js/laravel-academic-management.js', 'public/js/');
 mix.js('resources/js/laravel-pegawai-status-detail.js', 'public/js/');
+mix.js('resources/js/laravel-structure-position.js', 'public/js/');
 
 mix.copy('node_modules/@mdi/font/fonts/*', 'public/assets/vendor/fonts/materialdesignicons');
 mix.copy('node_modules/@fortawesome/fontawesome-free/webfonts/*', 'public/assets/vendor/fonts/fontawesome');
