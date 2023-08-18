@@ -104,6 +104,13 @@ class Pegawai extends Controller
   public function create()
   {
     //
+    // $employee = EmployeeNew::all();
+    // foreach ($employee as $row) {
+    //   $u_employee = EmployeeNew::find($row->id);
+    //   $u_employee->tanggal_lahir = date('Y-m-d', strtotime($row->tanggal_lahir));
+    //   $u_employee->pengangkatan = date('Y-m-d', strtotime($row->pengangkatan));
+    //   $u_employee->save();
+    // }
   }
 
   /**
@@ -197,6 +204,6 @@ class Pegawai extends Controller
   public function destroy(string $id)
   {
     //
-    $Grades = Grades::where('id', $id)->delete();
+    $EmployeeNew = EmployeeNew::where('id', $id)->delete();
   }
 }
