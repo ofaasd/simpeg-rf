@@ -2,38 +2,34 @@
 
 namespace App\Http\Controllers\admin;
 
-use Illuminate\Http\Request;
-use App\Models\EmployeeNew;
-use App\Models\StructuralPosition;
-use App\Models\Grades;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Grades;
 
-class Pegawai extends Controller
+class GradesController extends Controller
 {
+  public $indexed = ['', 'id', 'name', 'description'];
   /**
    * Display a listing of the resource.
    */
-  public $indexed = ['', 'id', 'nama', 'jenis_kelamin', 'jabatan'];
   public function index(Request $request)
   {
     //
     if (empty($request->input('length'))) {
-      $title = 'Pegawai';
+      $Grades = Grades::all();
+      $title = 'Grades';
       $indexed = $this->indexed;
-      $var['structural'] = StructuralPosition::all();
-      $var['Grades'] = Grades::all();
-      return view('admin.pegawai.index', compact('title', 'indexed', 'var'));
+      return view('admin.grades.index', compact('title', 'indexed'));
     } else {
       $columns = [
         1 => 'id',
-        2 => 'nama',
-        3 => 'jenis_kelamin',
-        3 => 'jabatan',
+        2 => 'name',
+        3 => 'description',
       ];
 
       $search = [];
 
-      $totalData = EmployeeNew::count();
+      $totalData = Grades::count();
 
       $totalFiltered = $totalData;
 
@@ -43,39 +39,36 @@ class Pegawai extends Controller
       $dir = $request->input('order.0.dir');
 
       if (empty($request->input('search.value'))) {
-        $EmployeeNew = EmployeeNew::offset($start)
+        $Grades = Grades::offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
       } else {
         $search = $request->input('search.value');
 
-        $EmployeeNew = EmployeeNew::where('id', 'LIKE', "%{$search}%")
-          ->orWhere('nama', 'LIKE', "%{$search}%")
-          ->orWhere('jenis_kelamin', 'LIKE', "%{$search}%")
+        $Grades = Grades::where('id', 'LIKE', "%{$search}%")
+          ->orWhere('name', 'LIKE', "%{$search}%")
           ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
 
-        $totalFiltered = EmployeeNew::where('id', 'LIKE', "%{$search}%")
-          ->orWhere('nama', 'LIKE', "%{$search}%")
-          ->orWhere('jenis_kelamin', 'LIKE', "%{$search}%")
+        $totalFiltered = Grades::where('id', 'LIKE', "%{$search}%")
+          ->orWhere('name', 'LIKE', "%{$search}%")
           ->count();
       }
 
       $data = [];
 
-      if (!empty($EmployeeNew)) {
+      if (!empty($Grades)) {
         // providing a dummy id instead of database ids
         $ids = $start;
 
-        foreach ($EmployeeNew as $row) {
+        foreach ($Grades as $row) {
           $nestedData['id'] = $row->id;
           $nestedData['fake_id'] = ++$ids;
-          $nestedData['nama'] = $row->nama;
-          $nestedData['jenis_kelamin'] = $row->jenis_kelamin;
-          $nestedData['jabatan'] = $row->jabatan;
+          $nestedData['name'] = $row->name;
+          $nestedData['description'] = $row->description;
           $data[] = $nestedData;
         }
       }
@@ -116,20 +109,9 @@ class Pegawai extends Controller
 
     if ($id) {
       // update the value
-      $EmployeeNew = EmployeeNew::updateOrCreate(
+      $Grades = Grades::updateOrCreate(
         ['id' => $id],
-        [
-          'nama' => $request->nama,
-          'tempat_lahir' => $request->tempat_lahir,
-          'tanggal_lahir' => $request->tanggal_lahir,
-          'jenis_kelamin' => $request->jenis_kelamin,
-          'jabatan_new' => $request->jabatan_new,
-          'alamat' => $request->alamat,
-          'pendidikan' => $request->pendidikan,
-          'pengangkatan' => $request->pengangkatan,
-          'lembaga_induk' => $request->lembaga_induk,
-          'lembaga_diikuti' => $request->lembaga_diikuti,
-        ]
+        ['name' => $request->name, 'description' => $request->description]
       );
 
       // user updated
@@ -138,22 +120,11 @@ class Pegawai extends Controller
       // create new one if email is unique
       //$userEmail = User::where('email', $request->email)->first();
 
-      $EmployeeNew = EmployeeNew::updateOrCreate(
+      $Grades = Grades::updateOrCreate(
         ['id' => $id],
-        [
-          'nama' => $request->nama,
-          'tempat_lahir' => $request->tempat_lahir,
-          'tanggal_lahir' => $request->tanggal_lahir,
-          'jenis_kelamin' => $request->jenis_kelamin,
-          'jabatan_new' => $request->jabatan_new,
-          'alamat' => $request->alamat,
-          'pendidikan' => $request->pendidikan,
-          'pengangkatan' => $request->pengangkatan,
-          'lembaga_induk' => $request->lembaga_induk,
-          'lembaga_diikuti' => $request->lembaga_diikuti,
-        ]
+        ['name' => $request->name, 'description' => $request->description]
       );
-      if ($EmployeeNew) {
+      if ($Grades) {
         // user created
         return response()->json('Created');
       } else {
@@ -178,9 +149,9 @@ class Pegawai extends Controller
     //
     $where = ['id' => $id];
 
-    $EmployeeNew = EmployeeNew::where($where)->first();
+    $Grades = Grades::where($where)->first();
 
-    return response()->json($EmployeeNew);
+    return response()->json($Grades);
   }
 
   /**

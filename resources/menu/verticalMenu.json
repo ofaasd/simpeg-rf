@@ -44,14 +44,9 @@
           "slug": "master-data-jabatan-akademik"
         },
         {
-          "url": "/",
+          "url": "/grades",
           "name": "Jenjang Pendidikan",
           "slug": "master-data-jenjang-pendidikan"
-        },
-        {
-          "url": "/academic",
-          "name": "Jabatan Akademik",
-          "slug": "master-data-jabatan-akademik"
         },
         {
           "url": "/",
