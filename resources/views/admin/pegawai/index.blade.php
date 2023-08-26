@@ -3,7 +3,7 @@
 @section('title', $title . ' Management - Crud App')
 
 @section('page-script')
-<script src="{{asset('js/laravel-academic-management.js')}}"></script>
+<script src="{{asset('js/laravel-pegawai-management.js')}}"></script>
 @endsection
 
 @section('content')
@@ -24,6 +24,8 @@
           <th>Nama</th>
           <th>Jenis Kelamin</th>
           <th>Jabatan</th>
+          <th>Alamat</th>
+          <th>Pendidikan</th>
           <th>Actions</th>
         </tr>
       </thead>

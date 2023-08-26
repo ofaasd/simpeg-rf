@@ -13,7 +13,7 @@ class Pegawai extends Controller
   /**
    * Display a listing of the resource.
    */
-  public $indexed = ['', 'id', 'nama', 'jenis_kelamin', 'jabatan'];
+  public $indexed = ['', 'id', 'nama', 'jenis_kelamin', 'jabatan', 'alamat', 'pendidikan'];
   public function index(Request $request)
   {
     //
@@ -28,7 +28,9 @@ class Pegawai extends Controller
         1 => 'id',
         2 => 'nama',
         3 => 'jenis_kelamin',
-        3 => 'jabatan',
+        4 => 'jabatan',
+        5 => 'alamat',
+        6 => 'pendidikan',
       ];
 
       $search = [];
@@ -76,6 +78,8 @@ class Pegawai extends Controller
           $nestedData['nama'] = $row->nama;
           $nestedData['jenis_kelamin'] = $row->jenis_kelamin;
           $nestedData['jabatan'] = $row->jabatan;
+          $nestedData['alamat'] = $row->alamat;
+          $nestedData['pendidikan'] = $row->pen->name;
           $data[] = $nestedData;
         }
       }
@@ -175,6 +179,12 @@ class Pegawai extends Controller
   public function show(string $id)
   {
     //
+    $where = ['id' => $id];
+    $var['EmployeeNew'] = EmployeeNew::where($where)->first();
+    $title = 'Pegawai';
+    $var['structural'] = StructuralPosition::all();
+    $var['Grades'] = Grades::all();
+    return view('admin.pegawai.show', compact('title', 'var'));
   }
 
   /**

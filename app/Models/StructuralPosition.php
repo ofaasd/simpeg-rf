@@ -39,6 +39,10 @@ class StructuralPosition extends Model
   {
     return $this->belongsTo(StructuralPosition::class, 'structural_position_id', 'id');
   }
+  public function pegawai()
+  {
+    return $this->HasMany(EmployeeNew::class, 'id', 'jabatan_new');
+  }
 
   public function subordinates()
   {

@@ -14,4 +14,9 @@ class Grades extends Model
   protected $fillable = ['name', 'description'];
 
   protected $dateFormat = 'U';
+
+  public function pegawai(): HasMany
+  {
+    return $this->HasMany(EmployeeNew::class, 'id', 'pendidikan');
+  }
 }

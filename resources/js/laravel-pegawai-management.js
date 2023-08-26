@@ -6,12 +6,28 @@
 
 // Datatable (jquery)
 $(function () {
-  // Variable declaration for table
-  var dt_user_table = $('.datatables-users'),
-    select2 = $('.select2'),
-    userView = baseUrl + 'app/user/view/account',
-    offCanvasForm = $('#offcanvasAddUser');
+  //initial variabl
+  var page = $('#page').val();
+  var title = $('#title').val();
+  var my_column = $('#my_column').val();
+  const pecah = my_column.split('\n');
+  let my_data = [];
+  console.log(my_data);
 
+  pecah.forEach((item, index) => {
+    let temp = item.replace(/ /g, '');
+    let data_obj = { data: temp };
+    //alert(data_obj.data);
+    my_data.push(data_obj);
+  });
+  //alert(data_obj);
+  console.log(my_data);
+  //alert(JSON.stringify(my_column.split('\n')));
+  // Variable declaration for table
+  var dt_table = $('.datatables-' + page),
+    select2 = $('.select2'),
+    view = baseUrl + page,
+    offCanvasForm = $('#offcanvasAdd' + title);
   if (select2.length) {
     var $this = select2;
     $this.wrap('<div class="position-relative"></div>').select2({
@@ -27,23 +43,15 @@ $(function () {
     }
   });
 
-  // Users datatable
-  if (dt_user_table.length) {
-    var dt_user = dt_user_table.DataTable({
+  // datatable
+  if (dt_table.length) {
+    var dt = dt_table.DataTable({
       processing: true,
       serverSide: true,
       ajax: {
-        url: baseUrl + 'pegawai'
+        url: baseUrl + page
       },
-      columns: [
-        // columns according to JSON
-        { data: '' },
-        { data: 'id' },
-        { data: 'name' },
-        { data: 'nip' },
-        { data: 'nik' },
-        { data: 'action' }
-      ],
+      columns: my_data,
       columnDefs: [
         {
           // For Responsive
@@ -52,7 +60,7 @@ $(function () {
           orderable: false,
           responsivePriority: 2,
           targets: 0,
-          render: function (data, type, full, meta) {
+          render: function render(data, type, full, meta) {
             return '';
           }
         },
@@ -60,8 +68,8 @@ $(function () {
           searchable: false,
           orderable: false,
           targets: 1,
-          render: function (data, type, full, meta) {
-            return `<span>${full.fake_id}</span>`;
+          render: function render(data, type, full, meta) {
+            return '<span>'.concat(full.fake_id, '</span>');
           }
         },
         {
@@ -69,13 +77,13 @@ $(function () {
           targets: 2,
           responsivePriority: 4,
           render: function (data, type, full, meta) {
-            var $name = full['name'];
-
+            var $name = full['nama'];
+            var $id = full['id'];
             // For Avatar badge
             var stateNum = Math.floor(Math.random() * 6);
             var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
             var $state = states[stateNum],
-              $name = full['name'],
+              $name = full['nama'],
               $initials = $name.match(/\b\w/g) || [],
               $output;
             $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
@@ -91,7 +99,9 @@ $(function () {
               '</div>' +
               '<div class="d-flex flex-column">' +
               '<a href="' +
-              userView +
+              view +
+              '/' +
+              $id +
               '" class="text-body text-truncate"><span class="fw-semibold">' +
               $name +
               '</span></a>' +
@@ -101,42 +111,21 @@ $(function () {
           }
         },
         {
-          // User email
-          targets: 3,
-          render: function (data, type, full, meta) {
-            var $text = full['nip'];
-
-            return $text;
-          }
-        },
-        {
-          // email verify
-          targets: 4,
-          className: 'text-center',
-          render: function (data, type, full, meta) {
-            var $text = full['nik'];
-            return $text;
-          }
-        },
-        {
           // Actions
           targets: -1,
           title: 'Actions',
           searchable: false,
           orderable: false,
-          render: function (data, type, full, meta) {
+          render: function render(data, type, full, meta) {
             return (
               '<div class="d-inline-block text-nowrap">' +
-              `<button class="btn btn-sm btn-icon edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><i class="mdi mdi-pencil-outline mdi-20px"></i></button>` +
-              `<button class="btn btn-sm btn-icon delete-record" data-id="${full['id']}"><i class="mdi mdi-delete-outline mdi-20px"></i></button>` +
-              '<button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical mdi-20px"></i></button>' +
-              '<div class="dropdown-menu dropdown-menu-end m-0">' +
-              '<a href="' +
-              userView +
-              '" class="dropdown-item">View</a>' +
-              '<a href="javascript:;" class="dropdown-item">Suspend</a>' +
-              '</div>' +
-              '</div>'
+              '<button class="btn btn-sm btn-icon edit-record" data-id="'
+                .concat(full['id'], '" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAdd')
+                .concat(title, '"><i class="mdi mdi-pencil-outline mdi-20px"></i></button>') +
+              '<button class="btn btn-sm btn-icon delete-record" data-id="'.concat(
+                full['id'],
+                '"><i class="mdi mdi-delete-outline mdi-20px"></i></button>'
+              )
             );
           }
         }
@@ -165,27 +154,25 @@ $(function () {
           buttons: [
             {
               extend: 'print',
-              title: 'Users',
+              title: title,
               text: '<i class="mdi mdi-printer-outline me-1" ></i>Print',
               className: 'dropdown-item',
               exportOptions: {
                 columns: [2, 3],
                 // prevent avatar to be print
                 format: {
-                  body: function (inner, coldex, rowdex) {
+                  body: function body(inner, coldex, rowdex) {
                     if (inner.length <= 0) return inner;
                     var el = $.parseHTML(inner);
                     var result = '';
                     $.each(el, function (index, item) {
-                      if (item.classList !== undefined && item.classList.contains('user-name')) {
-                        result = result + item.lastChild.textContent;
-                      } else result = result + item.innerText;
+                      result = result + item.innerText;
                     });
                     return result;
                   }
                 }
               },
-              customize: function (win) {
+              customize: function customize(win) {
                 //customize print view for dark
                 $(win.document.body)
                   .css('color', config.colors.headingColor)
@@ -201,14 +188,14 @@ $(function () {
             },
             {
               extend: 'csv',
-              title: 'Users',
+              title: title,
               text: '<i class="mdi mdi-file-document-outline me-1" ></i>Csv',
               className: 'dropdown-item',
               exportOptions: {
                 columns: [2, 3],
                 // prevent avatar to be print
                 format: {
-                  body: function (inner, coldex, rowdex) {
+                  body: function body(inner, coldex, rowdex) {
                     if (inner.length <= 0) return inner;
                     var el = $.parseHTML(inner);
                     var result = '';
@@ -224,14 +211,14 @@ $(function () {
             },
             {
               extend: 'excel',
-              title: 'Users',
+              title: title,
               text: '<i class="mdi mdi-file-excel-outline me-1" ></i>Excel',
               className: 'dropdown-item',
               exportOptions: {
                 columns: [2, 3],
                 // prevent avatar to be display
                 format: {
-                  body: function (inner, coldex, rowdex) {
+                  body: function body(inner, coldex, rowdex) {
                     if (inner.length <= 0) return inner;
                     var el = $.parseHTML(inner);
                     var result = '';
@@ -247,14 +234,14 @@ $(function () {
             },
             {
               extend: 'pdf',
-              title: 'Users',
+              title: title,
               text: '<i class="mdi mdi-file-pdf-box me-1"></i>Pdf',
               className: 'dropdown-item',
               exportOptions: {
                 columns: [2, 3],
                 // prevent avatar to be display
                 format: {
-                  body: function (inner, coldex, rowdex) {
+                  body: function body(inner, coldex, rowdex) {
                     if (inner.length <= 0) return inner;
                     var el = $.parseHTML(inner);
                     var result = '';
@@ -270,14 +257,14 @@ $(function () {
             },
             {
               extend: 'copy',
-              title: 'Users',
+              title: title,
               text: '<i class="mdi mdi-content-copy me-1" ></i>Copy',
               className: 'dropdown-item',
               exportOptions: {
                 columns: [2, 3],
                 // prevent avatar to be copy
                 format: {
-                  body: function (inner, coldex, rowdex) {
+                  body: function body(inner, coldex, rowdex) {
                     if (inner.length <= 0) return inner;
                     var el = $.parseHTML(inner);
                     var result = '';
@@ -294,21 +281,56 @@ $(function () {
           ]
         },
         {
-          text: '<i class="mdi mdi-plus me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Add New User</span>',
+          text:
+            '<i class="mdi mdi-plus me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Add New ' +
+            title +
+            '</span>',
           className: 'add-new btn btn-primary',
           attr: {
             'data-bs-toggle': 'offcanvas',
-            'data-bs-target': '#offcanvasAddUser'
+            'data-bs-target': '#offcanvasAdd' + title
           }
         }
-      ]
+      ],
       // For responsive popup
+      responsive: {
+        details: {
+          display: $.fn.dataTable.Responsive.display.modal({
+            header: function (row) {
+              var data = row.data();
+              return 'Details of ' + data['nama'];
+            }
+          }),
+          type: 'column',
+          renderer: function (api, rowIdx, columns) {
+            var data = $.map(columns, function (col, i) {
+              return col.title !== '' // ? Do not show row in modal popup if title is blank (for check box)
+                ? '<tr data-dt-row="' +
+                    col.rowIndex +
+                    '" data-dt-column="' +
+                    col.columnIndex +
+                    '">' +
+                    '<td>' +
+                    col.title +
+                    ':' +
+                    '</td> ' +
+                    '<td>' +
+                    col.data +
+                    '</td>' +
+                    '</tr>'
+                : '';
+            }).join('');
+
+            return data ? $('<table class="table"/><tbody />').append(data) : false;
+          }
+        }
+      }
     });
   }
 
   // Delete Record
   $(document).on('click', '.delete-record', function () {
-    var user_id = $(this).data('id'),
+    var id = $(this).data('id'),
       dtrModal = $('.dtr-bs-modal.show');
 
     // hide responsive modal in small screen
@@ -333,12 +355,12 @@ $(function () {
         // delete the data
         $.ajax({
           type: 'DELETE',
-          url: `${baseUrl}user-list/${user_id}`,
-          success: function () {
-            dt_user.draw();
+          url: ''.concat(baseUrl).concat(page, '/').concat(id),
+          success: function success() {
+            dt.draw();
           },
-          error: function (error) {
-            console.log(error);
+          error: function error(_error) {
+            console.log(_error);
           }
         });
 
@@ -346,7 +368,7 @@ $(function () {
         Swal.fire({
           icon: 'success',
           title: 'Deleted!',
-          text: 'The user has been deleted!',
+          text: 'The Record has been deleted!',
           customClass: {
             confirmButton: 'btn btn-success'
           }
@@ -354,7 +376,7 @@ $(function () {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire({
           title: 'Cancelled',
-          text: 'The User is not deleted!',
+          text: 'The record is not deleted!',
           icon: 'error',
           customClass: {
             confirmButton: 'btn btn-success'
@@ -366,7 +388,7 @@ $(function () {
 
   // edit record
   $(document).on('click', '.edit-record', function () {
-    var user_id = $(this).data('id'),
+    var id = $(this).data('id'),
       dtrModal = $('.dtr-bs-modal.show');
 
     // hide responsive modal in small screen
@@ -375,56 +397,41 @@ $(function () {
     }
 
     // changing the title of offcanvas
-    $('#offcanvasAddUserLabel').html('Edit User');
+    $('#offcanvasAdd' + title + 'Label').html('Edit ' + title);
 
     // get data
-    $.get(`${baseUrl}user-list\/${user_id}\/edit`, function (data) {
-      $('#user_id').val(data.id);
-      $('#add-user-fullname').val(data.name);
-      $('#add-user-email').val(data.email);
+    $.get(''.concat(baseUrl).concat(page, '/').concat(id, '/edit'), function (data) {
+      Object.keys(data).forEach(key => {
+        //console.log(key);
+        if (key == 'id') $('#' + page + '_' + key).val(data[key]);
+        else $('#add-' + page + '-' + key).val(data[key]);
+      });
     });
   });
 
   // changing the title
   $('.add-new').on('click', function () {
-    $('#user_id').val(''); //reseting input field
-    $('#offcanvasAddUserLabel').html('Add User');
+    $('#' + page + '_id').val(''); //reseting input field
+    $('#offcanvasAdd' + title + 'Label').html('Add ' + title);
   });
 
-  // validating form and updating user's data
-  const addNewUserForm = document.getElementById('addNewUserForm');
+  // validating form and updating data
+  var addNewForm = document.getElementById('addNew' + title + 'Form');
 
   // user form validation
-  const fv = FormValidation.formValidation(addNewUserForm, {
+  var fv = FormValidation.formValidation(addNewForm, {
     fields: {
       name: {
         validators: {
           notEmpty: {
-            message: 'Please enter fullname'
+            message: 'Please enter Name'
           }
         }
       },
-      email: {
+      description: {
         validators: {
           notEmpty: {
-            message: 'Please enter your email'
-          },
-          emailAddress: {
-            message: 'The value is not a valid email address'
-          }
-        }
-      },
-      userContact: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter your contact'
-          }
-        }
-      },
-      company: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter your company'
+            message: 'Please enter your description'
           }
         }
       }
@@ -434,7 +441,7 @@ $(function () {
       bootstrap5: new FormValidation.plugins.Bootstrap5({
         // Use this for enabling/changing valid/invalid class
         eleValidClass: '',
-        rowSelector: function (field, ele) {
+        rowSelector: function rowSelector(field, ele) {
           // field is the field name & ele is the field element
           return '.mb-4';
         }
@@ -447,28 +454,28 @@ $(function () {
   }).on('core.form.valid', function () {
     // adding or updating user when form successfully validate
     $.ajax({
-      data: $('#addNewUserForm').serialize(),
-      url: `${baseUrl}user-list`,
+      data: $('#addNew' + title + 'Form').serialize(),
+      url: ''.concat(baseUrl).concat(page),
       type: 'POST',
-      success: function (status) {
-        dt_user.draw();
+      success: function success(status) {
+        dt.draw();
         offCanvasForm.offcanvas('hide');
 
         // sweetalert
         Swal.fire({
           icon: 'success',
-          title: `Successfully ${status}!`,
-          text: `User ${status} Successfully.`,
+          title: 'Successfully '.concat(status, '!'),
+          text: ''.concat(title, ' ').concat(status, ' Successfully.'),
           customClass: {
             confirmButton: 'btn btn-success'
           }
         });
       },
-      error: function (err) {
+      error: function error(err) {
         offCanvasForm.offcanvas('hide');
         Swal.fire({
           title: 'Duplicate Entry!',
-          text: 'Your email should be unique.',
+          text: title + ' Not Saved !',
           icon: 'error',
           customClass: {
             confirmButton: 'btn btn-success'
@@ -482,16 +489,4 @@ $(function () {
   offCanvasForm.on('hidden.bs.offcanvas', function () {
     fv.resetForm(true);
   });
-
-  const phoneMaskList = document.querySelectorAll('.phone-mask');
-
-  // Phone Number
-  if (phoneMaskList) {
-    phoneMaskList.forEach(function (phoneMask) {
-      new Cleave(phoneMask, {
-        phone: true,
-        phoneRegionCode: 'US'
-      });
-    });
-  }
 });

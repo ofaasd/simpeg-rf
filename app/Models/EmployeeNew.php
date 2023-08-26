@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EmployeeNew extends Model
 {
@@ -27,4 +28,12 @@ class EmployeeNew extends Model
   ];
 
   protected $dateFormat = 'U';
+  public function pen(): BelongsTo
+  {
+    return $this->belongsTo(Grades::class, 'pendidikan', 'id');
+  }
+  public function jab(): BelongsTo
+  {
+    return $this->belongsTo(StructuralPosition::class, 'jabatan_new', 'id');
+  }
 }
