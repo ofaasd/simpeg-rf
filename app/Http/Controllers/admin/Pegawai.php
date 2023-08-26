@@ -77,9 +77,9 @@ class Pegawai extends Controller
           $nestedData['fake_id'] = ++$ids;
           $nestedData['nama'] = $row->nama;
           $nestedData['jenis_kelamin'] = $row->jenis_kelamin;
-          $nestedData['jabatan'] = $row->jabatan;
+          $nestedData['jabatan'] = $row->jab->name ?? '';
           $nestedData['alamat'] = $row->alamat;
-          $nestedData['pendidikan'] = $row->pen->name;
+          $nestedData['pendidikan'] = $row->pen->name ?? '';
           $data[] = $nestedData;
         }
       }

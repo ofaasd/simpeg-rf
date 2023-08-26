@@ -47,7 +47,7 @@
               @include('admin/pegawai/_form_biodata')
             </div>
             <div class="tab-pane fade" id="navs-left-ruang">
-              @include('admin/pegawai/under_develop')
+              @include('admin/pegawai/_form_golongan')
             </div>
             <div class="tab-pane fade" id="navs-left-status">
               @include('admin/pegawai/under_develop')
