@@ -142,9 +142,26 @@ class Pegawai extends Controller
           'lembaga_diikuti' => $request->lembaga_diikuti,
         ]
       );
-
+      //return response()->json(dd($request->all()));
+      //var_dump($_FILES['photo']['file_name']);
+      if ($request->file('photos')) {
+        $photo = $request->file('photos');
+        $filename = date('YmdHi') . $photo->getClientOriginalName();
+        if ($photo->move(public_path('assets/img/upload/photo'), $filename)) {
+          //$file = $request->file->store('public/assets/img/upload/photo');
+          $EmployeeNew2 = EmployeeNew::updateOrCreate(
+            ['id' => $id],
+            [
+              'photo' => $filename,
+            ]
+          );
+        }
+      }
       // user updated
-      return response()->json('Updated');
+      $where = ['id' => $id];
+      $EmployeeNew = EmployeeNew::where($where)->first();
+      //$EmployeeNew = EmployeeNew::
+      return response()->json($EmployeeNew);
     } else {
       // create new one if email is unique
       //$userEmail = User::where('email', $request->email)->first();
@@ -164,6 +181,7 @@ class Pegawai extends Controller
           'lembaga_diikuti' => $request->lembaga_diikuti,
         ]
       );
+
       if ($EmployeeNew) {
         // user created
         return response()->json('Created');
