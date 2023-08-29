@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\EmployeeNew;
 use App\Models\StructuralPosition;
 use App\Models\Grades;
+use App\Models\Golrus;
 use App\Http\Controllers\Controller;
 
 class Pegawai extends Controller
@@ -191,6 +192,13 @@ class Pegawai extends Controller
     }
   }
 
+  //store golru
+  public function store_golru(Request $request)
+  {
+    //
+    $id = $request->id;
+    echo $id;
+  }
   /**
    * Display the specified resource.
    */
@@ -202,6 +210,7 @@ class Pegawai extends Controller
     $title = 'Pegawai';
     $var['structural'] = StructuralPosition::all();
     $var['Grades'] = Grades::all();
+    $var['golrus'] = Golrus::all();
     return view('admin.pegawai.show', compact('title', 'var'));
   }
 

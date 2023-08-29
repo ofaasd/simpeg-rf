@@ -51,4 +51,5 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/structural-position', StrucutralPositionController::class);
   Route::resource('/grades', GradesController::class);
   Route::get('/structural-position/get-school/{$id}', '\admin\StrucutralPositionController@getSchool');
+  Route::post('/pegawai/store_golru', '\admin\Pegawai@store_golru');
 });

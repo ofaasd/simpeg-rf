@@ -4,14 +4,27 @@
 
 @section('page-style')
 <link rel="stylesheet" href="{{asset('assets/vendor/css/pages/page-profile.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.css')}}" />
+@endsection
+
+@section('vendor-style')
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 @endsection
 
 @section('vendor-script')
+<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/autosize/autosize.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/cleavejs/cleave.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/cleavejs/cleave-phone.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/jquery-repeater/jquery-repeater.js')}}"></script>
 @endsection
 
 @section('page-script')
 <script src="{{asset('assets/js/pages-profile.js')}}"></script>
+<script src="{{asset('assets/js/forms-selects.js')}}"></script>
+<script src="{{asset('assets/js/forms-extras-custom.js')}}"></script>
 @endsection
 
 @section('content')
@@ -64,7 +77,7 @@
               <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-biodata" aria-controls="navs-left-biodata" aria-selected="true">Biodata</button>
             </li>
             <li class="nav-item">
-              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-ruang" aria-controls="navs-left-ruang" aria-selected="false">Golongan Ruang</button>
+              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-ruang" aria-controls="navs-left-ruang" aria-selected="false">Golongan</button>
             </li>
             <li class="nav-item">
               <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-status" aria-controls="navs-left-status" aria-selected="false">Status Pegawai</button>
@@ -90,7 +103,7 @@
               @include('admin/pegawai/_form_biodata')
             </div>
             <div class="tab-pane fade" id="navs-left-ruang">
-              @include('admin/pegawai/_form_edit_pp')
+              @include('admin/pegawai/_form_golongan')
             </div>
             <div class="tab-pane fade" id="navs-left-status">
               @include('admin/pegawai/under_develop')
