@@ -35,6 +35,7 @@ $(function () {
     formRepeater.on('submit', function (e) {
       e.preventDefault();
     });
+    const url_location = $('#location').val();
     formRepeater.repeater({
       show: function () {
         var fromControl = $(this).find('.form-control, .form-select');
@@ -51,7 +52,7 @@ $(function () {
         row++;
 
         $(this).slideDown();
-
+        $('.select2-container').remove();
         $('.select2').select2({
           placeholder: '--Pilihan--',
           allowClear: true
@@ -59,7 +60,39 @@ $(function () {
         $('.select2-container').css('width', '100%');
       },
       hide: function (e) {
-        confirm('Are you sure you want to delete this element?') && $(this).slideUp(e);
+        if (confirm('Are you sure you want to delete this element?') == true) {
+          if ($(this).find('.id_key').val() == 0) $(this).slideUp(e);
+          else {
+            $.ajax({
+              data: { id: $(this).find('.id_key').val() },
+              url: ''.concat(baseUrl).concat('pegawai/', url_location),
+              type: 'POST',
+              success: function success(status) {
+                // sweetalert
+
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Successfully Deleted',
+                  text: ''.concat('Record ', ' ').concat(status + ' Successfully.'),
+                  customClass: {
+                    confirmButton: 'btn btn-success'
+                  }
+                });
+              },
+              error: function error(err) {
+                Swal.fire({
+                  title: 'Record Error',
+                  text: title + ' Not Saved !',
+                  icon: 'error',
+                  customClass: {
+                    confirmButton: 'btn btn-success'
+                  }
+                });
+              }
+            });
+            $(this).slideUp(e);
+          }
+        }
       }
     });
   }

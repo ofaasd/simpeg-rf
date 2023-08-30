@@ -9,6 +9,7 @@
 
 @section('vendor-style')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/spinkit/spinkit.css')}}" />
 @endsection
 
 @section('vendor-script')
@@ -19,6 +20,7 @@
 <script src="{{asset('assets/vendor/libs/cleavejs/cleave-phone.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/jquery-repeater/jquery-repeater.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/block-ui/block-ui.js')}}"></script>
 @endsection
 
 @section('page-script')
@@ -66,7 +68,7 @@
 
 <div class="row">
   <div class="col-xl-12">
-  <div class="card mb-4">
+  <div class="card mb-4" id="card-block">
       <div class="card-header">
         <h4>Edit Porfile Pegawai</h4>
       </div>

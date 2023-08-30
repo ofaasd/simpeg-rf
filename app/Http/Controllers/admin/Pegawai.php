@@ -7,6 +7,7 @@ use App\Models\EmployeeNew;
 use App\Models\StructuralPosition;
 use App\Models\Grades;
 use App\Models\Golrus;
+use App\Models\EmpGolrus;
 use App\Http\Controllers\Controller;
 
 class Pegawai extends Controller
@@ -196,8 +197,36 @@ class Pegawai extends Controller
   public function store_golru(Request $request)
   {
     //
-    $id = $request->id;
-    echo $id;
+    $employee_id = $request->employee_id;
+    $group = $request->group_a;
+    foreach ($group as $row) {
+      if ($row['id'] == 0) {
+        $golru = new EmpGolrus();
+        $golru->employee_id = $employee_id;
+        $golru->golru_id = $row['golru'];
+        $golru->date_start = $row['tmt'];
+        $golru->date_end = $row['sampai'];
+        $golru->keterangan = $row['keterangan'];
+        $golru->save();
+      } else {
+        $golru = EmpGolrus::find($row['id']);
+        $golru->employee_id = $employee_id;
+        $golru->golru_id = $row['golru'];
+        $golru->date_start = $row['tmt'];
+        $golru->date_end = $row['sampai'];
+        $golru->keterangan = $row['keterangan'];
+        $golru->save();
+      }
+    }
+    $emp_golrus = EmpGolrus::where('employee_id', $employee_id)->get();
+    return response()->json($emp_golrus);
+  }
+
+  public function del_golru(Request $request)
+  {
+    $golru = EmpGolrus::where('id', $request->id);
+    $golru->delete();
+    return response()->json($request->id);
   }
   /**
    * Display the specified resource.
@@ -211,6 +240,7 @@ class Pegawai extends Controller
     $var['structural'] = StructuralPosition::all();
     $var['Grades'] = Grades::all();
     $var['golrus'] = Golrus::all();
+    $var['emp_golrus'] = EmpGolrus::where('employee_id', $id);
     return view('admin.pegawai.show', compact('title', 'var'));
   }
 
