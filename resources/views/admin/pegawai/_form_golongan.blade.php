@@ -97,7 +97,7 @@
       @endif
     </div>
     <div class="mb-0">
-      <a class="btn btn-primary" data-repeater-create>
+      <a class="btn btn-primary" style="color:#fff" data-repeater-create>
         <i class="mdi mdi-plus me-1"></i>
         <span class="align-middle">Add</span>
       </a>
@@ -112,20 +112,9 @@
 <script>
   document.addEventListener("DOMContentLoaded", function(event) {
     $('#form-repeat').submit(function(e) {
-      $('#card-block').block({
-        message: '<div class="spinner-border text-primary" role="status"></div>',
-        timeout: 1000,
-        css: {
-          backgroundColor: 'transparent',
-          border: '0'
-        },
-        overlayCSS: {
-          backgroundColor: '#fff',
-          opacity: 0.8
-        }
-      });
-      e.preventDefault();
 
+      e.preventDefault();
+      showBlock();
       var formData = new FormData(this);
 
       $.ajax({
@@ -137,7 +126,7 @@
         processData: false,
         success: function success(status) {
           // sweetalert
-          $('#card-block').unblock();
+          showUnblock();
           Swal.fire({
             icon: 'success',
             title: 'Successfully '.concat(status.nama, ' Updated !'),
@@ -156,6 +145,7 @@
           });
         },
         error: function error(err) {
+          showUnblock();
           Swal.fire({
             title: 'Duplicate Entry!',
             text: title + ' Not Saved !',

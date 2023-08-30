@@ -3,7 +3,23 @@
  */
 
 'use strict';
-
+function showBlock() {
+  $('#card-block').block({
+    message: '<div class="spinner-border text-primary" role="status"></div>',
+    timeout: 1000,
+    css: {
+      backgroundColor: 'transparent',
+      border: '0'
+    },
+    overlayCSS: {
+      backgroundColor: '#fff',
+      opacity: 0.8
+    }
+  });
+}
+function showUnblock() {
+  $('#card-block').unblock();
+}
 // bootstrap-maxlength & repeater (jquery)
 $(function () {
   var maxlengthInput = $('.bootstrap-maxlength-example'),

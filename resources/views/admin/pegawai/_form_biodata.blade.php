@@ -72,7 +72,7 @@
       e.preventDefault();
 
       var formData = new FormData(this);
-
+      showBlock();
       $.ajax({
         data: formData,
         url: ''.concat(baseUrl).concat('pegawai'),
@@ -82,7 +82,7 @@
         processData: false,
         success: function success(status) {
           // sweetalert
-
+          showUnblock();
           Swal.fire({
             icon: 'success',
             title: 'Successfully '.concat(status.nama, ' Updated !'),
@@ -97,6 +97,7 @@
 
         },
         error: function error(err) {
+          showUnblock();
           Swal.fire({
             title: 'Duplicate Entry!',
             text: title + ' Not Saved !',
