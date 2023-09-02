@@ -415,9 +415,11 @@ $(function () {
 
     // get data
     $.get(`${baseUrl}user-list\/${user_id}\/edit`, function (data) {
-      $('#user_id').val(data.id);
-      $('#add-user-fullname').val(data.name);
-      $('#add-user-email').val(data.email);
+      $('#user_id').val(data.users.id);
+      $('#add-user-fullname').val(data.users.name);
+      $('#add-user-email').val(data.users.email);
+      $('#add-user-pegawai').val(data.users.pegawai_id).trigger('change');
+      $('#user-role').val(data.role);
     });
   });
 

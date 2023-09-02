@@ -7,10 +7,32 @@
       "slug": "pages-home"
     },
     {
-      "url": "/",
-      "name": "Penilaian Kinerja",
-      "icon": "menu-icon tf-icons mdi mdi-format-list-numbered",
-      "slug": "Kinerja"
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-clipboard-list",
+      "name": "Absen & Izin",
+      "slug": "absensi",
+      "submenu": [
+        {
+          "url": "/absensi",
+          "name": "Absensi",
+          "slug": "absensi"
+        },
+        {
+          "url": "/tbd",
+          "name": "Penyesuaian Absensi",
+          "slug": "absensi-penyesuaian"
+        },
+        {
+          "url": "/tbd",
+          "name": "Pengajuan Izin / Cuti",
+          "slug": "absensi-izin-cuti"
+        },
+        {
+          "url": "/tbd",
+          "name": "Laporan Pekerjaan",
+          "slug": "absensi-laporan"
+        }
+      ]
     },
     {
       "url": "#",
@@ -49,27 +71,27 @@
           "slug": "master-data-jenjang-pendidikan"
         },
         {
-          "url": "/",
+          "url": "/tbd",
           "name": "Hari Libur",
           "slug": "master-data-hari-libur"
         },
         {
-          "url": "/",
+          "url": "/tbd",
           "name": "Master Shift",
           "slug": "master-data-master-shift"
         },
         {
-          "url": "/",
+          "url": "/tbd",
           "name": "Jam Shift Pegawai",
           "slug": "master-data-jam-shift-pegawai"
         },
         {
-          "url": "/",
+          "url": "/tbd",
           "name": "Jam Non Shift Pegawai",
           "slug": "master-data-jam-non-shift-pegawai"
         },
         {
-          "url": "/",
+          "url": "/tbd",
           "name": "Jatah Cuti Tahunan",
           "slug": "master-data-jatah-cuti-tahunan"
         }
@@ -87,7 +109,7 @@
           "slug": "pegawai-data"
         },
         {
-          "url": "/",
+          "url": "/tbd",
           "name": "Monitoring Kenaikan Pangkat",
           "slug": "pegawai-monitoring-pangkat"
         }
@@ -100,47 +122,19 @@
       "slug": "penggajian",
       "submenu": [
         {
-          "url": "/penggajian",
+          "url": "/tbd",
           "name": "Nominal Penggajian",
           "slug": "penggajian-nominal-penggajian"
         },
         {
-          "url": "/",
+          "url": "/tbd",
           "name": "Proses Gaji",
           "slug": "penggajian-proses-gaji"
         },
         {
-          "url": "/",
+          "url": "/tbd",
           "name": "Rekap Gaji",
           "slug": "penggajian-rekap-gaji"
-        }
-      ]
-    },
-    {
-      "url": "#",
-      "icon": "menu-icon tf-icons mdi mdi-clipboard-list",
-      "name": "Absen & Izin",
-      "slug": "absen-izin",
-      "submenu": [
-        {
-          "url": "/absensi",
-          "name": "Absensi",
-          "slug": "absensi-absensi"
-        },
-        {
-          "url": "/",
-          "name": "Penyesuaian Absensi",
-          "slug": "absensi-penyesuaian"
-        },
-        {
-          "url": "/",
-          "name": "Pengajuan Izin / Cuti",
-          "slug": "absensi-izin-cuti"
-        },
-        {
-          "url": "/",
-          "name": "Laporan Pekerjaan",
-          "slug": "absensi-laporan"
         }
       ]
     },
@@ -151,17 +145,17 @@
       "slug": "cetak",
       "submenu": [
         {
-          "url": "/slip-gaji",
+          "url": "/tbd",
           "name": "Slip Gaji",
           "slug": "cetak-slip-gaji"
         },
         {
-          "url": "/",
+          "url": "/tbd",
           "name": "Raport Kinerja Pegawai",
           "slug": "cetak-raport-kinerja"
         },
         {
-          "url": "/",
+          "url": "/tbd",
           "name": "Laporan Absen",
           "slug": "cetak-laporan-absen"
         }
@@ -174,53 +168,97 @@
       "slug": "kegiatan",
       "submenu": [
         {
-          "url": "/kegiatan",
+          "url": "/tbd",
           "name": "Pengajuan Kegiatan",
           "slug": "kegiatan-pengajuan"
         },
         {
-          "url": "/",
+          "url": "/tbd",
           "name": "Kontrol Anggaran",
           "slug": "kegiatan-kontrol-anggaran"
         }
       ]
     },
     {
-      "url": "#",
-      "icon": "menu-icon tf-icons mdi mdi-chart-box",
-      "name": "Monitoring",
-      "slug": "monitoring",
-      "submenu": [
-        {
-          "url": "/monitoring-absensi",
-          "name": "Monitoring Absensi",
-          "slug": "monitoring-absensi"
-        },
-        {
-          "url": "/",
-          "name": "Grafik Absensi",
-          "slug": "monitoring-grafik-absensi"
-        },
-        {
-          "url": "/",
-          "name": "Grafik Pegawai",
-          "slug": "monitoring-grafik-pegawai"
-        },
-        {
-          "url": "/",
-          "name": "Monitoring Jatah Cuti 2023",
-          "slug": "monitoring-jatah-cuti"
-        }
-      ]
+      "url": "/tbd",
+      "name": "Penilaian Kinerja",
+      "icon": "menu-icon tf-icons mdi mdi-format-list-numbered",
+      "slug": "Kinerja"
     },
     {
-      "url": "/murroby",
+      "url": "/tbd",
       "icon": "menu-icon tf-icons mdi mdi-account-outline",
       "name": "Ke-murobbyan",
       "slug": "murroby"
     },
     {
-      "url": "/user-list",
+      "url": "/tbd",
+      "icon": "menu-icon tf-icons mdi mdi-account-outline",
+      "name": "Alumni",
+      "slug": "alumni"
+    },
+    {
+      "url": "/tbd",
+      "icon": "menu-icon tf-icons mdi mdi-view-list-outline",
+      "name": "Aset",
+      "slug": "aset"
+    },
+    {
+      "url": "/tbd",
+      "icon": "menu-icon tf-icons mdi mdi-bowl-mix",
+      "name": "Dapur",
+      "slug": "dapur"
+    },
+    {
+      "url": "/tbd",
+      "icon": "menu-icon tf-icons mdi mdi-bottle-tonic-plus",
+      "name": "Kesehatan",
+      "slug": "kesehatan"
+    },
+    {
+      "url": "/tbd",
+      "icon": "menu-icon tf-icons mdi mdi-book-account-outline",
+      "name": "Ketahfidzan",
+      "slug": "ketahfidzan"
+    },
+    {
+      "url": "/tbd",
+      "icon": "menu-icon tf-icons mdi mdi-tshirt-crew-outline",
+      "name": "Laundry",
+      "slug": "laundry"
+    },
+    {
+      "url": "/tbd",
+      "icon": "menu-icon tf-icons mdi mdi-cash",
+      "name": "keuangan",
+      "slug": "keuangan"
+    },
+    {
+      "url": "/tbd",
+      "icon": "menu-icon tf-icons mdi mdi-email-open-heart-outline",
+      "name": "Media Saran",
+      "slug": "media_saran"
+    },
+    {
+      "url": "/tbd",
+      "icon": "menu-icon tf-icons mdi mdi-hexagram",
+      "name": "Executive",
+      "slug": "executive"
+    },
+    {
+      "url": "/tbd",
+      "icon": "menu-icon tf-icons mdi mdi-star-circle-outline",
+      "name": "Mutu",
+      "slug": "mutu"
+    },
+    {
+      "url": "/tbd",
+      "icon": "menu-icon tf-icons mdi mdi-account-plus",
+      "name": "SPMB",
+      "slug": "spmb"
+    },
+    {
+      "url": "/tbd",
       "icon": "menu-icon tf-icons mdi mdi-account-outline",
       "name": "User",
       "slug": "User Management"

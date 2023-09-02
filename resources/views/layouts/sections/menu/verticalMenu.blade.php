@@ -26,7 +26,23 @@ $configData = Helper::appClasses();
   <div class="menu-inner-shadow"></div>
 
   <ul class="menu-inner py-1">
-    @foreach ($menuData[0]->menu as $menu)
+    @php
+      $menuDatas = $menuData[1];
+    @endphp
+
+    @hasrole('admin')
+      @php
+        $menuDatas = $menuData[0];
+      @endphp
+    @endhasrole
+
+    @hasrole('ustadz')
+      @php
+        $menuDatas = $menuData[2];
+      @endphp
+    @endhasrole
+
+    @foreach ($menuDatas->menu as $menu)
 
     {{-- adding active and open class if child is active --}}
 

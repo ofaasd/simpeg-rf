@@ -153,61 +153,20 @@
           <label for="add-user-email">Email</label>
         </div>
         <div class="form-floating form-floating-outline mb-4">
-          <input type="text" id="add-user-contact" class="form-control phone-mask" placeholder="+1 (609) 988-44-11" aria-label="john.doe@example.com" name="userContact" />
-          <label for="add-user-contact">Contact</label>
-        </div>
-        <div class="form-floating form-floating-outline mb-4">
-          <input type="text" id="add-user-company" name="company" class="form-control" placeholder="Web Developer" aria-label="jdoe1" />
-          <label for="add-user-company">Company</label>
-        </div>
-        <div class="form-floating form-floating-outline mb-4">
-          <select id="country" class="select2 form-select">
-            <option value="">Select</option>
-            <option value="Australia">Australia</option>
-            <option value="Bangladesh">Bangladesh</option>
-            <option value="Belarus">Belarus</option>
-            <option value="Brazil">Brazil</option>
-            <option value="Canada">Canada</option>
-            <option value="China">China</option>
-            <option value="France">France</option>
-            <option value="Germany">Germany</option>
-            <option value="India">India</option>
-            <option value="Indonesia">Indonesia</option>
-            <option value="Israel">Israel</option>
-            <option value="Italy">Italy</option>
-            <option value="Japan">Japan</option>
-            <option value="Korea">Korea, Republic of</option>
-            <option value="Mexico">Mexico</option>
-            <option value="Philippines">Philippines</option>
-            <option value="Russia">Russian Federation</option>
-            <option value="South Africa">South Africa</option>
-            <option value="Thailand">Thailand</option>
-            <option value="Turkey">Turkey</option>
-            <option value="Ukraine">Ukraine</option>
-            <option value="United Arab Emirates">United Arab Emirates</option>
-            <option value="United Kingdom">United Kingdom</option>
-            <option value="United States">United States</option>
-          </select>
-          <label for="country">Country</label>
-        </div>
-        <div class="form-floating form-floating-outline mb-4">
-          <select id="user-role" class="form-select">
-            <option value="subscriber">Subscriber</option>
-            <option value="editor">Editor</option>
-            <option value="maintainer">Maintainer</option>
-            <option value="author">Author</option>
-            <option value="admin">Admin</option>
+        <select id="user-role" class="form-select" name='role'>
+            @foreach($role as $row)
+            <option value="{{$row->id}}">{{$row->name}}</option>
+            @endforeach
           </select>
           <label for="user-role">User Role</label>
         </div>
         <div class="form-floating form-floating-outline mb-4">
-          <select id="user-plan" class="form-select">
-            <option value="basic">Basic</option>
-            <option value="enterprise">Enterprise</option>
-            <option value="company">Company</option>
-            <option value="team">Team</option>
+          <select id="add-user-pegawai" class="form-select select2" name='pegawai_id' required>
+              @foreach($pegawai as $row)
+              <option value="{{$row->id}}">{{$row->nama}}</option>
+              @endforeach
           </select>
-          <label for="user-plan">Select Plan</label>
+          <label for="user-role">Pegawai</label>
         </div>
         <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
         <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>

@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\EmployeeStatusController;
 use App\Http\Controllers\admin\EmployeeStatusDetailController;
 use App\Http\Controllers\admin\StrucutralPositionController;
 use App\Http\Controllers\admin\GradesController;
+use App\Http\Controllers\admin\AbsensiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -50,7 +51,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/employee-status-detail', EmployeeStatusDetailController::class);
   Route::resource('/structural-position', StrucutralPositionController::class);
   Route::resource('/grades', GradesController::class);
+  Route::resource('/absensi', AbsensiController::class);
   Route::get('/structural-position/get-school/{$id}', '\admin\StrucutralPositionController@getSchool');
   Route::post('/pegawai/store_golru', [Pegawai::class, 'store_golru']);
   Route::post('/pegawai/del_golru', [Pegawai::class, 'del_golru']);
+
+  Route::get('/tbd', function () {
+    return view('content.pages.tbd');
+  });
 });

@@ -1,0 +1,126 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Home",
+      "icon": "menu-icon tf-icons mdi mdi-home-outline",
+      "slug": "pages-home"
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-clipboard-list",
+      "name": "Absen & Izin",
+      "slug": "absen-izin",
+      "submenu": [
+        {
+          "url": "/absensi",
+          "name": "Absensi",
+          "slug": "absensi-absensi"
+        },
+        {
+          "url": "/tbd",
+          "name": "Penyesuaian Absensi",
+          "slug": "absensi-penyesuaian"
+        },
+        {
+          "url": "/tbd",
+          "name": "Pengajuan Izin / Cuti",
+          "slug": "absensi-izin-cuti"
+        },
+        {
+          "url": "/tbd",
+          "name": "Laporan Pekerjaan",
+          "slug": "absensi-laporan"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-cash",
+      "name": "Penggajian",
+      "slug": "penggajian",
+      "submenu": [
+        {
+          "url": "/penggajian",
+          "name": "Nominal Penggajian",
+          "slug": "penggajian-nominal-penggajian"
+        },
+        {
+          "url": "/",
+          "name": "Proses Gaji",
+          "slug": "penggajian-proses-gaji"
+        },
+        {
+          "url": "/",
+          "name": "Rekap Gaji",
+          "slug": "penggajian-rekap-gaji"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-printer",
+      "name": "Cetak",
+      "slug": "cetak",
+      "submenu": [
+        {
+          "url": "/slip-gaji",
+          "name": "Slip Gaji",
+          "slug": "cetak-slip-gaji"
+        },
+        {
+          "url": "/",
+          "name": "Raport Kinerja Pegawai",
+          "slug": "cetak-raport-kinerja"
+        },
+        {
+          "url": "/",
+          "name": "Laporan Absen",
+          "slug": "cetak-laporan-absen"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-ticket",
+      "name": "Kegiatan",
+      "slug": "kegiatan",
+      "submenu": [
+        {
+          "url": "/kegiatan",
+          "name": "Pengajuan Kegiatan",
+          "slug": "kegiatan-pengajuan"
+        },
+        {
+          "url": "/",
+          "name": "Kontrol Anggaran",
+          "slug": "kegiatan-kontrol-anggaran"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-chart-box",
+      "name": "Monitoring",
+      "slug": "monitoring",
+      "submenu": [
+        {
+          "url": "/monitoring-absensi",
+          "name": "Monitoring Absensi",
+          "slug": "monitoring-absensi"
+        },
+        {
+          "url": "/",
+          "name": "Grafik Absensi",
+          "slug": "monitoring-grafik-absensi"
+        }
+      ]
+    },
+    {
+      "url": "/murroby",
+      "icon": "menu-icon tf-icons mdi mdi-account-outline",
+      "name": "Ke-murobbyan",
+      "slug": "murroby"
+    }
+  ]
+}

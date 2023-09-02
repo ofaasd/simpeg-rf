@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
+use App\Models\EmployeeNew;
 
 class UserManagement extends Controller
 {
@@ -27,6 +29,7 @@ class UserManagement extends Controller
     if (empty($request->input('length'))) {
       $users = User::all();
       $userCount = $users->count();
+      $pegawai = EmployeeNew::all();
       $verified = User::whereNotNull('email_verified_at')
         ->get()
         ->count();
@@ -34,12 +37,15 @@ class UserManagement extends Controller
         ->get()
         ->count();
       $usersUnique = $users->unique(['email']);
+      $role = Role::all();
       $userDuplicates = $users->diff($usersUnique)->count();
 
-      return view('content.laravel-example.user-management', [
+      return view('admin.user.user-management', [
         'totalUser' => $userCount,
         'verified' => $verified,
         'notVerified' => $notVerified,
+        'role' => $role,
+        'pegawai' => $pegawai,
         'userDuplicates' => $userDuplicates,
       ]);
     } else {
@@ -140,7 +146,10 @@ class UserManagement extends Controller
 
     if ($userID) {
       // update the value
-      $users = User::updateOrCreate(['id' => $userID], ['name' => $request->name, 'email' => $request->email]);
+      $users = User::updateOrCreate(
+        ['id' => $userID],
+        ['name' => $request->name, 'email' => $request->email, 'pegawai_id' => $request->pegawai_id]
+      );
 
       // user updated
       return response()->json('Updated');
@@ -151,7 +160,12 @@ class UserManagement extends Controller
       if (empty($userEmail)) {
         $users = User::updateOrCreate(
           ['id' => $userID],
-          ['name' => $request->name, 'email' => $request->email, 'password' => bcrypt(Str::random(10))]
+          [
+            'name' => $request->name,
+            'email' => $request->email,
+            'pegawai_id' => $request->pegawai_id,
+            'password' => bcrypt('password'),
+          ]
         );
 
         // user created
@@ -182,11 +196,14 @@ class UserManagement extends Controller
    */
   public function edit($id)
   {
-    $where = ['id' => $id];
+    $users = User::find($id);
 
-    $users = User::where($where)->first();
+    $role = $users->roles->pluck('id')->first();
 
-    return response()->json($users);
+    return response()->json([
+      'users' => $users,
+      'role' => $role,
+    ]);
   }
 
   /**
