@@ -38,6 +38,7 @@
     </div>
     <div class="offcanvas-body mx-0 flex-grow-0">
       <form class="add-new-{{strtolower($title)}} pt-0" id="addNew{{$title}}Form">
+        @csrf
         <input type="hidden" name="id" id="{{strtolower($title)}}_id">
         <div class="form-floating form-floating-outline mb-4">
           <select class="form-control" id="add-{{strtolower($title)}}-structural_position_id" name="structural_position_id" >
