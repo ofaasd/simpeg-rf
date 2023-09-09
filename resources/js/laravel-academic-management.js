@@ -334,7 +334,10 @@ $(function () {
       Object.keys(data).forEach(key => {
         //console.log(key);
         if (key == 'id') $('#' + page + '_' + key).val(data[key]);
-        else $('#add-' + page + '-' + key).val(data[key]);
+        else
+          $('#add-' + page + '-' + key)
+            .val(data[key])
+            .trigger('change');
       });
     });
   });

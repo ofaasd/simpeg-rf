@@ -11,6 +11,10 @@ use App\Http\Controllers\admin\EmployeeStatusDetailController;
 use App\Http\Controllers\admin\StrucutralPositionController;
 use App\Http\Controllers\admin\GradesController;
 use App\Http\Controllers\admin\AbsensiController;
+use App\Http\Controllers\admin\KamarController;
+use App\Http\Controllers\admin\KelasController;
+use App\Http\Controllers\admin\TahfidzController;
+use App\Http\Controllers\admin\TahunAjaranController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,6 +56,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/structural-position', StrucutralPositionController::class);
   Route::resource('/grades', GradesController::class);
   Route::resource('/absensi', AbsensiController::class);
+  Route::resource('/kamar', KamarController::class);
+  Route::resource('/kelas', KelasController::class);
+  Route::resource('/tahfidz', TahfidzController::class);
+  Route::resource('/ta', TahunAjaranController::class);
   Route::get('/structural-position/get-school/{$id}', '\admin\StrucutralPositionController@getSchool');
   Route::post('/pegawai/store_golru', [Pegawai::class, 'store_golru']);
   Route::post('/pegawai/del_golru', [Pegawai::class, 'del_golru']);
