@@ -10,7 +10,7 @@
 <!-- {{strtolower($title)}} List Table -->
 <div class="card">
   <div class="card-header">
-    <h5 class="card-title mb-0">Manajemen Ruang Tahfidz</h5>
+    <h5 class="card-title mb-0">Manajemen Tahun Ajaran</h5>
   </div>
   <div class="card-datatable table-responsive">
 <textarea name='column' id='my_column' style="display:none">@foreach($indexed as $value) {{$value . "\n"}} @endforeach</textarea>

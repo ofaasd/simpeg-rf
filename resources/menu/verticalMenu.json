@@ -71,6 +71,26 @@
           "slug": "master-data-jenjang-pendidikan"
         },
         {
+          "url": "/kamar",
+          "name": "Kamar",
+          "slug": "master-data-kamar"
+        },
+        {
+          "url": "/kelas",
+          "name": "Kelas",
+          "slug": "master-data-kelas"
+        },
+        {
+          "url": "/tahfidz",
+          "name": "Tahfidz",
+          "slug": "master-data-tahfidz"
+        },
+        {
+          "url": "/ta",
+          "name": "Tahun Ajaran",
+          "slug": "master-data-ta"
+        },
+        {
           "url": "/tbd",
           "name": "Hari Libur",
           "slug": "master-data-hari-libur"
