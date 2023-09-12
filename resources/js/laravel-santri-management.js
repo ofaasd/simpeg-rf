@@ -74,7 +74,7 @@ $(function () {
         },
         {
           // User full name
-          targets: 2,
+          targets: 4,
           responsivePriority: 4,
           render: function (data, type, full, meta) {
             var $name = full['nama'];
