@@ -136,6 +136,12 @@
       ]
     },
     {
+      "url": "/santri",
+      "name": "Santri",
+      "icon": "menu-icon tf-icons mdi mdi-account",
+      "slug": "santri"
+    },
+    {
       "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-cash",
       "name": "Penggajian",

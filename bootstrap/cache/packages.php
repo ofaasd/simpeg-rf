@@ -88,6 +88,13 @@
       'Jetstrap' => 'Pixinvent\\Jetstrap\\JetstrapFacade',
     ),
   ),
+  'reliese/laravel' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Reliese\\Coders\\CodersServiceProvider',
+    ),
+  ),
   'spatie/laravel-ignition' => 
   array (
     'providers' => 

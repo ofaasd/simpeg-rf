@@ -15,6 +15,7 @@ use App\Http\Controllers\admin\KamarController;
 use App\Http\Controllers\admin\KelasController;
 use App\Http\Controllers\admin\TahfidzController;
 use App\Http\Controllers\admin\TahunAjaranController;
+use App\Http\Controllers\admin\SantriController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -60,10 +61,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/kelas', KelasController::class);
   Route::resource('/tahfidz', TahfidzController::class);
   Route::resource('/ta', TahunAjaranController::class);
+  Route::resource('/santri', SantriController::class);
   Route::get('/structural-position/get-school/{$id}', '\admin\StrucutralPositionController@getSchool');
   Route::post('/pegawai/store_golru', [Pegawai::class, 'store_golru']);
   Route::post('/pegawai/del_golru', [Pegawai::class, 'del_golru']);
-
+  Route::post('/santri/get_kota', [SantriController::class, 'get_kota']);
   Route::get('/tbd', function () {
     return view('content.pages.tbd');
   });

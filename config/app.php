@@ -180,6 +180,7 @@ return [
     Illuminate\Validation\ValidationServiceProvider::class,
     Illuminate\View\ViewServiceProvider::class,
     Spatie\Permission\PermissionServiceProvider::class,
+    Reliese\Coders\CodersServiceProvider::class,
 
     /*
      * Package Service Providers...
