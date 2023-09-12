@@ -50,7 +50,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Santri extends Model
 {
-  protected $table = 'santri';
+  protected $table = 'santri_detail';
 
   protected $casts = [
     'no_induk' => 'int',
