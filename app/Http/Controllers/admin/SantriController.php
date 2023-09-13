@@ -215,7 +215,8 @@ class SantriController extends Controller
     $where = ['id' => $id];
 
     $Santri = Santri::where($where)->first();
-
+    $tanggal = date('Y-m-d', strtotime($Santri->tanggal_lahir));
+    $Santri->tanggal_fix = $tanggal;
     return response()->json($Santri);
   }
 
