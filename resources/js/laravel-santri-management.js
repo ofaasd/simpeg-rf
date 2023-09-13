@@ -401,15 +401,22 @@ $(function () {
 
     // get data
     $.get(''.concat(baseUrl).concat(page, '/').concat(id, '/edit'), function (data) {
-      Object.keys(data).forEach(key => {
+      let kota = 0;
+      Object.keys(data).forEach(function (key) {
         //console.log(key);
-
         if (key == 'kabkota') {
-          get_kota(data[key], page);
+          kota = data[key];
+          //alert(kota);
+        }
+
+        if (key == 'provinsi') {
+          get_kota(data[key], page, kota);
+          //alert('masuk sini' + key);
         }
 
         if (key == 'id') $('#' + page + '_' + key).val(data[key]);
         else $('#add-' + page + '-' + key).val(data[key]);
+        // alert('key' + key + ' ' + data[key]);
       });
     });
   });
@@ -499,17 +506,27 @@ $(function () {
     get_kota($(this).val(), page);
   });
 });
-const get_kota = (my_id, page) => {
+var get_kota = function get_kota(my_id, page, value = 0) {
+  //alert('masuk sini');
+  //alert(value);
   $.ajax({
-    data: { id: my_id },
+    data: {
+      id: my_id
+    },
     url: ''.concat(baseUrl).concat(page).concat('/get_kota'),
     type: 'POST',
     success: function success(data) {
       // sweetalert
       $('#add-santri-kabkota').html('');
-      Object.keys(data).forEach(key => {
-        $('#add-santri-kabkota').append('<option value=' + data[key].city_id + '>' + data[key].city_name + '</option>');
+      Object.keys(data).forEach(function (key) {
+        $('#add-santri-kabkota').append(
+          '<option value=' + data[key].city_id + ' '.concat('>' + data[key].city_name + '</option>')
+        );
       });
+
+      if (value != 0) {
+        $('#add-santri-kabkota').val(value);
+      }
     }
   });
 };
