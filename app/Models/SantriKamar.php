@@ -8,6 +8,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class SantriKamar
@@ -31,7 +32,7 @@ class SantriKamar extends Model
 {
   use SoftDeletes;
   protected $table = 'santri_kamar';
-
+  protected $dateFormat = 'U';
   protected $casts = [
     'santri_id' => 'int',
     'kamar_id' => 'int',
@@ -46,9 +47,9 @@ class SantriKamar extends Model
     return $this->belongsTo(RefKamar::class, 'kamar_id');
   }
 
-  public function santri()
+  public function santri() : BelongsTo
   {
-    return $this->belongsTo(Santri::class);
+    return $this->belongsTo(Santri::class, 'santri_id','id');
   }
 
   public function ref_tahun_ajaran()

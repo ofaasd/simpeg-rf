@@ -6,7 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Santri;
 use App\Models\City;
+use App\Models\Kamar;
+use App\Models\Kelas;
+use App\Models\Tahfidz;
+use App\Models\SantriKamar;
+use App\Models\SantriKelas;
+use App\Models\SantriTahfidz;
+use App\Models\TahunAjaran;
 use App\Models\Province;
+use Illuminate\Support\Facades\DB;
 
 class SantriController extends Controller
 {
@@ -126,7 +134,7 @@ class SantriController extends Controller
           'nisn' => $request->nisn,
           'anak_ke' => $request->anak_ke,
           'tempat_lahir' => $request->tempat_lahir,
-          'tanggal_lahir' => $request->tanggal_lahir,
+          'tanggal_lahir' => $request->tanggal_fix,
           'jenis_kelamin' => $request->jenis_kelamin,
           'alamat' => $request->alamat,
           'provinsi' => $request->provinsi,
@@ -134,6 +142,7 @@ class SantriController extends Controller
           'kecamatan' => $request->kecamatan,
           'kelurahan' => $request->kelurahan,
           'kode_pos' => $request->kode_pos,
+          'nik' => $request->nik ?? '',
           'no_hp' => $request->no_hp,
         ]
       );
@@ -169,7 +178,7 @@ class SantriController extends Controller
           'nisn' => $request->nisn,
           'anak_ke' => $request->anak_ke,
           'tempat_lahir' => $request->tempat_lahir,
-          'tanggal_lahir' => $request->tanggal_lahir,
+          'tanggal_lahir' => $request->tanggal_fix,
           'jenis_kelamin' => $request->jenis_kelamin,
           'alamat' => $request->alamat,
           'provinsi' => $request->provinsi,
@@ -177,6 +186,7 @@ class SantriController extends Controller
           'kecamatan' => $request->kecamatan,
           'kelurahan' => $request->kelurahan,
           'kode_pos' => $request->kode_pos,
+          'nik' => $request->nik ?? '',
           'no_hp' => $request->no_hp,
         ]
       );
@@ -189,6 +199,59 @@ class SantriController extends Controller
       }
     }
   }
+  public function update_keluarga(Request $request){
+    $id = $request->id;
+    $Santri = Santri::updateOrCreate(
+      ['id' => $id],
+      [
+        'nik_kk' => $request->nik_kk,
+        'nama_lengkap_ayah' => $request->nama_lengkap_ayah,
+        'pendidikan_ayah' => $request->pendidikan_ayah,
+        'pekerjaan_ayah' => $request->pekerjaan_ayah,
+        'nama_lengkap_ibu' => $request->nama_lengkap_ibu,
+        'pendidikan_ibu' => $request->pendidikan_ibu,
+        'pekerjaan_ibu' => $request->pekerjaan_ibu,
+      ]
+    );
+
+    if ($Santri) {
+      // user created
+      return response()->json('Created');
+    } else {
+      return response()->json('Failed Create Grades');
+    }
+  }
+  public function update_kamar(Request $request){
+    $id = $request->id;
+    DB::beginTransaction();
+    try{
+      $Santri = Santri::updateOrCreate(
+        ['id' => $id],
+        [
+          'kamar_id' => $request->kamar_id,
+        ]
+      );
+      $tahunAjaran = TahunAjaran::where(['is_aktif'=>1])->first();
+      $santriKamar = SantriKamar::where('santri_id',$id);
+      if($santriKamar->count() > 0){
+        $santri_update = $santriKamar->update(['status'=>0]);
+      }
+      $SantriKamar = SantriKamar::create(
+        [
+          'kamar_id' => $request->kamar_id,
+          'santri_id' => $request->id,
+          'tahun_ajaran_id' => $tahunAjaran->id,
+          'status' => 1
+        ]
+      ); 
+      DB::commit();
+      return response()->json('Created');
+    }catch (\Exception $e) {
+      DB::rollback();
+      // something went wrong
+      return response()->json($e);
+    }
+  }
 
   /**
    * Display the specified resource.
@@ -197,12 +260,16 @@ class SantriController extends Controller
   {
     //
     $where = ['id' => $id];
-    $var['Santri'] = Santri::where($where)->first();
+    $var['santri'] = Santri::where($where)->first();
     $title = 'santri';
-    $var['structural'] = StructuralPosition::all();
-    $var['Grades'] = Grades::all();
-    $var['golrus'] = Golrus::all();
-    $var['emp_golrus'] = EmpGolrus::where('employee_id', $id);
+    $var['kota'] = City::all();
+    $var['prov'] = Province::all();
+    $var['kelas'] = Kelas::all();
+    $var['kamar'] = Kamar::all();
+    $var['tahfidz'] = Tahfidz::all();
+    if($var['santri']->kamar_id != 0)
+      $var['curr_kamar'] = Kamar::find($var['santri']->kamar_id);
+    $var['menu'] = array('biodata','keluarga','kamar','kelas','tahfidz');
     return view('admin.santri.show', compact('title', 'var'));
   }
 
@@ -248,5 +315,10 @@ class SantriController extends Controller
     $where = ['prov_id' => $id];
     $kota = City::where($where)->get();
     return response()->json($kota);
+  }
+  public function teman_kamar(Request $request){
+    $kamar_id = $request->id;
+    $santri = Santri::where('kamar_id',$kamar_id)->get();
+    return response()->json($santri);
   }
 }

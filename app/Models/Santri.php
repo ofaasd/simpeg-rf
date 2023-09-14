@@ -7,12 +7,11 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Santri
- *
+ * Class SantriDetail
+ * 
  * @property int $id
  * @property int $no_induk
  * @property string $nama
@@ -40,68 +39,57 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $created_at
  * @property Carbon $updated_at
  * @property int|null $no_tes
- * @property string $kelas
- *
- * @property Collection|SantriKamar[] $santri_kamars
- * @property Collection|SantriKela[] $santri_kelas
- * @property Collection|SantriTahfidz[] $santri_tahfidzs
+ * @property string|null $kelas
+ * @property int|null $kamar_id
+ * @property int|null $tahfidz_id
+ * @property string|null $photo
  *
  * @package App\Models
  */
 class Santri extends Model
 {
-  protected $table = 'santri_detail';
+	protected $table = 'santri_detail';
 
-  protected $casts = [
-    'no_induk' => 'int',
-    'anak_ke' => 'int',
-    'tanggal_lahir' => 'datetime',
-    'usia' => 'float',
-    'kabkota' => 'int',
-    'provinsi' => 'int',
-    'no_tes' => 'int',
-  ];
+	protected $casts = [
+		'no_induk' => 'int',
+		'anak_ke' => 'int',
+		'tanggal_lahir' => 'datetime',
+		'usia' => 'float',
+		'kabkota' => 'int',
+		'provinsi' => 'int',
+		'no_tes' => 'int',
+		'kamar_id' => 'int',
+		'tahfidz_id' => 'int'
+	];
 
-  protected $fillable = [
-    'no_induk',
-    'nama',
-    'nisn',
-    'nik',
-    'anak_ke',
-    'tempat_lahir',
-    'tanggal_lahir',
-    'usia',
-    'jenis_kelamin',
-    'alamat',
-    'kelurahan',
-    'kecamatan',
-    'kabkota',
-    'provinsi',
-    'kode_pos',
-    'nik_kk',
-    'nama_lengkap_ayah',
-    'pendidikan_ayah',
-    'pekerjaan_ayah',
-    'nama_lengkap_ibu',
-    'pendidikan_ibu',
-    'pekerjaan_ibu',
-    'no_hp',
-    'no_tes',
-    'kelas',
-  ];
-
-  public function santri_kamars()
-  {
-    return $this->hasMany(SantriKamar::class);
-  }
-
-  public function santri_kelas()
-  {
-    return $this->hasMany(SantriKela::class);
-  }
-
-  public function santri_tahfidzs()
-  {
-    return $this->hasMany(SantriTahfidz::class);
-  }
+	protected $fillable = [
+		'no_induk',
+		'nama',
+		'nisn',
+		'nik',
+		'anak_ke',
+		'tempat_lahir',
+		'tanggal_lahir',
+		'usia',
+		'jenis_kelamin',
+		'alamat',
+		'kelurahan',
+		'kecamatan',
+		'kabkota',
+		'provinsi',
+		'kode_pos',
+		'nik_kk',
+		'nama_lengkap_ayah',
+		'pendidikan_ayah',
+		'pekerjaan_ayah',
+		'nama_lengkap_ibu',
+		'pendidikan_ibu',
+		'pekerjaan_ibu',
+		'no_hp',
+		'no_tes',
+		'kelas',
+		'kamar_id',
+		'tahfidz_id',
+		'photo'
+	];
 }

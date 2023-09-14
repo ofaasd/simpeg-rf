@@ -31,7 +31,7 @@ class SantriKelas extends Model
 {
   use SoftDeletes;
   protected $table = 'santri_kelas';
-
+  protected $dateFormat = 'U';
   protected $casts = [
     'santri_id' => 'int',
     'kelas_id' => 'int',

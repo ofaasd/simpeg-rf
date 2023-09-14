@@ -66,6 +66,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('/pegawai/store_golru', [Pegawai::class, 'store_golru']);
   Route::post('/pegawai/del_golru', [Pegawai::class, 'del_golru']);
   Route::post('/santri/get_kota', [SantriController::class, 'get_kota']);
+  Route::post('/santri/update_keluarga', [SantriController::class, 'update_keluarga']);
+  Route::post('/santri/update_kamar', [SantriController::class, 'update_kamar']);
+  Route::post('/santri/teman_kamar', [SantriController::class, 'teman_kamar']);
   Route::get('/tbd', function () {
     return view('content.pages.tbd');
   });
