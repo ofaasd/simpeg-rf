@@ -1,8 +1,8 @@
 <form action="javascript:void(0)" enctype="multipart/form-data" class="add-new-{{strtolower($title)}} pt-0" id="addNew{{$title}}FormKamar">
     @csrf
     <input type="hidden" id="id" name="id" id="{{strtolower($title)}}_id" value='{{$var['santri']->id}}'>
-    @if($var['santri']->kamar_id == 0)
-      <div class="alert alert-danger">Anda Belum Memilih Kamar. Silahkan pilih kelas kemudian simpan perubahan</div>
+    @if($var['santri']->kamar_id == 0  || empty($var['santri']->kamar_id))
+      <div class="alert alert-danger alert-kamar">Anda Belum Memilih Kamar. Silahkan pilih kelas kemudian simpan perubahan</div>
     @endif
     <div class="form-floating form-floating-outline mb-4">
         <select class="form-control select2" id="add-{{strtolower($title)}}-kamar_id" name="kamar_id">
@@ -12,11 +12,11 @@
           @endforeach
         </select>
         <label for="add-{{strtolower($title)}}-kamar_id">Kamar</label>
-    </div>    
+    </div>
     <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit" id='edit-record'>Submit</button>
 </form>
 
-  <div class="card card-list">
+  <div class="card" id="card-list-kamar">
     <div class="card-header">
       <p>List Teman kamar (<span id='info_kamar'>{{$var['curr_kamar']->code ?? ""}} - {{$var['curr_kamar']->name  ?? ""}} - {{$var['curr_kamar']->pegawai->nama  ?? ""}}</span>)</p>
     </div>
@@ -45,10 +45,10 @@
       });
       const get_teman_kamar = (my_id,page) => {
         if($('#add-{{strtolower($title)}}-kamar_id').val() == 0){
-          $(".card-list").hide();
+          $("#card-list-kamar").hide();
         }else{
-          $(".card-list").show();
-          $(".alert").hide();
+          $("#card-list-kamar").show();
+          $(".alert-kamar").hide();
         }
         $.ajax({
           data: {
@@ -71,7 +71,7 @@
       }
       $('#addNew{{$title}}FormKamar').submit(function(e) {
         e.preventDefault();
-  
+
         var formData = new FormData(this);
         showBlock();
         $.ajax({
@@ -108,8 +108,8 @@
           }
         });
       });
-        
+
         get_teman_kamar($("#add-{{strtolower($title)}}-kamar_id").val(),'{{$title}}' )
     });
-    
+
   </script>

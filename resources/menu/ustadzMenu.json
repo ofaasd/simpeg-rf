@@ -7,6 +7,12 @@
       "slug": "pages-home"
     },
     {
+      "url": "/profile",
+      "name": "Profile",
+      "icon": "menu-icon tf-icons mdi mdi-account-outline",
+      "slug": "profile"
+    },
+    {
       "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-clipboard-list",
       "name": "Absen & Izin",
@@ -33,6 +39,12 @@
           "slug": "absensi-laporan"
         }
       ]
+    },
+    {
+      "url": "/ustadz/murroby",
+      "icon": "menu-icon tf-icons mdi mdi-account-outline",
+      "name": "Ke-murobbyan",
+      "slug": "murroby"
     },
     {
       "url": "#",
@@ -115,12 +127,6 @@
           "slug": "monitoring-grafik-absensi"
         }
       ]
-    },
-    {
-      "url": "/murroby",
-      "icon": "menu-icon tf-icons mdi mdi-account-outline",
-      "name": "Ke-murobbyan",
-      "slug": "murroby"
     }
   ]
 }

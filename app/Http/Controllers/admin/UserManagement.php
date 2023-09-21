@@ -152,6 +152,8 @@ class UserManagement extends Controller
       );
 
       // user updated
+      $role = $request->role;
+      $users->assignRole($role);
       return response()->json('Updated');
     } else {
       // create new one if email is unique
@@ -164,10 +166,12 @@ class UserManagement extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'pegawai_id' => $request->pegawai_id,
+
             'password' => bcrypt('password'),
           ]
         );
-
+        $role = $request->role;
+        $users->assignRole($role);
         // user created
         return response()->json('Created');
       } else {

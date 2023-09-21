@@ -65,68 +65,52 @@
     </div>
   </div>
 </div>
-
+<!-- Navbar pills -->
+<div class="row">
+  <div class="col-md-12">
+    <ul class="nav nav-pills flex-column flex-sm-row mb-4">
+      <li class="nav-item"><a class="nav-link active" href="javascript:void(0);"><i class='mdi mdi-account-outline me-1 mdi-20px'></i>List Santri</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{url('pages/profile-teams')}}"><i class='mdi mdi-account-multiple-outline me-1 mdi-20px'></i>Uang Saku</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{url('pages/profile-projects')}}"><i class='mdi mdi-view-grid-outline me-1 mdi-20px'></i>Inventory Kamar</a></li>
+    </ul>
+  </div>
+</div>
+<!--/ Navbar pills -->
 <div class="row">
   <div class="col-xl-12">
   <div class="card mb-4" id="card-block">
       <div class="card-header">
-        <h4>Edit Profile Pegawai</h4>
+        <h4>List Santri</h4>
       </div>
       <div class="card-body">
-        <div class="nav-align-left">
-          <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
-              <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-biodata" aria-controls="navs-left-biodata" aria-selected="true">Biodata</button>
-            </li>
-            <li class="nav-item">
-              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-ruang" aria-controls="navs-left-ruang" aria-selected="false">Golongan</button>
-            </li>
-            <li class="nav-item">
-              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-status" aria-controls="navs-left-status" aria-selected="false">Status Pegawai</button>
-            </li>
-            <li class="nav-item">
-              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-struktural" aria-controls="navs-left-struktural" aria-selected="false">Jabatan Struktural</button>
-            </li>
-            <li class="nav-item">
-              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-keluarga" aria-controls="navs-left-keluarga" aria-selected="false">Keluarga</button>
-            </li>
-            <li class="nav-item">
-              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-pendidikan" aria-controls="navs-left-pendidikan" aria-selected="false">Riwayat Pendidikan</button>
-            </li>
-            <li class="nav-item">
-              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-pelatihan" aria-controls="navs-left-pelatihan" aria-selected="false">Riwayat Pelatihan</button>
-            </li>
-            <li class="nav-item">
-              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-pekerjaan" aria-controls="navs-left-pekerjaan" aria-selected="false">Riwayat Pekerjaan</button>
-            </li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane fade show active" id="navs-left-biodata">
-              @include('admin/pegawai/_form_biodata')
-            </div>
-            <div class="tab-pane fade" id="navs-left-ruang">
-              @include('admin/pegawai/_form_golongan')
-            </div>
-            <div class="tab-pane fade" id="navs-left-status">
-              @include('admin/pegawai/under_develop')
-            </div>
-            <div class="tab-pane fade" id="navs-left-struktural">
-              @include('admin/pegawai/under_develop')
-            </div>
-            <div class="tab-pane fade" id="navs-left-keluarga">
-              @include('admin/pegawai/under_develop')
-            </div>
-            <div class="tab-pane fade" id="navs-left-pendidikan">
-              @include('admin/pegawai/under_develop')
-            </div>
-            <div class="tab-pane fade" id="navs-left-pelatihan">
-              @include('admin/pegawai/under_develop')
-            </div>
-            <div class="tab-pane fade" id="navs-left-pekerjaan">
-              @include('admin/pegawai/under_develop')
-            </div>
-          </div>
-        </div>
+        <table class="dataTable table">
+          <thead>
+            <tr>
+              <td></td>
+              <td>No Induk</td>
+              <td>Nama</td>
+              <td>Kelas</td>
+              <td>Action</td>
+            </tr>
+          </thead>
+          <tbody>
+            @php
+            $i = 1;
+            @endphp
+            @foreach($var['list_santri'] as $santri)
+              <tr>
+                <td>{{$i}}</td>
+                <td>{{$santri->no_induk}}</td>
+                <td>{{$santri->nama}}</td>
+                <td>{{$santri->kelas}}</td>
+                <td><a href="#"><span class="mdi mdi-information"></span></a></td>
+              </tr>
+            @php
+            $i++;
+            @endphp
+            @endforeach
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -134,3 +118,8 @@
 
 
 @endsection
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {
+  $('.dataTable').dataTable();
+});
+</script>

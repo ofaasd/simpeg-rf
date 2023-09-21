@@ -25,17 +25,28 @@ $(function () {
   //alert(JSON.stringify(my_column.split('\n')));
   // Variable declaration for table
   var dt_table = $('.datatables-' + page),
-    select2 = $('.select2'),
+    select2 = $('#add-santri-provinsi'),
+    select23 = $('#add-santri-kamar_id'),
+    select24 = $('#add-santri-tahfidz_id'),
     view = baseUrl + page,
     offCanvasForm = $('#offcanvasAdd' + title);
   if (select2.length) {
     var $this = select2;
     $this.wrap('<div class="position-relative"></div>').select2({
-      placeholder: 'Select Country',
+      placeholder: 'Select Province',
+      dropdownParent: $this.parent()
+    });
+    var $this = select23;
+    $this.wrap('<div class="position-relative"></div>').select2({
+      placeholder: 'Select Kamar Santri',
+      dropdownParent: $this.parent()
+    });
+    var $this = select24;
+    $this.wrap('<div class="position-relative"></div>').select2({
+      placeholder: 'Select Kelompok Tahfidz',
       dropdownParent: $this.parent()
     });
   }
-
   // ajax setup
   $.ajaxSetup({
     headers: {
@@ -415,7 +426,10 @@ $(function () {
         }
 
         if (key == 'id') $('#' + page + '_' + key).val(data[key]);
-        else $('#add-' + page + '-' + key).val(data[key]);
+        else
+          $('#add-' + page + '-' + key)
+            .val(data[key])
+            .trigger('change');
         // alert('key' + key + ' ' + data[key]);
       });
     });

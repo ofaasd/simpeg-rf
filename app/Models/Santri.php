@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class SantriDetail
- * 
+ *
  * @property int $id
  * @property int $no_induk
  * @property string $nama
@@ -48,48 +48,48 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Santri extends Model
 {
-	protected $table = 'santri_detail';
+  protected $table = 'santri_detail';
 
-	protected $casts = [
-		'no_induk' => 'int',
-		'anak_ke' => 'int',
-		'tanggal_lahir' => 'datetime',
-		'usia' => 'float',
-		'kabkota' => 'int',
-		'provinsi' => 'int',
-		'no_tes' => 'int',
-		'kamar_id' => 'int',
-		'tahfidz_id' => 'int'
-	];
+  protected $casts = [
+    'no_induk' => 'int',
+    'anak_ke' => 'int',
+    'tanggal_lahir' => 'datetime',
+    'usia' => 'float',
+    'kabkota' => 'int',
+    'provinsi' => 'int',
+    'no_tes' => 'int',
+    'kamar_id' => 'int',
+    'tahfidz_id' => 'int',
+  ];
 
-	protected $fillable = [
-		'no_induk',
-		'nama',
-		'nisn',
-		'nik',
-		'anak_ke',
-		'tempat_lahir',
-		'tanggal_lahir',
-		'usia',
-		'jenis_kelamin',
-		'alamat',
-		'kelurahan',
-		'kecamatan',
-		'kabkota',
-		'provinsi',
-		'kode_pos',
-		'nik_kk',
-		'nama_lengkap_ayah',
-		'pendidikan_ayah',
-		'pekerjaan_ayah',
-		'nama_lengkap_ibu',
-		'pendidikan_ibu',
-		'pekerjaan_ibu',
-		'no_hp',
-		'no_tes',
-		'kelas',
-		'kamar_id',
-		'tahfidz_id',
-		'photo'
-	];
+  protected $fillable = [
+    'no_induk',
+    'nama',
+    'nisn',
+    'nik',
+    'anak_ke',
+    'tempat_lahir',
+    'tanggal_lahir',
+    'usia',
+    'jenis_kelamin',
+    'alamat',
+    'kelurahan',
+    'kecamatan',
+    'kabkota',
+    'provinsi',
+    'kode_pos',
+    'nik_kk',
+    'nama_lengkap_ayah',
+    'pendidikan_ayah',
+    'pekerjaan_ayah',
+    'nama_lengkap_ibu',
+    'pendidikan_ibu',
+    'pekerjaan_ibu',
+    'no_hp',
+    'no_tes',
+    'kelas',
+    'kamar_id',
+    'tahfidz_id',
+    'photo',
+  ];
 }

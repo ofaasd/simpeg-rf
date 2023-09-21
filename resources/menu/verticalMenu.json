@@ -284,7 +284,7 @@
       "slug": "spmb"
     },
     {
-      "url": "/tbd",
+      "url": "/user-list",
       "icon": "menu-icon tf-icons mdi mdi-account-outline",
       "name": "User",
       "slug": "User Management"

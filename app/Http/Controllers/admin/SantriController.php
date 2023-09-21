@@ -30,7 +30,9 @@ class SantriController extends Controller
       $indexed = $this->indexed;
       $kota = City::all();
       $prov = Province::all();
-      return view('admin.santri.index', compact('title', 'indexed', 'kota', 'prov'));
+      $kamar = Kamar::all();
+      $tahfidz = Tahfidz::all();
+      return view('admin.santri.index', compact('title', 'indexed', 'kota', 'prov', 'kamar', 'tahfidz'));
     } else {
       $columns = [
         1 => 'id',
@@ -144,6 +146,8 @@ class SantriController extends Controller
           'kode_pos' => $request->kode_pos,
           'nik' => $request->nik ?? '',
           'no_hp' => $request->no_hp,
+          'tahfidz_id' => $request->tahfidz_id,
+          'kamar_id' => $request->kamar_id,
         ]
       );
       //return response()->json(dd($request->all()));
@@ -165,6 +169,31 @@ class SantriController extends Controller
       $where = ['id' => $id];
       $Santri = Santri::where($where)->first();
       //$Santri = Santri::
+      $tahunAjaran = TahunAjaran::where(['is_aktif' => 1])->first();
+      if ($request->kamar_id != 0) {
+        $SantriKamar = SantriKamar::where('santri_id', $id);
+        if ($SantriKamar->count() > 0) {
+          $santri_update = $SantriKamar->update(['status' => 0]);
+        }
+        $SantriKamar = SantriKamar::create([
+          'kamar_id' => $request->kamar_id,
+          'santri_id' => $request->id,
+          'tahun_ajaran_id' => $tahunAjaran->id,
+          'status' => 1,
+        ]);
+      }
+      if ($request->tahfidz_id != 0) {
+        $SantriTahfidz = SantriTahfidz::where('santri_id', $id);
+        if ($SantriTahfidz->count() > 0) {
+          $santri_update = $SantriTahfidz->update(['status' => 0]);
+        }
+        $SantriTahfidz = SantriTahfidz::create([
+          'tahfidz_id' => $request->tahfidz_id,
+          'santri_id' => $request->id,
+          'tahun_ajaran_id' => $tahunAjaran->id,
+          'status' => 1,
+        ]);
+      }
       return response()->json($Santri);
     } else {
       // create new one if email is unique
@@ -188,9 +217,35 @@ class SantriController extends Controller
           'kode_pos' => $request->kode_pos,
           'nik' => $request->nik ?? '',
           'no_hp' => $request->no_hp,
+          'tahfidz_id' => $request->tahfidz_id,
+          'kamar_id' => $request->kamar_id,
         ]
       );
-
+      $tahunAjaran = TahunAjaran::where(['is_aktif' => 1])->first();
+      if ($request->kamar_id != 0) {
+        $SantriKamar = SantriKamar::where('santri_id', $id);
+        if ($SantriKamar->count() > 0) {
+          $santri_update = $SantriKamar->update(['status' => 0]);
+        }
+        $SantriKamar = SantriKamar::create([
+          'kamar_id' => $request->kamar_id,
+          'santri_id' => $request->id,
+          'tahun_ajaran_id' => $tahunAjaran->id,
+          'status' => 1,
+        ]);
+      }
+      if ($request->tahfidz_id != 0) {
+        $SantriTahfidz = SantriTahfidz::where('santri_id', $id);
+        if ($SantriTahfidz->count() > 0) {
+          $santri_update = $SantriTahfidz->update(['status' => 0]);
+        }
+        $SantriTahfidz = SantriTahfidz::create([
+          'tahfidz_id' => $request->tahfidz_id,
+          'santri_id' => $request->id,
+          'tahun_ajaran_id' => $tahunAjaran->id,
+          'status' => 1,
+        ]);
+      }
       if ($Santri) {
         // user created
         return response()->json('Created');
@@ -199,7 +254,8 @@ class SantriController extends Controller
       }
     }
   }
-  public function update_keluarga(Request $request){
+  public function update_keluarga(Request $request)
+  {
     $id = $request->id;
     $Santri = Santri::updateOrCreate(
       ['id' => $id],
@@ -221,32 +277,91 @@ class SantriController extends Controller
       return response()->json('Failed Create Grades');
     }
   }
-  public function update_kamar(Request $request){
+  public function update_kamar(Request $request)
+  {
     $id = $request->id;
     DB::beginTransaction();
-    try{
+    try {
       $Santri = Santri::updateOrCreate(
         ['id' => $id],
         [
           'kamar_id' => $request->kamar_id,
         ]
       );
-      $tahunAjaran = TahunAjaran::where(['is_aktif'=>1])->first();
-      $santriKamar = SantriKamar::where('santri_id',$id);
-      if($santriKamar->count() > 0){
-        $santri_update = $santriKamar->update(['status'=>0]);
+      $tahunAjaran = TahunAjaran::where(['is_aktif' => 1])->first();
+      $santriKamar = SantriKamar::where('santri_id', $id);
+      if ($santriKamar->count() > 0) {
+        $santri_update = $santriKamar->update(['status' => 0]);
       }
-      $SantriKamar = SantriKamar::create(
-        [
-          'kamar_id' => $request->kamar_id,
-          'santri_id' => $request->id,
-          'tahun_ajaran_id' => $tahunAjaran->id,
-          'status' => 1
-        ]
-      ); 
+      $SantriKamar = SantriKamar::create([
+        'kamar_id' => $request->kamar_id,
+        'santri_id' => $request->id,
+        'tahun_ajaran_id' => $tahunAjaran->id,
+        'status' => 1,
+      ]);
       DB::commit();
       return response()->json('Created');
-    }catch (\Exception $e) {
+    } catch (\Exception $e) {
+      DB::rollback();
+      // something went wrong
+      return response()->json($e);
+    }
+  }
+  public function update_tahfidz(Request $request)
+  {
+    $id = $request->id;
+    DB::beginTransaction();
+    try {
+      $Santri = Santri::updateOrCreate(
+        ['id' => $id],
+        [
+          'tahfidz_id' => $request->tahfidz_id,
+        ]
+      );
+      $tahunAjaran = TahunAjaran::where(['is_aktif' => 1])->first();
+      $santriTahfidz = SantriTahfidz::where('santri_id', $id);
+      if ($santriTahfidz->count() > 0) {
+        $santri_update = $santriTahfidz->update(['status' => 0]);
+      }
+      $santriTahfidz = SantriTahfidz::create([
+        'tahfidz_id' => $request->tahfidz_id,
+        'santri_id' => $request->id,
+        'tahun_ajaran_id' => $tahunAjaran->id,
+        'status' => 1,
+      ]);
+      DB::commit();
+      return response()->json('Created');
+    } catch (\Exception $e) {
+      DB::rollback();
+      // something went wrong
+      return response()->json($e);
+    }
+  }
+  public function update_kelas(Request $request)
+  {
+    $id = $request->id;
+    DB::beginTransaction();
+    try {
+      $Santri = Santri::updateOrCreate(
+        ['id' => $id],
+        [
+          'kelas' => $request->kelas_id,
+        ]
+      );
+      $tahunAjaran = TahunAjaran::where(['is_aktif' => 1])->first();
+      $SantriKelas = SantriKelas::where('santri_id', $id);
+      if ($SantriKelas->count() > 0) {
+        $santri_update = $SantriKelas->update(['status' => 0]);
+      }
+      $SantriKelas = SantriKelas::create([
+        'kelas_id' => $request->kelas_id,
+        'santri_id' => $request->id,
+        'tahun_ajaran_id' => $tahunAjaran->id,
+        'status' => 1,
+      ]);
+      DB::commit();
+      return response()->json('Created');
+    } catch (\Exception $e) {
       DB::rollback();
       // something went wrong
       return response()->json($e);
@@ -267,9 +382,16 @@ class SantriController extends Controller
     $var['kelas'] = Kelas::all();
     $var['kamar'] = Kamar::all();
     $var['tahfidz'] = Tahfidz::all();
-    if($var['santri']->kamar_id != 0)
+    if ($var['santri']->kamar_id != 0) {
       $var['curr_kamar'] = Kamar::find($var['santri']->kamar_id);
-    $var['menu'] = array('biodata','keluarga','kamar','kelas','tahfidz');
+    }
+    if ($var['santri']->kelas != 0) {
+      $var['curr_kelas'] = Kelas::where('code', $var['santri']->kelas)->first();
+    }
+    if ($var['santri']->tahfidz_id != 0) {
+      $var['curr_tahfidz'] = Tahfidz::find($var['santri']->tahfidz_id);
+    }
+    $var['menu'] = ['biodata', 'keluarga', 'kamar', 'kelas', 'tahfidz'];
     return view('admin.santri.show', compact('title', 'var'));
   }
 
@@ -316,9 +438,22 @@ class SantriController extends Controller
     $kota = City::where($where)->get();
     return response()->json($kota);
   }
-  public function teman_kamar(Request $request){
+  public function teman_kamar(Request $request)
+  {
     $kamar_id = $request->id;
-    $santri = Santri::where('kamar_id',$kamar_id)->get();
+    $santri = Santri::where('kamar_id', $kamar_id)->get();
+    return response()->json($santri);
+  }
+  public function teman_kelas(Request $request)
+  {
+    $kelas_id = $request->id;
+    $santri = Santri::where('kelas', $kelas_id)->get();
+    return response()->json($santri);
+  }
+  public function teman_tahfidz(Request $request)
+  {
+    $kelas_id = $request->id;
+    $santri = Santri::where('tahfidz_id', $kelas_id)->get();
     return response()->json($santri);
   }
 }

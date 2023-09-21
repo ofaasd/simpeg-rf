@@ -16,6 +16,8 @@ use App\Http\Controllers\admin\KelasController;
 use App\Http\Controllers\admin\TahfidzController;
 use App\Http\Controllers\admin\TahunAjaranController;
 use App\Http\Controllers\admin\SantriController;
+use App\Http\Controllers\admin\ProfileController;
+use App\Http\Controllers\ustadz\MurrobyController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -62,6 +64,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/tahfidz', TahfidzController::class);
   Route::resource('/ta', TahunAjaranController::class);
   Route::resource('/santri', SantriController::class);
+  Route::resource('/profile', ProfileController::class);
+  Route::resource('/ustadz/murroby', MurrobyController::class);
   Route::get('/structural-position/get-school/{$id}', '\admin\StrucutralPositionController@getSchool');
   Route::post('/pegawai/store_golru', [Pegawai::class, 'store_golru']);
   Route::post('/pegawai/del_golru', [Pegawai::class, 'del_golru']);
@@ -69,6 +73,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('/santri/update_keluarga', [SantriController::class, 'update_keluarga']);
   Route::post('/santri/update_kamar', [SantriController::class, 'update_kamar']);
   Route::post('/santri/teman_kamar', [SantriController::class, 'teman_kamar']);
+  Route::post('/santri/update_kelas', [SantriController::class, 'update_kelas']);
+  Route::post('/santri/teman_kelas', [SantriController::class, 'teman_kelas']);
+  Route::post('/santri/update_tahfidz', [SantriController::class, 'update_tahfidz']);
+  Route::post('/santri/teman_tahfidz', [SantriController::class, 'teman_tahfidz']);
   Route::get('/tbd', function () {
     return view('content.pages.tbd');
   });

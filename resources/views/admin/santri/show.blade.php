@@ -31,7 +31,11 @@
 @endsection
 
 @section('content')
-
+<div class="row" style="margin-bottom:10px">
+  <div class="col-12">
+    <a href="{{url('/santri')}}" class='btn btn-primary'>Kembali ke Daftar Santri</a>
+  </div>
+</div>
 <div class="row">
   <div class="col-12">
     <div class="card mb-4">

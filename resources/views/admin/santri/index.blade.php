@@ -105,6 +105,25 @@
           <input type="text" class="form-control" id="add-{{strtolower($title)}}-no_hp" placeholder="no_hp" name="no_hp" />
           <label for="add-{{strtolower($title)}}-no_hp">No. HP</label>
         </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <select class="form-control select2" id="add-{{strtolower($title)}}-kamar_id" data-placeholder="All" placeholder="Kamar Santri"  name="kamar_id">
+            <option value="0">--Pilih Kamar Santri</option>
+            @foreach($kamar as $row)
+              <option value="{{$row->id}}">{{$row->code}}-{{$row->name}}-{{$row->pegawai->nama}}</option>
+            @endforeach
+          </select>
+          <label for="add-{{strtolower($title)}}-kamar_id">Kamar</label>
+        </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <select class="form-control" id="add-{{strtolower($title)}}-tahfidz_id" name="tahfidz_id">
+            <option value="0">--Pilih Kelompok Tahfidz</option>
+            @foreach($tahfidz as $row)
+              <option value="{{$row->id}}">{{$row->name}}-{{$row->pegawai->nama}}</option>
+            @endforeach
+          </select>
+          <label for="add-{{strtolower($title)}}-tahfidz_id">Kelompok Tahfidz</label>
+        </div>
+
         <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
         <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
       </form>
