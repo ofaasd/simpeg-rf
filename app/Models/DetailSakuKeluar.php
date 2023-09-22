@@ -28,7 +28,7 @@ class DetailSakuKeluar extends Model
 {
   use SoftDeletes;
   protected $table = 'tb_detail_saku_keluar';
-
+  protected $dateFormat = 'U';
   protected $casts = [
     'id_saku_keluar' => 'int',
     'jumlah' => 'int',

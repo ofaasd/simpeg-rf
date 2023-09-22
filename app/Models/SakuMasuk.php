@@ -28,11 +28,10 @@ class SakuMasuk extends Model
 {
   use SoftDeletes;
   protected $table = 'tb_saku_masuk';
-
+  protected $dateFormat = 'U';
   protected $casts = [
     'dari' => 'int',
     'jumlah' => 'int',
-    'tanggal' => 'datetime',
   ];
 
   protected $fillable = ['dari', 'jumlah', 'tanggal', 'no_induk'];

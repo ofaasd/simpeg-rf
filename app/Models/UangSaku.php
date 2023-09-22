@@ -25,7 +25,7 @@ class UangSaku extends Model
 {
   use SoftDeletes;
   protected $table = 'tb_uang_saku';
-
+  protected $dateFormat = 'U';
   protected $casts = [
     'jumlah' => 'int',
   ];

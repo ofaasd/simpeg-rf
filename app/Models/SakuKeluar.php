@@ -29,13 +29,13 @@ class SakuKeluar extends Model
 {
   use SoftDeletes;
   protected $table = 'tb_saku_keluar';
-
+  protected $dateFormat = 'U';
   protected $casts = [
     'pegawai_id' => 'int',
     'jumlah' => 'int',
   ];
 
-  protected $fillable = ['no_induk', 'pegawai_id', 'jumlah'];
+  protected $fillable = ['no_induk', 'pegawai_id', 'jumlah', 'tanggal', 'note'];
 
   public function tb_detail_saku_keluars()
   {
