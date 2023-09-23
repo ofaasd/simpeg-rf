@@ -62,7 +62,7 @@
                 <td>{{$santri->no_induk}}</td>
                 <td>{{$santri->nama}}</td>
                 <td>{{$santri->kelas}}</td>
-                <td><a href="#"><span class="mdi mdi-information"></span></a></td>
+                <td><a href="{{url('ustadz/uang-saku/' . $santri->no_induk)}}"><span class="mdi mdi-information"></span></a></td>
               </tr>
             @php
             $i++;

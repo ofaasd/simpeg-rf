@@ -39,44 +39,109 @@
   <div class="col-xl-12">
   <div class="card mb-4" id="card-block">
       <div class="card-header">
-        <h4>List Santri</h4>
+        <h4>Detail Uang Saku Santri {{$var['santri']->nama}} Bulan {{$var['list_bulan'][$var['bulan']]}} {{$var['tahun']}}</h4>
       </div>
       <div class="card-body">
         <div class="row">
           <div class="col-md-12">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uangMasuk"> Tambah Uang Masuk</button>
-            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#uangKeluar"> Tambah Uang Keluar</button>
+            <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uangMasuk"> Tambah Uang Masuk</button>
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#uangKeluar"> Tambah Uang Keluar</button> -->
           </div>
         </div>
+
         <table class="dataTable table">
           <thead>
             <tr>
-              <td></td>
-              <td>No Induk</td>
-              <td>Nama</td>
-              <td>Kelas</td>
-              <td>Uang Saku (Rp.)</td>
-              <td>Action</td>
+              <td>Tanggal</td>
+              <td>Uang Masuk (Rp.)</td>
+              <td>Keterangan</td>
+              <td>Uang Keluar (Rp.)</td>
+              <td>Keterangan</td>
             </tr>
           </thead>
           <tbody id="table_uang_saku">
             @php
             $i = 1;
+            $jumlah_masuk = 0;
+            $jumlah_keluar = 0;
             @endphp
-            @foreach($var['list_santri'] as $santri)
+            @foreach($var['tanggal'] as $value)
+              @if(!empty($var['uang_masuk'][$value]))
+                <tr>
+                  <td valign="top">{{$value}}</td>
+                  <td valign="top">
+                    @foreach($var['uang_masuk'][$value] as $isi)
+                      {{number_format($isi,0,",",".")}}<br />
+                    @php $jumlah_masuk += $isi @endphp
+                    @endforeach
+                  </td>
+                  <td valign="top">
+                    @foreach($var['dari_uang_masuk'][$value] as $isi)
+                      {{$isi}}<br />
+                    @endforeach
+                  </td>
+                  <td valign="top">
+                    @if(!empty($var['uang_keluar'][$value]))
+                      @foreach($var['uang_keluar'][$value] as $isi)
+                      {{number_format($isi,0,",",".")}}<br />
+                      @php $jumlah_keluar += $isi @endphp
+                      @endforeach
+                    @endif
+                  </td>
+                  <td valign="top">
+                    @if(!empty($var['note_uang_keluar'][$value]))
+                      @foreach($var['note_uang_keluar'][$value] as $isi)
+                        {{$isi}}<br />
+                      @endforeach
+                    @endif
+                  </td>
+                </tr>
+              @elseif(!empty($var['uang_keluar'][$value]))
               <tr>
-                <td>{{$i}}</td>
-                <td>{{$santri->no_induk}}</td>
-                <td>{{$santri->nama}}</td>
-                <td>{{$santri->kelas}}</td>
-                <td>{{number_format($var['uang_saku'][$santri->no_induk],0,",",".")}}</td>
-                <td><a href="{{url('ustadz/uang-saku/' . $santri->no_induk)}}"><span class="mdi mdi-information"></span></a></td>
+                <td valign="top">{{$value}}</td>
+                <td></td>
+                <td></td>
+                <td valign="top">
+                  @foreach($var['uang_keluar'][$value] as $isi)
+                  {{number_format($isi,0,",",".")}}<br />
+                  @php $jumlah_keluar += $isi @endphp
+                  @endforeach
+                </td>
+                <td valign="top">
+                  @if(!empty($var['note_uang_keluar'][$value]))
+                    @foreach($var['note_uang_keluar'][$value] as $isi)
+                      {{$isi}}<br />
+                    @endforeach
+                  @endif
+                </td>
               </tr>
+              @endif
             @php
             $i++;
             @endphp
             @endforeach
           </tbody>
+          <tfoot>
+            <tr>
+              <th>
+                Jumlah Uang Masuk
+              </th>
+              <th>
+                {{number_format($jumlah_masuk,0,",",".")}}
+              </th>
+              <th>
+                Jumlah Uang Keluar
+              </th>
+              <th>
+                {{number_format($jumlah_keluar,0,",",".")}}
+              </th>
+              <th></th>
+            </tr>
+            <tr>
+              <th colspan=4>Sisa Uang Saku</th>
+              <th>{{number_format(($jumlah_masuk - $jumlah_keluar),0,",",".")}}</th>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
@@ -97,11 +162,7 @@
           <input type="hidden" name='pegawai_id' id="pegawai_id" value="{{$var['EmployeeNew']->id}}">
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <select id="NamaSantriMasuk" name="nama_santri" class="form-control select2">
-                @foreach($var['list_santri'] as $santri)
-                <option value='{{$santri->no_induk}}'>{{$santri->nama}}</option>
-                @endforeach
-              </select>
+              <input type="text" class="form-control" name="no_induk" value="{{$var['no_induk']}}" readonly>
               <label for="NamaSantriMasuk">Nama Santri</label>
             </div>
           </div>
@@ -148,12 +209,8 @@
           <input type="hidden" name="jenis" value="saku_keluar">
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <select id="NamaSantrikeluar" name="nama_santri" class="form-control select2">
-                @foreach($var['list_santri'] as $santri)
-                <option value='{{$santri->no_induk}}'>{{$santri->nama}}</option>
-                @endforeach
-              </select>
-              <label for="NamaSantrikeluar">Nama Santri</label>
+              <input type="text" class="form-control" name="no_induk" value="{{$var['no_induk']}}" readonly>
+              <label for="NamaSantriMasuk">Nama Santri</label>
             </div>
           </div>
           <div class="col-12 col-md-6">
