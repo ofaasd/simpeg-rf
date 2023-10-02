@@ -8,6 +8,10 @@ use App\Models\StructuralPosition;
 use App\Models\Grades;
 use App\Models\Golrus;
 use App\Models\EmpGolrus;
+use App\Models\Santri;
+use App\Models\Kamar;
+use App\Models\SantriKamar;
+use App\Models\TahunAjaran;
 use App\Http\Controllers\Controller;
 
 class Pegawai extends Controller
@@ -240,6 +244,14 @@ class Pegawai extends Controller
     $var['structural'] = StructuralPosition::all();
     $var['Grades'] = Grades::all();
     $var['golrus'] = Golrus::all();
+    $var['murroby'] = 0;
+    if ($var['EmployeeNew']->jabatan_new == 12) {
+      //pegawai murroby
+      $var['murroby'] = 1;
+      $var['kamar'] = Kamar::where('employee_id', $id)->first();
+      $var['santri'] = Santri::where('kamar_id', $var['kamar']->id)->get();
+      $var['santri_all'] = Santri::all();
+    }
     $var['emp_golrus'] = EmpGolrus::where('employee_id', $id);
     return view('admin.pegawai.show', compact('title', 'var'));
   }
@@ -272,5 +284,31 @@ class Pegawai extends Controller
   {
     //
     $EmployeeNew = EmployeeNew::where('id', $id)->delete();
+  }
+  public function simpan_santri_murroby(Request $request)
+  {
+    $santri = $request->santri;
+    $pegawai = $request->pegawai_id;
+
+    $kamar = Kamar::where('employee_id', $pegawai)->first();
+    $ta = TahunAjaran::where('status', 1)->first();
+    foreach ($santri as $key => $value) {
+      $santri = Santri::where('no_induk', $value);
+      $santri->update(['kamar_id' => $kamar->id]);
+
+      $get_santri = $santri->first();
+
+      $santri_kamar = SantriKamar::where('santri_id', $get_santri->id);
+      $santri_kamar->update(['status' => 0]);
+
+      $santri_kamar = new SantriKamar();
+      $santri_kamar->santri_id = $get_santri->id;
+      $santri_kamar->kamar_id = $kamar->id;
+      $santri_kamar->tahun_ajaran_id = $ta->id;
+      $santri_kamar->status = 1;
+      $santri_kamar->save();
+    }
+    $list_santri = Santri::where('kamar_id', $kamar->id)->get();
+    return response()->json($list_santri);
   }
 }

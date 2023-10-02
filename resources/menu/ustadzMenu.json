@@ -43,8 +43,14 @@
     {
       "url": "/ustadz/murroby",
       "icon": "menu-icon tf-icons mdi mdi-account-outline",
-      "name": "Ke-murobbyan",
+      "name": "Ke-Murobbyan",
       "slug": "murroby"
+    },
+    {
+      "url": "/ustadz/tahfidz",
+      "icon": "menu-icon tf-icons mdi mdi-account-outline",
+      "name": "Ke-Tahfidzan",
+      "slug": "tahfidz"
     },
     {
       "url": "#",

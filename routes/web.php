@@ -19,6 +19,8 @@ use App\Http\Controllers\admin\SantriController;
 use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\ustadz\MurrobyController;
 use App\Http\Controllers\ustadz\UangSakuController;
+use App\Http\Controllers\ustadz\TahfidzController as UstTahfidzController;
+use App\Http\Controllers\ustadz\DetailTahfidzController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,7 +35,7 @@ use App\Http\Controllers\ustadz\UangSakuController;
 $controller_path = 'App\Http\Controllers';
 
 // Main Page Route
-Route::get('/', $controller_path . '\pages\HomePage@index')->name('pages-home');
+
 Route::get('/page-2', $controller_path . '\pages\Page2@index')->name('pages-page-2');
 
 // pages
@@ -49,7 +51,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::get('/dashboard', function () {
     return view('content.pages.pages-home');
   })->name('dashboard');
-
+  $controller_path = 'App\Http\Controllers';
+  Route::get('/', $controller_path . '\pages\HomePage@index')->name('pages-home');
   Route::resource('/users', UserController::class);
   Route::resource('/user-list', UserManagement::class);
   Route::resource('/pegawai', Pegawai::class);
@@ -67,10 +70,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/santri', SantriController::class);
   Route::resource('/profile', ProfileController::class);
   Route::resource('/ustadz/murroby', MurrobyController::class);
+  Route::resource('/ustadz/tahfidz', UstTahfidzController::class);
   Route::resource('/ustadz/uang-saku', UangSakuController::class);
+  Route::resource('/ustadz/detail_tahfidz', DetailTahfidzController::class);
   Route::get('/structural-position/get-school/{$id}', '\admin\StrucutralPositionController@getSchool');
   Route::post('/pegawai/store_golru', [Pegawai::class, 'store_golru']);
   Route::post('/pegawai/del_golru', [Pegawai::class, 'del_golru']);
+  Route::post('/pegawai/simpan_santri_murroby', [Pegawai::class, 'simpan_santri_murroby']);
   Route::post('/santri/get_kota', [SantriController::class, 'get_kota']);
   Route::post('/santri/update_keluarga', [SantriController::class, 'update_keluarga']);
   Route::post('/santri/update_kamar', [SantriController::class, 'update_kamar']);

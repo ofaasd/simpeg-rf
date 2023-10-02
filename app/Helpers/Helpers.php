@@ -9,11 +9,10 @@ class Helpers
 {
   public static function appClasses()
   {
-
     $data = config('custom.custom');
 
-
     // default data array
+
     $DefaultData = [
       'myLayout' => 'vertical',
       'myTheme' => 'theme-default',

@@ -82,7 +82,7 @@
               <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-ruang" aria-controls="navs-left-ruang" aria-selected="false">Golongan</button>
             </li>
             <li class="nav-item">
-              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-status" aria-controls="navs-left-status" aria-selected="false">Status Pegawai</button>
+              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-murroby" aria-controls="navs-left-murroby" aria-selected="false">Kemurroby-an</button>
             </li>
             <li class="nav-item">
               <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-struktural" aria-controls="navs-left-struktural" aria-selected="false">Jabatan Struktural</button>
@@ -107,8 +107,8 @@
             <div class="tab-pane fade" id="navs-left-ruang">
               @include('admin/pegawai/_form_golongan')
             </div>
-            <div class="tab-pane fade" id="navs-left-status">
-              @include('admin/pegawai/under_develop')
+            <div class="tab-pane fade" id="navs-left-murroby">
+              @include('admin/pegawai/murroby')
             </div>
             <div class="tab-pane fade" id="navs-left-struktural">
               @include('admin/pegawai/under_develop')

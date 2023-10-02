@@ -1,5 +1,6 @@
 @php
 $configData = Helper::appClasses();
+$user = Helper_user::appClasses();
 @endphp
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
@@ -80,23 +81,24 @@ $configData = Helper::appClasses();
     @endphp
 
     {{-- main menu --}}
-    <li class="menu-item {{$activeClass}}">
-      <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}" class="{{ isset($menu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }}" @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
-        @isset($menu->icon)
-        <i class="{{ $menu->icon }}"></i>
-        @endisset
-        <div>{{ isset($menu->name) ? __($menu->name) : '' }}</div>
-        @isset($menu->badge)
-        <div class="badge bg-{{ $menu->badge[0] }} rounded-pill ms-auto">{{ $menu->badge[1] }}</div>
 
-        @endisset
-      </a>
+      <li class="menu-item {{$activeClass}}" @if($menu->slug == 'murroby' && $user['is_murroby'] < 1) style="display:none"  @endif>
+        <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}" class="{{ isset($menu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }}" @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
+          @isset($menu->icon)
+          <i class="{{ $menu->icon }}"></i>
+          @endisset
+          <div>{{ isset($menu->name) ? __($menu->name) : '' }}</div>
+          @isset($menu->badge)
+          <div class="badge bg-{{ $menu->badge[0] }} rounded-pill ms-auto">{{ $menu->badge[1] }}</div>
 
-      {{-- submenu --}}
-      @isset($menu->submenu)
-      @include('layouts.sections.menu.submenu',['menu' => $menu->submenu])
-      @endisset
-    </li>
+          @endisset
+        </a>
+
+        {{-- submenu --}}
+        @isset($menu->submenu)
+        @include('layouts.sections.menu.submenu',['menu' => $menu->submenu])
+        @endisset
+      </li>
     @endif
     @endforeach
   </ul>

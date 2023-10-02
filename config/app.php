@@ -214,6 +214,7 @@ return [
     ->merge([
       // 'ExampleClass' => App\Example\ExampleClass::class,
       'Helper' => App\Helpers\Helpers::class,
+      'Helper_user' => App\Helpers\Helpers_user::class,
     ])
     ->toArray(),
 ];
