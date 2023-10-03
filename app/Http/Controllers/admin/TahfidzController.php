@@ -58,17 +58,17 @@ class TahfidzController extends Controller
       } else {
         $search = $request->input('search.value');
 
-        $Tahfidz = Tahfidz::where('id', 'LIKE', "%{$search}%")
-          ->orWhere('name', 'LIKE', "%{$search}%")
-          ->where('')
+        $Tahfidz = Tahfidz::where(function ($query) use ($search) {
+          $query->whereRelation('pegawai', 'nama', 'like', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%");
+        })
           ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
 
-        $totalFiltered = Tahfidz::where('id', 'LIKE', "%{$search}%")
-          ->orWhere('name', 'LIKE', "%{$search}%")
-          ->count();
+        $totalFiltered = Tahfidz::where(function ($query) use ($search) {
+          $query->whereRelation('pegawai', 'nama', 'like', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%");
+        })->count();
       }
 
       $data = [];

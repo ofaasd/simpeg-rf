@@ -58,16 +58,17 @@ class KamarController extends Controller
       } else {
         $search = $request->input('search.value');
 
-        $kamar = Kamar::where('id', 'LIKE', "%{$search}%")
-          ->orWhere('name', 'LIKE', "%{$search}%")
+        $kamar = Kamar::where(function ($query) use ($search) {
+          $query->whereRelation('pegawai', 'nama', 'like', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%");
+        })
           ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
 
-        $totalFiltered = Kamar::where('id', 'LIKE', "%{$search}%")
-          ->orWhere('name', 'LIKE', "%{$search}%")
-          ->count();
+        $totalFiltered = Kamar::where(function ($query) use ($search) {
+          $query->whereRelation('pegawai', 'nama', 'like', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%");
+        })->count();
       }
 
       $data = [];

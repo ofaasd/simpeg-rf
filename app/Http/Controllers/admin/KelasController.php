@@ -58,17 +58,17 @@ class KelasController extends Controller
       } else {
         $search = $request->input('search.value');
 
-        $Kelas = Kelas::where('id', 'LIKE', "%{$search}%")
-          ->orWhere('name', 'LIKE', "%{$search}%")
-          ->where('')
+        $Kelas = Kelas::where(function ($query) use ($search) {
+          $query->whereRelation('pegawai', 'nama', 'like', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%");
+        })
           ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
 
-        $totalFiltered = Kelas::where('id', 'LIKE', "%{$search}%")
-          ->orWhere('name', 'LIKE', "%{$search}%")
-          ->count();
+        $totalFiltered = Kelas::where(function ($query) use ($search) {
+          $query->whereRelation('pegawai', 'nama', 'like', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%");
+        })->count();
       }
 
       $data = [];
