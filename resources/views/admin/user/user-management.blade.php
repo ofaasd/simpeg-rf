@@ -170,6 +170,7 @@
         </div>
         <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
         <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/>
       </form>
     </div>
   </div>
