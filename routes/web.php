@@ -75,7 +75,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/ustadz/tahfidz', UstTahfidzController::class);
   Route::resource('/ustadz/uang-saku', UangSakuController::class);
   Route::resource('/ustadz/detail_tahfidz', DetailTahfidzController::class);
-  Route::get('/structural-position/get-school/{$id}', '\admin\StrucutralPositionController@getSchool');
+  Route::get('/structural-position/get-school/{id}', '\admin\StrucutralPositionController@getSchool');
+  Route::get('/murroby/uang-saku/{id}', [AdminMurrobyController::class, 'uang_saku']);
+  Route::get('/murroby/uang-saku-detail/{id}/{id_santri}', [AdminMurrobyController::class, 'uang_saku_detail']);
   Route::post('/pegawai/store_golru', [Pegawai::class, 'store_golru']);
   Route::post('/pegawai/del_golru', [Pegawai::class, 'del_golru']);
   Route::post('/pegawai/simpan_santri_murroby', [Pegawai::class, 'simpan_santri_murroby']);

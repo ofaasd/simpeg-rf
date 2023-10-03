@@ -70,7 +70,11 @@
                 <td>{{$santri->nama}}</td>
                 <td>{{$santri->kelas}}</td>
                 <td>{{number_format($var['uang_saku'][$santri->no_induk],0,",",".")}}</td>
-                <td><a href="{{url('ustadz/uang-saku/' . $santri->no_induk)}}"><span class="mdi mdi-information"></span></a></td>
+                @if(empty($id))
+                <td class='text-center'><a href="{{url('ustadz/uang-saku/' . $santri->no_induk)}}"><span class="mdi mdi-information"></span></a></td>
+                @else
+                <td class='text-center'><a href="{{url('murroby/uang-saku-detail/' . $id . '/' . $santri->no_induk)}}"><span class="mdi mdi-information"></span></a></td>
+                @endif
               </tr>
             @php
             $i++;
@@ -321,7 +325,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 <td>${item.nama}</td>
                 <td>${item.kelas}</td>
                 <td>${data.uang_saku[item.no_induk]}</td>
+                @if(empty($id))
                 <td class='text-center'><a href="{{url('ustadz/uang-saku/')}}/${item.no_induk}"><span class="mdi mdi-information"></span></a></td>
+                @else
+                <td class='text-center'><a href="{{url('murroby/uang-saku-detail/' . $id)}}/${item.no_induk}"><span class="mdi mdi-information"></span></a></td>
+                @endif
               </tr>`);
               i++;
           });
