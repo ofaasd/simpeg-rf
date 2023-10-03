@@ -60,7 +60,6 @@ class KamarController extends Controller
 
         $kamar = Kamar::where('id', 'LIKE', "%{$search}%")
           ->orWhere('name', 'LIKE', "%{$search}%")
-          ->where('')
           ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)

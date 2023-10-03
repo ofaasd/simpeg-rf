@@ -132,6 +132,11 @@
           "url": "/tbd",
           "name": "Monitoring Kenaikan Pangkat",
           "slug": "pegawai-monitoring-pangkat"
+        },
+        {
+          "url": "/murroby",
+          "name": "Ke-Murrobyan",
+          "slug": "pegawai-murroby"
         }
       ]
     },

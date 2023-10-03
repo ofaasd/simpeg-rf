@@ -17,6 +17,7 @@ use App\Http\Controllers\admin\TahfidzController;
 use App\Http\Controllers\admin\TahunAjaranController;
 use App\Http\Controllers\admin\SantriController;
 use App\Http\Controllers\admin\ProfileController;
+use App\Http\Controllers\admin\MurrobyController as AdminMurrobyController;
 use App\Http\Controllers\ustadz\MurrobyController;
 use App\Http\Controllers\ustadz\UangSakuController;
 use App\Http\Controllers\ustadz\TahfidzController as UstTahfidzController;
@@ -69,6 +70,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/ta', TahunAjaranController::class);
   Route::resource('/santri', SantriController::class);
   Route::resource('/profile', ProfileController::class);
+  Route::resource('/murroby', AdminMurrobyController::class);
   Route::resource('/ustadz/murroby', MurrobyController::class);
   Route::resource('/ustadz/tahfidz', UstTahfidzController::class);
   Route::resource('/ustadz/uang-saku', UangSakuController::class);
