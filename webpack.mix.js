@@ -135,6 +135,7 @@ mix.js('resources/js/laravel-structure-position.js', 'public/js/');
 mix.js('resources/js/laravel-absensi-management.js', 'public/js/');
 mix.js('resources/js/laravel-santri-management.js', 'public/js/');
 mix.js('resources/js/laravel-murroby-management.js', 'public/js/');
+mix.js('resources/js/laravel-detail-santri.js', 'public/js/');
 
 mix.copy('node_modules/@mdi/font/fonts/*', 'public/assets/vendor/fonts/materialdesignicons');
 mix.copy('node_modules/@fortawesome/fontawesome-free/webfonts/*', 'public/assets/vendor/fonts/fontawesome');

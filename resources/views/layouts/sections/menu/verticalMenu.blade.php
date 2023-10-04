@@ -82,7 +82,7 @@ $user = Helper_user::appClasses();
 
     {{-- main menu --}}
 
-      <li class="menu-item {{$activeClass}}" @if($menu->slug == 'murroby' && $user['is_murroby'] < 1) style="display:none"  @endif>
+      <li class="menu-item {{$activeClass}}" @if($menu->slug == 'murroby' && $user['is_murroby'] < 1) style="display:none"  @endif  @if($menu->slug == 'tahfidz' && $user['is_tahfidz'] < 1) style="display:none"  @endif>
         <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}" class="{{ isset($menu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }}" @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
           @isset($menu->icon)
           <i class="{{ $menu->icon }}"></i>

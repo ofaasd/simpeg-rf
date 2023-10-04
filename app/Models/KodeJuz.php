@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\Model;
 class KodeJuz extends Model
 {
   protected $table = 'kode_juz';
-  public $timestamps = false;
   protected $dateFormat = 'U';
 
   protected $casts = [
