@@ -49,6 +49,15 @@
           <label for="add-{{strtolower($title)}}-nama">Nama</label>
         </div>
         <div class="form-floating form-floating-outline mb-4">
+          <select class="form-control select2" id="add-{{strtolower($title)}}-kelas" data-placeholder="All" placeholder="Kelas Santri"  name="kelas">
+            <option value="0">--Pilih Kelas Santri</option>
+            @foreach($kelas as $row)
+              <option value="{{$row->code}}">{{$row->code}}-{{$row->name}}-{{$row->pegawai->nama}}</option>
+            @endforeach
+          </select>
+          <label for="add-{{strtolower($title)}}-kelas">Kelas</label>
+        </div>
+        <div class="form-floating form-floating-outline mb-4">
           <input type="text" class="form-control" id="add-{{strtolower($title)}}-nisn" placeholder="NISN" name="nisn" />
           <label for="add-{{strtolower($title)}}-nisn">NISN</label>
         </div>

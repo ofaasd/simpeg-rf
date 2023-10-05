@@ -9,6 +9,7 @@ use App\Models\City;
 use App\Models\Kamar;
 use App\Models\Kelas;
 use App\Models\Tahfidz;
+use App\Models\RefSiswa;
 use App\Models\SantriKamar;
 use App\Models\SantriKelas;
 use App\Models\SantriTahfidz;
@@ -32,7 +33,8 @@ class SantriController extends Controller
       $prov = Province::all();
       $kamar = Kamar::all();
       $tahfidz = Tahfidz::all();
-      return view('admin.santri.index', compact('title', 'indexed', 'kota', 'prov', 'kamar', 'tahfidz'));
+      $kelas = Kelas::all();
+      return view('admin.santri.index', compact('title', 'indexed', 'kota', 'kelas', 'prov', 'kamar', 'tahfidz'));
     } else {
       $columns = [
         1 => 'id',
@@ -136,7 +138,7 @@ class SantriController extends Controller
           'nisn' => $request->nisn,
           'anak_ke' => $request->anak_ke,
           'tempat_lahir' => $request->tempat_lahir,
-          'tanggal_lahir' => $request->tanggal_fix,
+          'tanggal_lahir' => date('Y-m-d', strtotime($request->tanggal_fix)),
           'jenis_kelamin' => $request->jenis_kelamin,
           'alamat' => $request->alamat,
           'provinsi' => $request->provinsi,
@@ -168,6 +170,7 @@ class SantriController extends Controller
       // user updated
       $where = ['id' => $id];
       $Santri = Santri::where($where)->first();
+      $Santri = Santri::updateOrCreate([]);
       //$Santri = Santri::
       $tahunAjaran = TahunAjaran::where(['is_aktif' => 1])->first();
       if ($request->kamar_id != 0) {
@@ -198,7 +201,6 @@ class SantriController extends Controller
     } else {
       // create new one if email is unique
       //$userEmail = User::where('email', $request->email)->first();
-
       $Santri = Santri::updateOrCreate(
         ['id' => $id],
         [
@@ -221,31 +223,42 @@ class SantriController extends Controller
           'kamar_id' => $request->kamar_id,
         ]
       );
-      $tahunAjaran = TahunAjaran::where(['is_aktif' => 1])->first();
-      if ($request->kamar_id != 0) {
-        $SantriKamar = SantriKamar::where('santri_id', $id);
-        if ($SantriKamar->count() > 0) {
-          $santri_update = $SantriKamar->update(['status' => 0]);
-        }
-        $SantriKamar = SantriKamar::create([
-          'kamar_id' => $request->kamar_id,
-          'santri_id' => $request->id,
-          'tahun_ajaran_id' => $tahunAjaran->id,
+      $RefSantri = RefSiswa::updateOrCreate(
+        ['id' => $id],
+        [
+          'kode' => $request->kelas,
+          'kode_murroby' => $request->kamar_id,
+          'nama' => $request->nama,
+          'no_induk' => $request->no_induk,
+          'password' => md5(date('dmy', strtotime($request->tanggal_fix)) . $request->jenis_kelamin),
           'status' => 1,
-        ]);
-      }
-      if ($request->tahfidz_id != 0) {
-        $SantriTahfidz = SantriTahfidz::where('santri_id', $id);
-        if ($SantriTahfidz->count() > 0) {
-          $santri_update = $SantriTahfidz->update(['status' => 0]);
-        }
-        $SantriTahfidz = SantriTahfidz::create([
-          'tahfidz_id' => $request->tahfidz_id,
-          'santri_id' => $request->id,
-          'tahun_ajaran_id' => $tahunAjaran->id,
-          'status' => 1,
-        ]);
-      }
+        ]
+      );
+      // $tahunAjaran = TahunAjaran::where(['is_aktif' => 1])->first();
+      // if ($request->kamar_id != 0) {
+      //   $SantriKamar = SantriKamar::where('santri_id', $id);
+      //   if ($SantriKamar->count() > 0) {
+      //     $santri_update = $SantriKamar->update(['status' => 0]);
+      //   }
+      //   $SantriKamar = SantriKamar::create([
+      //     'kamar_id' => $request->kamar_id,
+      //     'santri_id' => $Santri->id,
+      //     'tahun_ajaran_id' => $tahunAjaran->id,
+      //     'status' => 1,
+      //   ]);
+      // }
+      // if ($request->tahfidz_id != 0) {
+      //   $SantriTahfidz = SantriTahfidz::where('santri_id', $id);
+      //   if ($SantriTahfidz->count() > 0) {
+      //     $santri_update = $SantriTahfidz->update(['status' => 0]);
+      //   }
+      //   $SantriTahfidz = SantriTahfidz::create([
+      //     'tahfidz_id' => $request->tahfidz_id,
+      //     'santri_id' => $Santri->id,
+      //     'tahun_ajaran_id' => $tahunAjaran->id,
+      //     'status' => 1,
+      //   ]);
+      // }
       if ($Santri) {
         // user created
         return response()->json('Created');
