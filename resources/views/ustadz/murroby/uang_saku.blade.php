@@ -208,7 +208,83 @@
 @endsection
 <script>
 document.addEventListener("DOMContentLoaded", function(event) {
-  $('.dataTable').dataTable();
+  const title = 'Uang Saku Murroby : {{$var['EmployeeNew']->nama}}';
+  $('.dataTable').dataTable({
+      dom:
+        '<"row mx-2"' +
+        '<"col-md-2"<"me-3"l>>' +
+        '<"col-md-10"<"dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0"fB>>' +
+        '>t' +
+        '<"row mx-2"' +
+        '<"col-sm-12 col-md-6"i>' +
+        '<"col-sm-12 col-md-6"p>' +
+        '>',
+      buttons: [
+        {
+          extend: 'collection',
+          className: 'btn btn-label-primary dropdown-toggle mx-3',
+          text: '<i class="mdi mdi-export-variant me-sm-1"></i>Export',
+          buttons: [
+            {
+              extend: 'print',
+              title: title,
+              text: '<i class="mdi mdi-printer-outline me-1" ></i>Print',
+              className: 'dropdown-item',
+              exportOptions: {
+                columns: [1, 2, 3, 4, 5, 6],
+              },
+              customize: function customize(win) {
+                //customize print view for dark
+                $(win.document.body)
+                  .css('color', config.colors.headingColor)
+                  .css('border-color', config.colors.borderColor)
+                  .css('background-color', config.colors.body);
+                $(win.document.body)
+                  .find('table')
+                  .addClass('compact')
+                  .css('color', 'inherit')
+                  .css('border-color', 'inherit')
+                  .css('background-color', 'inherit');
+              }
+            },
+            {
+              extend: 'csv',
+              title: title,
+              text: '<i class="mdi mdi-file-document-outline me-1" ></i>Csv',
+              className: 'dropdown-item',
+              exportOptions: {
+                columns: [1, 2, 3, 4, 5, 6],
+              },
+            },
+            {
+              extend: 'excel',
+              title: title,
+              text: '<i class="mdi mdi-file-excel-outline me-1" ></i>Excel',
+              className: 'dropdown-item',
+              exportOptions: {
+                columns: [1, 2, 3, 4, 5, 6],
+              },
+            },
+            {
+              extend: 'pdf',
+              title: title,
+              text: '<i class="mdi mdi-file-pdf-box me-1"></i>Pdf',
+              className: 'dropdown-item',
+              exportOptions: {
+                columns: [1, 2, 3, 4, 5, 6],
+              },
+            },
+            {
+              extend: 'copy',
+              title: title,
+              text: '<i class="mdi mdi-content-copy me-1" ></i>Copy',
+              className: 'dropdown-item',
+
+            }
+          ]
+        }
+      ]
+    });
   $("#tambah").click(function(){
     $("#list-detail").append(`<div class='detail'  style="margin:10px 0;">
               <div class="row">
