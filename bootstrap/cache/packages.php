@@ -120,4 +120,11 @@
       0 => 'Theanik\\LaravelMoreCommand\\LaravelMoreCommandProvider',
     ),
   ),
+  'yadahan/laravel-authentication-log' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Yadahan\\AuthenticationLog\\AuthenticationLogServiceProvider',
+    ),
+  ),
 );
