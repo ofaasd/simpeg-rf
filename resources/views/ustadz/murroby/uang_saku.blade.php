@@ -55,7 +55,9 @@
               <td>No Induk</td>
               <td>Nama</td>
               <td>Kelas</td>
-              <td>Uang Saku (Rp.)</td>
+              <td>Uang Masuk</td>
+              <td>Tanggal TF</td>
+              <td>Total Saku (Rp.)</td>
               <td>Action</td>
             </tr>
           </thead>
@@ -69,6 +71,8 @@
                 <td>{{$santri->no_induk}}</td>
                 <td>{{$santri->nama}}</td>
                 <td>{{$santri->kelas}}</td>
+                <td>{{number_format($var['uang_masuk'][$santri->no_induk],0,",",".")}}</td>
+                <td>{{$var['tanggal_masuk'][$santri->no_induk]}}</td>
                 <td>{{number_format($var['uang_saku'][$santri->no_induk],0,",",".")}}</td>
                 @if(empty($id))
                 <td class='text-center'><a href="{{url('ustadz/uang-saku/' . $santri->no_induk)}}"><span class="mdi mdi-information"></span></a></td>

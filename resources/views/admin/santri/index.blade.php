@@ -39,7 +39,7 @@
     <div class="offcanvas-body mx-0 flex-grow-0">
       <form class="add-new-{{strtolower($title)}} pt-0" id="addNew{{$title}}Form">
         <input type="hidden" name="id" id="{{strtolower($title)}}_id">
-        <input type="hidden" class="form-control" id="add-{{strtolower($title)}}-nik" placeholder="" name="nik" required />
+
         <div class="form-floating form-floating-outline mb-4">
           <input type="text" class="form-control" id="add-{{strtolower($title)}}-no_induk" placeholder="No. Induk Santri" name="no_induk" required />
           <label for="add-{{strtolower($title)}}-no_induk">No. Induk</label>
@@ -47,6 +47,10 @@
         <div class="form-floating form-floating-outline mb-4">
           <input type="text" class="form-control" id="add-{{strtolower($title)}}-nama" placeholder="Nama Pegawa; Ex : Abdul Ghofar" name="nama" required />
           <label for="add-{{strtolower($title)}}-nama">Nama</label>
+        </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <input type="text" class="form-control" id="add-{{strtolower($title)}}-nik" placeholder="Masukan NIk Anda" name="nik" />
+          <label for="add-{{strtolower($title)}}-nama">NIK</label>
         </div>
         <div class="form-floating form-floating-outline mb-4">
           <select class="form-control select2" id="add-{{strtolower($title)}}-kelas" data-placeholder="All" placeholder="Kelas Santri"  name="kelas">

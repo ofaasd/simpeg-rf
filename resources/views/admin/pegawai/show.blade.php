@@ -85,6 +85,9 @@
               <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-murroby" aria-controls="navs-left-murroby" aria-selected="false">Kemurroby-an</button>
             </li>
             <li class="nav-item">
+              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-tahfidz" aria-controls="navs-left-tahfidz" aria-selected="false">Tahfidz</button>
+            </li>
+            <li class="nav-item">
               <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-struktural" aria-controls="navs-left-struktural" aria-selected="false">Jabatan Struktural</button>
             </li>
             <li class="nav-item">
@@ -99,6 +102,7 @@
             <li class="nav-item">
               <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-left-pekerjaan" aria-controls="navs-left-pekerjaan" aria-selected="false">Riwayat Pekerjaan</button>
             </li>
+
           </ul>
           <div class="tab-content">
             <div class="tab-pane fade show active" id="navs-left-biodata">
@@ -109,6 +113,9 @@
             </div>
             <div class="tab-pane fade" id="navs-left-murroby">
               @include('admin/pegawai/murroby')
+            </div>
+            <div class="tab-pane fade" id="navs-left-tahfidz">
+              @include('admin/pegawai/tahfidz')
             </div>
             <div class="tab-pane fade" id="navs-left-struktural">
               @include('admin/pegawai/under_develop')

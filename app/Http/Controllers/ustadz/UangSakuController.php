@@ -12,6 +12,8 @@ use App\Models\SakuKeluar;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Kamar;
+use App\Models\Pembayaran;
+use App\Models\DetailPembayaran;
 use Illuminate\Support\Facades\DB;
 
 class UangSakuController extends Controller
@@ -32,7 +34,20 @@ class UangSakuController extends Controller
 
     $var['list_santri'] = Santri::where('kamar_id', $kamar->id)->get();
     $var['uang_saku'] = [];
+    $var['uang_masuk'] = [];
+    $var['tanggal_masuk'] = [];
     foreach ($var['list_santri'] as $row) {
+      $pembayaran = Pembayaran::where('nama_santri', $row->no_induk)->first();
+      $detail = DetailPembayaran::where('id_pembayaran', $pembayaran->id)
+        ->where('id_jenis_pembayaran', 3)
+        ->orderBy('id', 'desc')
+        ->first();
+      $var['uang_masuk'][$row->no_induk] = $detail->jumlah ?? 0;
+      if ($var['uang_masuk'][$row->no_induk] !== 0) {
+        $var['tanggal_masuk'][$row->no_induk] = $pembayaran->tanggal_bayar;
+      } else {
+        $var['tanggal_masuk'][$row->no_induk] = '';
+      }
       $var['uang_saku'][$row->no_induk] = UangSaku::where('no_induk', $row->no_induk)->first()->jumlah;
     }
 

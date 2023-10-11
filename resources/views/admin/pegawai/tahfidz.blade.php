@@ -1,4 +1,4 @@
-@if($var['murroby'] == 1)
+@if($var['tahfidz'] == 1)
 
 <h3>Tambah Santri Baru</h3>
 <form action="javascript:void(0)" id="santri_murroby">
@@ -25,7 +25,7 @@
   <tbody id="cont_murroby">
     @php $i = 1; @endphp
 
-      @foreach($var['santri'] as $santri)
+      @foreach($var['list_tahfidz'] as $santri)
         <tr>
           <td>{{$i}}</td>
           <td>{{$santri->nama}}</td>
@@ -40,7 +40,7 @@
 </table>
 @else
 <div class="alert alert-danger">
-  <p>jabatan Ustadz/ustadzah bukan murroby atau jika jabatan sudah diubah menjadi murroby, harap Daftarkan Ustadz/Ustadzah melalui link <a href="{{url('kamar')}}">Berikut</a></p>
+  <p>jabatan Ustadz/ustadzah bukan Tahfidz atau jika jabatan sudah diubah menjadi Tahfidz, harap Daftarkan Ustadz/Ustadzah melalui link <a href="{{url('tahfidz')}}">Berikut</a></p>
 </div>
 @endif
 
@@ -75,9 +75,8 @@
           });
 
           $(".select2").val();
-          $("#cont_murroby").html("");
+          $("#cont_murroby").html();
           let i=1;
-          console.log(status);
           status.forEach((item,index) => {
             $("#cont_murroby").append(`<tr>
                 <td>${i}</td>

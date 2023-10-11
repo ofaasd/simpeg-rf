@@ -137,6 +137,11 @@
           "url": "/murroby",
           "name": "Ke-Murrobyan",
           "slug": "pegawai-murroby"
+        },
+        {
+          "url": "/ketahfidzan",
+          "name": "Ketahfidzan",
+          "slug": "pegawai-ketahfidzan"
         }
       ]
     },
@@ -245,12 +250,6 @@
       "icon": "menu-icon tf-icons mdi mdi-bottle-tonic-plus",
       "name": "Kesehatan",
       "slug": "kesehatan"
-    },
-    {
-      "url": "/tbd",
-      "icon": "menu-icon tf-icons mdi mdi-book-account-outline",
-      "name": "Ketahfidzan",
-      "slug": "ketahfidzan"
     },
     {
       "url": "/tbd",

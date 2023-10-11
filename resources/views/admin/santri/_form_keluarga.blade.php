@@ -1,4 +1,4 @@
-<form action="javascript:void(0)" enctype="multipart/form-data" class="add-new-{{strtolower($title)}} pt-0" id="addNew{{$title}}FormKeluarga">
+<form action="javascript:void(0)" enctype="multipart/form-data" class="add-new-{{strtolower($title)}} pt-0" id="addNew{{$title}}keluarga">
     @csrf
     <input type="hidden" id="id" name="id" id="{{strtolower($title)}}_id" value='{{$var['santri']->id}}'>
     <div class="form-floating form-floating-outline mb-4">
@@ -29,20 +29,20 @@
         <input type="text" class="form-control" id="add-{{strtolower($title)}}-pekerjaan_ibu" placeholder="pekerjaan ibu" name="pekerjaan_ibu"  value='{{$var['santri']->pekerjaan_ibu}}' />
         <label for="add-{{strtolower($title)}}-pekerjaan_ibu">Pekerjaan Ibu</label>
     </div>
-    
+
     <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit" id='edit-record'>Submit</button>
 </form>
 <script>
     document.addEventListener("DOMContentLoaded", function(event) {
-    
+
       $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
       });
-      $('#addNew{{$title}}FormKeluarga').submit(function(e) {
+      $('#addNew{{$title}}keluarga').submit(function(e) {
         e.preventDefault();
-  
+
         var formData = new FormData(this);
         showBlock();
         $.ajax({
@@ -77,9 +77,9 @@
           }
         });
       });
-      
+
       var get_kota = function get_kota(my_id, page, value) {
-        
+
             //alert('masuk sini');
             //alert();
             $.ajax({
@@ -108,5 +108,5 @@
         });
         get_kota($('#add-{{$title}}-provinsi').val(),'{{$title}}',{{$var['santri']->kabkota}});
     });
-    
+
   </script>

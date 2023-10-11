@@ -1,6 +1,8 @@
 <form action="javascript:void(0)" enctype="multipart/form-data" class="add-new-{{strtolower($title)}} pt-0" id="addNew{{$title}}FormKeluarga">
     @csrf
     <input type="hidden" id="id" name="id" id="{{strtolower($title)}}_id" value='{{$var['santri']->id}}'>
+    <input type="hidden" name="kamar_id" value="{{$var['santri']->kamar_id}}">
+    <input type="hidden" name="tahfidz_id" value="{{$var['santri']->tahfidz_id}}">
     <div class="form-floating form-floating-outline mb-4">
       <input type="text" class="form-control" id="add-{{strtolower($title)}}-no_induk" placeholder="No. Induk Santri" name="no_induk" required value="{{$var['santri']->no_induk}}" />
       <label for="add-{{strtolower($title)}}-no_induk">No. Induk</label>
@@ -8,6 +10,10 @@
     <div class="form-floating form-floating-outline mb-4">
       <input type="text" class="form-control" id="add-{{strtolower($title)}}-nama" placeholder="Nama Pegawa; Ex : Abdul Ghofar" name="nama" value="{{$var['santri']->nama}}" required />
       <label for="add-{{strtolower($title)}}-nama">Nama</label>
+    </div>
+    <div class="form-floating form-floating-outline mb-4">
+      <input type="text" class="form-control" id="add-{{strtolower($title)}}-nik" placeholder="Masukan NIk Anda" name="nik" value="{{$var['santri']->nik}}" />
+      <label for="add-{{strtolower($title)}}-nik">NIK</label>
     </div>
     <div class="form-floating form-floating-outline mb-4">
       <input type="text" class="form-control" id="add-{{strtolower($title)}}-nisn" placeholder="NISN" value="{{$var['santri']->nisn}}" name="nisn" />
@@ -22,8 +28,8 @@
       <label for="add-{{strtolower($title)}}-tempat_lahir">Tempat Lahir</label>
     </div>
     <div class="form-floating form-floating-outline mb-4">
-      <input type="date" class="form-control" id="add-{{strtolower($title)}}-tanggal_fix" placeholder="tanggal lahir" value="{{$var['santri']->tanggal_lahir}}" name="tanggal_fix" />
-      <label for="add-{{strtolower($title)}}-tanggal_fix">Tanggal Lahir</label>
+      <input type="date" class="form-control" id="add-{{strtolower($title)}}-tanggal_lahir" placeholder="tanggal lahir" value="{{date('Y-m-d',strtotime($var['santri']->tanggal_lahir))}}" name="tanggal_lahir" />
+      <label for="add-{{strtolower($title)}}-tanggal_lahir">Tanggal Lahir</label>
     </div>
     <div class="form-floating form-floating-outline mb-4">
       <select class="form-control" id="add-{{strtolower($title)}}-jenis_kelamin" name="jenis_kelamin">
@@ -84,7 +90,7 @@
         showBlock();
         $.ajax({
           data: formData,
-          url: ''.concat(baseUrl).concat('santri/update_keluarga'),
+          url: ''.concat(baseUrl).concat('santri'),
           type: 'POST',
           cache: false,
           contentType: false,
@@ -95,7 +101,7 @@
             Swal.fire({
               icon: 'success',
               title: 'Successfully '.concat(' Updated !'),
-              text: ''.concat('Keluarga Santri ', ' ').concat(' Updated Successfully.'),
+              text: ''.concat('Biodata Santri ', ' ').concat(' Updated Successfully.'),
               customClass: {
                 confirmButton: 'btn btn-success'
               }
