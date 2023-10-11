@@ -28,8 +28,8 @@
       <label for="add-{{strtolower($title)}}-tempat_lahir">Tempat Lahir</label>
     </div>
     <div class="form-floating form-floating-outline mb-4">
-      <input type="date" class="form-control" id="add-{{strtolower($title)}}-tanggal_lahir" placeholder="tanggal lahir" value="{{date('Y-m-d',strtotime($var['santri']->tanggal_lahir))}}" name="tanggal_lahir" />
-      <label for="add-{{strtolower($title)}}-tanggal_lahir">Tanggal Lahir</label>
+      <input type="date" class="form-control" id="add-{{strtolower($title)}}-tanggal_fix" placeholder="tanggal lahir" value="{{date('Y-m-d',strtotime($var['santri']->tanggal_lahir))}}" name="tanggal_fix" />
+      <label for="add-{{strtolower($title)}}-tanggal_fix">Tanggal Lahir</label>
     </div>
     <div class="form-floating form-floating-outline mb-4">
       <select class="form-control" id="add-{{strtolower($title)}}-jenis_kelamin" name="jenis_kelamin">
