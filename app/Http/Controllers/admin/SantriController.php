@@ -357,12 +357,10 @@ class SantriController extends Controller
     $id = $request->id;
     DB::beginTransaction();
     try {
-      $Santri = Santri::updateOrCreate(
-        ['id' => $id],
-        [
-          'kelas' => $request->kelas_id,
-        ]
-      );
+      //get code from ref kelas
+      $kelas = Kelas::find($request->kelas_id);
+      $santri = Santri::where(['id' => $id]);
+      $s_update = $santri->update(['kelas' => $kelas->code]);
       $tahunAjaran = TahunAjaran::where(['is_aktif' => 1])->first();
       $SantriKelas = SantriKelas::where('santri_id', $id);
       if ($SantriKelas->count() > 0) {
@@ -462,7 +460,8 @@ class SantriController extends Controller
   public function teman_kelas(Request $request)
   {
     $kelas_id = $request->id;
-    $santri = Santri::where('kelas', $kelas_id)->get();
+    $kelas = Kelas::find($kelas_id);
+    $santri = Santri::where('kelas', $kelas->code)->get();
     return response()->json($santri);
   }
   public function teman_tahfidz(Request $request)
