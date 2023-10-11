@@ -8,7 +8,7 @@
         <select class="form-control select2" id="add-{{strtolower($title)}}-kelas_id" name="kelas_id">
           <option value=0>Pilih kelas</option>
           @foreach($var['kelas'] as $kelas)
-            <option value='{{$kelas->code}}' {{($var['santri']->kelas == $kelas->code)?"selected":""}}>{{$kelas->code}} - {{$kelas->name}} - {{$kelas->pegawai->nama}}</option>
+            <option value='{{$kelas->id}}' {{($var['santri']->kelas == $kelas->code)?"selected":""}}>{{$kelas->code}} - {{$kelas->name}} - {{$kelas->pegawai->nama}}</option>
           @endforeach
         </select>
         <label for="add-{{strtolower($title)}}-kelas_id">kelas</label>

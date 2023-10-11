@@ -150,6 +150,7 @@ class SantriController extends Controller
           'no_hp' => $request->no_hp,
           'tahfidz_id' => $request->tahfidz_id,
           'kamar_id' => $request->kamar_id,
+          'kelas' => $request->kelas,
         ]
       );
       //return response()->json(dd($request->all()));
@@ -221,6 +222,7 @@ class SantriController extends Controller
           'no_hp' => $request->no_hp,
           'tahfidz_id' => $request->tahfidz_id,
           'kamar_id' => $request->kamar_id,
+          'kelas' => $request->kelas,
         ]
       );
       $RefSantri = RefSiswa::updateOrCreate(
