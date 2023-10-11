@@ -37,17 +37,13 @@ class UangSakuController extends Controller
     $var['uang_masuk'] = [];
     $var['tanggal_masuk'] = [];
     foreach ($var['list_santri'] as $row) {
-      $pembayaran = Pembayaran::where('nama_santri', $row->no_induk)->first();
-      $detail = DetailPembayaran::where('id_pembayaran', $pembayaran->id)
-        ->where('id_jenis_pembayaran', 3)
-        ->orderBy('id', 'desc')
+      $saku_masuk = SakuMasuk::where('no_induk', $row->no_induk)
+        ->where('dari', 1)
+        ->whereMonth('tanggal', date('m'))
+        ->whereYear('tanggal', date('Y'))
         ->first();
-      $var['uang_masuk'][$row->no_induk] = $detail->jumlah ?? 0;
-      if ($var['uang_masuk'][$row->no_induk] !== 0) {
-        $var['tanggal_masuk'][$row->no_induk] = $pembayaran->tanggal_bayar;
-      } else {
-        $var['tanggal_masuk'][$row->no_induk] = '';
-      }
+      $var['uang_masuk'][$row->no_induk] = $saku_masuk->jumlah ?? 0;
+      $var['tanggal_masuk'][$row->no_induk] = $saku_masuk->tanggal ?? '';
       $var['uang_saku'][$row->no_induk] = UangSaku::where('no_induk', $row->no_induk)->first()->jumlah;
     }
 
