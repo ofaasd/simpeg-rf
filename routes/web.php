@@ -22,6 +22,7 @@ use App\Http\Controllers\ustadz\MurrobyController;
 use App\Http\Controllers\ustadz\UangSakuController;
 use App\Http\Controllers\ustadz\TahfidzController as UstTahfidzController;
 use App\Http\Controllers\ustadz\DetailTahfidzController;
+use App\Http\Controllers\admin\AdminDetailTahfidzController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -75,6 +76,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/ustadz/tahfidz', UstTahfidzController::class);
   Route::resource('/ustadz/uang-saku', UangSakuController::class);
   Route::resource('/ustadz/detail_tahfidz', DetailTahfidzController::class);
+  Route::resource('/ustadz/detail_tahfidz', DetailTahfidzController::class);
+  Route::resource('/detail_ketahfidzan', AdminDetailTahfidzController::class);
   Route::get('/structural-position/get-school/{id}', '\admin\StrucutralPositionController@getSchool');
   Route::get('/murroby/uang-saku/{id}', [AdminMurrobyController::class, 'uang_saku']);
   Route::get('/murroby/uang-saku-detail/{id}/{id_santri}', [AdminMurrobyController::class, 'uang_saku_detail']);
@@ -95,6 +98,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::delete('/pegawai/hapus_murroby_santri/{id}', [Pegawai::class, 'hapus_murroby_santri']);
   Route::get('/generate_emp_tahfidz', [TahfidzController::class, 'generate_emp_tahfidz']);
   Route::post('/ketahfidzan', [TahfidzController::class, 'ketahfidzan']);
+  Route::get('ustadz/detail_ketahfidzan', [AdminDetailTahfidzController::class, 'index']);
+  Route::post('ustadz/detail_ketahfidzan', [AdminDetailTahfidzController::class, 'store']);
   Route::get('/tbd', function () {
     return view('content.pages.tbd');
   });

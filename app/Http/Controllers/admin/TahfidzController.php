@@ -11,6 +11,7 @@ use App\Models\Grades;
 use App\Models\Santri;
 use App\Models\Loggin_mk1 as log;
 use Illuminate\Http\Request;
+use Session;
 
 class TahfidzController extends Controller
 {
@@ -335,6 +336,8 @@ class TahfidzController extends Controller
     $var['EmployeeNew'] = EmployeeNew::where($where)->first();
     $title = 'Pegawai';
     $tahfidz = Tahfidz::where('employee_id', $id)->first();
+    Session::put('tahfidz_id', $tahfidz->id);
+    Session::put('employee_id', $id);
 
     $var['list_santri'] = Santri::where('tahfidz_id', $tahfidz->id)->get();
     return view('ustadz.tahfidz.index', compact('title', 'var', 'id'));

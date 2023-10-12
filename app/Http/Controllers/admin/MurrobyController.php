@@ -158,11 +158,20 @@ class MurrobyController extends Controller
 
     $var['list_santri'] = Santri::where('kamar_id', $kamar->id)->get();
     $var['uang_saku'] = [];
+    $var['uang_masuk'] = [];
+    $var['tanggal_masuk'] = [];
     foreach ($var['list_santri'] as $row) {
+      $saku_masuk = SakuMasuk::where('no_induk', $row->no_induk)
+        ->where('dari', 1)
+        ->whereMonth('tanggal', date('m'))
+        ->whereYear('tanggal', date('Y'))
+        ->first();
+      $var['uang_masuk'][$row->no_induk] = $saku_masuk->jumlah ?? 0;
+      $var['tanggal_masuk'][$row->no_induk] = $saku_masuk->tanggal ?? '';
       $var['uang_saku'][$row->no_induk] = UangSaku::where('no_induk', $row->no_induk)->first()->jumlah;
     }
 
-    return view('ustadz.murroby.uang_saku', compact('title', 'var', 'id'));
+    return view('ustadz.murroby.uang_saku', compact('title', 'var'));
   }
 
   public function uang_saku_detail(string $id, string $id_santri)

@@ -1,3 +1,10 @@
+@if(!empty($id))
+<div class="row" style="margin-bottom:10px">
+  <div class="col-12">
+    <a href="{{url('/ketahfidzan')}}" class='btn btn-primary'>Kembali ke Daftar Pegawai Tahfidz</a>
+  </div>
+</div>
+@endif
 <div class="row">
   <div class="col-12">
     <div class="card mb-4">
