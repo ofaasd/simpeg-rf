@@ -332,4 +332,17 @@ class Pegawai extends Controller
     $list_santri = Santri::where('kamar_id', $kamar->id)->get();
     return response()->json($list_santri);
   }
+  public function hapus_murroby_santri(string $id)
+  {
+    //echo $id;
+    $santri = Santri::where('no_induk', $id);
+    $kamar_id = $santri->first()->kamar_id;
+
+    if ($santri->update(['kamar_id' => 0])) {
+      $list_santri = Santri::where('kamar_id', $kamar_id)->get();
+      return response()->json($list_santri);
+    } else {
+      return response()->json('gagal');
+    }
+  }
 }

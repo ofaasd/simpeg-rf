@@ -19,7 +19,7 @@
       <th>Nama Santri</th>
       <th>No. Induk</th>
       <th>Kelas</th>
-      <!-- <th>Action</th> -->
+      <th>Action</th>
     </tr>
   </thead>
   <tbody id="cont_murroby">
@@ -31,7 +31,7 @@
           <td>{{$santri->nama}}</td>
           <td>{{$santri->no_induk}}</td>
           <td>{{$santri->kelas}}</td>
-          <!-- <td><a href="{{url('pegawai/hapus_murroby_santri/' . $santri->no_induk)}}"><span class="mdi mdi-delete"></span></a></td> -->
+          <td><button class="btn btn-sm btn-icon delete-record" data-id="{{$santri->no_induk}}"><i class="mdi mdi-delete-outline mdi-20px"></i></button></td>
         </tr>
         @php $i++; @endphp
       @endforeach
@@ -46,7 +46,89 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function(event) {
-    $(".datatables").DataTable();
+    const title = 'Santri Murroby';
+    const dt = $(".datatables");
+    const page = 'pegawai/hapus_murroby_santri';
+    dt.DataTable();
+    $(document).on('click', '.delete-record', function () {
+      var id = $(this).data('id'),
+        dtrModal = $('.dtr-bs-modal.show');
+
+      // hide responsive modal in small screen
+      if (dtrModal.length) {
+        dtrModal.modal('hide');
+      }
+
+      // sweetalert for confirmation of delete
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        customClass: {
+          confirmButton: 'btn btn-primary me-3',
+          cancelButton: 'btn btn-label-secondary'
+        },
+        buttonsStyling: false
+      }).then(function (result) {
+        if (result.value) {
+          // delete the data
+          $.ajax({
+            type: 'DELETE',
+            url: ''.concat(baseUrl).concat(page, '/').concat(id),
+            success: function success(data) {
+              $("#cont_murroby").html("");
+                let i=1;
+                console.log(data);
+                data.forEach((item,index) => {
+                  $("#cont_murroby").append(`<tr>
+                      <td>${i}</td>
+                      <td>${item.nama}</td>
+                      <td>${item.no_induk}</td>
+                      <td>${item.kelas}</td>
+                      <td><button class="btn btn-sm btn-icon delete-record" data-id="${item.no_induk}"><i class="mdi mdi-delete-outline mdi-20px"></i></button></td>
+                    </tr>`);
+                    i++;
+                });
+              if (data.status != '') {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Deleted!',
+                  text: 'The Record has been deleted!',
+                  customClass: {
+                    confirmButton: 'btn btn-success'
+                  }
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Delete is not Allowed',
+                  text: 'Permission Denied',
+                  customClass: {
+                    confirmButton: 'btn btn-error'
+                  }
+                });
+              }
+            },
+            error: function error(_error) {
+              console.log(_error);
+            }
+          });
+
+          // success sweetalert
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire({
+            title: 'Cancelled',
+            text: 'The record is not deleted!',
+            icon: 'error',
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
+        }
+      });
+    });
     $(".select2").select2({
       dropdownParent: $(this).parent()
     });

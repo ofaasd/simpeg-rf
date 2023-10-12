@@ -92,6 +92,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('/ustadz/uang-saku/get_all', [UangSakuController::class, 'get_all']);
   Route::get('/ketahfidzan', [TahfidzController::class, 'ketahfidzan']);
   Route::get('/ketahfidzan/{id}', [TahfidzController::class, 'tahfidz_detail']);
+  Route::delete('/pegawai/hapus_murroby_santri/{id}', [Pegawai::class, 'hapus_murroby_santri']);
   Route::get('/generate_emp_tahfidz', [TahfidzController::class, 'generate_emp_tahfidz']);
   Route::post('/ketahfidzan', [TahfidzController::class, 'ketahfidzan']);
   Route::get('/tbd', function () {
