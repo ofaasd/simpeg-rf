@@ -15,6 +15,7 @@ use App\Models\Kamar;
 use App\Models\Pembayaran;
 use App\Models\DetailPembayaran;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class UangSakuController extends Controller
 {
@@ -36,7 +37,9 @@ class UangSakuController extends Controller
     $var['uang_saku'] = [];
     $var['uang_masuk'] = [];
     $var['tanggal_masuk'] = [];
+    $list_no_induk = [];
     foreach ($var['list_santri'] as $row) {
+      $list_no_induk[] = $row->no_induk;
       $saku_masuk = SakuMasuk::where('no_induk', $row->no_induk)
         ->where('dari', 1)
         ->whereMonth('tanggal', date('m'))
@@ -46,6 +49,8 @@ class UangSakuController extends Controller
       $var['tanggal_masuk'][$row->no_induk] = $saku_masuk->tanggal ?? '';
       $var['uang_saku'][$row->no_induk] = UangSaku::where('no_induk', $row->no_induk)->first()->jumlah;
     }
+    $var['saku_masuk'] = SakuMasuk::whereIn('no_induk', $list_no_induk)->get();
+    $var['saku_keluar'] = SakuKeluar::whereIn('no_induk', $list_no_induk)->get();
 
     return view('ustadz.murroby.uang_saku', compact('title', 'var'));
   }
@@ -214,6 +219,15 @@ class UangSakuController extends Controller
   public function destroy(string $id)
   {
     //
+    //echo $id;
+    $saku = SakuMasuk::find($id);
+    $jumlah = $saku->jumlah;
+    $no_induk = $saku->no_induk;
+    $saku->delete();
+    $uangsaku = UangSaku::where('no_induk', $no_induk)->first();
+    $newjumlah = $uangsaku->jumlah - $jumlah;
+    $uangsaku->update(['jumlah' => $newjumlah]);
+    return Redirect::to('ustadz/uang-saku');
   }
   public function get_all(request $request)
   {

@@ -9,6 +9,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class TbSakuMasuk
@@ -35,4 +36,9 @@ class SakuMasuk extends Model
   ];
 
   protected $fillable = ['dari', 'jumlah', 'tanggal', 'no_induk'];
+
+  public function santri(): BelongsTo
+  {
+    return $this->belongsTo(Santri::class, 'no_induk', 'no_induk');
+  }
 }

@@ -130,7 +130,7 @@
           </div>
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <input type="date" id='modalEditUserTanggal' name="tanggal" class="form-control">
+              <input type="date" id='modalEditUserTanggal' name="tanggal" class="form-control" value="{{date('Y-m-d')}}">
               <label for="modalEditUserTanggal">Tanggal</label>
             </div>
           </div>

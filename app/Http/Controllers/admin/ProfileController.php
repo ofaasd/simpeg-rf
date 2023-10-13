@@ -11,6 +11,9 @@ use App\Models\Grades;
 use App\Models\Golrus;
 use App\Models\User;
 use App\Models\EmpGolrus;
+use App\Models\Kamar;
+use App\Models\Tahfidz;
+use App\Models\Santri;
 
 class ProfileController extends Controller
 {
@@ -29,6 +32,35 @@ class ProfileController extends Controller
     $var['structural'] = StructuralPosition::all();
     $var['Grades'] = Grades::all();
     $var['golrus'] = Golrus::all();
+    $var['murroby'] = 0;
+    $var['tahfidz'] = 0;
+    if ($var['EmployeeNew']->jabatan_new == 12) {
+      //pegawai murroby
+      $var['murroby'] = 1;
+      $var['kamar'] = Kamar::where('employee_id', $id);
+      $var['santri_all'] = [];
+      $var['santri'] = [];
+      if ($var['kamar']->count() > 0) {
+        $var['santri'] = Santri::where('kamar_id', $var['kamar']->first()->id)->get();
+        $var['santri_all'] = Santri::all();
+      } else {
+        $var['murroby'] = 0;
+      }
+    }
+    if ($var['EmployeeNew']->jabatan_new == 13) {
+      //pegawai murroby
+      $var['tahfidz'] = 1;
+      $var['list_tahfidz'] = Tahfidz::where('employee_id', $id);
+      $var['santri_all'] = [];
+      $var['santri'] = [];
+      if ($var['list_tahfidz']->count() > 0) {
+        $var['list_tahfidz'] = Santri::where('tahfidz_id', $var['list_tahfidz']->first()->id)->get();
+        $var['santri_all'] = Santri::all();
+      } else {
+        $var['tahfidz'] = 0;
+      }
+    }
+
     $var['emp_golrus'] = EmpGolrus::where('employee_id', $id);
     return view('admin.pegawai.show', compact('title', 'var'));
   }
