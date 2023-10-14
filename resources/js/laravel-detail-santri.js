@@ -28,6 +28,8 @@ $(function () {
   var dt_table = $('.datatables-' + title),
     select23 = $('#add-detailtahfidz-no_induk'),
     select24 = $('#add-detailtahfidz-kode_juz_surah'),
+    select25 = $('#add-sakumasuk-no_induk'),
+    select26 = $('#add-sakukeluar-no_induk'),
     select2 = $('.select2'),
     view = baseUrl + 'ustadz/' + page,
     offCanvasForm = $('#offcanvasAdd' + title);
@@ -47,6 +49,17 @@ $(function () {
   var $this = select24;
   $this.wrap('<div class="position-relative"></div>').select2({
     placeholder: 'Select Kode Juz',
+    dropdownParent: $this.parent()
+  });
+  var $this = select25;
+  $this.wrap('<div class="position-relative"></div>').select2({
+    placeholder: 'Select Santri',
+    dropdownParent: $this.parent()
+  });
+
+  var $this = select26;
+  $this.wrap('<div class="position-relative"></div>').select2({
+    placeholder: 'Select Santri',
     dropdownParent: $this.parent()
   });
   // ajax setup

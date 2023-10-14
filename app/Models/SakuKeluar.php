@@ -9,6 +9,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class TbSakuKeluar
@@ -40,5 +41,9 @@ class SakuKeluar extends Model
   public function tb_detail_saku_keluars()
   {
     return $this->hasMany(TbDetailSakuKeluar::class, 'id_saku_keluar');
+  }
+  public function santri(): BelongsTo
+  {
+    return $this->belongsTo(Santri::class, 'no_induk', 'no_induk');
   }
 }

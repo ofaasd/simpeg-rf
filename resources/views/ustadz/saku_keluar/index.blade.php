@@ -36,11 +36,11 @@
 <!--/ Navbar pills -->
 <div class="card">
   <div class="card-header">
-    <h5 class="card-title mb-0">Manajemen Saku Masuk</h5>
+    <h5 class="card-title mb-0">Manajemen Saku Keluar</h5>
   </div>
   <div class="card-datatable table-responsive">
 <textarea name='column' id='my_column' style="display:none">@foreach($indexed as $value) {{$value . "\n"}} @endforeach</textarea>
-<input type="hidden" name="page" id='page' value='saku_masuk'>
+<input type="hidden" name="page" id='page' value='saku_keluar'>
 <input type="hidden" name="title" id='title' value='{{strtolower($page)}}'>
     <table class="datatables-{{strtolower($page)}} table">
       <thead class="table-light">
@@ -48,7 +48,7 @@
           <th></th>
           <th>Id</th>
           <th>Nama</th>
-          <th>Dari</th>
+          <th>Note</th>
           <th>Jumlah (Rp.)</th>
           <th>Tanggal</th>
           <th>Actions</th>
@@ -74,11 +74,8 @@
           <label for="NamaSantriMasuk">Santri</label>
         </div>
         <div class="form-floating form-floating-outline mb-4">
-          <select id="add-{{strtolower($page)}}-dari" name="dari" class="form-control">
-            <option value='2'>Kunjungan Walsan</option>
-            <option value='3'>Sisa Bulan Kemarin</option>
-          </select>
-          <label for="add-{{strtolower($page)}}-dari">Asal Saku Masuk</label>
+          <textarea id="add-{{strtolower($page)}}-note" class="form-control" name="note"></textarea>
+          <label for="add-{{strtolower($page)}}-note">Note</label>
         </div>
         <div class="form-floating form-floating-outline mb-4">
           <input type="text" onkeyup="splitInDots(this)" id='add-{{strtolower($page)}}-jumlah' name="jumlah" class="form-control">

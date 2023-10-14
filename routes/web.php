@@ -24,6 +24,7 @@ use App\Http\Controllers\ustadz\TahfidzController as UstTahfidzController;
 use App\Http\Controllers\ustadz\DetailTahfidzController;
 use App\Http\Controllers\admin\AdminDetailTahfidzController;
 use App\Http\Controllers\ustadz\SakuMasukController;
+use App\Http\Controllers\ustadz\SakuKeluarController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -80,6 +81,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/ustadz/detail_tahfidz', DetailTahfidzController::class);
   Route::resource('/detail_ketahfidzan', AdminDetailTahfidzController::class);
   Route::resource('/ustadz/saku_masuk', SakuMasukController::class);
+  Route::resource('/ustadz/saku_keluar', SakuKeluarController::class);
   Route::get('/structural-position/get-school/{id}', '\admin\StrucutralPositionController@getSchool');
   Route::get('/murroby/uang-saku/{id}', [AdminMurrobyController::class, 'uang_saku']);
   Route::get('/murroby/uang-saku-detail/{id}/{id_santri}', [AdminMurrobyController::class, 'uang_saku_detail']);

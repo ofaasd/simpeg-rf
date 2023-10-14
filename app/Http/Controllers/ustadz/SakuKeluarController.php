@@ -8,19 +8,16 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\EmployeeNew;
 use App\Models\TahunAjaran;
 use App\Models\Santri;
-use App\Models\SakuMasuk;
+use App\Models\SakuKeluar;
 use App\Models\UangSaku;
 use App\Models\User;
 use App\Models\Kamar;
 use Illuminate\Support\Facades\DB;
 
-class SakuMasukController extends Controller
+class SakuKeluarController extends Controller
 {
-  /**
-   * Display a listing of the resource.
-   */
-  public $indexed = ['', 'id', 'santri', 'dari', 'jumlah', 'tanggal'];
-  public $dari = [1 => 'pembayaran walsan', 2 => 'kunjungan walsan', 3 => 'Sisa Bulan Kemarin'];
+  //
+  public $indexed = ['', 'id', 'santri', 'note', 'jumlah', 'tanggal'];
   public function index(Request $request)
   {
     $id_user = Auth::user()->id;
@@ -32,29 +29,29 @@ class SakuMasukController extends Controller
     $kamar = Kamar::where('employee_id', $id)->first();
     $var['list_santri'] = Santri::where('kamar_id', $kamar->id)->get();
     $list_santri = [];
-    $bulan = date('m');
-    $tahun = date('Y');
     foreach ($var['list_santri'] as $row) {
       $list_santri[] = $row->no_induk;
     }
+    $bulan = date('m');
+    $tahun = date('Y');
     if (empty($request->input('length'))) {
-      $page = 'SakuMasuk';
-      $title = 'Saku Masuk';
+      $page = 'SakuKeluar';
+      $title = 'Saku Keluar';
       $indexed = $this->indexed;
 
-      return view('ustadz.saku_masuk.index', compact('title', 'indexed', 'var', 'page'));
+      return view('ustadz.saku_keluar.index', compact('title', 'indexed', 'var', 'page'));
     } else {
       $columns = [
         1 => 'id',
         2 => 'santri',
-        3 => 'dari',
+        3 => 'note',
         4 => 'jumlah',
         5 => 'tanggal',
       ];
 
       $search = [];
 
-      $totalData = SakuMasuk::count();
+      $totalData = SakuKeluar::count();
 
       $totalFiltered = $totalData;
 
@@ -64,7 +61,7 @@ class SakuMasukController extends Controller
       $dir = $request->input('order.0.dir');
 
       if (empty($request->input('search.value'))) {
-        $saku = SakuMasuk::whereIn('no_induk', $list_santri)
+        $saku = SakuKeluar::whereIn('no_induk', $list_santri)
           ->whereMonth('tanggal', $bulan)
           ->whereYear('tanggal', $tahun)
           ->offset($start)
@@ -74,7 +71,7 @@ class SakuMasukController extends Controller
       } else {
         $search = $request->input('search.value');
 
-        $saku = SakuMasuk::whereIn('no_induk', $list_santri)
+        $saku = SakuKeluar::whereIn('no_induk', $list_santri)
           ->whereMonth('tanggal', $bulan)
           ->whereYear('tanggal', $tahun)
           ->where(function ($query) use ($search) {
@@ -85,7 +82,7 @@ class SakuMasukController extends Controller
           ->orderBy('id', $dir)
           ->get();
 
-        $totalFiltered = SakuMasuk::whereIn('no_induk', $list_santri)
+        $totalFiltered = SakuKeluar::whereIn('no_induk', $list_santri)
           ->whereMonth('tanggal', $bulan)
           ->whereYear('tanggal', $tahun)
           ->where(function ($query) use ($search) {
@@ -104,7 +101,7 @@ class SakuMasukController extends Controller
           $nestedData['id'] = $row->id;
           $nestedData['fake_id'] = ++$ids;
           $nestedData['santri'] = $row->santri->nama;
-          $nestedData['dari'] = $this->dari[$row->dari];
+          $nestedData['note'] = $row->note;
           $nestedData['jumlah'] = number_format($row->jumlah, 0, ',', '.');
           $nestedData['tanggal'] = $row->tanggal;
 
@@ -144,33 +141,37 @@ class SakuMasukController extends Controller
   public function store(Request $request)
   {
     $id = $request->id;
+    $id_user = Auth::user()->id;
+    $user = User::find($id_user);
+    $pegawai_id = $user->pegawai_id;
     if ($id) {
       DB::beginTransaction();
       try {
         $jumlah = (int) str_replace('.', '', $request->jumlah);
         //ambil nilai lama dulu
-        $sakuMasuk = SakuMasuk::find($id);
-        $old_jumlah = $sakuMasuk->jumlah;
-        $old_no_induk = $sakuMasuk->no_induk;
+        $SakuKeluar = SakuKeluar::find($id);
+        $old_jumlah = $SakuKeluar->jumlah;
+        $old_no_induk = $SakuKeluar->no_induk;
         //kurangi uang saku sebelumnya
         $saku = UangSaku::where('no_induk', $old_no_induk)->first();
         $updateSaku = UangSaku::find($saku->id);
-        $updateSaku->jumlah = $saku->jumlah - $old_jumlah;
+        $updateSaku->jumlah = $saku->jumlah + $old_jumlah;
         $updateSaku->save();
-        //update sakumasuk
-        $sakuMasuk = SakuMasuk::updateOrCreate(
+        //update SakuKeluar
+        $SakuKeluar = SakuKeluar::updateOrCreate(
           ['id' => $id],
           [
-            'dari' => $request->dari,
+            'note' => $request->note,
             'jumlah' => $jumlah,
             'no_induk' => $request->no_induk,
+            'pegawai_id' => $pegawai_id,
             'tanggal' => date('Y-m-d', strtotime($request->tanggal)),
           ]
         );
         //perbarui nilai uang saku sekarang
         $saku = UangSaku::where('no_induk', $request->no_induk)->first();
         $updateSaku = UangSaku::find($saku->id);
-        $updateSaku->jumlah = $saku->jumlah + $jumlah;
+        $updateSaku->jumlah = $saku->jumlah - $jumlah;
         $updateSaku->save();
 
         // $updateSaku = UangSaku::update(
@@ -189,10 +190,11 @@ class SakuMasukController extends Controller
       DB::beginTransaction();
       try {
         $jumlah = (int) str_replace('.', '', $request->jumlah);
-        $sakuMasuk = SakuMasuk::create([
-          'dari' => $request->dari,
+        $SakuKeluar = SakuKeluar::create([
+          'note' => $request->note,
           'jumlah' => $jumlah,
           'no_induk' => $request->no_induk,
+          'pegawai_id' => $pegawai_id,
           'tanggal' => date('Y-m-d', strtotime($request->tanggal)),
         ]);
         $saku = UangSaku::where('no_induk', $request->no_induk)->first();
@@ -202,7 +204,7 @@ class SakuMasukController extends Controller
         //   ['jumlah' => $saku->jumlah + $request->jumlah]
         // );
         $updateSaku = UangSaku::find($saku->id);
-        $updateSaku->jumlah = $saku->jumlah + $jumlah;
+        $updateSaku->jumlah = $saku->jumlah - $jumlah;
         $updateSaku->save();
         DB::commit();
         return response()->json('Created');
@@ -230,9 +232,9 @@ class SakuMasukController extends Controller
     //
     $where = ['id' => $id];
 
-    $saku_masuk = SakuMasuk::where($where)->first();
+    $saku_keluar = SakuKeluar::where($where)->first();
 
-    return response()->json($saku_masuk);
+    return response()->json($saku_keluar);
   }
 
   /**
@@ -251,14 +253,14 @@ class SakuMasukController extends Controller
     //
     DB::beginTransaction();
     try {
-      $saku_masuk = SakuMasuk::find($id);
-      $uang_saku = UangSaku::where('no_induk', $saku_masuk->no_induk)->first();
-      $jumlah = $uang_saku->jumlah - $saku_masuk->jumlah;
+      $saku_keluar = SakuKeluar::find($id);
+      $uang_saku = UangSaku::where('no_induk', $saku_keluar->no_induk)->first();
+      $jumlah = $uang_saku->jumlah + $saku_keluar->jumlah;
       $uang_saku_new = UangSaku::find($uang_saku->id);
       $uang_saku_new->jumlah = $jumlah;
       $uang_saku_new->save();
 
-      $uang_saku->$saku_masuk = SakuMasuk::where('id', $id)->delete();
+      $uang_saku->$saku_keluar = SakuKeluar::where('id', $id)->delete();
       DB::commit();
       return response()->json('Created');
     } catch (\Exception $e) {
