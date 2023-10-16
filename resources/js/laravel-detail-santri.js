@@ -32,7 +32,8 @@ $(function () {
     select26 = $('#add-sakukeluar-no_induk'),
     select2 = $('.select2'),
     view = baseUrl + 'ustadz/' + page,
-    offCanvasForm = $('#offcanvasAdd' + title);
+    offCanvasForm = $('#offcanvasAdd' + title),
+    offCanvasFilter = $('#offcanvasFilter' + title);
   if (select2.length) {
     var $this = select2;
     $this.wrap('<div class="position-relative"></div>').select2({
@@ -45,7 +46,6 @@ $(function () {
     placeholder: 'Select Santri',
     dropdownParent: $this.parent()
   });
-
   var $this = select24;
   $this.wrap('<div class="position-relative"></div>').select2({
     placeholder: 'Select Kode Juz',
@@ -56,7 +56,6 @@ $(function () {
     placeholder: 'Select Santri',
     dropdownParent: $this.parent()
   });
-
   var $this = select26;
   $this.wrap('<div class="position-relative"></div>').select2({
     placeholder: 'Select Santri',
@@ -146,19 +145,7 @@ $(function () {
               text: '<i class="mdi mdi-printer-outline me-1" ></i>Print',
               className: 'dropdown-item',
               exportOptions: {
-                columns: [2, 3],
                 // prevent avatar to be print
-                format: {
-                  body: function body(inner, coldex, rowdex) {
-                    if (inner.length <= 0) return inner;
-                    var el = $.parseHTML(inner);
-                    var result = '';
-                    $.each(el, function (index, item) {
-                      result = result + item.innerText;
-                    });
-                    return result;
-                  }
-                }
               },
               customize: function customize(win) {
                 //customize print view for dark
@@ -180,21 +167,7 @@ $(function () {
               text: '<i class="mdi mdi-file-document-outline me-1" ></i>Csv',
               className: 'dropdown-item',
               exportOptions: {
-                columns: [2, 3],
                 // prevent avatar to be print
-                format: {
-                  body: function body(inner, coldex, rowdex) {
-                    if (inner.length <= 0) return inner;
-                    var el = $.parseHTML(inner);
-                    var result = '';
-                    $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
-                        result = result + item.lastChild.textContent;
-                      } else result = result + item.innerText;
-                    });
-                    return result;
-                  }
-                }
               }
             },
             {
@@ -202,69 +175,21 @@ $(function () {
               title: title,
               text: '<i class="mdi mdi-file-excel-outline me-1" ></i>Excel',
               className: 'dropdown-item',
-              exportOptions: {
-                columns: [2, 3],
-                // prevent avatar to be display
-                format: {
-                  body: function body(inner, coldex, rowdex) {
-                    if (inner.length <= 0) return inner;
-                    var el = $.parseHTML(inner);
-                    var result = '';
-                    $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
-                        result = result + item.lastChild.textContent;
-                      } else result = result + item.innerText;
-                    });
-                    return result;
-                  }
-                }
-              }
+              exportOptions: {}
             },
             {
               extend: 'pdf',
               title: title,
               text: '<i class="mdi mdi-file-pdf-box me-1"></i>Pdf',
               className: 'dropdown-item',
-              exportOptions: {
-                columns: [2, 3],
-                // prevent avatar to be display
-                format: {
-                  body: function body(inner, coldex, rowdex) {
-                    if (inner.length <= 0) return inner;
-                    var el = $.parseHTML(inner);
-                    var result = '';
-                    $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
-                        result = result + item.lastChild.textContent;
-                      } else result = result + item.innerText;
-                    });
-                    return result;
-                  }
-                }
-              }
+              exportOptions: {}
             },
             {
               extend: 'copy',
               title: title,
               text: '<i class="mdi mdi-content-copy me-1" ></i>Copy',
               className: 'dropdown-item',
-              exportOptions: {
-                columns: [2, 3],
-                // prevent avatar to be copy
-                format: {
-                  body: function body(inner, coldex, rowdex) {
-                    if (inner.length <= 0) return inner;
-                    var el = $.parseHTML(inner);
-                    var result = '';
-                    $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
-                        result = result + item.lastChild.textContent;
-                      } else result = result + item.innerText;
-                    });
-                    return result;
-                  }
-                }
-              }
+              exportOptions: {}
             }
           ]
         },
@@ -283,8 +208,8 @@ $(function () {
           text: '<span class="d-none d-sm-inline-block">Filter</span>',
           className: 'filter btn btn-success',
           attr: {
-            'data-bs-toggle': 'offcanvasfilter',
-            'data-bs-target': '#offcanvasfilter'
+            'data-bs-toggle': 'offcanvas',
+            'data-bs-target': '#offcanvasFilter'
           }
         }
       ]
@@ -380,6 +305,44 @@ $(function () {
   $('.add-new').on('click', function () {
     $('#' + page + '_id').val(''); //reseting input field
     $('#offcanvasAdd' + title + 'Label').html('Add ' + title);
+  });
+  $('.add-new').on('click', function () {
+    $('#' + page + '_id').val(''); //reseting input field
+    $('#offcanvasAdd' + title + 'Label').html('Add ' + title);
+  });
+
+  $('#updateBulanForm').on('submit', function (e) {
+    e.preventDefault;
+    $.ajax({
+      data: $(this).serialize(),
+      url: ''.concat(baseUrl).concat('ustadz/saku_masuk/update_bulan'),
+      type: 'POST',
+      success: function success(status) {
+        dt.draw();
+        offCanvasForm.offcanvas('hide');
+
+        // sweetalert
+        Swal.fire({
+          icon: 'success',
+          title: 'Successfully '.concat(status, '!'),
+          text: ''.concat(title, ' ').concat(status, ' Successfully.'),
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      },
+      error: function error(err) {
+        offCanvasForm.offcanvas('hide');
+        Swal.fire({
+          title: 'Duplicate Entry!',
+          text: title + ' Not Saved !',
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    });
   });
 
   // validating form and updating data

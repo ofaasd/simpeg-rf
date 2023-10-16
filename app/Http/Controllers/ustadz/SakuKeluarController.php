@@ -13,10 +13,25 @@ use App\Models\UangSaku;
 use App\Models\User;
 use App\Models\Kamar;
 use Illuminate\Support\Facades\DB;
+use Session;
 
 class SakuKeluarController extends Controller
 {
   //
+  public $bulan = [
+    1 => 'Januari',
+    'Februari',
+    'Maret',
+    'April',
+    'Mei',
+    'Juni',
+    'Juli',
+    'Agustus',
+    'September',
+    'Oktober',
+    'November',
+    'Desember',
+  ];
   public $indexed = ['', 'id', 'santri', 'note', 'jumlah', 'tanggal'];
   public function index(Request $request)
   {
@@ -32,14 +47,21 @@ class SakuKeluarController extends Controller
     foreach ($var['list_santri'] as $row) {
       $list_santri[] = $row->no_induk;
     }
-    $bulan = date('m');
-    $tahun = date('Y');
+    if (empty(Session::get('bulan'))) {
+      $bulan = date('m');
+      $tahun = date('Y');
+    } else {
+      $bulan = Session::get('bulan');
+      $tahun = Session::get('tahun');
+    }
+
+    $var['bulan'] = $this->bulan;
     if (empty($request->input('length'))) {
       $page = 'SakuKeluar';
       $title = 'Saku Keluar';
       $indexed = $this->indexed;
 
-      return view('ustadz.saku_keluar.index', compact('title', 'indexed', 'var', 'page'));
+      return view('ustadz.saku_keluar.index', compact('title', 'bulan', 'tahun', 'indexed', 'var', 'page'));
     } else {
       $columns = [
         1 => 'id',

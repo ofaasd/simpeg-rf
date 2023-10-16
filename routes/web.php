@@ -104,6 +104,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('/ketahfidzan', [TahfidzController::class, 'ketahfidzan']);
   Route::get('ustadz/detail_ketahfidzan', [AdminDetailTahfidzController::class, 'index']);
   Route::post('ustadz/detail_ketahfidzan', [AdminDetailTahfidzController::class, 'store']);
+  Route::post('ustadz/saku_masuk/update_bulan', [SakuMasukController::class, 'update_bulan']);
   Route::get('ustadz/hapus_saku_masuk/{id}', [UangSakuController::class, 'destroy']);
   Route::get('/tbd', function () {
     return view('content.pages.tbd');

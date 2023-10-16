@@ -13,12 +13,27 @@ use App\Models\UangSaku;
 use App\Models\User;
 use App\Models\Kamar;
 use Illuminate\Support\Facades\DB;
+use Session;
 
 class SakuMasukController extends Controller
 {
   /**
    * Display a listing of the resource.
    */
+  public $bulan = [
+    1 => 'Januari',
+    'Februari',
+    'Maret',
+    'April',
+    'Mei',
+    'Juni',
+    'Juli',
+    'Agustus',
+    'September',
+    'Oktober',
+    'November',
+    'Desember',
+  ];
   public $indexed = ['', 'id', 'santri', 'dari', 'jumlah', 'tanggal'];
   public $dari = [1 => 'pembayaran walsan', 2 => 'kunjungan walsan', 3 => 'Sisa Bulan Kemarin'];
   public function index(Request $request)
@@ -32,8 +47,15 @@ class SakuMasukController extends Controller
     $kamar = Kamar::where('employee_id', $id)->first();
     $var['list_santri'] = Santri::where('kamar_id', $kamar->id)->get();
     $list_santri = [];
-    $bulan = date('m');
-    $tahun = date('Y');
+    if (empty(Session::get('bulan'))) {
+      $bulan = date('m');
+      $tahun = date('Y');
+    } else {
+      $bulan = Session::get('bulan');
+      $tahun = Session::get('tahun');
+    }
+
+    $var['bulan'] = $this->bulan;
     foreach ($var['list_santri'] as $row) {
       $list_santri[] = $row->no_induk;
     }
@@ -42,7 +64,7 @@ class SakuMasukController extends Controller
       $title = 'Saku Masuk';
       $indexed = $this->indexed;
 
-      return view('ustadz.saku_masuk.index', compact('title', 'indexed', 'var', 'page'));
+      return view('ustadz.saku_masuk.index', compact('title', 'indexed', 'var', 'page', 'bulan', 'tahun'));
     } else {
       $columns = [
         1 => 'id',
@@ -241,6 +263,13 @@ class SakuMasukController extends Controller
   public function update(Request $request, string $id)
   {
     //
+  }
+  public function update_bulan(Request $request)
+  {
+    //
+    Session::put('bulan', $request->bulan);
+    Session::put('tahun', $request->tahun);
+    return response()->json('berhasil');
   }
 
   /**
