@@ -25,7 +25,7 @@
 <script src="{{asset('assets/js/pages-profile.js')}}"></script>
 <script src="{{asset('assets/js/forms-selects.js')}}"></script>
 <script src="{{asset('assets/js/forms-extras-custom.js')}}"></script>
-<script src="{{asset('js/laravel-detail-santri.js')}}"></script>
+<script src="{{asset('js/laravel-saku-masuk.js')}}"></script>
 @endsection
 
 @section('content')
@@ -51,6 +51,7 @@
           <th>Dari</th>
           <th>Jumlah (Rp.)</th>
           <th>Tanggal</th>
+          <th>Status Pembayaran</th>
           <th>Actions</th>
         </tr>
       </thead>

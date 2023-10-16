@@ -124,7 +124,7 @@
           </div>
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <input type="number" id='modalEditUserjumlah' name="jumlah" class="form-control">
+              <input type="text" onkeyup="splitInDots(this)" id='modalEditUserjumlah' name="jumlah" class="form-control">
               <label for="modalEditUserjumlah">Jumlah (Rp.)</label>
             </div>
           </div>
@@ -181,7 +181,7 @@
                 </div>
                 <div class="col-12 col-md-6">
                   <div class="form-floating form-floating-outline">
-                    <input type="number" id='modalEditUserjumlah' name="jumlah[]" class="form-control">
+                    <input type="text" onkeyup="splitInDots(this)"  name="jumlah[]" class="form-control">
                     <label for="modalEditUserjumlah">Jumlah (Rp.)</label>
                   </div>
                 </div>
@@ -296,7 +296,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 </div>
                 <div class="col-12 col-md-6">
                   <div class="form-floating form-floating-outline">
-                    <input type="number" id='modalEditUserjumlah' name="jumlah[]" class="form-control">
+                    <input type="text" onkeyup="splitInDots(this)"  name="jumlah[]" class="form-control">
                     <label for="modalEditUserjumlah">Jumlah (Rp.)</label>
                   </div>
                 </div>

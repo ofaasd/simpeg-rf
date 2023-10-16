@@ -34,7 +34,7 @@ class SakuMasukController extends Controller
     'November',
     'Desember',
   ];
-  public $indexed = ['', 'id', 'santri', 'dari', 'jumlah', 'tanggal'];
+  public $indexed = ['', 'id', 'santri', 'dari', 'jumlah', 'tanggal', 'status_pembayaran'];
   public $dari = [1 => 'pembayaran walsan', 2 => 'kunjungan walsan', 3 => 'Sisa Bulan Kemarin'];
   public function index(Request $request)
   {
@@ -72,6 +72,7 @@ class SakuMasukController extends Controller
         3 => 'dari',
         4 => 'jumlah',
         5 => 'tanggal',
+        6 => 'status_pembayaran',
       ];
 
       $search = [];
@@ -129,6 +130,7 @@ class SakuMasukController extends Controller
           $nestedData['dari'] = $this->dari[$row->dari];
           $nestedData['jumlah'] = number_format($row->jumlah, 0, ',', '.');
           $nestedData['tanggal'] = $row->tanggal;
+          $nestedData['status_pembayaran'] = $row->status_pembayaran;
 
           $data[] = $nestedData;
         }

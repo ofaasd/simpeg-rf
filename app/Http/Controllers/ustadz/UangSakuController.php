@@ -73,9 +73,10 @@ class UangSakuController extends Controller
     if ($jenis == 'saku_masuk') {
       DB::beginTransaction();
       try {
+        $jumlah = (int) str_replace('.', '', $request->jumlah);
         $sakuMasuk = SakuMasuk::create([
           'dari' => $request->dari,
-          'jumlah' => $request->jumlah,
+          'jumlah' => $jumlah,
           'no_induk' => $request->nama_santri,
           'tanggal' => date('Y-m-d', strtotime($request->tanggal)),
         ]);
@@ -86,7 +87,7 @@ class UangSakuController extends Controller
         //   ['jumlah' => $saku->jumlah + $request->jumlah]
         // );
         $updateSaku = UangSaku::find($saku->id);
-        $updateSaku->jumlah = $saku->jumlah + $request->jumlah;
+        $updateSaku->jumlah = $saku->jumlah + $jumlah;
         $updateSaku->save();
         DB::commit();
         return response()->json('Created');
@@ -103,12 +104,12 @@ class UangSakuController extends Controller
           foreach ($request->note as $key => $value) {
             $sakuKeluar = SakuKeluar::create([
               'pegawai_id' => Auth::user()->id,
-              'jumlah' => $request->jumlah[$key],
+              'jumlah' => (int) str_replace('.', '', $request->jumlah[$key]),
               'no_induk' => $request->nama_santri,
               'note' => $value,
               'tanggal' => date('Y-m-d', strtotime($request->tanggal)),
             ]);
-            $jumlah += $request->jumlah[$key];
+            $jumlah += (int) str_replace('.', '', $request->jumlah[$key]);
           }
           $saku = UangSaku::where('no_induk', $request->nama_santri)->first();
 
