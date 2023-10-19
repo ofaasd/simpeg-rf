@@ -8,6 +8,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class SantriDetail
@@ -91,4 +92,8 @@ class Santri extends Model
     'tahfidz_id',
     'photo',
   ];
+  public function kamar(): BelongsTo
+  {
+    return $this->belongsTo(Kamar::class, 'kamar_id', 'id');
+  }
 }

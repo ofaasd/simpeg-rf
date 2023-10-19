@@ -22,7 +22,7 @@ class SantriController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public $indexed = ['', 'id', 'no_induk', 'nik', 'nama', 'kelas'];
+  public $indexed = ['', 'id', 'no_induk', 'nik', 'nama', 'kelas', 'kamar'];
   public function index(Request $request)
   {
     //
@@ -42,6 +42,7 @@ class SantriController extends Controller
         3 => 'nik',
         4 => 'nama',
         5 => 'kelas',
+        6 => 'kamar',
       ];
 
       $search = [];
@@ -90,6 +91,7 @@ class SantriController extends Controller
           $nestedData['nik'] = $row->nik ?? 0;
           $nestedData['nama'] = $row->nama ?? '';
           $nestedData['kelas'] = $row->kelas ?? 0;
+          $nestedData['kamar'] = $row->kamar->code ?? 0;
           $data[] = $nestedData;
         }
       }
