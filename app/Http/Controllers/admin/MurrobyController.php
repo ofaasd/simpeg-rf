@@ -24,11 +24,27 @@ class MurrobyController extends Controller
   public function index(Request $request)
   {
     //
+    $array_bulan = [
+      1 => 'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
+
     if (empty($request->input('length'))) {
       $title = 'Murroby';
       $indexed = $this->indexed;
       $var['structural'] = StructuralPosition::all();
       $var['Grades'] = Grades::all();
+      $var['list_bulan'] = $array_bulan;
       return view('admin.murroby.index', compact('title', 'indexed', 'var'));
     } else {
       $columns = [
@@ -140,9 +156,24 @@ class MurrobyController extends Controller
   public function show(string $id)
   {
     //
+    $var['list_bulan'] = [
+      1 => 'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
     $where = ['id' => $id];
     $var['EmployeeNew'] = EmployeeNew::where($where)->first();
     $title = 'Pegawai';
+    $var['list_bulan'] = $array_bulan;
     $kamar = Kamar::where('employee_id', $id)->first();
 
     $var['list_santri'] = Santri::where('kamar_id', $kamar->id)->get();
@@ -151,6 +182,21 @@ class MurrobyController extends Controller
 
   public function uang_saku(string $id)
   {
+    $var['list_bulan'] = [
+      1 => 'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
+
     $where = ['id' => $id];
     $var['EmployeeNew'] = EmployeeNew::where($where)->first();
     $title = 'Pegawai';

@@ -208,7 +208,7 @@
 @endsection
 <script>
 document.addEventListener("DOMContentLoaded", function(event) {
-  const title = 'Uang Saku Murroby : {{$var['EmployeeNew']->nama}}';
+  const title = 'Uang Saku Murroby : {{$var['EmployeeNew']->nama}} ({{$var['list_bulan'][(int)date("m")] . " " . date("Y")}} )';
   $('.dataTable').dataTable({
       dom:
         '<"row mx-2"' +

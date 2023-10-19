@@ -31,6 +31,21 @@ class UangSakuController extends Controller
     $where = ['id' => $id];
     $var['EmployeeNew'] = EmployeeNew::where($where)->first();
     $title = 'Pegawai';
+    $array_bulan = [
+      1 => 'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
+    $var['list_bulan'] = $array_bulan;
     $kamar = Kamar::where('employee_id', $id)->first();
 
     $var['list_santri'] = Santri::where('kamar_id', $kamar->id)->get();
@@ -137,6 +152,7 @@ class UangSakuController extends Controller
   public function show(string $id)
   {
     //Data ustadz
+
     $var['no_induk'] = $id;
     $id_user = Auth::user()->id;
     $user = User::find($id_user);
