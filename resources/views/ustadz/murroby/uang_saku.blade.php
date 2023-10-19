@@ -52,7 +52,7 @@
           <thead>
             <tr>
               <td></td>
-              <td>No Induk</td>
+              <td>NIS</td>
               <td>Nama</td>
               <td>Kelas</td>
               <td>Uang Masuk</td>
@@ -273,9 +273,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
               exportOptions: {
                 columns: [1, 2, 3, 4, 5, 6],
               },
-              customize: function (doc) {
-                doc.content[1].table.widths =
-                    Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+              customize : function(doc){
+                  doc.content[1].table.widths = [20,170,30,"*","*","*"];
+
               }
             },
             {
