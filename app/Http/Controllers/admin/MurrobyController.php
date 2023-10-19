@@ -200,13 +200,30 @@ class MurrobyController extends Controller
     $where = ['id' => $id];
     $var['EmployeeNew'] = EmployeeNew::where($where)->first();
     $title = 'Pegawai';
+    $array_bulan = [
+      1 => 'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
+    $var['list_bulan'] = $array_bulan;
     $kamar = Kamar::where('employee_id', $id)->first();
 
     $var['list_santri'] = Santri::where('kamar_id', $kamar->id)->get();
     $var['uang_saku'] = [];
     $var['uang_masuk'] = [];
     $var['tanggal_masuk'] = [];
+    $list_no_induk = [];
     foreach ($var['list_santri'] as $row) {
+      $list_no_induk[] = $row->no_induk;
       $saku_masuk = SakuMasuk::where('no_induk', $row->no_induk)
         ->where('dari', 1)
         ->whereMonth('tanggal', date('m'))
@@ -216,8 +233,9 @@ class MurrobyController extends Controller
       $var['tanggal_masuk'][$row->no_induk] = $saku_masuk->tanggal ?? '';
       $var['uang_saku'][$row->no_induk] = UangSaku::where('no_induk', $row->no_induk)->first()->jumlah;
     }
-
-    return view('ustadz.murroby.uang_saku', compact('title', 'var'));
+    $var['saku_masuk'] = SakuMasuk::whereIn('no_induk', $list_no_induk)->get();
+    $var['saku_keluar'] = SakuKeluar::whereIn('no_induk', $list_no_induk)->get();
+    return view('ustadz.murroby.uang_saku', compact('title', 'var', 'id'));
   }
 
   public function uang_saku_detail(string $id, string $id_santri)
