@@ -156,7 +156,7 @@ class MurrobyController extends Controller
   public function show(string $id)
   {
     //
-    $var['list_bulan'] = [
+    $array_bulan = [
       1 => 'Januari',
       'Februari',
       'Maret',
