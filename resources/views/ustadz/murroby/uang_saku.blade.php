@@ -274,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 columns: [1, 2, 3, 4, 5, 6],
               },
               customize : function(doc){
-                  doc.content[1].table.widths = [20,170,30,"*","*","*"];
+                  doc.content[1].table.widths = [50,170,30,"*","*","*"];
 
               }
             },
