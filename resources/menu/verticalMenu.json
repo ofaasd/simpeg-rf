@@ -152,6 +152,12 @@
       "slug": "santri"
     },
     {
+      "url": "/psb",
+      "icon": "menu-icon tf-icons mdi mdi-account-plus",
+      "name": "PSB",
+      "slug": "psb"
+    },
+    {
       "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-cash",
       "name": "Penggajian",
@@ -224,12 +230,6 @@
     {
       "url": "/tbd",
       "icon": "menu-icon tf-icons mdi mdi-account-outline",
-      "name": "Ke-murobbyan",
-      "slug": "murroby"
-    },
-    {
-      "url": "/tbd",
-      "icon": "menu-icon tf-icons mdi mdi-account-outline",
       "name": "Alumni",
       "slug": "alumni"
     },
@@ -280,12 +280,6 @@
       "icon": "menu-icon tf-icons mdi mdi-star-circle-outline",
       "name": "Mutu",
       "slug": "mutu"
-    },
-    {
-      "url": "/tbd",
-      "icon": "menu-icon tf-icons mdi mdi-account-plus",
-      "name": "SPMB",
-      "slug": "spmb"
     },
     {
       "url": "/user-list",
