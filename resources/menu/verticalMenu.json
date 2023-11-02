@@ -152,10 +152,22 @@
       "slug": "santri"
     },
     {
-      "url": "/psb",
+      "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-account-plus",
       "name": "PSB",
-      "slug": "psb"
+      "slug": "psb",
+      "submenu": [
+        {
+          "url": "/tbd",
+          "name": "Gelombang",
+          "slug": "psb-gelombang"
+        },
+        {
+          "url": "/psb",
+          "name": "PSB",
+          "slug": "psb-psb"
+        }
+      ]
     },
     {
       "url": "#",
