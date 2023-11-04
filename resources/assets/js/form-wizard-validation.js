@@ -29,52 +29,52 @@
     // Account details
     const FormValidation1 = FormValidation.formValidation(wizardValidationFormStep1, {
       fields: {
-        formValidationUsername: {
-          validators: {
-            notEmpty: {
-              message: 'The name is required'
-            },
-            stringLength: {
-              min: 6,
-              max: 30,
-              message: 'The name must be more than 6 and less than 30 characters long'
-            },
-            regexp: {
-              regexp: /^[a-zA-Z0-9 ]+$/,
-              message: 'The name can only consist of alphabetical, number and space'
-            }
-          }
-        },
-        formValidationEmail: {
-          validators: {
-            notEmpty: {
-              message: 'The Email is required'
-            },
-            emailAddress: {
-              message: 'The value is not a valid email address'
-            }
-          }
-        },
-        formValidationPass: {
-          validators: {
-            notEmpty: {
-              message: 'The password is required'
-            }
-          }
-        },
-        formValidationConfirmPass: {
-          validators: {
-            notEmpty: {
-              message: 'The Confirm Password is required'
-            },
-            identical: {
-              compare: function () {
-                return wizardValidationFormStep1.querySelector('[name="formValidationPass"]').value;
-              },
-              message: 'The password and its confirm are not the same'
-            }
-          }
-        }
+        // formValidationUsername: {
+        //   validators: {
+        //     notEmpty: {
+        //       message: 'The name is required'
+        //     },
+        //     stringLength: {
+        //       min: 6,
+        //       max: 30,
+        //       message: 'The name must be more than 6 and less than 30 characters long'
+        //     },
+        //     regexp: {
+        //       regexp: /^[a-zA-Z0-9 ]+$/,
+        //       message: 'The name can only consist of alphabetical, number and space'
+        //     }
+        //   }
+        // },
+        // formValidationEmail: {
+        //   validators: {
+        //     notEmpty: {
+        //       message: 'The Email is required'
+        //     },
+        //     emailAddress: {
+        //       message: 'The value is not a valid email address'
+        //     }
+        //   }
+        // },
+        // formValidationPass: {
+        //   validators: {
+        //     notEmpty: {
+        //       message: 'The password is required'
+        //     }
+        //   }
+        // },
+        // formValidationConfirmPass: {
+        //   validators: {
+        //     notEmpty: {
+        //       message: 'The Confirm Password is required'
+        //     },
+        //     identical: {
+        //       compare: function () {
+        //         return wizardValidationFormStep1.querySelector('[name="formValidationPass"]').value;
+        //       },
+        //       message: 'The password and its confirm are not the same'
+        //     }
+        //   }
+        //}
       },
       plugins: {
         trigger: new FormValidation.plugins.Trigger(),

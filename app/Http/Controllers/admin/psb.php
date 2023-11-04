@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\PsbPesertaOnline;
 use App\Models\PsbSekolahAsal;
 use App\Models\PsbWaliPesertum;
+use App\Models\Province;
+use App\Models\City;
 
 class psb extends Controller
 {
@@ -129,6 +131,10 @@ class psb extends Controller
   public function create()
   {
     //
+    $title = 'Psb';
+    $indexed = $this->indexed;
+    $provinsi = Province::all();
+    return view('admin.psb.create', compact('title', 'indexed', 'provinsi'));
   }
 
   /**

@@ -91,6 +91,7 @@ class Santri extends Model
     'kamar_id',
     'tahfidz_id',
     'photo',
+    'photo_location',
   ];
   public function kamar(): BelongsTo
   {

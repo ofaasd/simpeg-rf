@@ -3,6 +3,13 @@
     <input type="hidden" id="id" name="id" id="{{strtolower($title)}}_id" value='{{$var['santri']->id}}'>
     <input type="hidden" name="kamar_id" value="{{$var['santri']->kamar_id}}">
     <input type="hidden" name="tahfidz_id" value="{{$var['santri']->tahfidz_id}}">
+    <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto" style="margin-bottom:20px">
+      <img src="{{ $var['santri_photo']}}" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" width='200' height='200'>
+    </div>
+    <div class="form-floating form-floating-outline mb-4 col-md-4">
+      <input type="file" class="form-control" name="photos" />
+      <label for="add-{{strtolower($title)}}-photo">Ubah Photo Profile</label>
+    </div>
     <div class="form-floating form-floating-outline mb-4">
       <input type="text" class="form-control" id="add-{{strtolower($title)}}-no_induk" placeholder="No. Induk Santri" name="no_induk" required value="{{$var['santri']->no_induk}}" />
       <label for="add-{{strtolower($title)}}-no_induk">No. Induk</label>
@@ -106,6 +113,8 @@
                 confirmButton: 'btn btn-success'
               }
             });
+
+            $(".user-profile-img").attr('src', ''.concat(baseUrl).concat('assets/img/upload/photo/').concat(status.photo));
           },
           error: function error(err) {
             showUnblock();

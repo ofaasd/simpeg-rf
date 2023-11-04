@@ -166,13 +166,14 @@ class SantriController extends Controller
             ['id' => $id],
             [
               'photo' => $filename,
+              'photo_location' => 2,
             ]
           );
         }
       }
       // user updated
       $where = ['id' => $id];
-      $Santri = Santri::where($where)->first();
+      $Santri_show = Santri::where($where)->first();
       $Santri = Santri::updateOrCreate([]);
       //$Santri = Santri::
       $tahunAjaran = TahunAjaran::where(['is_aktif' => 1])->first();
@@ -200,7 +201,7 @@ class SantriController extends Controller
           'status' => 1,
         ]);
       }
-      return response()->json($Santri);
+      return response()->json($Santri_show);
     } else {
       // create new one if email is unique
       //$userEmail = User::where('email', $request->email)->first();
@@ -391,6 +392,12 @@ class SantriController extends Controller
     //
     $where = ['id' => $id];
     $var['santri'] = Santri::where($where)->first();
+    $var['santri_photo'] = asset('assets/img/avatars/1.png');
+    if (!empty($var['santri']->photo) && $var['santri']->photo_location == 2) {
+      $var['santri_photo'] = asset('assets/img/upload/photo/' . $var['santri']->photo);
+    } elseif (!empty($var['santri']->photo) && $var['santri']->photo_location == 1) {
+      $var['santri_photo'] = 'https://payment.ppatq-rf.id/assets/upload/user/' . $var['santri']->photo;
+    }
     $title = 'santri';
     $var['kota'] = City::all();
     $var['prov'] = Province::all();
