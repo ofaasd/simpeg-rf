@@ -231,6 +231,7 @@ class MurrobyController extends Controller
         ->first();
       $var['uang_masuk'][$row->no_induk] = $saku_masuk->jumlah ?? 0;
       $var['tanggal_masuk'][$row->no_induk] = $saku_masuk->tanggal ?? '';
+      //cek lagi
       $var['uang_saku'][$row->no_induk] = UangSaku::where('no_induk', $row->no_induk)->first()->jumlah ?? 0;
     }
     $var['saku_masuk'] = SakuMasuk::whereIn('no_induk', $list_no_induk)->get();

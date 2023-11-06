@@ -14,6 +14,7 @@ use App\Models\Tahfidz;
 use App\Models\SantriKamar;
 use App\Models\TahunAjaran;
 use App\Http\Controllers\Controller;
+use Image;
 
 class Pegawai extends Controller
 {
@@ -154,7 +155,10 @@ class Pegawai extends Controller
       if ($request->file('photos')) {
         $photo = $request->file('photos');
         $filename = date('YmdHi') . $photo->getClientOriginalName();
-        if ($photo->move(public_path('assets/img/upload/photo'), $filename)) {
+        $kompres = Image::make($photo)
+          ->resize(300, 400)
+          ->save('assets/img/upload/photo/' . $filename);
+        if ($kompres) {
           //$file = $request->file->store('public/assets/img/upload/photo');
           $EmployeeNew2 = EmployeeNew::updateOrCreate(
             ['id' => $id],

@@ -16,6 +16,7 @@ use App\Models\SantriTahfidz;
 use App\Models\TahunAjaran;
 use App\Models\Province;
 use Illuminate\Support\Facades\DB;
+use Image;
 
 class SantriController extends Controller
 {
@@ -160,7 +161,10 @@ class SantriController extends Controller
       if ($request->file('photos')) {
         $photo = $request->file('photos');
         $filename = date('YmdHi') . $photo->getClientOriginalName();
-        if ($photo->move(public_path('assets/img/upload/photo'), $filename)) {
+        $kompres = Image::make($photo)
+          ->resize(300, 400)
+          ->save('assets/img/upload/photo/' . $filename);
+        if ($kompres) {
           //$file = $request->file->store('public/assets/img/upload/photo');
           $Santri2 = Santri::updateOrCreate(
             ['id' => $id],

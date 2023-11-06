@@ -29,6 +29,56 @@
     // Account details
     const FormValidation1 = FormValidation.formValidation(wizardValidationFormStep1, {
       fields: {
+        nama_lengkap: {
+          validators: {
+            notEmpty: {
+              message: 'Nama harap diisi'
+            }
+          }
+        },
+        tanggal_lahir: {
+          validators: {
+            notEmpty: {
+              message: 'Tanggal Lahir Harap Diisi'
+            }
+          }
+        },
+        alamat: {
+          validators: {
+            notEmpty: {
+              message: 'Alamat harap diisi'
+            }
+          }
+        },
+        provinsi: {
+          validators: {
+            notEmpty: {
+              message: 'Provinsi harap diisi'
+            }
+          }
+        },
+        kota: {
+          validators: {
+            notEmpty: {
+              message: 'Kota harap diisi'
+            }
+          }
+        },
+        kecamatan: {
+          validators: {
+            notEmpty: {
+              message: 'Kecamatan harap diisi'
+            }
+          }
+        },
+        kode_pos: {
+          validators: {
+            notEmpty: {
+              message: 'Kode Pos'
+            }
+          }
+        }
+
         // formValidationUsername: {
         //   validators: {
         //     notEmpty: {
@@ -82,7 +132,7 @@
           // Use this for enabling/changing valid/invalid class
           // eleInvalidClass: '',
           eleValidClass: '',
-          rowSelector: '.col-sm-6'
+          rowSelector: '.col-md-12'
         }),
         autoFocus: new FormValidation.plugins.AutoFocus(),
         submitButton: new FormValidation.plugins.SubmitButton()
@@ -102,43 +152,43 @@
 
     // Personal info
     const FormValidation2 = FormValidation.formValidation(wizardValidationFormStep2, {
-      fields: {
-        formValidationFirstName: {
-          validators: {
-            notEmpty: {
-              message: 'The first name is required'
-            }
-          }
-        },
-        formValidationLastName: {
-          validators: {
-            notEmpty: {
-              message: 'The last name is required'
-            }
-          }
-        },
-        formValidationCountry: {
-          validators: {
-            notEmpty: {
-              message: 'The Country is required'
-            }
-          }
-        },
-        formValidationLanguage: {
-          validators: {
-            notEmpty: {
-              message: 'The Languages is required'
-            }
-          }
-        }
-      },
+      // fields: {
+      //   formValidationFirstName: {
+      //     validators: {
+      //       notEmpty: {
+      //         message: 'The first name is required'
+      //       }
+      //     }
+      //   },
+      //   formValidationLastName: {
+      //     validators: {
+      //       notEmpty: {
+      //         message: 'The last name is required'
+      //       }
+      //     }
+      //   },
+      //   formValidationCountry: {
+      //     validators: {
+      //       notEmpty: {
+      //         message: 'The Country is required'
+      //       }
+      //     }
+      //   },
+      //   formValidationLanguage: {
+      //     validators: {
+      //       notEmpty: {
+      //         message: 'The Languages is required'
+      //       }
+      //     }
+      //   }
+      // },
       plugins: {
         trigger: new FormValidation.plugins.Trigger(),
         bootstrap5: new FormValidation.plugins.Bootstrap5({
           // Use this for enabling/changing valid/invalid class
           // eleInvalidClass: '',
           eleValidClass: '',
-          rowSelector: '.col-sm-6'
+          rowSelector: '.col-md-12'
         }),
         autoFocus: new FormValidation.plugins.AutoFocus(),
         submitButton: new FormValidation.plugins.SubmitButton()
@@ -149,72 +199,39 @@
     });
 
     // Bootstrap Select (i.e Language select)
-    if (selectPicker.length) {
-      selectPicker.each(function () {
-        var $this = $(this);
-        $this.selectpicker().on('change', function () {
-          FormValidation2.revalidateField('formValidationLanguage');
-        });
-      });
-    }
+    // if (selectPicker.length) {
+    //   selectPicker.each(function () {
+    //     var $this = $(this);
+    //     $this.selectpicker().on('change', function () {
+    //       FormValidation2.revalidateField('formValidationLanguage');
+    //     });
+    //   });
+    // }
 
     // select2
-    if (select2.length) {
-      select2.each(function () {
-        var $this = $(this);
-        $this.wrap('<div class="position-relative"></div>');
-        $this
-          .select2({
-            placeholder: 'Select an country',
-            dropdownParent: $this.parent()
-          })
-          .on('change.select2', function () {
-            // Revalidate the color field when an option is chosen
-            FormValidation2.revalidateField('formValidationCountry');
-          });
-      });
-    }
+    // if (select2.length) {
+    //   select2.each(function () {
+    //     var $this = $(this);
+    //     $this.wrap('<div class="position-relative"></div>');
+    //     $this
+    //       .select2({
+    //         placeholder: 'Select an country',
+    //         dropdownParent: $this.parent()
+    //       })
+    //       .on('change.select2', function () {
+    //         // Revalidate the color field when an option is chosen
+    //         FormValidation2.revalidateField('formValidationCountry');
+    //       });
+    //   });
+    // }
 
     // Social links
     const FormValidation3 = FormValidation.formValidation(wizardValidationFormStep3, {
       fields: {
-        formValidationTwitter: {
+        no_hp: {
           validators: {
             notEmpty: {
-              message: 'The Twitter URL is required'
-            },
-            uri: {
-              message: 'The URL is not proper'
-            }
-          }
-        },
-        formValidationFacebook: {
-          validators: {
-            notEmpty: {
-              message: 'The Facebook URL is required'
-            },
-            uri: {
-              message: 'The URL is not proper'
-            }
-          }
-        },
-        formValidationGoogle: {
-          validators: {
-            notEmpty: {
-              message: 'The Google URL is required'
-            },
-            uri: {
-              message: 'The URL is not proper'
-            }
-          }
-        },
-        formValidationLinkedIn: {
-          validators: {
-            notEmpty: {
-              message: 'The LinkedIn URL is required'
-            },
-            uri: {
-              message: 'The URL is not proper'
+              message: 'No. HP Harap diisi'
             }
           }
         }
@@ -225,7 +242,7 @@
           // Use this for enabling/changing valid/invalid class
           // eleInvalidClass: '',
           eleValidClass: '',
-          rowSelector: '.col-sm-6'
+          rowSelector: '.col-md-12'
         }),
         autoFocus: new FormValidation.plugins.AutoFocus(),
         submitButton: new FormValidation.plugins.SubmitButton()

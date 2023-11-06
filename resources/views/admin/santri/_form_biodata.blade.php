@@ -104,7 +104,7 @@
           processData: false,
           success: function success(status) {
             // sweetalert
-            showUnblock();
+
             Swal.fire({
               icon: 'success',
               title: 'Successfully '.concat(' Updated !'),
@@ -115,9 +115,10 @@
             });
 
             $(".user-profile-img").attr('src', ''.concat(baseUrl).concat('assets/img/upload/photo/').concat(status.photo));
+            showUnblock();
           },
           error: function error(err) {
-            showUnblock();
+
             Swal.fire({
               title: 'Duplicate Entry!',
               text: title + ' Not Saved !',
@@ -126,6 +127,7 @@
                 confirmButton: 'btn btn-success'
               }
             });
+            showUnblock();
           }
         });
       });

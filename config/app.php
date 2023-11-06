@@ -181,6 +181,7 @@ return [
     Illuminate\View\ViewServiceProvider::class,
     Spatie\Permission\PermissionServiceProvider::class,
     Reliese\Coders\CodersServiceProvider::class,
+    Intervention\Image\ImageServiceProvider::class,
 
     /*
      * Package Service Providers...
@@ -215,6 +216,7 @@ return [
       // 'ExampleClass' => App\Example\ExampleClass::class,
       'Helper' => App\Helpers\Helpers::class,
       'Helper_user' => App\Helpers\Helpers_user::class,
+      'Image' => Intervention\Image\Facades\Image::class,
     ])
     ->toArray(),
 ];

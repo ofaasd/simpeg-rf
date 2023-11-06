@@ -27,11 +27,11 @@
         <div class="form-floating form-floating-outline">
           <p class="text-light fw-semibold">Jenis Kelamin</p>
           <div class="form-check col-md-12" style="margin-left:10px;">
-            <input type="radio" name="jenis_kelamin" class="form-check-input"  value='L' id="laki-laki" required>
+            <input type="radio" name="jenis_kelamin" class="form-check-input"  value='L' id="laki-laki">
             <label class="form-check-label" for="laki-laki">Laki-laki</label>
           </div>
           <div class="form-check col-md-12" style="margin-left:10px;">
-            <input type="radio" name="jenis_kelamin" class="form-check-input" value='P' id="perempuan" required>
+            <input type="radio" name="jenis_kelamin" class="form-check-input" value='P' id="perempuan">
             <label class="form-check-label" for="perempuan">Perempuan</label>
           </div>
         </div>
@@ -85,13 +85,13 @@
         </div>
       </div>
       <div class="col-md-12">
-        <div class="form-floating form-floating-outline col-md-12">
+        <div class="form-floating form-floating-outline">
           <textarea class="form-control" name="alamat" id="alamat"></textarea>
           <label for="alamat">Alamat Lengkap</label>
         </div>
       </div>
       <div class="col-md-12">
-        <div class="form-floating form-floating-outline col-md-12">
+        <div class="form-floating form-floating-outline">
           <select class="form-control select2" name="provinsi" id="provinsi">
             <option value=0>--Pilih Provinsi--</option>
             @foreach ($provinsi as $row)
@@ -102,7 +102,7 @@
         </div>
       </div>
       <div class="col-md-12">
-        <div class="form-floating form-floating-outline col-md-12">
+        <div class="form-floating form-floating-outline ">
           <select class="form-control" name="kota" id="kota">
             <option value=0>--Pilih Kota--</option>
           </select>
@@ -110,15 +110,21 @@
         </div>
       </div>
       <div class="col-md-12">
-        <div class="form-floating form-floating-outline col-md-12">
+        <div class="form-floating form-floating-outline ">
           <input type="text" name="kecamatan" class="form-control" placeholder="Kecamatan" value="" id="kecamatan">
           <label for="kecamatan">Kecamatan</label>
         </div>
       </div>
       <div class="col-md-12">
-        <div class="form-floating form-floating-outline col-md-12">
+        <div class="form-floating form-floating-outline ">
           <input type="text" name="kelurahan" class="form-control" value="" id="kelurahan">
           <label for="kelurahan">Keluarahan/Desa</label>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-floating form-floating-outline">
+          <input type="text" name="kode_pos" class="form-control" value="" id="kode_pos">
+          <label for="kode_pos">Kode Pos</label>
         </div>
       </div>
     </div>
