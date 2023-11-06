@@ -162,7 +162,7 @@ class SantriController extends Controller
         $photo = $request->file('photos');
         $filename = date('YmdHi') . $photo->getClientOriginalName();
         $kompres = Image::make($photo)
-          ->resize(300, 400)
+          ->resize(400, 400)
           ->save('assets/img/upload/photo/' . $filename);
         if ($kompres) {
           //$file = $request->file->store('public/assets/img/upload/photo');
