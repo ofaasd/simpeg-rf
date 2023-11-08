@@ -156,7 +156,9 @@ class Pegawai extends Controller
         $photo = $request->file('photos');
         $filename = date('YmdHi') . $photo->getClientOriginalName();
         $kompres = Image::make($photo)
-          ->resize(400, null)
+          ->resize(400, null, function ($constraint) {
+            $constraint->aspectRatio();
+          })
           ->save('assets/img/upload/photo/' . $filename);
         if ($kompres) {
           //$file = $request->file->store('public/assets/img/upload/photo');
