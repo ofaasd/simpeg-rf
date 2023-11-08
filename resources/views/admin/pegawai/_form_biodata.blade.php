@@ -93,8 +93,8 @@
           });
 
           $(".user-profile-img").attr('src', ''.concat(baseUrl).concat('assets/img/upload/photo/').concat(status.photo));
+          //showUnblock();
 
-          showUnblock();
         },
         error: function error(err) {
 
