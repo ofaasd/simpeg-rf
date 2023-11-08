@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class PsbGelombang
- * 
+ *
  * @property int $id
  * @property int $no_gel
  * @property string|null $nama_gel
@@ -33,37 +33,38 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PsbGelombang extends Model
 {
-	protected $table = 'psb_gelombang';
-	public $timestamps = false;
+  protected $table = 'psb_gelombang';
+  public $timestamps = false;
+  protected $dateFormat = 'U';
 
-	protected $casts = [
-		'no_gel' => 'int',
-		'tgl_mulai' => 'datetime',
-		'tgl_akhir' => 'datetime',
-		'ujian' => 'datetime',
-		'pengumuman' => 'datetime',
-		'reg_mulai' => 'datetime',
-		'reg_akhir' => 'datetime',
-		'semester' => 'bool',
-		'jenis' => 'bool',
-		'pmb_online' => 'int'
-	];
+  protected $casts = [
+    'no_gel' => 'int',
+    'tgl_mulai' => 'datetime',
+    'tgl_akhir' => 'datetime',
+    'ujian' => 'datetime',
+    'pengumuman' => 'datetime',
+    'reg_mulai' => 'datetime',
+    'reg_akhir' => 'datetime',
+    'semester' => 'bool',
+    'jenis' => 'bool',
+    'pmb_online' => 'int',
+  ];
 
-	protected $fillable = [
-		'no_gel',
-		'nama_gel',
-		'nama_gel_long',
-		'tgl_mulai',
-		'tgl_akhir',
-		'ujian',
-		'jam_ujian',
-		'hari_ujian',
-		'pengumuman',
-		'reg_mulai',
-		'reg_akhir',
-		'tahun',
-		'semester',
-		'jenis',
-		'pmb_online'
-	];
+  protected $fillable = [
+    'no_gel',
+    'nama_gel',
+    'nama_gel_long',
+    'tgl_mulai',
+    'tgl_akhir',
+    'ujian',
+    'jam_ujian',
+    'hari_ujian',
+    'pengumuman',
+    'reg_mulai',
+    'reg_akhir',
+    'tahun',
+    'semester',
+    'jenis',
+    'pmb_online',
+  ];
 }

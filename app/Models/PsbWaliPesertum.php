@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class PsbWaliPesertum
- * 
+ *
  * @property int $id
  * @property string|null $nama_ayah
  * @property string|null $pendidikan_ayah
@@ -32,24 +32,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class PsbWaliPesertum extends Model
 {
-	use SoftDeletes;
-	protected $table = 'psb_wali_peserta';
+  use SoftDeletes;
+  protected $table = 'psb_wali_peserta';
+  protected $dateFormat = 'U';
 
-	protected $casts = [
-		'psb_peserta_id' => 'int'
-	];
+  protected $casts = [
+    'psb_peserta_id' => 'int',
+  ];
 
-	protected $fillable = [
-		'nama_ayah',
-		'pendidikan_ayah',
-		'pekerjaan_ayah',
-		'alamat_ayah',
-		'no_hp',
-		'nama_ibu',
-		'pendidikan_ibu',
-		'pekerjaan_ibu',
-		'alamat_ibu',
-		'no_telp',
-		'psb_peserta_id'
-	];
+  protected $fillable = [
+    'nama_ayah',
+    'pendidikan_ayah',
+    'pekerjaan_ayah',
+    'alamat_ayah',
+    'no_hp',
+    'nama_ibu',
+    'pendidikan_ibu',
+    'pekerjaan_ibu',
+    'alamat_ibu',
+    'no_telp',
+    'psb_peserta_id',
+  ];
 }

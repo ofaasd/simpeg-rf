@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\PsbPesertaOnline;
 use App\Models\PsbSekolahAsal;
 use App\Models\PsbWaliPesertum;
+use App\Models\PsbGelombang;
 use App\Models\Province;
 use App\Models\City;
 
@@ -143,6 +144,54 @@ class psb extends Controller
   public function store(Request $request)
   {
     //
+    $gelombang = PsbGelombang::where('pmb_online', 1)->first();
+    $data = new PsbPesertaOnline();
+    $data->nik = $request->nik;
+    $data->nama = $request->nama_lengkap;
+    $data->nama_panggilan = $request->nama_panggilan;
+    $data->jenis_kelamin = $request->jenis_kelamin;
+    $data->tempat_lahir = $request->tempat_lahir;
+    $data->tanggal_lahir = date('Y-m-d', strtotime($request->tanggal_lahir));
+    $data->usia_bulan = $request->usia_bulan;
+    $data->usia_tahun = $request->usia_tahun;
+    $data->jumlah_saudara = $request->jumlah_saudara;
+    $data->anak_ke = $request->anak_ke;
+    $data->alamat = $request->alamat;
+    $data->prov_id = $request->provinsi;
+    $data->kota_id = $request->kota;
+    $data->kecamatan = $request->kecamatan;
+    $data->kelurahan = $request->kelurahan;
+    $data->kode_pos = $request->kode_pos;
+    $data->gelombang_id = $gelombang->id;
+    if ($data->save()) {
+      $id = $data->id;
+      $data_wali = new PsbWaliPesertum();
+      $data_wali->nama_ayah = $request->nama_ayah;
+      $data_wali->nama_ibu = $request->nama_ibu;
+      $data_wali->pekerjaan_ayah = $request->pekerjaan_ayah;
+      $data_wali->pekerjaan_ibu = $request->pekerjaan_ibu;
+      $data_wali->pendidikan_ayah = $request->pendidikan_ayah;
+      $data_wali->pendidikan_ibu = $request->pendidikan_ibu;
+      $data_wali->alamat_ayah = $request->alamat_ayah;
+      $data_wali->alamat_ibu = $request->alamat_ibu;
+      $data_wali->no_hp = $request->no_hp;
+      $data_wali->no_telp = $request->no_telp;
+      $data_wali->psb_peserta_id = $id;
+      $data_wali->save();
+      $data_sekolah = new PsbSekolahAsal();
+      $data_sekolah->jenjang = $request->jenjang;
+      $data_sekolah->nama_sekolah = $request->nama_sekolah;
+      $data_sekolah->nss = $request->nss;
+      $data_sekolah->npsn = $request->npsn;
+      $data_sekolah->nisn = $request->nisn;
+      $data_sekolah->kelas = $request->kelas;
+      $data_sekolah->psb_peserta_id = $id;
+      $data_sekolah->save();
+
+      return 1;
+    } else {
+      return 2; // erro saat input data
+    }
   }
 
   /**

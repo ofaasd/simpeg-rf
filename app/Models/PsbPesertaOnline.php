@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class PsbPesertaOnline
- * 
+ *
  * @property int $id
  * @property string|null $nik
  * @property string $nama
@@ -43,43 +43,48 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class PsbPesertaOnline extends Model
 {
-	use SoftDeletes;
-	protected $table = 'psb_peserta_online';
+  use SoftDeletes;
+  protected $table = 'psb_peserta_online';
+  //protected $dateFormat = 'U';
 
-	protected $casts = [
-		'tanggal_lahir' => 'datetime',
-		'usia_bulan' => 'int',
-		'usia_tahun' => 'int',
-		'jumlah_saudara' => 'int',
-		'anak_ke' => 'int',
-		'prov_id' => 'int',
-		'kota_id' => 'int',
-		'user_id' => 'int',
-		'status' => 'int',
-		'gelombang_id' => 'int'
-	];
+  protected $casts = [
+    'tanggal_lahir' => 'datetime',
+    'usia_bulan' => 'int',
+    'usia_tahun' => 'int',
+    'jumlah_saudara' => 'int',
+    'anak_ke' => 'int',
+    'prov_id' => 'int',
+    'kota_id' => 'int',
+    'user_id' => 'int',
+    'status' => 'int',
+    'gelombang_id' => 'int',
+    'created_at' => 'datetime:U',
+    'updated_at' => 'datetime:U',
+    'deleted_at' => 'datetime:U',
+  ];
 
-	protected $fillable = [
-		'nik',
-		'nama',
-		'nama_panggilan',
-		'jenis_kelamin',
-		'tempat_lahir',
-		'tanggal_lahir',
-		'usia_bulan',
-		'usia_tahun',
-		'jumlah_saudara',
-		'anak_ke',
-		'alamat',
-		'prov_id',
-		'kota_id',
-		'kecamatan',
-		'kelurahan',
-		'rt',
-		'rw',
-		'user_id',
-		'status',
-		'no_pendaftaran',
-		'gelombang_id'
-	];
+  protected $fillable = [
+    'nik',
+    'nama',
+    'nama_panggilan',
+    'jenis_kelamin',
+    'tempat_lahir',
+    'tanggal_lahir',
+    'usia_bulan',
+    'usia_tahun',
+    'jumlah_saudara',
+    'anak_ke',
+    'alamat',
+    'prov_id',
+    'kota_id',
+    'kecamatan',
+    'kelurahan',
+    'rt',
+    'rw',
+    'user_id',
+    'status',
+    'no_pendaftaran',
+    'gelombang_id',
+    'kode_pos',
+  ];
 }

@@ -136,3 +136,27 @@
     <button class="btn btn-primary btn-next"> <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span> <i class="mdi mdi-arrow-right"></i></button>
   </div>
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {
+  //
+  $("#provinsi").on("change",function(){
+    $.ajax({
+      data: {
+      id: $("#provinsi").val(),
+      },
+      url: ''.concat(baseUrl).concat("santri").concat('/get_kota'),
+      type: 'POST',
+      success: function success(data) {
+      // sweetalert
+      $('#kota').html('');
+      Object.keys(data).forEach(function (key) {
+          $('#kota').append(
+          '<option value=' + data[key].city_id + ' '.concat('>' + data[key].city_name + '</option>')
+          );
+      });
+      $("#kota").select2();
+      }
+    });
+  });
+});
+</script>
