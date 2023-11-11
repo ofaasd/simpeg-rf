@@ -166,13 +166,10 @@ class SantriController extends Controller
           ->save('assets/img/upload/photo/' . $filename);
         if ($kompres) {
           //$file = $request->file->store('public/assets/img/upload/photo');
-          $Santri2 = Santri::updateOrCreate(
-            ['id' => $id],
-            [
-              'photo' => $filename,
-              'photo_location' => 2,
-            ]
-          );
+          $Santri2 = Santri::find($id);
+          $Santri2->photo = $filename;
+          $Santri2->photo_location = 2;
+          $Santri->save();
         }
       }
       // user updated

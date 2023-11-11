@@ -162,12 +162,9 @@ class Pegawai extends Controller
           ->save('assets/img/upload/photo/' . $filename);
         if ($kompres) {
           //$file = $request->file->store('public/assets/img/upload/photo');
-          $EmployeeNew2 = EmployeeNew::updateOrCreate(
-            ['id' => $id],
-            [
-              'photo' => $filename,
-            ]
-          );
+          $EmployeeNew2 = EmployeeNew::find($id);
+          $EmployeeNew2->photo = $filename;
+          $EmployeeNew->save();
         }
       }
       // user updated
