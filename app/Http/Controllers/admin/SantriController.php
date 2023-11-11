@@ -169,7 +169,7 @@ class SantriController extends Controller
           $Santri2 = Santri::find($id);
           $Santri2->photo = $filename;
           $Santri2->photo_location = 2;
-          $Santri->save();
+          $Santri2->save();
         }
       }
       // user updated
