@@ -36,6 +36,13 @@
             }
           }
         },
+        tempat_lahir: {
+          validators: {
+            notEmpty: {
+              message: 'Tempat Lahir Harap Diisi'
+            }
+          }
+        },
         tanggal_lahir: {
           validators: {
             notEmpty: {
@@ -64,10 +71,10 @@
             }
           }
         },
-        kecamatan: {
+        no_hp: {
           validators: {
             notEmpty: {
-              message: 'Kecamatan harap diisi'
+              message: 'No. HP Harus Diisi'
             }
           }
         },
@@ -252,17 +259,60 @@
       // wizardValidationForm.submit()
       // or send the form data to server via an Ajax request
       // To make the demo simple, I just placed an alert
-      const data_hasil = $('#wizard-validation-form').serialize();
+      const myForm = $('#wizard-validation-form').serialize();
       $.ajax({
-        data: data_hasil,
-        url: ''.concat(baseUrl).concat('psb'),
+        data: myForm,
+        url: ''.concat(baseUrl).concat('psb/validation'),
         type: 'POST',
-        success: function success(data) {
-          if (data == 1) {
-            window.location.href = ''.concat(baseUrl).concat('psb');
-            alert('Submitted..!!');
+        success: function (data) {
+          data = JSON.parse(data);
+          //alert(data.msg);
+          if (parseInt(data[0].code) == 0) {
+            //alert("masuk sini");
+            $('#alert-show').html('');
+            const urlSend = ''.concat(baseUrl).concat('psb');
+            $.ajax({
+              url: urlSend,
+              data: myForm,
+              method: 'POST',
+              success: function (data) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Tersimpan',
+                  text: 'Data berhasil disimpan',
+                  customClass: {
+                    confirmButton: 'btn btn-success'
+                  }
+                });
+                data = JSON.parse(data);
+                $('#wizard-validation').html(`
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding:30px">
+                                                <p>Selamat anda sudah terdaftar pada web Penerimaan Peserta Didik Baru PPATQ Radlatul Falah Pati</p>
+                                                <p>Silahkan catat username dan password di bawah ini untuk dapat mengubah dan melengkapi data</p>
+                                                <p><b>username : ${data[0].username} </b></p>
+                                                <p><b>password : ${data[0].password} </b></p>
+                                                <p>Selanjutnya anda dapat melakukan pengkinian data dan mengupload berkas pendukung calon santri baru di menu PSB setelah login melalui sistem
+                                                https://psb.ppatq-rf.id melalui menu update data / upload berkas pendukung</p>
+                                            </div>
+                                        </div>
+                                        `);
+              }
+            });
           } else {
-            alert('Error' + data);
+            //alert(data.msg);
+            Swal.fire({
+              icon: 'error',
+              title: 'Data Submit Error',
+              text: 'Data tidak dapat disimpan harap periksa pesan error',
+              customClass: {
+                confirmButton: 'btn btn-success'
+              }
+            });
+            $('#alert-show').html('');
+            data.forEach(function (item) {
+              $('#alert-show').prepend("<div class='alert alert-danger'>" + item.msg + '</div>');
+            });
           }
         }
       });

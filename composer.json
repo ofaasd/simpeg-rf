@@ -45,7 +45,8 @@
     },
     "files": [
       "app/Helpers/Helpers.php",
-      "app/Helpers/Helpers_user.php"
+      "app/Helpers/Helpers_user.php",
+      "app/Helpers/Helpers_wa.php"
     ]
   },
   "scripts": {

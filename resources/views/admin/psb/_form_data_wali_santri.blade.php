@@ -36,12 +36,6 @@
           <label for="alamat_ayah">Alamat Lengkap</label>
         </div>
       </div>
-      <div class="col-md-12">
-        <div class="form-floating form-floating-outline col-md-12">
-          <input type="text" name="no_hp" class="form-control" value="" id="no_hp" />
-          <label for="no_hp">No. Handphone (WA)</label>
-        </div>
-      </div>
     </div>
   </div>
   <div class="col-sm-6">

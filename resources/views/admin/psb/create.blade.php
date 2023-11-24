@@ -67,6 +67,7 @@
           </div>
         </div>
         <div class="bs-stepper-content">
+          <div id="alert-show"></div>
           <form id="wizard-validation-form" onSubmit="return false">
             <!-- Account Details -->
             <div id="account-details-validation" class="content">

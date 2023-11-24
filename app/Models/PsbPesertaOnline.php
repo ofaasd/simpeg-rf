@@ -45,10 +45,10 @@ class PsbPesertaOnline extends Model
 {
   use SoftDeletes;
   protected $table = 'psb_peserta_online';
-  //protected $dateFormat = 'U';
+  protected $dateFormat = 'U';
 
   protected $casts = [
-    'tanggal_lahir' => 'datetime',
+    'tanggal_lahir' => 'int',
     'usia_bulan' => 'int',
     'usia_tahun' => 'int',
     'jumlah_saudara' => 'int',
@@ -58,9 +58,6 @@ class PsbPesertaOnline extends Model
     'user_id' => 'int',
     'status' => 'int',
     'gelombang_id' => 'int',
-    'created_at' => 'datetime:U',
-    'updated_at' => 'datetime:U',
-    'deleted_at' => 'datetime:U',
   ];
 
   protected $fillable = [

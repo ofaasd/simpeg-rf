@@ -76,6 +76,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/profile', ProfileController::class);
   Route::resource('/murroby', AdminMurrobyController::class);
   Route::resource('/psb', psb::class);
+  Route::post('psb/validation', [psb::class, 'validation']);
   Route::resource('/ustadz/murroby', MurrobyController::class);
   Route::resource('/ustadz/tahfidz', UstTahfidzController::class);
   Route::resource('/ustadz/uang-saku', UangSakuController::class);
