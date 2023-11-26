@@ -75,8 +75,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/santri', SantriController::class);
   Route::resource('/profile', ProfileController::class);
   Route::resource('/murroby', AdminMurrobyController::class);
+
   Route::resource('/psb', psb::class);
   Route::post('psb/validation', [psb::class, 'validation']);
+  Route::post('psb/update_data_pribadi', [psb::class, 'update_data_pribadi']);
+  Route::post('psb/update_data_walsan', [psb::class, 'update_data_walsan']);
+  Route::post('psb/update_data_asal_sekolah', [psb::class, 'update_data_asal_sekolah']);
+  Route::post('psb/update_data_berkas', [psb::class, 'update_data_berkas']);
+
   Route::resource('/ustadz/murroby', MurrobyController::class);
   Route::resource('/ustadz/tahfidz', UstTahfidzController::class);
   Route::resource('/ustadz/uang-saku', UangSakuController::class);

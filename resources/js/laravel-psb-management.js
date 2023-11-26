@@ -77,7 +77,7 @@ $(function () {
         },
         {
           // User full name
-          targets: 4,
+          targets: 3,
           responsivePriority: 4,
           render: function render(data, type, full, meta) {
             var $name = full['nama'];
@@ -116,25 +116,19 @@ $(function () {
         {
           targets: 2,
           render: function render(data, type, full, meta) {
-            return '<span>'.concat(full.nik, '</span>');
-          }
-        },
-        {
-          targets: 3,
-          render: function render(data, type, full, meta) {
             return '<span>'.concat(full.no_pendaftaran, '</span>');
           }
         },
         {
-          targets: 5,
+          targets: 4,
           render: function render(data, type, full, meta) {
-            return '<span>'.concat(full.usia, '</span>');
+            return '<span>'.concat(full.ttl, '</span>');
           }
         },
         {
           searchable: false,
           orderable: false,
-          targets: 6,
+          targets: 5,
           render: function render(data, type, full, meta) {
             return '<span>'.concat(full.status, '</span>');
           }
@@ -142,14 +136,9 @@ $(function () {
         {
           searchable: false,
           orderable: false,
-          targets: 7,
+          targets: 6,
           render: function render(data, type, full, meta) {
             return (
-              '<div class="d-inline-block text-nowrap"><a href="' +
-              baseUrl +
-              'psb/' +
-              full.id +
-              '/edit"><i class="mdi mdi-pencil-outline mdi-20px"></i></a>' +
               '<button class="btn btn-sm btn-icon delete-record" data-id="' +
               full['id'] +
               '"><i class="mdi mdi-delete-outline mdi-20px"></i></button></div>'
