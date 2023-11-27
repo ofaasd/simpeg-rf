@@ -50,7 +50,7 @@
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                  <button button type="submit" class="btn btn-primary waves-effect waves-light">Simpan</button>
+                  <!-- <button button type="submit" class="btn btn-primary waves-effect waves-light">Simpan</button> -->
                 </div>
             </div>
          </div>
