@@ -10,29 +10,31 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class PsbBerkasPendukung
+ * Class PsbBuktiPembayaran
  *
  * @property int $id
  * @property int $psb_peserta_id
- * @property string|null $file_kk
- * @property string|null $file_ktp
- * @property string|null $file_rapor
- * @property string|null $file_photo
+ * @property string $bank
+ * @property string $atas_nama
+ * @property string $no_rekening
  * @property int|null $created_at
  * @property int|null $updated_at
  * @property string|null $deleted_at
+ * @property string $bukti
+ * @property int $status
  *
  * @package App\Models
  */
-class PsbBerkasPendukung extends Model
+class PsbBuktiPembayaran extends Model
 {
   use SoftDeletes;
-  protected $table = 'psb_berkas_pendukung';
+  protected $table = 'psb_bukti_pembayaran';
   protected $dateFormat = 'U';
 
   protected $casts = [
     'psb_peserta_id' => 'int',
+    'status' => 'int',
   ];
 
-  protected $fillable = ['psb_peserta_id', 'file_kk', 'file_ktp', 'file_rapor', 'file_photo'];
+  protected $fillable = ['psb_peserta_id', 'bank', 'atas_nama', 'no_rekening', 'bukti', 'status'];
 }

@@ -8,6 +8,7 @@ use App\Models\PsbPesertaOnline;
 use App\Models\PsbSekolahAsal;
 use App\Models\PsbWaliPesertum;
 use App\Models\PsbBerkasPendukung;
+use App\Models\PsbBuktiPembayaran;
 use App\Models\UserPsb;
 use App\Models\PsbGelombang;
 use App\Models\Province;
@@ -34,7 +35,8 @@ class psb extends Controller
     'November',
     'Desember',
   ];
-  public $indexed = ['', 'id', 'no_pendaftaran', 'nama', 'TTL', 'status', 'status_ujian', 'status_diterima'];
+  public $indexed = ['', 'id', 'no_pendaftaran', 'nama', 'ttl', 'status', 'status_ujian', 'status_diterima'];
+  public $indexed2 = ['', 'id', 'no_pendaftaran', 'nama', 'ttl', 'bayar'];
   public function index(Request $request)
   {
     //
@@ -104,7 +106,7 @@ class psb extends Controller
           $nestedData['fake_id'] = ++$ids;
           $nestedData['no_pendaftaran'] = $row->no_pendaftaran . '';
           $nestedData['nama'] = $row->nama ?? '';
-          $nestedData['ttl'] = $row->tempat_lahir . ', ' . date('d-m-Y', strtotime($row->tanggal_lahir)) . '';
+          $nestedData['ttl'] = $row->tempat_lahir . ', ' . date('d-m-Y', $row->tanggal_lahir) . '';
           $nestedData['status'] = $row->status ?? '';
           $nestedData['status_ujian'] = $row->status_ujian ?? '';
           $nestedData['status_diterima'] = $row->status_diterima ?? '';
@@ -129,7 +131,150 @@ class psb extends Controller
       }
     }
   }
+  public function validasi(Request $request)
+  {
+    if (empty($request->input('length'))) {
+      $title = 'Validasi';
+      $indexed = $this->indexed2;
+      return view('admin.psb.validasi', compact('title', 'indexed'));
+    } else {
+      $columns = [
+        1 => 'id',
+        2 => 'no_pendaftaran',
+        3 => 'nama',
+        4 => 'ttl',
+        5 => 'bayar',
+      ];
 
+      $search = [];
+
+      $totalData = PsbPesertaOnline::count();
+
+      $totalFiltered = $totalData;
+
+      $limit = $request->input('length');
+      $start = $request->input('start');
+      $order = $columns[$request->input('order.0.column')];
+      $dir = $request->input('order.0.dir');
+
+      if (empty($request->input('search.value'))) {
+        $PsbPesertaOnline = PsbPesertaOnline::offset($start)
+          ->limit($limit)
+          ->orderBy($order, $dir)
+          ->get();
+      } else {
+        $search = $request->input('search.value');
+
+        $PsbPesertaOnline = PsbPesertaOnline::where(function ($query) use ($search) {
+          $query
+            ->where('id', 'LIKE', "%{$search}%")
+            ->orWhere('nama', 'LIKE', "%{$search}%")
+            ->orWhere('no_pendaftaran', 'LIKE', "%{$search}%");
+        })
+          ->offset($start)
+          ->limit($limit)
+          ->orderBy($order, $dir)
+          ->get();
+
+        $totalFiltered = PsbPesertaOnline::where('jabatan_new', 12)
+          ->where(function ($query) use ($search) {
+            $query
+              ->where('id', 'LIKE', "%{$search}%")
+              ->orWhere('nama', 'LIKE', "%{$search}%")
+              ->orWhere('no_pendaftaran', 'LIKE', "%{$search}%");
+          })
+          ->count();
+      }
+
+      $data = [];
+
+      if (!empty($PsbPesertaOnline)) {
+        // providing a dummy id instead of database ids
+        $ids = $start;
+
+        foreach ($PsbPesertaOnline as $row) {
+          $bukti_bayar = 0;
+          $bukti = PsbBuktiPembayaran::where('psb_peserta_id', $row->id);
+          if ($bukti->count() > 0) {
+            $bukti_bayar = $bukti->first()->status;
+          }
+          $nestedData['id'] = $row->id;
+          $nestedData['fake_id'] = ++$ids;
+          $nestedData['no_pendaftaran'] = $row->no_pendaftaran . '';
+          $nestedData['nama'] = $row->nama ?? '';
+          $nestedData['ttl'] = $row->tempat_lahir . ', ' . date('d-m-Y', $row->tanggal_lahir) . '';
+          $nestedData['bayar'] = $bukti_bayar;
+          $data[] = $nestedData;
+        }
+      }
+
+      if ($data) {
+        return response()->json([
+          'draw' => intval($request->input('draw')),
+          'recordsTotal' => intval($totalData),
+          'recordsFiltered' => intval($totalFiltered),
+          'code' => 200,
+          'data' => $data,
+        ]);
+      } else {
+        return response()->json([
+          'message' => 'Internal Server Error',
+          'code' => 500,
+          'data' => [],
+        ]);
+      }
+    }
+  }
+  public function edit_validasi($id)
+  {
+    $validasi = PsbBuktiPembayaran::where('psb_peserta_id', $id);
+    if ($validasi->count() == 0) {
+      $array = [];
+    } else {
+      $array = $validasi->first();
+    }
+    return response()->json($array);
+  }
+  public function store_validasi(Request $request)
+  {
+    //
+    $id = $request->id;
+
+    if ($id) {
+      // update the value
+      $PsbBuktiPembayaran = PsbBuktiPembayaran::updateOrCreate(
+        ['id' => $id],
+        [
+          'bank' => $request->bank,
+          'no_rekening' => $request->no_rekening,
+          'atas_nama' => $request->atas_nama,
+          'status' => $request->status,
+        ]
+      );
+
+      // user updated
+      return response()->json('Updated');
+    } else {
+      // create new one if email is unique
+      //$userEmail = User::where('email', $request->email)->first();
+
+      $PsbBuktiPembayaran = PsbBuktiPembayaran::updateOrCreate(
+        ['id' => $id],
+        [
+          'bank' => $request->bank,
+          'no_rekening' => $request->no_rekening,
+          'atas_nama' => $request->atas_nama,
+          'status' => $request->status,
+        ]
+      );
+      if ($PsbBuktiPembayaran) {
+        // user created
+        return response()->json('Created');
+      } else {
+        return response()->json('Failed Create Academic');
+      }
+    }
+  }
   /**
    * Show the form for creating a new resource.
    */
