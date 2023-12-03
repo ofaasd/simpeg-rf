@@ -340,9 +340,17 @@ $(function () {
 
         if (key == 'bukti') {
           if (data[key]) {
-            $('#bukti_file').html(
-              "<img src='https://psb.ppatq-rf.id/assets/images/upload/file_bukti/" + data[key] + "' width='100%'>"
-            );
+            const $pecah = data[key].split('.');
+            if ($pecah[1] == 'pdf') {
+              $('#bukti_file')
+                .html(`<object data="https://psb.ppatq-rf.id/assets/images/upload/file_bukti/${data[key]}" type="application/pdf" width="100%" height="400">
+                          <p>PDF Link : <a href="https://psb.ppatq-rf.id/assets/images/upload/file_bukti/${data[key]}">to the PDF!</a></p>
+                        </object>`);
+            } else {
+              $('#bukti_file').html(
+                "<img src='https://psb.ppatq-rf.id/assets/images/upload/file_bukti/" + data[key] + "' width='100%'>"
+              );
+            }
           }
         }
       });
