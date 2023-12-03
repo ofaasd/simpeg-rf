@@ -77,7 +77,7 @@ $(function () {
         },
         {
           // User full name
-          targets: 3,
+          targets: 2,
           responsivePriority: 4,
           render: function render(data, type, full, meta) {
             var $name = full['nama'];
@@ -114,7 +114,7 @@ $(function () {
           }
         },
         {
-          targets: 2,
+          targets: 3,
           render: function render(data, type, full, meta) {
             return '<span>'.concat(full.no_pendaftaran, '</span>');
           }
@@ -130,13 +130,41 @@ $(function () {
           orderable: false,
           targets: 5,
           render: function render(data, type, full, meta) {
-            return '<span>'.concat(full.status, '</span>');
+            if (parseInt(full.status) == 1) {
+              return "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>";
+            } else {
+              return "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
+            }
           }
         },
         {
           searchable: false,
           orderable: false,
           targets: 6,
+          render: function render(data, type, full, meta) {
+            if (parseInt(full.status_ujian) == 1) {
+              return "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>";
+            } else {
+              return "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
+            }
+          }
+        },
+        {
+          searchable: false,
+          orderable: false,
+          targets: 7,
+          render: function render(data, type, full, meta) {
+            if (parseInt(full.status_diterima) == 1) {
+              return "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>";
+            } else {
+              return "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
+            }
+          }
+        },
+        {
+          searchable: false,
+          orderable: false,
+          targets: 8,
           render: function render(data, type, full, meta) {
             return (
               '<button class="btn btn-sm btn-icon delete-record" data-id="' +

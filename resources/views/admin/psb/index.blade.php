@@ -33,11 +33,13 @@
         <tr>
           <th></th>
           <th>Id</th>
-          <th>No. Pendaftaran</th>
           <th>Nama</th>
+          <th>No. Pendaftaran</th>
           <th>TTL</th>
-          <th>Status</th>
-          <th>Action</th>
+          <th>Verifikasi</th>
+          <th>Ujian</th>
+          <th>Diterima</th>
+          <th></th>
         </tr>
       </thead>
     </table>

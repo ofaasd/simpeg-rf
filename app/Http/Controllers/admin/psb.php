@@ -34,7 +34,7 @@ class psb extends Controller
     'November',
     'Desember',
   ];
-  public $indexed = ['', 'id', 'no_pendaftaran', 'nama', 'TTL', 'status'];
+  public $indexed = ['', 'id', 'no_pendaftaran', 'nama', 'TTL', 'status', 'status_ujian', 'status_diterima'];
   public function index(Request $request)
   {
     //
@@ -49,6 +49,8 @@ class psb extends Controller
         3 => 'nama',
         4 => 'ttl',
         5 => 'status',
+        6 => 'status_ujian',
+        7 => 'status_diterima',
       ];
 
       $search = [];
@@ -104,6 +106,8 @@ class psb extends Controller
           $nestedData['nama'] = $row->nama ?? '';
           $nestedData['ttl'] = $row->tempat_lahir . ', ' . date('d-m-Y', strtotime($row->tanggal_lahir)) . '';
           $nestedData['status'] = $row->status ?? '';
+          $nestedData['status_ujian'] = $row->status_ujian ?? '';
+          $nestedData['status_diterima'] = $row->status_diterima ?? '';
           $data[] = $nestedData;
         }
       }

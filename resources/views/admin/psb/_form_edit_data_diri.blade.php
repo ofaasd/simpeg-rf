@@ -115,7 +115,7 @@
                       <div class="col-md-6">
                           <div class="form-floating form-floating-outline col-md-12">
 
-                              <select class="form-control" name="provinsi" id="provinsi" required>
+                              <select class="form-control select2" name="provinsi" id="provinsi" required>
                                   <option value=0>--Pilih Provinsi--</option>
                                   @foreach($provinsi as $row)
                                       <option value="{{$row->prov_id}}" {{($row->prov_id == $psb_peserta->prov_id)?"selected":""}}>{{$row->prov_name}}</option>
@@ -127,7 +127,7 @@
                       <div class="col-md-6">
                           <div class="form-floating form-floating-outline col-md-12">
 
-                              <select class="form-control" name="kota" id="kota" required>
+                              <select class="form-control select2" name="kota" id="kota" required>
                                   <option value=0>--Pilih Kota--</option>
                                   @if(!empty($kota))
                                       @foreach($kota as $row)
@@ -227,6 +227,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         });
 
     })
+
     const url = '{{URL::to('psb/get_kota')}}';
     $("#provinsi").on('change',function(){
         $.ajax({

@@ -33,7 +33,7 @@
 @section('content')
 <div class="row" style="margin-bottom:10px">
   <div class="col-12">
-    <a href="{{url('/santri')}}" class='btn btn-primary'>Kembali ke Daftar Calon Santri</a>
+    <a href="{{url('/psb')}}" class='btn btn-primary'>Kembali ke Daftar Calon Santri</a>
   </div>
 </div>
 <div class="row">
@@ -131,8 +131,8 @@
           $(this).attr('class','nav-link active');
           $("#edit_berkas").fadeIn();
       });
-      $("#provinsi").select2();
-      $("#kota").select2();
+      // $("#provinsi").select2();
+      // $("#kota").select2();
   });
 
 </script>
