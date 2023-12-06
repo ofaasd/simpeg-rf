@@ -13,13 +13,13 @@
                       </div>
                   </div>
                 </div>
-                <!-- <div class="col-md-12">
+                <div class="col-md-12">
                   <div class="form-floating form-floating-outline col-md-12">
 
                       <input type="file" name="photos" class="form-control " id="photos" >
                       <label for="nik">Upload Foto</label>
                   </div>
-                </div> -->
+                </div>
                 <div class="col-md-12">
                   <div class="form-floating form-floating-outline col-md-12">
 
@@ -185,7 +185,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", function(event) {
     let data = "";
-    const url_save = "{{URL::to('psb/update_data_pribadi')}}";
+    const url_save = "https://psb.ppatq-rf.id/api/update_data_siswa";
     $("#form_data_diri").submit(function(e){
         e.preventDefault();
         //alert("asdasd");

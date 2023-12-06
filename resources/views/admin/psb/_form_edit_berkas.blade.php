@@ -8,9 +8,9 @@
                     <label for="File KK">File KK</label>
                     <div id='kk_error'></div>
                     <div class="row">
-                        <!-- <div class="col-md-6">
+                        <div class="col-md-6">
                          <input type="file" name="kk" class="form-control ">
-                        </div> -->
+                        </div>
                         <div class="col-md-4">
                           <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kkModal">Lihat File KK</a>
                         </div>
@@ -23,9 +23,9 @@
                     <label for="File KK">File KTP</label>
                     <div id='ktp_error'></div>
                     <div class="row">
-                        <!-- <div class="col-md-6">
+                        <div class="col-md-6">
                           <input type="file" name="ktp" class="form-control ">
-                        </div> -->
+                        </div>
                         <div class="col-md-4">
                             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ktpModal">Lihat File KTP</a>
                         </div>
@@ -38,9 +38,9 @@
                     <label for="File KK">File Rapor</label>
                     <div id='rapor_error'></div>
                     <div class="row">
-                      <!-- <div class="col-md-6">
+                      <div class="col-md-6">
                         <input type="file" name="rapor" class="form-control ">
-                      </div> -->
+                      </div>
                       <div class="col-md-4">
                           <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#raporModal">Lihat File Rapor</a>
                       </div>
@@ -50,7 +50,7 @@
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                  <!-- <button button type="submit" class="btn btn-primary waves-effect waves-light">Simpan</button> -->
+                   <button button type="submit" class="btn btn-primary waves-effect waves-light">Simpan</button>
                 </div>
             </div>
          </div>
@@ -155,7 +155,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function(event) {
         //let data = "";
-        const url_save = "{{URL::to('psb/update_data_berkas')}}";
+        const url_save = "https://psb.ppatq-rf.id/api/update_data_berkas";
         $("#form_berkas").submit(function(e){
             e.preventDefault();
             //alert("asdasd");
