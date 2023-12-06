@@ -144,10 +144,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
   $("#provinsi").on("change",function(){
     $.ajax({
       data: {
-      id: $("#provinsi").val(),
-      },
-      url: ''.concat(baseUrl).concat("santri").concat('/get_kota'),
-      type: 'POST',
+          id: $("#provinsi").val(),
+          },
+      url: ''.concat(baseUrl).concat("psb").concat('/get_kota'),
+      method: 'POST',
       success: function success(data) {
       // sweetalert
       $('#kota').html('');

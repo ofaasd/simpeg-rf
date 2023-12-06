@@ -118,7 +118,7 @@
                               <select class="form-control select2" name="provinsi" id="provinsi" required>
                                   <option value=0>--Pilih Provinsi--</option>
                                   @foreach($provinsi as $row)
-                                      <option value="{{$row->prov_id}}" {{($row->prov_id == $psb_peserta->prov_id)?"selected":""}}>{{$row->prov_name}}</option>
+                                      <option value="{{$row->prov_id}}" {{($row->prov_id == $psb_peserta->provinsi_id)?"selected":""}}>{{$row->prov_name}}</option>
                                   @endforeach
                               </select>
                               <label for="provinsi">Provinsi <span class='text-danger'>*</span></label>
@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         }
                     });
                     if(hasil[0].photo){
-                        $(".user-profile-img").attr('src', ''.concat('{{URL::to('/')}}').concat('/assets/images/upload/foto_casan/').concat(hasil[0].photo));
+                        $(".user-profile-img").attr('src', ''.concat('https://psb.ppatq-rf.id').concat('/assets/images/upload/foto_casan/').concat(hasil[0].photo));
                     }
                 }else{
                     Swal.fire({
@@ -228,12 +228,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     })
 
-    const url = '{{URL::to('psb/get_kota')}}';
+    //const url = '{{URL::to('santri/get_kota')}}';
     $("#provinsi").on('change',function(){
         $.ajax({
-            url : url,
+            url: ''.concat(baseUrl).concat("psb").concat('/get_kota'),
             data : {
-                    "_token": "{{ csrf_token() }}",
                     "prov_id" : $(this).val()
                     },
             method : "POST",

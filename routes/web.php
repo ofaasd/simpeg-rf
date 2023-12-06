@@ -82,6 +82,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('psb/update_data_walsan', [psb::class, 'update_data_walsan']);
   Route::post('psb/update_data_asal_sekolah', [psb::class, 'update_data_asal_sekolah']);
   Route::post('psb/update_data_berkas', [psb::class, 'update_data_berkas']);
+  Route::post('psb/get_kota', [psb::class, 'get_kota']);
   Route::get('psb_new/validasi', [psb::class, 'validasi']);
   Route::get('psb_new/validasi/{id}/edit', [psb::class, 'edit_validasi']);
   Route::post('psb_new/validasi', [psb::class, 'store_validasi']);

@@ -717,4 +717,10 @@ https://psb.ppatq-rf.id';
     }
     echo json_encode($array);
   }
+  public function get_kota(Request $request)
+  {
+    $id = $request->prov_id;
+    $get_kota = City::where('prov_id', $id)->get();
+    echo json_encode($get_kota);
+  }
 }
