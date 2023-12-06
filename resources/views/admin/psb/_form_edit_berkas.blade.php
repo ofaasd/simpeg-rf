@@ -171,12 +171,12 @@
                     data = JSON.parse(data);
                     data.forEach(function(value){
                         if(value.ekstensi == 'pdf'){
-                            const base_url = '{{URL::to('')}}';
+                            const base_url = 'https://psb.ppatq-rf.id';
                             $("#content"+value.location).html(`<object data="${base_url}/assets/images/upload/file_${value.location}/${value.photo}" type="application/pdf" width="100%" height="400">
                                                                 <p>PDF Link : <a href="${base_url}/assets/images/upload/file_${value.location}/${value.photo}">to the PDF!</a></p>
                                                                 </object>`);
                         }else{
-                            $("#content"+value.location).html('<img src="{{URL::to('')}}/assets/images/upload/file_'+value.location+'/'+value.photo+'" width="80%" align="center">')
+                            $("#content"+value.location).html('<img src="https://psb.ppatq-rf.id/assets/images/upload/file_'+value.location+'/'+value.photo+'" width="80%" align="center">')
                         }
                     });
                     if(data[0].code == 1){
