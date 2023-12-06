@@ -118,7 +118,7 @@
                               <select class="form-control select2" name="provinsi" id="provinsi" required>
                                   <option value=0>--Pilih Provinsi--</option>
                                   @foreach($provinsi as $row)
-                                      <option value="{{$row->prov_id}}" {{($row->prov_id == $psb_peserta->provinsi_id)?"selected":""}}>{{$row->prov_name}}</option>
+                                      <option value="{{$row->prov_id}}" {{($row->prov_id == $psb_peserta->prov_id)?"selected":""}}>{{$row->prov_name}}</option>
                                   @endforeach
                               </select>
                               <label for="provinsi">Provinsi <span class='text-danger'>*</span></label>
