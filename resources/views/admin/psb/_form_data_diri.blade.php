@@ -144,17 +144,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
   $("#provinsi").on("change",function(){
     $.ajax({
       data: {
-          id: $("#provinsi").val(),
+          prov_id: $("#provinsi").val(),
           },
       url: ''.concat(baseUrl).concat("psb").concat('/get_kota'),
       method: 'POST',
       success: function success(data) {
       // sweetalert
       $('#kota').html('');
-      Object.keys(data).forEach(function (key) {
-          $('#kota').append(
-          '<option value=' + data[key].city_id + ' '.concat('>' + data[key].city_name + '</option>')
-          );
+      data = JSON.parse(data);
+      data.forEach(function (item){
+        $("#kota").append('<option value="' + item.city_id + '">' + item.city_name + '</option>');
       });
       $("#kota").select2();
       }

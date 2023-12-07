@@ -404,7 +404,7 @@ https://psb.ppatq-rf.id';
         $data['no_wa'] = $request->no_hp;
         $data['pesan'] = $pesan;
 
-        Helpers_wa::send_wa($data);
+        //Helpers_wa::send_wa($data);
       }
 
       $data = new PsbPesertaOnline();
@@ -457,6 +457,7 @@ https://psb.ppatq-rf.id';
           'status' => 'Success',
           'username' => $username,
           'password' => $password,
+          'id' => $data->id,
           'msg' => '',
         ];
         echo json_encode($array);
@@ -499,6 +500,33 @@ https://psb.ppatq-rf.id';
     return view(
       'admin.psb.show',
       compact('title', 'var', 'provinsi', 'psb_peserta', 'psb_wali', 'psb_asal', 'kota', 'foto', 'berkas')
+    );
+  }
+  public function berkas_pendukung(string $id)
+  {
+    $view_tab = 'berkas_pendukung';
+    $provinsi = Province::all();
+    $psb_peserta = PsbPesertaOnline::find($id);
+    $var['santri_photo'] = asset('assets/img/avatars/1.png');
+    $title = 'santri';
+    $var['psb_peserta'] = $psb_peserta;
+    $psb_wali = PsbWaliPesertum::where('psb_peserta_id', $psb_peserta->id)->first();
+    $psb_asal = PsbSekolahAsal::where('psb_peserta_id', $psb_peserta->id)->first();
+    $berkas_pendukung = PsbBerkasPendukung::where('psb_peserta_id', $psb_peserta->id);
+    $foto = 'https://payment.ppatq-rf.id/assets/images/user.png';
+    if ($berkas_pendukung->count() > 0 && !empty($berkas_pendukung->first()->file_photo)) {
+      $foto = 'https://psb.ppatq-rf.id/assets/images/upload/foto_casan/' . $berkas_pendukung->first()->file_photo;
+    }
+    $kota = '';
+    if (!empty($psb_peserta->prov_id)) {
+      $kota = City::where('prov_id', $psb_peserta->prov_id)->get();
+    }
+    $berkas = $berkas_pendukung->first();
+
+    $var['menu'] = ['edit_data_diri', 'edit_wali', 'edit_asal', 'edit_berkas'];
+    return view(
+      'admin.psb.show',
+      compact('title', 'var', 'provinsi', 'psb_peserta', 'psb_wali', 'psb_asal', 'kota', 'foto', 'berkas', 'view_tab')
     );
   }
 

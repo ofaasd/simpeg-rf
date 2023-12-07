@@ -105,7 +105,13 @@
 <script>
   document.addEventListener("DOMContentLoaded", function(event) {
       $(".my-form").hide();
-      $("#edit_pribadi").show();
+      @if(!empty($view_tab) && $view_tab == 'berkas_pendukung')
+        $(".nav-item a").attr('class','nav-link');
+        $('#berkas').attr('class','nav-link active');
+        $("#edit_berkas").fadeIn();
+      @else
+        $("#edit_pribadi").show();
+      @endif
 
       $("#data-diri").click(function(){
           $(".my-form").hide();

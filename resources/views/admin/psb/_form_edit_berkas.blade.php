@@ -5,19 +5,34 @@
          <div class="row g-4">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="File KK">File KK</label>
-                    <div id='kk_error'></div>
+                    <label for="File KK">File Photo</label>
+                    <div id='photo_error'></div>
                     <div class="row">
                         <div class="col-md-6">
-                         <input type="file" name="kk" class="form-control ">
+                         <input type="file" name="photo" class="form-control ">
                         </div>
                         <div class="col-md-4">
-                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kkModal">Lihat File KK</a>
+                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#photoModal">Lihat File Photo Profil</a>
                         </div>
                     </div>
-                    <small id="emailHelp" class="form-text text-muted">File upload berformat JPG/PNG/PDF. maksimal ukuran file 10MB</small>
+                    <small id="photoHelp" class="form-text text-muted">File upload berformat JPG/PNG/PDF. maksimal ukuran file 10MB</small>
                 </div>
             </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                  <label for="File KK">File KK</label>
+                  <div id='kk_error'></div>
+                  <div class="row">
+                      <div class="col-md-6">
+                       <input type="file" name="kk" class="form-control ">
+                      </div>
+                      <div class="col-md-4">
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kkModal">Lihat File KK</a>
+                      </div>
+                  </div>
+                  <small id="emailHelp" class="form-text text-muted">File upload berformat JPG/PNG/PDF. maksimal ukuran file 10MB</small>
+              </div>
+          </div>
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="File KK">File KTP</label>
@@ -55,6 +70,38 @@
             </div>
          </div>
     </form>
+    <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">File Photo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center" id='contentPhoto'>
+                @if(!empty($berkas->file_photo))
+                    @php
+                        $pecah = explode(".",$berkas->file_photo);
+                        $ekstensi = $pecah[1];
+                    @endphp
+                    @if($ekstensi == "pdf")
+                      <object data="https://psb.ppatq-rf.id/assets/images/upload/foto_casan/{{$berkas->file_photo}}" type="application/pdf" width="100%" height="400">
+                        <p>PDF Link : <a href="https://psb.ppatq-rf.id/assets/images/upload/foto_casan/{{$berkas->file_photo}}">to the PDF!</a></p>
+                      </object>
+                    @else
+                        <img src="https://psb.ppatq-rf.id/assets/images/upload/foto_casan/{{$berkas->file_photo}}" width="80%">
+                    @endif
+                @else
+                    <div class="alert alert-danger">Belum Ada File Di Upload</div>
+                @endif
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="kkModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

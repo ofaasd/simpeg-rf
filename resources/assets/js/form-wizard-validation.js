@@ -285,18 +285,21 @@
                   }
                 });
                 data = JSON.parse(data);
-                $('#wizard-validation').html(`
-                                        <div class="row">
-                                            <div class="col-md-12" style="padding:30px">
-                                                <p>Selamat anda sudah terdaftar pada web Penerimaan Peserta Didik Baru PPATQ Radlatul Falah Pati</p>
-                                                <p>Silahkan catat username dan password di bawah ini untuk dapat mengubah dan melengkapi data</p>
-                                                <p><b>username : ${data[0].username} </b></p>
-                                                <p><b>password : ${data[0].password} </b></p>
-                                                <p>Selanjutnya anda dapat melakukan pengkinian data dan mengupload berkas pendukung calon santri baru di menu PSB setelah login melalui sistem
-                                                https://psb.ppatq-rf.id melalui menu update data / upload berkas pendukung</p>
-                                            </div>
-                                        </div>
-                                        `);
+
+                window.location.href = ''.concat(baseUrl).concat('psb/berkas_pendukung/').concat(data[0].id);
+
+                // $('#wizard-validation').html(`
+                //                         <div class="row">
+                //                             <div class="col-md-12" style="padding:30px">
+                //                                 <p>Selamat anda sudah terdaftar pada web Penerimaan Peserta Didik Baru PPATQ Radlatul Falah Pati</p>
+                //                                 <p>Silahkan catat username dan password di bawah ini untuk dapat mengubah dan melengkapi data</p>
+                //                                 <p><b>username : ${data[0].username} </b></p>
+                //                                 <p><b>password : ${data[0].password} </b></p>
+                //                                 <p>Selanjutnya anda dapat melakukan pengkinian data dan mengupload berkas pendukung calon santri baru di menu PSB setelah login melalui sistem
+                //                                 https://psb.ppatq-rf.id melalui menu update data / upload berkas pendukung</p>
+                //                             </div>
+                //                         </div>
+                //                         `);
               }
             });
           } else {

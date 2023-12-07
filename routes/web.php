@@ -58,43 +58,19 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   })->name('dashboard');
   $controller_path = 'App\Http\Controllers';
   Route::get('/', $controller_path . '\pages\HomePage@index')->name('pages-home');
-  Route::resource('/users', UserController::class);
-  Route::resource('/user-list', UserManagement::class);
-  Route::resource('/pegawai', Pegawai::class);
-  Route::resource('/academic', AcademicController::class);
-  Route::resource('/school', SchoolController::class);
-  Route::resource('/employee-status', EmployeeStatusController::class);
-  Route::resource('/employee-status-detail', EmployeeStatusDetailController::class);
-  Route::resource('/structural-position', StrucutralPositionController::class);
-  Route::resource('/grades', GradesController::class);
-  Route::resource('/absensi', AbsensiController::class);
-  Route::resource('/kamar', KamarController::class);
-  Route::resource('/kelas', KelasController::class);
-  Route::resource('/tahfidz', TahfidzController::class);
-  Route::resource('/ta', TahunAjaranController::class);
-  Route::resource('/santri', SantriController::class);
-  Route::resource('/profile', ProfileController::class);
-  Route::resource('/murroby', AdminMurrobyController::class);
 
-  Route::resource('/psb', psb::class);
   Route::post('psb/validation', [psb::class, 'validation']);
   Route::post('psb/update_data_pribadi', [psb::class, 'update_data_pribadi']);
   Route::post('psb/update_data_walsan', [psb::class, 'update_data_walsan']);
   Route::post('psb/update_data_asal_sekolah', [psb::class, 'update_data_asal_sekolah']);
   Route::post('psb/update_data_berkas', [psb::class, 'update_data_berkas']);
   Route::post('psb/get_kota', [psb::class, 'get_kota']);
+  Route::get('psb/berkas_pendukung/{id}', [psb::class, 'berkas_pendukung']);
+
   Route::get('psb_new/validasi', [psb::class, 'validasi']);
   Route::get('psb_new/validasi/{id}/edit', [psb::class, 'edit_validasi']);
   Route::post('psb_new/validasi', [psb::class, 'store_validasi']);
 
-  Route::resource('/ustadz/murroby', MurrobyController::class);
-  Route::resource('/ustadz/tahfidz', UstTahfidzController::class);
-  Route::resource('/ustadz/uang-saku', UangSakuController::class);
-  Route::resource('/ustadz/detail_tahfidz', DetailTahfidzController::class);
-  Route::resource('/ustadz/detail_tahfidz', DetailTahfidzController::class);
-  Route::resource('/detail_ketahfidzan', AdminDetailTahfidzController::class);
-  Route::resource('/ustadz/saku_masuk', SakuMasukController::class);
-  Route::resource('/ustadz/saku_keluar', SakuKeluarController::class);
   Route::get('/structural-position/get-school/{id}', '\admin\StrucutralPositionController@getSchool');
   Route::get('/murroby/uang-saku/{id}', [AdminMurrobyController::class, 'uang_saku']);
   Route::get('/murroby/uang-saku-detail/{id}/{id_santri}', [AdminMurrobyController::class, 'uang_saku_detail']);
@@ -122,4 +98,33 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::get('/tbd', function () {
     return view('content.pages.tbd');
   });
+
+  Route::resource('/users', UserController::class);
+  Route::resource('/user-list', UserManagement::class);
+  Route::resource('/pegawai', Pegawai::class);
+  Route::resource('/academic', AcademicController::class);
+  Route::resource('/school', SchoolController::class);
+  Route::resource('/employee-status', EmployeeStatusController::class);
+  Route::resource('/employee-status-detail', EmployeeStatusDetailController::class);
+  Route::resource('/structural-position', StrucutralPositionController::class);
+  Route::resource('/grades', GradesController::class);
+  Route::resource('/absensi', AbsensiController::class);
+  Route::resource('/kamar', KamarController::class);
+  Route::resource('/kelas', KelasController::class);
+  Route::resource('/tahfidz', TahfidzController::class);
+  Route::resource('/ta', TahunAjaranController::class);
+  Route::resource('/santri', SantriController::class);
+  Route::resource('/profile', ProfileController::class);
+  Route::resource('/murroby', AdminMurrobyController::class);
+
+  Route::resource('/psb', psb::class);
+
+  Route::resource('/ustadz/murroby', MurrobyController::class);
+  Route::resource('/ustadz/tahfidz', UstTahfidzController::class);
+  Route::resource('/ustadz/uang-saku', UangSakuController::class);
+  Route::resource('/ustadz/detail_tahfidz', DetailTahfidzController::class);
+  Route::resource('/ustadz/detail_tahfidz', DetailTahfidzController::class);
+  Route::resource('/detail_ketahfidzan', AdminDetailTahfidzController::class);
+  Route::resource('/ustadz/saku_masuk', SakuMasukController::class);
+  Route::resource('/ustadz/saku_keluar', SakuKeluarController::class);
 });
