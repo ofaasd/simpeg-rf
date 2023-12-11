@@ -404,7 +404,7 @@ https://psb.ppatq-rf.id';
         $data['no_wa'] = $request->no_hp;
         $data['pesan'] = $pesan;
 
-        //Helpers_wa::send_wa($data);
+        Helpers_wa::send_wa($data);
       }
 
       $data = new PsbPesertaOnline();
