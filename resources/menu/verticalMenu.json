@@ -171,6 +171,19 @@
     },
     {
       "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-chart-line",
+      "name": "Laporan",
+      "slug": "laporan",
+      "submenu": [
+        {
+          "url": "/laporan/pembayaran",
+          "name": "Laporan Pembayaran",
+          "slug": "laporan-pembayaran"
+        }
+      ]
+    },
+    {
+      "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-cash",
       "name": "Penggajian",
       "slug": "penggajian",

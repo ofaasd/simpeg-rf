@@ -26,6 +26,7 @@ use App\Http\Controllers\ustadz\DetailTahfidzController;
 use App\Http\Controllers\admin\AdminDetailTahfidzController;
 use App\Http\Controllers\ustadz\SakuMasukController;
 use App\Http\Controllers\ustadz\SakuKeluarController;
+use App\Http\Controllers\admin\LaporanController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -95,6 +96,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('ustadz/detail_ketahfidzan', [AdminDetailTahfidzController::class, 'store']);
   Route::post('ustadz/saku_masuk/update_bulan', [SakuMasukController::class, 'update_bulan']);
   Route::get('ustadz/hapus_saku_masuk/{id}', [UangSakuController::class, 'destroy']);
+  Route::get('laporan/pembayaran', [LaporanController::class, 'pembayaran']);
+  Route::post('laporan/pembayaran', [LaporanController::class, 'pembayaran']);
   Route::get('/tbd', function () {
     return view('content.pages.tbd');
   });
