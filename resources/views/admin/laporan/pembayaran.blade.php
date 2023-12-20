@@ -9,7 +9,7 @@
   <div class="card-header">
     <h5 class="card-title mb-0">Search Filter</h5>
   </div>
-  <div class="card">
+  <div class="card" style="overflow-x:scroll">
     <div class="col-md-12" style="padding:20px;">
       <form method="POST" action=''>
           <div class="form-floating form-floating-outline mb-4 col-md-4">
