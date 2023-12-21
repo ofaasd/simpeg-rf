@@ -82,6 +82,7 @@ $(function () {
           render: function render(data, type, full, meta) {
             var $name = full['nama'];
             var $id = full['id'];
+            var img = 'https://psb.ppatq-rf.id/assets/images/upload/foto_casan/' + full['file_photo'];
             // For Avatar badge
             var stateNum = Math.floor(Math.random() * 6);
             var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
@@ -90,7 +91,15 @@ $(function () {
               $initials = $name.match(/\b\w/g) || [],
               $output;
             $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-            $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';
+            if (full['file_photo'] == '')
+              $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';
+            else
+              $output =
+                '<span class="avatar-initial rounded-circle bg-label-' +
+                $state +
+                '"><img class="avatar-initial rounded-circle" src="' +
+                img +
+                '" width="100%"></span>';
 
             // Creates full output for row
             var $row_output =
@@ -126,33 +135,27 @@ $(function () {
           }
         },
         {
-          searchable: false,
-          orderable: false,
           targets: 5,
           render: function render(data, type, full, meta) {
-            if (parseInt(full.status) == 1) {
-              return "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>";
-            } else {
-              return "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
-            }
+            return '<span>'.concat(full.no_wa, '</span>');
           }
         },
         {
-          searchable: false,
-          orderable: false,
           targets: 6,
           render: function render(data, type, full, meta) {
-            if (parseInt(full.status_ujian) == 1) {
-              return "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>";
-            } else {
-              return "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
-            }
+            return '<span>'.concat(full.umur, '</span>');
+          }
+        },
+        {
+          targets: 7,
+          render: function render(data, type, full, meta) {
+            return '<span>'.concat(full.jenis_kelamin, '</span>');
           }
         },
         {
           searchable: false,
           orderable: false,
-          targets: 7,
+          targets: 8,
           render: function render(data, type, full, meta) {
             if (parseInt(full.status_diterima) == 1) {
               return "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>";
@@ -164,7 +167,7 @@ $(function () {
         {
           searchable: false,
           orderable: false,
-          targets: 8,
+          targets: 9,
           render: function render(data, type, full, meta) {
             return (
               '<button class="btn btn-sm btn-icon delete-record" data-id="' +

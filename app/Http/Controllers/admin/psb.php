@@ -102,6 +102,14 @@ class psb extends Controller
         $ids = $start;
 
         foreach ($PsbPesertaOnline as $row) {
+          $tanggal_lahir = date('Y-m-d', $row->tanggal_lahir);
+          $dob = new DateTime($tanggal_lahir);
+          $today = new DateTime('today');
+          $year = $dob->diff($today)->y;
+          $month = $dob->diff($today)->m;
+          $day = $dob->diff($today)->d;
+          $psbBerkas = PsbBerkasPendukung::where('psb_peserta_id', $row->id)->first();
+          $user = UserPsb::where('username', $row->no_pendaftaran)->first();
           $nestedData['id'] = $row->id;
           $nestedData['fake_id'] = ++$ids;
           $nestedData['no_pendaftaran'] = $row->no_pendaftaran . '';
@@ -110,6 +118,10 @@ class psb extends Controller
           $nestedData['status'] = $row->status ?? '';
           $nestedData['status_ujian'] = $row->status_ujian ?? '';
           $nestedData['status_diterima'] = $row->status_diterima ?? '';
+          $nestedData['file_photo'] = $psbBerkas->file_photo ?? '';
+          $nestedData['no_wa'] = $user->no_hp ?? '';
+          $nestedData['umur'] = $year ?? '';
+          $nestedData['jenis_kelamin'] = $row->jenis_kelamin ?? '';
           $data[] = $nestedData;
         }
       }
