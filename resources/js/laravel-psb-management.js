@@ -116,7 +116,9 @@ $(function () {
               $id +
               '" class="text-body text-truncate"><span class="fw-semibold">' +
               $name +
-              '</span></a>' +
+              '</span> <br /> (' +
+              full.no_pendaftaran +
+              ')</a>' +
               '</div>' +
               '</div>';
             return $row_output;
@@ -125,29 +127,25 @@ $(function () {
         {
           targets: 3,
           render: function render(data, type, full, meta) {
-            return '<span>'.concat(full.no_pendaftaran, '</span>');
+            return '<span>'
+              .concat(full.tempat_lahir, '</span><br /><span>')
+              .concat(full.tanggal_lahir, '</span><br />');
           }
         },
         {
           targets: 4,
           render: function render(data, type, full, meta) {
-            return '<span>'.concat(full.ttl, '</span>');
+            return '<span>'.concat(full.no_wa, '</span>');
           }
         },
         {
           targets: 5,
           render: function render(data, type, full, meta) {
-            return '<span>'.concat(full.no_wa, '</span>');
-          }
-        },
-        {
-          targets: 6,
-          render: function render(data, type, full, meta) {
             return '<span>'.concat(full.umur, '</span>');
           }
         },
         {
-          targets: 7,
+          targets: 6,
           render: function render(data, type, full, meta) {
             return '<span>'.concat(full.jenis_kelamin, '</span>');
           }
@@ -155,13 +153,39 @@ $(function () {
         {
           searchable: false,
           orderable: false,
-          targets: 8,
+          targets: 7,
           render: function render(data, type, full, meta) {
             if (parseInt(full.status_diterima) == 1) {
               return "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>";
             } else {
               return "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
             }
+          }
+        },
+        {
+          searchable: false,
+          orderable: false,
+          targets: 8,
+          render: function render(data, type, full, meta) {
+            const file_kk = full['file_kk']
+              ? "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>"
+              : "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
+            const file_ktp = full['file_ktp']
+              ? "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>"
+              : "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
+            const file_rapor = full['file_rapor']
+              ? "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>"
+              : "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
+
+            return (
+              '<small class="text-light">KK : ' +
+              file_kk +
+              '</small><br/><small class="text-light">KTP : ' +
+              file_ktp +
+              '</small><br/><small class="text-light">Rapor : ' +
+              file_rapor +
+              '</small>'
+            );
           }
         },
         {
