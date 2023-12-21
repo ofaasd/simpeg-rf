@@ -25,12 +25,12 @@
           <th></th>
           <th>Id</th>
           <th>Nama</th>
-          <th>No. Pendaftaran</th>
           <th>TTL</th>
           <th>No. WA</th>
           <th>Umur</th>
-          <th>Jenis Kelamin</th>
-          <th>Verifikasi</th>
+          <th>JK</th>
+          <th>Verif</th>
+          <th>Berkas</th>
           {{-- <th>Verifikasi</th>
           <th>Ujian</th>
           <th>Diterima</th> --}}
