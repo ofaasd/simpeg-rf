@@ -66,6 +66,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('psb/update_data_asal_sekolah', [psb::class, 'update_data_asal_sekolah']);
   Route::post('psb/update_data_berkas', [psb::class, 'update_data_berkas']);
   Route::post('psb/get_kota', [psb::class, 'get_kota']);
+  Route::post('psb/get_kecamatan', [psb::class, 'get_kecamatan']);
+  Route::post('psb/get_kelurahan', [psb::class, 'get_kelurahan']);
   Route::get('psb/berkas_pendukung/{id}', [psb::class, 'berkas_pendukung']);
 
   Route::get('psb_new/validasi', [psb::class, 'validasi']);

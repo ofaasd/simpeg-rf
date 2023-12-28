@@ -118,7 +118,7 @@
                               <select class="form-control select2" name="provinsi" id="provinsi" required>
                                   <option value=0>--Pilih Provinsi--</option>
                                   @foreach($provinsi as $row)
-                                      <option value="{{$row->prov_id}}" {{($row->prov_id == $psb_peserta->prov_id)?"selected":""}}>{{$row->prov_name}}</option>
+                                      <option value="{{$row->id_provinsi}}" {{($row->id_provinsi == $psb_peserta->prov_id)?"selected":""}}>{{$row->nama_provinsi}}</option>
                                   @endforeach
                               </select>
                               <label for="provinsi">Provinsi <span class='text-danger'>*</span></label>
@@ -126,12 +126,11 @@
                       </div>
                       <div class="col-md-6">
                           <div class="form-floating form-floating-outline col-md-12">
-
                               <select class="form-control select2" name="kota" id="kota" required>
                                   <option value=0>--Pilih Kota--</option>
                                   @if(!empty($kota))
                                       @foreach($kota as $row)
-                                          <option value="{{$row->city_id}}" {{($row->city_id == $psb_peserta->kota_id)?"selected":""}}>{{$row->city_name}}</option>
+                                          <option value="{{$row->id_kota_kab}}" {{($row->id_kota_kab == $psb_peserta->kota_id)?"selected":""}}>{{$row->nama_kota_kab}}</option>
                                       @endforeach
                                   @endif
                               </select>
@@ -140,15 +139,27 @@
                       </div>
                       <div class="col-md-6">
                           <div class="form-floating form-floating-outline col-md-12">
-                              <input type="text" name="kecamatan" class="form-control" value="{{ $psb_peserta->kecamatan ??
-                                '' }}" id="kecamatan" required>
+                              <select class="form-control select2" name="kecamatan" id="kecamatan" required>
+                                  <option value=0>--Pilih Kecamatan--</option>
+                                  @if(!empty($kecamatan))
+                                      @foreach($kecamatan as $row)
+                                          <option value="{{$row->id_kecamatan}}" {{($row->id_kecamatan == $psb_peserta->kecamatan)?"selected":""}}>{{$row->nama_kecamatan}}</option>
+                                      @endforeach
+                                  @endif
+                              </select>
                               <label for="kecamatan">Kecamatan <span class='text-danger'>*</span></label>
                           </div>
                       </div>
                       <div class="col-md-6">
                           <div class="form-floating form-floating-outline col-md-12">
-                              <input type="text" name="kelurahan" class="form-control" value="{{ $psb_peserta->kelurahan ??
-                                '' }}" id="kelurahan" required>
+                              <select class="form-control select2" name="kelurahan" id="kelurahan" required>
+                                  <option value=0>--Pilih kelurahan--</option>
+                                  @if(!empty($kelurahan))
+                                      @foreach($kelurahan as $row)
+                                          <option value="{{$row->id_kelurahan}}" {{($row->id_kelurahan == $psb_peserta->kecamatan)?"selected":""}}>{{$row->nama_kelurahan}}</option>
+                                      @endforeach
+                                  @endif
+                              </select>
                               <label for="kelurahan">Keluarahan/Desa <span class='text-danger'>*</span></label>
                           </div>
                       </div>
@@ -240,10 +251,49 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 data = JSON.parse(data);
                 $("#kota").html('');
                 data.forEach(function (item){
-                    $("#kota").append('<option value="' + item.city_id + '">' + item.city_name + '</option>');
+                    $("#kota").append('<option value="' + item.id_kota_kab + '">' + item.nama_kota_kab + '</option>');
                 });
             }
         });
     });
+    $("#kota").on("change",function(){
+    $.ajax({
+      data: {
+            "prov_id" : $("#provinsi").val(),
+            "kota_id" : $(this).val()
+          },
+      url: ''.concat(baseUrl).concat("psb").concat('/get_kecamatan'),
+      method: 'POST',
+      success: function success(data) {
+      // sweetalert
+      $('#kecamatan').html('');
+      data = JSON.parse(data);
+      data.forEach(function (item){
+        $("#kecamatan").append('<option value="' + item.id_kecamatan + '">' + item.nama_kecamatan + '</option>');
+      });
+      $("#kecamatan").select2();
+      }
+    });
+  });
+  $("#kecamatan").on("change",function(){
+    $.ajax({
+      data: {
+            "prov_id" : $("#provinsi").val(),
+            "kota_id" : $("#kota").val(),
+            "kecamatan_id" : $(this).val()
+          },
+      url: ''.concat(baseUrl).concat("psb").concat('/get_kelurahan'),
+      method: 'POST',
+      success: function success(data) {
+      // sweetalert
+      $('#kelurahan').html('');
+      data = JSON.parse(data);
+      data.forEach(function (item){
+        $("#kelurahan").append('<option value="' + item.id_kelurahan + '">' + item.nama_kelurahan + '</option>');
+      });
+      $("#kelurahan").select2();
+      }
+    });
+  });
 });
 </script>

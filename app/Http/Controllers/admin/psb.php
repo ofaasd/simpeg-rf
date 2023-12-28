@@ -13,6 +13,10 @@ use App\Models\UserPsb;
 use App\Models\PsbGelombang;
 use App\Models\Province;
 use App\Models\City;
+use App\Models\ProvinsiTbl;
+use App\Models\KotaKabTbl;
+use App\Models\KecamatanTbl;
+use App\Models\KelurahanTbl;
 use App\Helpers\Helpers_wa;
 use DateTime;
 
@@ -300,7 +304,7 @@ class psb extends Controller
     //
     $title = 'Psb';
     $indexed = $this->indexed;
-    $provinsi = Province::all();
+    $provinsi = ProvinsiTbl::all();
     return view('admin.psb.create', compact('title', 'indexed', 'provinsi'));
   }
 
@@ -495,7 +499,7 @@ https://psb.ppatq-rf.id';
   public function show(string $id)
   {
     //
-    $provinsi = Province::all();
+    $provinsi = ProvinsiTbl::all();
     $psb_peserta = PsbPesertaOnline::find($id);
     $var['santri_photo'] = asset('assets/img/avatars/1.png');
     $title = 'santri';
@@ -509,14 +513,39 @@ https://psb.ppatq-rf.id';
     }
     $kota = '';
     if (!empty($psb_peserta->prov_id)) {
-      $kota = City::where('prov_id', $psb_peserta->prov_id)->get();
+      $kota = KotaKabTbl::where('id_provinsi', $psb_peserta->prov_id)->get();
+    }
+    $kecamatan = '';
+    if (!empty($psb_peserta->kota_id) && !empty($psb_peserta->kecamatan)) {
+      $kecamatan = KecamatanTbl::where('id_provinsi', $psb_peserta->prov_id)
+        ->where('id_kota_kab', $psb_peserta->kota_id)
+        ->get();
+    }
+    $kelurahan = '';
+    if (!empty($psb_peserta->kota_id) && !empty($psb_peserta->kecamatan) && !empty($psb_peserta->kelurahan)) {
+      $kelurahan = KelurahanTbl::where('id_provinsi', $psb_peserta->prov_id)
+        ->where('id_kota_kab', $psb_peserta->kota_id)
+        ->where('id_kecamatan', $psb_peserta->kecamatan)
+        ->get();
     }
     $berkas = $berkas_pendukung->first();
 
     $var['menu'] = ['edit_data_diri', 'edit_wali', 'edit_asal', 'edit_berkas'];
     return view(
       'admin.psb.show',
-      compact('title', 'var', 'provinsi', 'psb_peserta', 'psb_wali', 'psb_asal', 'kota', 'foto', 'berkas')
+      compact(
+        'kecamatan',
+        'kelurahan',
+        'title',
+        'var',
+        'provinsi',
+        'psb_peserta',
+        'psb_wali',
+        'psb_asal',
+        'kota',
+        'foto',
+        'berkas'
+      )
     );
   }
   public function berkas_pendukung(string $id)
@@ -570,6 +599,7 @@ https://psb.ppatq-rf.id';
   public function destroy(string $id)
   {
     //
+    $academic = PsbPesertaOnline::where('id', $id)->delete();
   }
 
   public function update_data_pribadi(Request $request)
@@ -765,7 +795,27 @@ https://psb.ppatq-rf.id';
   public function get_kota(Request $request)
   {
     $id = $request->prov_id;
-    $get_kota = City::where('prov_id', $id)->get();
+    $get_kota = KotaKabTbl::where('id_provinsi', $id)->get();
     echo json_encode($get_kota);
+  }
+  public function get_kecamatan(Request $request)
+  {
+    $id_provinsi = $request->prov_id;
+    $id_kota = $request->kota_id;
+    $get_kecamatan = KecamatanTbl::where('id_provinsi', $id_provinsi)
+      ->where('id_kota_kab', $id_kota)
+      ->get();
+    echo json_encode($get_kecamatan);
+  }
+  public function get_kelurahan(Request $request)
+  {
+    $id_provinsi = $request->prov_id;
+    $id_kota = $request->kota_id;
+    $id_kecamatan = $request->kecamatan_id;
+    $get_kelurahan = KelurahanTbl::where('id_provinsi', $id_provinsi)
+      ->where('id_kota_kab', $id_kota)
+      ->where('id_kecamatan', $id_kecamatan)
+      ->get();
+    echo json_encode($get_kelurahan);
   }
 }

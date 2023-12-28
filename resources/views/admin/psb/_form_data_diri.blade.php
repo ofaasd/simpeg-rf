@@ -91,7 +91,7 @@
               <select class="form-control select2" name="provinsi" id="provinsi">
                 <option value=0>--Pilih Provinsi--</option>
                 @foreach ($provinsi as $row)
-                  <option value="{{$row->prov_id}}" >{{$row->prov_name }}</option>
+                  <option value="{{$row->id_provinsi}}" >{{$row->nama_provinsi }}</option>
                 @endforeach
               </select>
               <label for="provinsi">Provinsi</label>
@@ -111,14 +111,18 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-floating form-floating-outline ">
-              <input type="text" name="kecamatan" class="form-control" placeholder="Kecamatan" value="" id="kecamatan">
+              <select class="form-control" name="kecamatan" id="kecamatan">
+                <option value=0>--Pilih Kecamatan--</option>
+              </select>
               <label for="kecamatan">Kecamatan</label>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-floating form-floating-outline ">
-              <input type="text" name="kelurahan" class="form-control" value="" id="kelurahan">
-              <label for="kelurahan">Keluarahan/Desa</label>
+              <select class="form-control" name="kelurahan" id="kelurahan">
+                <option value=0>--Pilih Kelurahan--</option>
+              </select>
+              <label for="kelurahan">Kelurahan</label>
             </div>
           </div>
         </div>
@@ -153,11 +157,51 @@ document.addEventListener("DOMContentLoaded", function(event) {
       $('#kota').html('');
       data = JSON.parse(data);
       data.forEach(function (item){
-        $("#kota").append('<option value="' + item.city_id + '">' + item.city_name + '</option>');
+        $("#kota").append('<option value="' + item.id_kota_kab + '">' + item.nama_kota_kab + '</option>');
       });
       $("#kota").select2();
       }
     });
   });
+  $("#kota").on("change",function(){
+    $.ajax({
+      data: {
+            "prov_id" : $("#provinsi").val(),
+            "kota_id" : $(this).val()
+          },
+      url: ''.concat(baseUrl).concat("psb").concat('/get_kecamatan'),
+      method: 'POST',
+      success: function success(data) {
+      // sweetalert
+      $('#kecamatan').html('');
+      data = JSON.parse(data);
+      data.forEach(function (item){
+        $("#kecamatan").append('<option value="' + item.id_kecamatan + '">' + item.nama_kecamatan + '</option>');
+      });
+      $("#kecamatan").select2();
+      }
+    });
+  });
+  $("#kecamatan").on("change",function(){
+    $.ajax({
+      data: {
+            "prov_id" : $("#provinsi").val(),
+            "kota_id" : $("#kota").val(),
+            "kecamatan_id" : $(this).val()
+          },
+      url: ''.concat(baseUrl).concat("psb").concat('/get_kelurahan'),
+      method: 'POST',
+      success: function success(data) {
+      // sweetalert
+      $('#kelurahan').html('');
+      data = JSON.parse(data);
+      data.forEach(function (item){
+        $("#kelurahan").append('<option value="' + item.id_kelurahan + '">' + item.nama_kelurahan + '</option>');
+      });
+      $("#kelurahan").select2();
+      }
+    });
+  });
+
 });
 </script>
