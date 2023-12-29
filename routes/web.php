@@ -27,6 +27,9 @@ use App\Http\Controllers\admin\AdminDetailTahfidzController;
 use App\Http\Controllers\ustadz\SakuMasukController;
 use App\Http\Controllers\ustadz\SakuKeluarController;
 use App\Http\Controllers\admin\LaporanController;
+use App\Http\Controllers\admin\AkuntansiController;
+use App\Http\Controllers\admin\UangMasukController;
+use App\Http\Controllers\admin\UangKeluarController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -103,6 +106,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::get('/tbd', function () {
     return view('content.pages.tbd');
   });
+
+  Route::get('/admin/akuntansi', [AkuntansiController::class, 'index']);
+  Route::post('/admin/uang_masuk/store', [UangMasukController::class, 'store']);
+  Route::post('/admin/uang_keluar/store', [UangKeluarController::class, 'store']);
+  Route::post('/admin/akuntansi/get_all', [AkuntansiController::class, 'get_all']);
 
   Route::resource('/users', UserController::class);
   Route::resource('/user-list', UserManagement::class);

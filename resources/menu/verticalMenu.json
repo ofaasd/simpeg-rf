@@ -183,27 +183,10 @@
       ]
     },
     {
-      "url": "#",
+      "url": "/admin/akuntansi",
       "icon": "menu-icon tf-icons mdi mdi-cash",
-      "name": "Penggajian",
-      "slug": "penggajian",
-      "submenu": [
-        {
-          "url": "/tbd",
-          "name": "Nominal Penggajian",
-          "slug": "penggajian-nominal-penggajian"
-        },
-        {
-          "url": "/tbd",
-          "name": "Proses Gaji",
-          "slug": "penggajian-proses-gaji"
-        },
-        {
-          "url": "/tbd",
-          "name": "Rekap Gaji",
-          "slug": "penggajian-rekap-gaji"
-        }
-      ]
+      "name": "keuangan",
+      "slug": "akuntansi"
     },
     {
       "url": "#",
@@ -247,6 +230,29 @@
       ]
     },
     {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-cash",
+      "name": "Penggajian",
+      "slug": "penggajian",
+      "submenu": [
+        {
+          "url": "/tbd",
+          "name": "Nominal Penggajian",
+          "slug": "penggajian-nominal-penggajian"
+        },
+        {
+          "url": "/tbd",
+          "name": "Proses Gaji",
+          "slug": "penggajian-proses-gaji"
+        },
+        {
+          "url": "/tbd",
+          "name": "Rekap Gaji",
+          "slug": "penggajian-rekap-gaji"
+        }
+      ]
+    },
+    {
       "url": "/tbd",
       "name": "Penilaian Kinerja",
       "icon": "menu-icon tf-icons mdi mdi-format-list-numbered",
@@ -281,12 +287,6 @@
       "icon": "menu-icon tf-icons mdi mdi-tshirt-crew-outline",
       "name": "Laundry",
       "slug": "laundry"
-    },
-    {
-      "url": "/tbd",
-      "icon": "menu-icon tf-icons mdi mdi-cash",
-      "name": "keuangan",
-      "slug": "keuangan"
     },
     {
       "url": "/tbd",
