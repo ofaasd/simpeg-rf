@@ -35,5 +35,5 @@ class TbUangKeluar extends Model
     'jumlah' => 'int',
   ];
 
-  protected $fillable = ['bulan', 'tahun', 'keterangan', 'jumlah'];
+  protected $fillable = ['bulan', 'tahun', 'tanggal_transaksi', 'keterangan', 'jumlah'];
 }

@@ -11,24 +11,65 @@ class UangMasukController extends Controller
   //
   public function store(Request $request)
   {
-    $uang_masuk = new TbUangMasuk();
-    $uang_masuk->bulan = date('m', strtotime($request->tanggal));
-    $uang_masuk->tahun = date('Y', strtotime($request->tanggal));
-    $uang_masuk->tanggal_transaksi = strtotime($request->tanggal);
-    $uang_masuk->sumber = $request->sumber;
-    $uang_masuk->jumlah = $request->jumlah;
-    if ($uang_masuk->save()) {
-      $array = [
-        'status' => 'Success',
-        'code' => 1,
-      ];
-      return json_encode($array);
+    $id = $request->id_uang_masuk;
+    if ($id) {
+      // update the value
+      $uang_masuk = TbUangMasuk::updateOrCreate(
+        ['id' => $id],
+        [
+          'bulan' => date('m', strtotime($request->tanggal)),
+          'tahun' => date('Y', strtotime($request->tanggal)),
+          'tanggal_transaksi' => strtotime($request->tanggal),
+          'sumber' => $request->sumber,
+          'jumlah' => $request->jumlah,
+        ]
+      );
+
+      // user updated
+      return response()->json('Updated');
     } else {
-      $array = [
-        'status' => 'Failed',
-        'code' => 0,
-      ];
-      return json_encode($array);
+      // create new one if email is unique
+      //$userEmail = User::where('email', $request->email)->first();
+
+      $uang_masuk = TbUangMasuk::updateOrCreate(
+        ['id' => $id],
+        [
+          'bulan' => date('m', strtotime($request->tanggal)),
+          'tahun' => date('Y', strtotime($request->tanggal)),
+          'tanggal_transaksi' => strtotime($request->tanggal),
+          'sumber' => $request->sumber,
+          'jumlah' => $request->jumlah,
+        ]
+      );
+      if ($uang_masuk) {
+        // user created
+        return response()->json('Created');
+      } else {
+        return response()->json('Failed Create Academic');
+      }
+    }
+  }
+  public function get_id(Request $request)
+  {
+    $id = $request->id;
+    $uang_masuk = TbUangMasuk::find($id);
+    $tanggal = date('Y-m-d', $uang_masuk->tanggal_transaksi);
+    $array = [
+      'status' => 'Success',
+      'code' => 1,
+      'data' => $uang_masuk,
+      'tanggal' => $tanggal,
+    ];
+    return json_encode($array);
+  }
+  public function hapus(Request $request)
+  {
+    $id = $request->id;
+    $uang_masuk = TbUangMasuk::where('id', $id)->delete();
+    if ($uang_masuk) {
+      echo 'Ok';
+    } else {
+      echo 'Gagal';
     }
   }
 }

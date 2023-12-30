@@ -111,6 +111,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('/admin/uang_masuk/store', [UangMasukController::class, 'store']);
   Route::post('/admin/uang_keluar/store', [UangKeluarController::class, 'store']);
   Route::post('/admin/akuntansi/get_all', [AkuntansiController::class, 'get_all']);
+  Route::post('/admin/uang_masuk/get_id', [UangMasukController::class, 'get_id']);
+  Route::post('/admin/uang_keluar/get_id', [UangKeluarController::class, 'get_id']);
+  Route::post('/admin/uang_masuk/hapus', [UangMasukController::class, 'hapus']);
+  Route::post('/admin/uang_keluar/hapus', [UangKeluarController::class, 'hapus']);
 
   Route::resource('/users', UserController::class);
   Route::resource('/user-list', UserManagement::class);

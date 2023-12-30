@@ -33,7 +33,8 @@ class TbUangMasuk extends Model
     'bulan' => 'int',
     'tahun' => 'int',
     'jumlah' => 'int',
+    'tanggal_transaksi' => 'int',
   ];
 
-  protected $fillable = ['bulan', 'tahun', 'sumber', 'jumlah'];
+  protected $fillable = ['bulan', 'tanggal_transaksi', 'tahun', 'sumber', 'jumlah'];
 }

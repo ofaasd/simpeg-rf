@@ -3,6 +3,11 @@
 @section('title', $title . ' Management - Crud App')
 
 @section('content')
+<style>
+  table.dataTable td, table.dataTable th {
+    font-size: 0.8em;
+  }
+</style>
 <!--/ Navbar pills -->
 <div class="row">
   <div class="col-xl-12">
@@ -22,7 +27,7 @@
                 </select>
               </div>
               <div class="col-md-6">
-                <select name="bulan" id="bulan" class="form-control">
+                <select name="tahun" id="tahun" class="form-control">
                   @for($i=date('Y'); $i>(int)(date('Y'))-5; $i--)
                   <option value={{$i}} {{($i == $var['tahun'])?"selected":""}}>{{$i}}</option >
                   @endfor
@@ -31,8 +36,8 @@
             </div>
           </div>
           <div class="col-md-6">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uangMasuk"> Tambah Uang Masuk</button>
-            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#uangKeluar"> Tambah Uang Keluar</button>
+            <button type="button" id="btnUangMasuk" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uangMasuk"> Tambah Uang Masuk</button>
+            <button type="button" id="btnUangKeluar"  class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#uangKeluar"> Tambah Uang Keluar</button>
           </div>
         </div>
         <div id="table_akuntansi">
@@ -63,8 +68,8 @@
                       @endforeach
                     </td>
                     <td valign="top">
-                      @foreach($var['dari_uang_masuk'][$value] as $isi)
-                        {{$isi}}<br />
+                      @foreach($var['dari_uang_masuk'][$value] as $key=>$isi)
+                        {{$isi}} <a href="javascript:void(0)" data-id="{{$key}}" class="edit_uang_masuk" data-bs-toggle="modal" data-bs-target="#uangMasuk"><span class="mdi mdi-pencil"></span></a> <a href="javascript:void(0)" data-id="{{$key}}" class="delete_uang_masuk"><span class="mdi mdi-delete text-danger"></span></a><br />
                       @endforeach
                     </td>
                     <td valign="top">
@@ -77,8 +82,8 @@
                     </td>
                     <td valign="top">
                       @if(!empty($var['note_uang_keluar'][$value]))
-                        @foreach($var['note_uang_keluar'][$value] as $isi)
-                          {{$isi}}<br />
+                        @foreach($var['note_uang_keluar'][$value] as $key=>$isi)
+                          {{$isi}} <a href="javascript:void(0)" class="edit_uang_keluar" data-id="{{$key}}" data-bs-toggle="modal" data-bs-target="#uangKeluar"><span class="mdi mdi-pencil"></span></a> <a href="javascript:void(0)" data-id="{{$key}}" class="delete_uang_keluar"><span class="mdi mdi-delete text-danger"></span></a><br />
                         @endforeach
                       @endif
                     </td>
@@ -147,22 +152,22 @@
         </div>
         <form id="formSakuMasuk" class="row g-4" onsubmit="return false">
           <input type="hidden" name="jenis" value="saku_masuk">
-
+          <input type="hidden" name="id_uang_masuk" id="id_uang_masuk">
           <div class="col-12 col-md-12">
             <div class="form-floating form-floating-outline">
-              <input type="text" id='modalEditUserSumber' name="sumber" class="form-control">
+              <input type="text" id='sumber_uang_masuk' name="sumber" class="form-control">
               <label for="modalEditUserSumber">Sumber Dana</label>
             </div>
           </div>
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <input type="number" id='modalEditUserjumlah' name="jumlah" class="form-control">
+              <input type="number" id='jumlah_uang_masuk' name="jumlah" class="form-control">
               <label for="modalEditUserjumlah">Jumlah (Rp.)</label>
             </div>
           </div>
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <input type="date" id='modalEditUserTanggal' name="tanggal" class="form-control">
+              <input type="date" id='tanggal_uang_masuk' name="tanggal" class="form-control">
               <label for="modalEditUserTanggal">Tanggal</label>
             </div>
           </div>
@@ -186,10 +191,11 @@
         </div>
         <form id="formSakuKeluar" class="row g-4" onsubmit="return false">
           <input type="hidden" name="jenis" value="saku_keluar">
+          <input type="hidden" name="id_uang_keluar" id="id_uang_keluar">
           <div class="col-12 col-md-12">
             <div class="form-floating form-floating-outline">
-              <input type="text" id='modalEditUsernote' name="catatan" class="form-control">
-              <label for="modalEditUsernote">Catatan</label>
+              <input type="text" id='keterangan_uang_keluar' name="keterangan" class="form-control">
+              <label for="modalEditUsernote">Keterangan</label>
             </div>
           </div>
           <div id="list-detail">
@@ -197,14 +203,14 @@
               <div class="row">
                 <div class="col-12 col-md-6">
                   <div class="form-floating form-floating-outline">
-                    <input type="date" id='modalEditUserTanggal' name="tanggal" class="form-control">
-                    <label for="modalEditUserTanggal">Tanggal</label>
+                    <input type="date" id='tanggal_uang_keluar' name="tanggal" class="form-control">
+                    <label for="tanggal_uang_keluar">Tanggal</label>
                   </div>
                 </div>
                 <div class="col-12 col-md-6">
                   <div class="form-floating form-floating-outline">
-                    <input type="number" id='modalEditUserjumlah' name="jumlah" class="form-control">
-                    <label for="modalEditUserjumlah">Jumlah (Rp.)</label>
+                    <input type="number" id='jumlah_uang_keluar' name="jumlah" class="form-control">
+                    <label for="jumlah_uang_keluar">Jumlah (Rp.)</label>
                   </div>
                 </div>
               </div>
@@ -230,7 +236,7 @@
 @endsection
 <script>
 document.addEventListener("DOMContentLoaded", function(event) {
-  const title = "Pemasukan dan Pengeluaran Pondok Bulan {{$var['list_bulan'][$var['bulan']]}} {{$var['tahun']}}";
+  let title = "Pemasukan dan Pengeluaran Pondok Bulan {{$var['list_bulan'][$var['bulan']]}} {{$var['tahun']}}";
   $('.dataTable').dataTable({
       dom:
         '<"row mx-2"' +
@@ -347,11 +353,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
         $('#uangMasuk').modal('hide');
         //reset form
         reload_table();
+        resetFormUangMasuk();
         //refresh table
         Swal.fire({
           icon: 'success',
           title: 'Successfully '.concat(' Updated !'),
-          text: ''.concat('uang Saku ', ' ').concat(' berhasil ditambahkan'),
+          text: ''.concat('Pemasukan ', ' ').concat(' berhasil ditambahkan'),
           customClass: {
             confirmButton: 'btn btn-success'
           }
@@ -389,6 +396,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         $('#uangKeluar').modal('hide');
         //reset form
         reload_table();
+        resetFormUangKeluar();
         //refresh table
         Swal.fire({
           icon: 'success',
@@ -411,6 +419,116 @@ document.addEventListener("DOMContentLoaded", function(event) {
         });
       }
     });
+  });
+  $("#bulan").change(function(){
+    const bulan = $(this).val();
+    const tahun = $("#tahun").val();
+    reload_table(bulan,tahun);
+  });
+  $("#tahun").change(function(){
+    const bulan = $("#bulan").val();
+    const tahun = $(this).val();
+    reload_table(bulan,tahun);
+  });
+  $("#btnUangMasuk").click(function(){
+    resetFormUangMasuk();
+  });
+  $("#btnUangKeluar").click(function(){
+    resetFormUangKeluar();
+  });
+  function resetFormUangMasuk(){
+    $("#id_uang_masuk").val("");
+    $("#sumber_uang_masuk").val("");
+    $("#jumlah_uang_masuk").val("");
+    $("#tanggal_uang_masuk").val("");
+  }
+  function resetFormUangKeluar(){
+    $("#id_uang_keluar").val("");
+    $("#keterangan_uang_keluar").val("");
+    $("#jumlah_uang_keluar").val("");
+    $("#tanggal_uang_keluar").val("");
+  }
+  $(".edit_uang_masuk").click(function(){
+    const id = $(this).attr("data-id");
+    $.ajax({
+      data : {"id" : id},
+      url: ''.concat(baseUrl).concat('admin/uang_masuk/get_id'),
+      type:'post',
+      success : function success(data) {
+        data = JSON.parse(data);
+        console.log(data);
+        $("#id_uang_masuk").val(data.data.id)
+        $("#sumber_uang_masuk").val(data.data.sumber);
+        $("#jumlah_uang_masuk").val(data.data.jumlah);
+        const tanggal_transaksi = data.tanggal;
+        $("#tanggal_uang_masuk").val(tanggal_transaksi);
+      }
+    });
+  });
+  $(".delete_uang_masuk").click(function(){
+    let text = "Apakah yakin ingin menghapus ? ";
+    if (confirm(text) == true) {
+      const id = $(this).attr("data-id");
+      $.ajax({
+        data : {"id" : id},
+        url: ''.concat(baseUrl).concat('admin/uang_masuk/hapus'),
+        type:'post',
+        success : function success(data) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Successfully '.concat(' Deleted !'),
+            text: ''.concat('Pemasukan ', ' ').concat(' berhasil Dihapus'),
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
+          reload_table();
+        }
+      });
+    }else{
+      return false;
+    }
+  });
+  $(".edit_uang_keluar").click(function(){
+    const id = $(this).attr("data-id");
+    $.ajax({
+      data : {"id" : id},
+      url: ''.concat(baseUrl).concat('admin/uang_keluar/get_id'),
+      type:'post',
+      success : function success(data) {
+        data = JSON.parse(data);
+        console.log(data);
+        $("#id_uang_keluar").val(data.data.id)
+        $("#keterangan_uang_keluar").val(data.data.keterangan);
+        $("#jumlah_uang_keluar").val(data.data.jumlah);
+        const tanggal_transaksi = data.tanggal;
+        $("#tanggal_uang_keluar").val(tanggal_transaksi);
+      }
+    });
+  });
+  $(".delete_uang_keluar").click(function(){
+    let text = "Apakah yakin ingin menghapus ? ";
+    if (confirm(text) == true) {
+      const id = $(this).attr("data-id");
+      $.ajax({
+        data : {"id" : id},
+        url: ''.concat(baseUrl).concat('admin/uang_keluar/hapus'),
+        type:'post',
+        success : function success(data) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Successfully '.concat(' Updated !'),
+            text: ''.concat('Pengeluaran ', ' ').concat(' berhasil Dihapus'),
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
+          reload_table();
+        }
+      });
+    }else{
+      return false;
+    }
   });
   function reload_table(bulan, tahun){
     $.ajax({
