@@ -94,8 +94,8 @@
 </table>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function(event) {
-    let title = "Pemasukan dan Pengeluaran Pondok Bulan {{$var['list_bulan'][$var['bulan']]}} {{$var['tahun']}}";
+
+    title = "Pemasukan dan Pengeluaran Pondok Bulan {{$var['list_bulan'][$var['bulan']]}} {{$var['tahun']}}";
     $('.dataTable').dataTable({
         dom:
           '<"row mx-2"' +
@@ -194,8 +194,9 @@
       $("#list-detail > .detail:last").remove();
     });
     $('#formSakuMasuk').submit(function(e) {
+      const bulan = $("#bulan").val();
+      const tahun = $("#tahun").val();
       e.preventDefault();
-
       var formData = new FormData(this);
       //showBlock();
       $.ajax({
@@ -211,7 +212,7 @@
           //hilangkan modal
           $('#uangMasuk').modal('hide');
           //reset form
-          reload_table();
+          reload_table(bulan,tahun);
           resetFormUangMasuk();
           //refresh table
           Swal.fire({
@@ -238,7 +239,8 @@
     });
     $('#formSakuKeluar').submit(function(e) {
       e.preventDefault();
-
+      const bulan = $("#bulan").val();
+      const tahun = $("#tahun").val();
       var formData = new FormData(this);
       //showBlock();
       $.ajax({
@@ -254,7 +256,7 @@
           //hilangkan modal
           $('#uangKeluar').modal('hide');
           //reset form
-          reload_table();
+          reload_table(bulan,tahun);
           resetFormUangKeluar();
           //refresh table
           Swal.fire({
@@ -279,128 +281,88 @@
         }
       });
     });
-    $("#bulan").change(function(){
-      const bulan = $(this).val();
-      const tahun = $("#tahun").val();
-      reload_table(bulan,tahun);
+    $(".edit_uang_masuk").on("click",function(){
+    const id = $(this).attr("data-id");
+    $.ajax({
+      data : {"id" : id},
+      url: ''.concat(baseUrl).concat('admin/uang_masuk/get_id'),
+      type:'post',
+      success : function success(data) {
+        data = JSON.parse(data);
+        console.log(data);
+        $("#id_uang_masuk").val(data.data.id)
+        $("#sumber_uang_masuk").val(data.data.sumber);
+        $("#jumlah_uang_masuk").val(data.data.jumlah);
+        const tanggal_transaksi = data.tanggal;
+        $("#tanggal_uang_masuk").val(tanggal_transaksi);
+      }
     });
-    $("#tahun").change(function(){
-      const bulan = $("#bulan").val();
-      const tahun = $(this).val();
-      reload_table(bulan,tahun);
-    });
-    $("#btnUangMasuk").click(function(){
-      resetFormUangMasuk();
-    });
-    $("#btnUangKeluar").click(function(){
-      resetFormUangKeluar();
-    });
-    function resetFormUangMasuk(){
-      $("#id_uang_masuk").val("");
-      $("#sumber_uang_masuk").val("");
-      $("#jumlah_uang_masuk").val("");
-      $("#tanggal_uang_masuk").val("");
-    }
-    function resetFormUangKeluar(){
-      $("#id_uang_keluar").val("");
-      $("#keterangan_uang_keluar").val("");
-      $("#jumlah_uang_keluar").val("");
-      $("#tanggal_uang_keluar").val("");
-    }
-    $(".edit_uang_masuk").click(function(){
+  });
+  $(".delete_uang_masuk").on("click",function(){
+    let text = "Apakah yakin ingin menghapus ? ";
+    if (confirm(text) == true) {
       const id = $(this).attr("data-id");
       $.ajax({
         data : {"id" : id},
-        url: ''.concat(baseUrl).concat('admin/uang_masuk/get_id'),
+        url: ''.concat(baseUrl).concat('admin/uang_masuk/hapus'),
         type:'post',
         success : function success(data) {
-          data = JSON.parse(data);
-          console.log(data);
-          $("#id_uang_masuk").val(data.data.id)
-          $("#sumber_uang_masuk").val(data.data.sumber);
-          $("#jumlah_uang_masuk").val(data.data.jumlah);
-          const tanggal_transaksi = data.tanggal;
-          $("#tanggal_uang_masuk").val(tanggal_transaksi);
+          Swal.fire({
+            icon: 'success',
+            title: 'Successfully '.concat(' Deleted !'),
+            text: ''.concat('Pemasukan ', ' ').concat(' berhasil Dihapus'),
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
+          reload_table();
         }
       });
-    });
-    $(".delete_uang_masuk").click(function(){
-      let text = "Apakah yakin ingin menghapus ? ";
-      if (confirm(text) == true) {
-        const id = $(this).attr("data-id");
-        $.ajax({
-          data : {"id" : id},
-          url: ''.concat(baseUrl).concat('admin/uang_masuk/hapus'),
-          type:'post',
-          success : function success(data) {
-            Swal.fire({
-              icon: 'success',
-              title: 'Successfully '.concat(' Deleted !'),
-              text: ''.concat('Pemasukan ', ' ').concat(' berhasil Dihapus'),
-              customClass: {
-                confirmButton: 'btn btn-success'
-              }
-            });
-            reload_table();
-          }
-        });
-      }else{
-        return false;
-      }
-    });
-    $(".edit_uang_keluar").click(function(){
-      const id = $(this).attr("data-id");
-      $.ajax({
-        data : {"id" : id},
-        url: ''.concat(baseUrl).concat('admin/uang_keluar/get_id'),
-        type:'post',
-        success : function success(data) {
-          data = JSON.parse(data);
-          console.log(data);
-          $("#id_uang_keluar").val(data.data.id)
-          $("#keterangan_uang_keluar").val(data.data.keterangan);
-          $("#jumlah_uang_keluar").val(data.data.jumlah);
-          const tanggal_transaksi = data.tanggal;
-          $("#tanggal_uang_keluar").val(tanggal_transaksi);
-        }
-      });
-    });
-    $(".delete_uang_keluar").click(function(){
-      let text = "Apakah yakin ingin menghapus ? ";
-      if (confirm(text) == true) {
-        const id = $(this).attr("data-id");
-        $.ajax({
-          data : {"id" : id},
-          url: ''.concat(baseUrl).concat('admin/uang_keluar/hapus'),
-          type:'post',
-          success : function success(data) {
-            Swal.fire({
-              icon: 'success',
-              title: 'Successfully '.concat(' Updated !'),
-              text: ''.concat('Pengeluaran ', ' ').concat(' berhasil Dihapus'),
-              customClass: {
-                confirmButton: 'btn btn-success'
-              }
-            });
-            reload_table();
-          }
-        });
-      }else{
-        return false;
-      }
-    });
-    function reload_table(bulan, tahun){
-      $.ajax({
-          data: {'bulan' : bulan, "tahun" : tahun},
-          url: ''.concat(baseUrl).concat('admin/akuntansi/get_all'),
-          type: 'POST',
-          success: function success(data) {
-            $("#table_akuntansi").html(data);
-          },
-        });
+    }else{
+      return false;
     }
   });
-
+  $(".edit_uang_keluar").on("click",function(){
+    const id = $(this).attr("data-id");
+    $.ajax({
+      data : {"id" : id},
+      url: ''.concat(baseUrl).concat('admin/uang_keluar/get_id'),
+      type:'post',
+      success : function success(data) {
+        data = JSON.parse(data);
+        console.log(data);
+        $("#id_uang_keluar").val(data.data.id)
+        $("#keterangan_uang_keluar").val(data.data.keterangan);
+        $("#jumlah_uang_keluar").val(data.data.jumlah);
+        const tanggal_transaksi = data.tanggal;
+        $("#tanggal_uang_keluar").val(tanggal_transaksi);
+      }
+    });
+  });
+  $(".delete_uang_keluar").on("click",function(){
+    let text = "Apakah yakin ingin menghapus ? ";
+    if (confirm(text) == true) {
+      const id = $(this).attr("data-id");
+      $.ajax({
+        data : {"id" : id},
+        url: ''.concat(baseUrl).concat('admin/uang_keluar/hapus'),
+        type:'post',
+        success : function success(data) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Successfully '.concat(' Updated !'),
+            text: ''.concat('Pengeluaran ', ' ').concat(' berhasil Dihapus'),
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
+          reload_table();
+        }
+      });
+    }else{
+      return false;
+    }
+  });
 
 
   </script>

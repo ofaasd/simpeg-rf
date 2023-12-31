@@ -313,7 +313,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
       ]
     });
-  $("#tambah").click(function(){
+  $("#tambah").on("click",function(){
     $("#list-detail").append(`<div class='detail'  style="margin:10px 0;">
               <div class="row">
                 <div class="col-12 col-md-6">
@@ -331,12 +331,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
               </div>
             </div>`);
   });
-  $("#remove").click(function(){
+  $("#remove").on("click",function(){
     $("#list-detail > .detail:last").remove();
   });
   $('#formSakuMasuk').submit(function(e) {
+    const bulan = $("#bulan").val();
+    const tahun = $("#tahun").val();
     e.preventDefault();
-
     var formData = new FormData(this);
     //showBlock();
     $.ajax({
@@ -352,7 +353,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         //hilangkan modal
         $('#uangMasuk').modal('hide');
         //reset form
-        reload_table();
+        reload_table(bulan,tahun);
         resetFormUangMasuk();
         //refresh table
         Swal.fire({
@@ -379,7 +380,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
   $('#formSakuKeluar').submit(function(e) {
     e.preventDefault();
-
+    const bulan = $("#bulan").val();
+    const tahun = $("#tahun").val();
     var formData = new FormData(this);
     //showBlock();
     $.ajax({
@@ -395,7 +397,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         //hilangkan modal
         $('#uangKeluar').modal('hide');
         //reset form
-        reload_table();
+        reload_table(bulan,tahun);
         resetFormUangKeluar();
         //refresh table
         Swal.fire({
@@ -430,25 +432,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const tahun = $(this).val();
     reload_table(bulan,tahun);
   });
-  $("#btnUangMasuk").click(function(){
+  $("#btnUangMasuk").on("click",function(){
     resetFormUangMasuk();
   });
-  $("#btnUangKeluar").click(function(){
+  $("#btnUangKeluar").on("click",function(){
     resetFormUangKeluar();
   });
-  function resetFormUangMasuk(){
-    $("#id_uang_masuk").val("");
-    $("#sumber_uang_masuk").val("");
-    $("#jumlah_uang_masuk").val("");
-    $("#tanggal_uang_masuk").val("");
-  }
-  function resetFormUangKeluar(){
-    $("#id_uang_keluar").val("");
-    $("#keterangan_uang_keluar").val("");
-    $("#jumlah_uang_keluar").val("");
-    $("#tanggal_uang_keluar").val("");
-  }
-  $(".edit_uang_masuk").click(function(){
+
+  $(".edit_uang_masuk").on("click",function(){
     const id = $(this).attr("data-id");
     $.ajax({
       data : {"id" : id},
@@ -465,7 +456,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       }
     });
   });
-  $(".delete_uang_masuk").click(function(){
+  $(".delete_uang_masuk").on("click",function(){
     let text = "Apakah yakin ingin menghapus ? ";
     if (confirm(text) == true) {
       const id = $(this).attr("data-id");
@@ -489,7 +480,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       return false;
     }
   });
-  $(".edit_uang_keluar").click(function(){
+  $(".edit_uang_keluar").on("click",function(){
     const id = $(this).attr("data-id");
     $.ajax({
       data : {"id" : id},
@@ -506,7 +497,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       }
     });
   });
-  $(".delete_uang_keluar").click(function(){
+  $(".delete_uang_keluar").on("click",function(){
     let text = "Apakah yakin ingin menghapus ? ";
     if (confirm(text) == true) {
       const id = $(this).attr("data-id");
@@ -530,18 +521,30 @@ document.addEventListener("DOMContentLoaded", function(event) {
       return false;
     }
   });
-  function reload_table(bulan, tahun){
-    $.ajax({
-        data: {'bulan' : bulan, "tahun" : tahun},
-        url: ''.concat(baseUrl).concat('admin/akuntansi/get_all'),
-        type: 'POST',
-        success: function success(data) {
-          $("#table_akuntansi").html(data);
-        },
-      });
-  }
+
 });
 
-
+function reload_table(bulan, tahun){
+  $.ajax({
+      data: {'bulan' : bulan, "tahun" : tahun},
+      url: ''.concat(baseUrl).concat('admin/akuntansi/get_all'),
+      type: 'POST',
+      success: function success(data) {
+        $("#table_akuntansi").html(data);
+      },
+    });
+}
+function resetFormUangMasuk(){
+  $("#id_uang_masuk").val("");
+  $("#sumber_uang_masuk").val("");
+  $("#jumlah_uang_masuk").val("");
+  $("#tanggal_uang_masuk").val("");
+}
+function resetFormUangKeluar(){
+  $("#id_uang_keluar").val("");
+  $("#keterangan_uang_keluar").val("");
+  $("#jumlah_uang_keluar").val("");
+  $("#tanggal_uang_keluar").val("");
+}
 
 </script>
