@@ -330,6 +330,7 @@ $(function () {
 
     // get data
     $.get(''.concat(baseUrl).concat(url, '/').concat(id, '/edit'), function (data) {
+      $('#add-' + page + '-psb_peserta_id').val(id);
       Object.keys(data).forEach(function (key) {
         //console.log(key);
         if (key == 'id') $('#' + page + '_' + key).val(data[key]);
@@ -401,6 +402,11 @@ $(function () {
     }
   }).on('core.form.valid', function () {
     // adding or updating user when form successfully validate
+    //update file bukti jika ada ke api
+    if ($('#add-validasi-file_bukti').get(0).files.length === 0) {
+      console.log('No files selected.');
+    }
+    //update datanya aja
     $.ajax({
       data: $('#addNew' + title + 'Form').serialize(),
       url: ''.concat(baseUrl).concat(url),

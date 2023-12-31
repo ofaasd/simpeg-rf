@@ -270,6 +270,7 @@ class psb extends Controller
           'no_rekening' => $request->no_rekening,
           'atas_nama' => $request->atas_nama,
           'status' => $request->status,
+          'psb_peserta_id' => $request->psb_peserta_id,
         ]
       );
 
@@ -286,6 +287,7 @@ class psb extends Controller
           'no_rekening' => $request->no_rekening,
           'atas_nama' => $request->atas_nama,
           'status' => $request->status,
+          'psb_peserta_id' => $request->psb_peserta_id,
         ]
       );
       if ($PsbBuktiPembayaran) {

@@ -53,8 +53,16 @@
           <textarea  class="form-control" id="add-{{strtolower($title)}}-atas_nama" placeholder="Atas Nama" name="atas_nama" aria-label="Atas Nama"></textarea>
           <label for="add-{{strtolower($title)}}-atas_nama">Atas Nama</label>
         </div>
+        {{-- <div class="form-floating form-floating-outline mb-4"> --}}
+          <input type="hidden"  class="form-control" id="add-{{strtolower($title)}}-psb_peserta_id" placeholder="Atas Nama" name="psb_peserta_id" aria-label="Atas Nama">
+          {{-- <label for="add-{{strtolower($title)}}-psb_peserta_id">Peserta Id</label> --}}
+        {{-- </div> --}}
         <div class="form-floating form-floating-outline mb-4" id="bukti_file">
 
+        </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <input type="file" class="form-control" id="add-{{strtolower($title)}}-file_bukti" placeholder="" name="file_bukti" />
+          <label for="add-{{strtolower($title)}}-file_bukti">File Bukti</label>
         </div>
         <div class="form-floating form-floating-outline mb-4">
           <select name="status" id="add-{{strtolower($title)}}-status" class='form-control'>
