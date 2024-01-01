@@ -26,7 +26,7 @@ class AkuntansiController extends Controller
       'November',
       'Desember',
     ];
-    $var['bulan'] = date('m');
+    $var['bulan'] = (int) date('m');
     $var['tahun'] = date('Y');
     $title = 'Akuntansi';
     if (!empty($request->bulan) && !empty($request->tahun)) {
@@ -80,7 +80,7 @@ class AkuntansiController extends Controller
       'November',
       'Desember',
     ];
-    $var['bulan'] = date('m');
+    $var['bulan'] = (int) date('m');
     $var['tahun'] = date('Y');
     $title = 'Akuntansi';
     if (!empty($request->bulan) && !empty($request->tahun)) {
