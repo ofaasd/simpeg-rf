@@ -403,7 +403,8 @@ $(function () {
   }).on('core.form.valid', function () {
     // adding or updating user when form successfully validate
     //update file bukti jika ada ke api
-    let data = new FormData($('#addNew' + title + 'Form'));
+    const formElement = $('#addNew' + title + 'Form');
+    let data = new FormData(formElement[0]);
     const url_save = 'https://psb.ppatq-rf.id/api/simpan_bukti_bayar_api_admin';
     $.ajax({
       data: data,
