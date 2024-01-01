@@ -411,7 +411,7 @@ $(function () {
       url: url_save,
       processData: false,
       contentType: false,
-      type: 'POST',
+      method: 'POST',
       success: function success(status) {
         dt.draw();
         offCanvasForm.offcanvas('hide');
