@@ -20,6 +20,25 @@ function showBlock() {
 function showUnblock() {
   $('#card-block').unblock();
 }
+
+function showBlockModal(id) {
+  $(id).block({
+    message: '<div class="spinner-border text-primary" role="status"></div>',
+    timeout: 1000,
+    css: {
+      backgroundColor: 'transparent',
+      border: '0'
+    },
+    overlayCSS: {
+      backgroundColor: '#fff',
+      opacity: 0.8
+    }
+  });
+}
+function showUnblockModal(id) {
+  $(id).unblock();
+}
+
 // bootstrap-maxlength & repeater (jquery)
 $(function () {
   var maxlengthInput = $('.bootstrap-maxlength-example'),

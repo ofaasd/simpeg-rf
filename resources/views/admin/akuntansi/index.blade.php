@@ -2,6 +2,16 @@
 
 @section('title', $title . ' Management - Crud App')
 
+@section('vendor-style')
+  <link rel="stylesheet" href="{{asset('assets/vendor/libs/spinkit/spinkit.css')}}" />
+@endsection
+
+@section('vendor-script')
+  <script src="{{asset('assets/vendor/libs/block-ui/block-ui.js')}}"></script>
+@endsection
+@section('page-script')
+  <script src="{{asset('assets/js/forms-extras-custom.js')}}"></script>
+@endsection
 @section('content')
 <style>
   table.dataTable td, table.dataTable th {
@@ -440,6 +450,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 
   $(".edit_uang_masuk").on("click",function(){
+    showBlockModal('#uangMasuk');
     const id = $(this).attr("data-id");
     $.ajax({
       data : {"id" : id},
@@ -453,6 +464,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         $("#jumlah_uang_masuk").val(data.data.jumlah);
         const tanggal_transaksi = data.tanggal;
         $("#tanggal_uang_masuk").val(tanggal_transaksi);
+        showUnblockModal('#uangMasuk');
       }
     });
   });
@@ -481,6 +493,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
   });
   $(".edit_uang_keluar").on("click",function(){
+    showBlockModal('#uangKeluar');
     const id = $(this).attr("data-id");
     $.ajax({
       data : {"id" : id},
@@ -494,6 +507,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         $("#jumlah_uang_keluar").val(data.data.jumlah);
         const tanggal_transaksi = data.tanggal;
         $("#tanggal_uang_keluar").val(tanggal_transaksi);
+        showUnblockModal('#uangKeluar');
       }
     });
   });
@@ -525,12 +539,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 function reload_table(bulan, tahun){
+  showBlock();
   $.ajax({
       data: {'bulan' : bulan, "tahun" : tahun},
       url: ''.concat(baseUrl).concat('admin/akuntansi/get_all'),
       type: 'POST',
       success: function success(data) {
         $("#table_akuntansi").html(data);
+        showUnblock();
       },
     });
 }
