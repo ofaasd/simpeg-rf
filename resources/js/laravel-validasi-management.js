@@ -403,13 +403,13 @@ $(function () {
   }).on('core.form.valid', function () {
     // adding or updating user when form successfully validate
     //update file bukti jika ada ke api
-    if ($('#add-validasi-file_bukti').get(0).files.length === 0) {
-      console.log('No files selected.');
-    }
-    //update datanya aja
+    let data = new FormData($('#addNew' + title + 'Form'));
+    const url_save = 'https://psb.ppatq-rf.id/api/simpan_bukti_bayar_api_admin';
     $.ajax({
-      data: $('#addNew' + title + 'Form').serialize(),
-      url: ''.concat(baseUrl).concat(url),
+      data: data,
+      url: url_save,
+      processData: false,
+      contentType: false,
       type: 'POST',
       success: function success(status) {
         dt.draw();
