@@ -39,7 +39,7 @@
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body mx-0 flex-grow-0">
-      <form class="add-new-{{strtolower($title)}} pt-0" id="addNew{{$title}}Form">
+      <form enctype="multipart/form-data" class="add-new-{{strtolower($title)}} pt-0" id="addNew{{$title}}Form">
         @csrf
         <input type="hidden" name="id" id="{{strtolower($title)}}_id">
         <div class="form-floating form-floating-outline mb-4">
