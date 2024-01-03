@@ -485,6 +485,10 @@ class SantriController extends Controller
     $santri = RefSiswa::all();
     foreach ($santri as $row) {
       echo $row->kode . ' ' . $row->no_induk . '<br />';
+      $santri_detail = Santri::where('no_induk', $row->no_induk)->first();
+      $santri_update = Santri::find($santri_detail);
+      $santri_update->kelas = $row->kode;
+      $santri_update->save();
     }
   }
 }
