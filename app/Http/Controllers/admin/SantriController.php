@@ -487,9 +487,9 @@ class SantriController extends Controller
       echo $row->kode . ' ' . $row->no_induk;
       $santri_detail = Santri::where('no_induk', $row->no_induk);
 
-      if ($santri_detail->kelas != $row->kode) {
-        if ($santri_detail->count() > 0) {
-          $santri_detail = $santri_detail->first();
+      if ($santri_detail->count() > 0) {
+        $santri_detail = $santri_detail->first();
+        if ($santri_detail->kelas != $row->kode) {
           $santri_update = Santri::find($santri_detail->id);
           $santri_update->kelas = $row->kode;
           if ($santri_update->save()) {
