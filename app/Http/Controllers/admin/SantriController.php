@@ -484,7 +484,7 @@ class SantriController extends Controller
   {
     $santri = RefSiswa::all();
     foreach ($santri as $row) {
-      echo $row->kelas . ' ' . $row->no_induk;
+      echo $row->kode . ' ' . $row->no_induk . '<br />';
     }
   }
 }
