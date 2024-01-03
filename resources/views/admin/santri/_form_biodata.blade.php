@@ -2,6 +2,7 @@
     @csrf
     <input type="hidden" id="id" name="id" id="{{strtolower($title)}}_id" value='{{$var['santri']->id}}'>
     <input type="hidden" name="kamar_id" value="{{$var['santri']->kamar_id}}">
+    <input type="hidden" name="kelas" value="{{$var['santri']->kelas}}">
     <input type="hidden" name="tahfidz_id" value="{{$var['santri']->tahfidz_id}}">
     <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto" style="margin-bottom:20px">
       <img src="{{ $var['santri_photo']}}" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" width='200' height='200'>
