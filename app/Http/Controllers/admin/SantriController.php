@@ -480,4 +480,11 @@ class SantriController extends Controller
     $santri = Santri::where('tahfidz_id', $kelas_id)->get();
     return response()->json($santri);
   }
+  public function generate_kelas()
+  {
+    $santri = RefSiswa::all();
+    foreach ($santri as $row) {
+      echo $row->kelas . ' ' . $row->no_induk;
+    }
+  }
 }
