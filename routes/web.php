@@ -91,6 +91,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('/santri/teman_kelas', [SantriController::class, 'teman_kelas']);
   Route::post('/santri/update_tahfidz', [SantriController::class, 'update_tahfidz']);
   Route::post('/santri/teman_tahfidz', [SantriController::class, 'teman_tahfidz']);
+  Route::post('/santri/generate_kelas', [SantriController::class, 'generate_kelas']);
   Route::post('/ustadz/uang-saku/get_all', [UangSakuController::class, 'get_all']);
   Route::get('/ketahfidzan', [TahfidzController::class, 'ketahfidzan']);
   Route::get('/ketahfidzan/{id}', [TahfidzController::class, 'tahfidz_detail']);
