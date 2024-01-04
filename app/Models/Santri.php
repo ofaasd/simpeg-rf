@@ -95,7 +95,7 @@ class Santri extends Model
   ];
 
   protected $attributes = [
-    'status' => '0',
+    'status' => 0,
   ];
   public function kamar(): BelongsTo
   {
