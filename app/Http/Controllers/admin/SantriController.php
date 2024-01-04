@@ -35,7 +35,12 @@ class SantriController extends Controller
       $kamar = Kamar::all();
       $tahfidz = Tahfidz::all();
       $kelas = Kelas::all();
-      return view('admin.santri.index', compact('title', 'indexed', 'kota', 'kelas', 'prov', 'kamar', 'tahfidz'));
+      $status = [0 => 'aktif', 1 => 'lulus/alumni', 2 => 'boyong/keluar', 3 => 'meninggal'];
+
+      return view(
+        'admin.santri.index',
+        compact('status', 'title', 'indexed', 'kota', 'kelas', 'prov', 'kamar', 'tahfidz')
+      );
     } else {
       $columns = [
         1 => 'id',
@@ -58,24 +63,33 @@ class SantriController extends Controller
       $dir = $request->input('order.0.dir');
 
       if (empty($request->input('search.value'))) {
-        $Santri = Santri::offset($start)
+        $Santri = Santri::where('status', 0)
+          ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
       } else {
         $search = $request->input('search.value');
 
-        $Santri = Santri::where('id', 'LIKE', "%{$search}%")
-          ->orWhere('nama', 'LIKE', "%{$search}%")
-          ->orWhere('no_induk', 'LIKE', "%{$search}%")
+        $Santri = Santri::where('status', 0)
+          ->where(function ($query) use ($search) {
+            $query
+              ->where('id', 'LIKE', "%{$search}%")
+              ->orWhere('nama', 'LIKE', "%{$search}%")
+              ->orWhere('no_induk', 'LIKE', "%{$search}%");
+          })
           ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
 
-        $totalFiltered = Santri::where('id', 'LIKE', "%{$search}%")
-          ->orWhere('nama', 'LIKE', "%{$search}%")
-          ->orWhere('no_induk', 'LIKE', "%{$search}%")
+        $totalFiltered = Santri::where('status', 0)
+          ->where(function ($query) use ($search) {
+            $query
+              ->where('id', 'LIKE', "%{$search}%")
+              ->orWhere('nama', 'LIKE', "%{$search}%")
+              ->orWhere('no_induk', 'LIKE', "%{$search}%");
+          })
           ->count();
       }
 
@@ -154,6 +168,7 @@ class SantriController extends Controller
           'tahfidz_id' => $request->tahfidz_id,
           'kamar_id' => $request->kamar_id,
           'kelas' => $request->kelas,
+          'status' => $request->status,
         ]
       );
       //return response()->json(dd($request->all()));
@@ -227,6 +242,7 @@ class SantriController extends Controller
           'tahfidz_id' => $request->tahfidz_id,
           'kamar_id' => $request->kamar_id,
           'kelas' => $request->kelas,
+          'status' => $request->status,
         ]
       );
       $RefSantri = RefSiswa::updateOrCreate(
@@ -237,7 +253,7 @@ class SantriController extends Controller
           'nama' => $request->nama,
           'no_induk' => $request->no_induk,
           'password' => md5(date('dmy', strtotime($request->tanggal_fix)) . $request->jenis_kelamin),
-          'status' => 1,
+          'status' => $request->status,
         ]
       );
       // $tahunAjaran = TahunAjaran::where(['is_aktif' => 1])->first();
@@ -415,7 +431,8 @@ class SantriController extends Controller
       $var['curr_tahfidz'] = Tahfidz::find($var['santri']->tahfidz_id);
     }
     $var['menu'] = ['biodata', 'keluarga', 'kamar', 'kelas', 'tahfidz'];
-    return view('admin.santri.show', compact('title', 'var'));
+    $status = [0 => 'aktif', 1 => 'lulus/alumni', 2 => 'boyong/keluar', 3 => 'meninggal'];
+    return view('admin.santri.show', compact('status', 'title', 'var'));
   }
 
   /**

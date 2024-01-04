@@ -81,6 +81,15 @@
       <input type="text" class="form-control" id="add-{{strtolower($title)}}-no_hp" placeholder="no_hp" name="no_hp" value="{{$var['santri']->no_hp}}" />
       <label for="add-{{strtolower($title)}}-no_hp">No. HP</label>
     </div>
+    <div class="form-floating form-floating-outline mb-4">
+      <select class="form-control" id="add-{{strtolower($title)}}-status"  name="status">
+        <option value="0">---Pilih Status---</option>
+        @foreach($status as $key=>$value)
+        <option value="{{$key}}" {{($var['santri']->status == $key)?'selected':''}}>{{$value}}</option>
+        @endforeach
+      </select>
+      <label for="add-{{strtolower($title)}}-status">Status</label>
+    </div>
     <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit" id='edit-record'>Submit</button>
 </form>
 <script>

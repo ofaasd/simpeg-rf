@@ -138,6 +138,15 @@
           </select>
           <label for="add-{{strtolower($title)}}-tahfidz_id">Kelompok Tahfidz</label>
         </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <select class="form-control" id="add-{{strtolower($title)}}-status"  name="status">
+            <option value="0">---Pilih Status---</option>
+            @foreach($status as $key=>$value)
+            <option value="{{$key}}">{{$value}}</option>
+            @endforeach
+          </select>
+          <label for="add-{{strtolower($title)}}-status">Status</label>
+        </div>
 
         <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
         <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>

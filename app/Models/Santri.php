@@ -94,10 +94,6 @@ class Santri extends Model
     'photo_location',
     'status',
   ];
-
-  protected $attributes = [
-    'status' => 0,
-  ];
   public function kamar(): BelongsTo
   {
     return $this->belongsTo(Kamar::class, 'kamar_id', 'id');
