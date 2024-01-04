@@ -92,6 +92,7 @@ class Santri extends Model
     'tahfidz_id',
     'photo',
     'photo_location',
+    'status',
   ];
 
   protected $attributes = [
