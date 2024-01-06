@@ -9,6 +9,7 @@ use App\Models\PsbSekolahAsal;
 use App\Models\PsbWaliPesertum;
 use App\Models\PsbBerkasPendukung;
 use App\Models\PsbBuktiPembayaran;
+use App\Models\PsbSeragam;
 use App\Models\UserPsb;
 use App\Models\PsbGelombang;
 use App\Models\Province;
@@ -321,15 +322,6 @@ class psb extends Controller
     $array = [];
     $cek_hp = UserPsb::where('no_hp', $no_hp)->count();
     $hitung = 0;
-    if ($cek_hp > 0) {
-      $array[] = [
-        'code' => 1,
-        'status' => 'error',
-        'msg' => 'No. HP sudah terdaftar pada sistem',
-      ];
-      //echo json_encode($array);
-      $hitung++;
-    }
     //cek umur peserta > 5 dan  < 12 tahun
     $tanggal_lahir = $request->tanggal_lahir;
     $dob = new DateTime($tanggal_lahir);
@@ -475,6 +467,14 @@ https://psb.ppatq-rf.id';
         $sekolahAsal->psb_peserta_id = $data->id;
         $sekolahAsal->save();
 
+        $psb_seragam = new PsbSeragam();
+        $psb_seragam->tinggi_badan = $request->tinggi_badan;
+        $psb_seragam->berat_badan = $request->berat_badan;
+        $psb_seragam->lingkar_dada = $request->lingkar_dada;
+        $psb_seragam->lingkar_pinggul = $request->lingkar_pinggul;
+        $psb_seragam->psb_peserta_id = $data->id;
+        $psb_seragam->save();
+
         $array[] = [
           'code' => 0,
           'status' => 'Success',
@@ -508,6 +508,7 @@ https://psb.ppatq-rf.id';
     $var['psb_peserta'] = $psb_peserta;
     $psb_wali = PsbWaliPesertum::where('psb_peserta_id', $psb_peserta->id)->first();
     $psb_asal = PsbSekolahAsal::where('psb_peserta_id', $psb_peserta->id)->first();
+    $psb_seragam = PsbSeragam::where('psb_peserta_id', $psb_peserta->id)->first();
     $berkas_pendukung = PsbBerkasPendukung::where('psb_peserta_id', $psb_peserta->id);
     $foto = 'https://payment.ppatq-rf.id/assets/images/user.png';
     if ($berkas_pendukung->count() > 0 && !empty($berkas_pendukung->first()->file_photo)) {
@@ -536,6 +537,7 @@ https://psb.ppatq-rf.id';
     return view(
       'admin.psb.show',
       compact(
+        'psb_seragam',
         'kecamatan',
         'kelurahan',
         'title',
@@ -560,6 +562,7 @@ https://psb.ppatq-rf.id';
     $var['psb_peserta'] = $psb_peserta;
     $psb_wali = PsbWaliPesertum::where('psb_peserta_id', $psb_peserta->id)->first();
     $psb_asal = PsbSekolahAsal::where('psb_peserta_id', $psb_peserta->id)->first();
+    $psb_seragam = PsbSeragam::where('psb_peserta_id', $psb_peserta->id)->first();
     $berkas_pendukung = PsbBerkasPendukung::where('psb_peserta_id', $psb_peserta->id);
     $foto = 'https://payment.ppatq-rf.id/assets/images/user.png';
     if ($berkas_pendukung->count() > 0 && !empty($berkas_pendukung->first()->file_photo)) {
@@ -574,7 +577,19 @@ https://psb.ppatq-rf.id';
     $var['menu'] = ['edit_data_diri', 'edit_wali', 'edit_asal', 'edit_berkas'];
     return view(
       'admin.psb.show',
-      compact('title', 'var', 'provinsi', 'psb_peserta', 'psb_wali', 'psb_asal', 'kota', 'foto', 'berkas', 'view_tab')
+      compact(
+        'psb_seragam',
+        'title',
+        'var',
+        'provinsi',
+        'psb_peserta',
+        'psb_wali',
+        'psb_asal',
+        'kota',
+        'foto',
+        'berkas',
+        'view_tab'
+      )
     );
   }
 
@@ -710,6 +725,8 @@ https://psb.ppatq-rf.id';
   public function update_data_asal_sekolah(Request $request)
   {
     $id = $request->psb_asal_sekolah;
+
+    $id_peserta = $request->id_peserta;
     $sekolahAsal = PsbSekolahAsal::find($id);
     $sekolahAsal->jenjang = $request->jenjang;
     $sekolahAsal->kelas = $request->kelas;
@@ -717,6 +734,25 @@ https://psb.ppatq-rf.id';
     $sekolahAsal->nss = $request->nss;
     $sekolahAsal->npsn = $request->npsn;
     $sekolahAsal->nisn = $request->nisn;
+    $seragam = PsbSeragam::where('psb_peserta_id', $id_peserta);
+    if ($seragam->count() > 0) {
+      $id_seragam = $seragam->first()->id;
+      $psb_seragam = PsbSeragam::find($id_seragam);
+      $psb_seragam->tinggi_badan = $request->tinggi_badan;
+      $psb_seragam->berat_badan = $request->berat_badan;
+      $psb_seragam->lingkar_dada = $request->lingkar_dada;
+      $psb_seragam->lingkar_pinggul = $request->lingkar_pinggul;
+      $psb_seragam->save();
+    } else {
+      $psb_seragam = new PsbSeragam();
+      $psb_seragam->tinggi_badan = $request->tinggi_badan;
+      $psb_seragam->berat_badan = $request->berat_badan;
+      $psb_seragam->lingkar_dada = $request->lingkar_dada;
+      $psb_seragam->lingkar_pinggul = $request->lingkar_pinggul;
+      $psb_seragam->psb_peserta_id = $id_peserta;
+      $psb_seragam->save();
+    }
+
     if ($sekolahAsal->save()) {
       $array[] = [
         'code' => 1,

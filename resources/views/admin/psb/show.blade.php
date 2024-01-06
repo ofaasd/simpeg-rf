@@ -44,7 +44,7 @@
       </div>
       <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
         <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-          <img src="{{ $var['santri_photo']}}" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+          <img src="{{$foto}}" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
         </div>
         <div class="flex-grow-1 mt-3 mt-sm-5">
           <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
@@ -60,15 +60,30 @@
                 {{-- <li class="list-inline-item"><i class='mdi mdi-calendar-blank-outline me-1 mdi-20px'></i><span class="fw-semibold"> </span></li> --}}
               </ul>
             </div>
-            <a href="javascript:void(0)" class="btn btn-success">
-              <i class='mdi mdi-account-check-outline me-1'></i>Verified
-            </a>
+
+              @if($var['psb_peserta']->status == 0)
+                {{-- <a href="{{Url('/psb/ubah_validasi/' . $psb_peserta->id)}}" onclick="return (confirm('Apakah anda yakin ? \nPastikan data sudah yang akan divalidasi sudah sesuai dengan persyaratan yang berlaku'))" class="btn btn-danger"> --}}
+                <a href="{{Url('/psb_new/validasi/')}}"  class="btn btn-danger">
+                  <i class='mdi mdi-account-off-outline me-1'></i>Belum Validasi
+                </a>
+              @else
+                <a href="javascript:void(0)" class="btn btn-success">
+                  <i class='mdi mdi-account-check-outline me-1'></i>Sudah Validasi
+                </a>
+              @endif
+
+
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+{{-- @if($var['psb_peserta']->status == 0)
+  <div class="alert alert-danger">
+    Calon santri baru belum tervalidasi klik tombol di atas sebelah kanan untuk memvalidasi
+  </div>
+@endif --}}
 <div class="row">
   <div class="col-md-12">
     <ul class="nav nav-pills flex-column flex-sm-row mb-4">

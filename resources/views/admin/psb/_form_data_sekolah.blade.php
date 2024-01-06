@@ -51,6 +51,44 @@
           <label for="nisn">NISN</label>
         </div>
       </div>
+
+    </div>
+  </div>
+  <div class="col-md-12">
+      <hr>
+      <h4>Ukuran Badan (Untuk Seragam)</h4>
+      <br>
+  </div>
+  <div class="col-sm-6">
+    <div class="row g-4">
+      <div class="col-md-12">
+        <div class="form-floating form-floating-outline col-md-12">
+            <input type="number" name="tinggi_badan" class="form-control col-md-12" id="tinggi_badan" value="{{$psb_seragam->tinggi_badan??''}}" placeholder="Cth: 180 CM">
+            <label for="tinggi_badan">Tinggi Badan</label>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-floating form-floating-outline col-md-12">
+            <input type="number" name="berat_badan" class="form-control col-md-12" id="berat_badan" value="{{$psb_seragam->berat_badan??''}}" placeholder="Cth: 80 KG">
+            <label for="tinggi_badan">Berat Badan</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="row g-4">
+      <div class="col-md-12">
+        <div class="form-floating form-floating-outline col-md-12">
+          <input type="number" name="lingkar_dada" class="form-control col-md-12" id="lingkar_dada" value="{{$psb_seragam->lingkar_dada??''}}" placeholder="Cth: 50 CM">
+          <label for="lingkar_dada">Lingkar Dada</label>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-floating form-floating-outline col-md-12">
+          <input type="number" name="lingkar_pinggul" class="form-control col-md-12" id="lingkar_pinggul" value="{{$psb_seragam->lingkar_pinggul??''}}" placeholder="Cth: 50 CM">
+          <label for="lingkar_pinggul">Lingkar Pinggul</label>
+        </div>
+      </div>
     </div>
   </div>
   <div class="col-12 d-flex justify-content-between" style="margin-top:20px">
