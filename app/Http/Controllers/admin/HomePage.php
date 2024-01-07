@@ -61,14 +61,6 @@ class HomePage extends Controller
       ->whereYear('tanggal_bayar', $tahun)
       ->groupBy('nama_santri')
       ->count();
-    echo $jumlah_santri_lapor;
-    echo '<br />';
-    echo $bulan;
-    echo '<br />';
-    echo $tahun;
-    \DB::enableQueryLog();
-    dd(\DB::getQueryLog());
-    exit();
     $jumlah_siswa_belum_lapor = $jumlah_siswa - $jumlah_santri_lapor;
 
     if ($bulan == 1) {
