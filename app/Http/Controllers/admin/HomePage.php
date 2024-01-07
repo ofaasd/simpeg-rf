@@ -54,7 +54,7 @@ class HomePage extends Controller
     }
 
     $bulan_lalu = $bulan - 1;
-    $bayar_lalu = Pembayaran::whereMonth('tanggal_validasi', $bulan)->sum('jumlah');
+    $bayar_lalu = Pembayaran::whereMonth('tanggal_validasi', $bulan_lalu)->sum('jumlah');
     if ($bayar_lalu > 0) {
       $jumlah_pembayaran_lalu = $bayar_lalu;
     }
