@@ -60,7 +60,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   //kalo ada waktu route dirapikan pakai controller path
   $controller_path = 'App\Http\Controllers';
   Route::get('/dashboard', $controller_path . '\admin\HomePage@index')->name('pages-home');
-  //Route::get('/', $controller_path . '\pages\HomePage@index')->name('pages-home');
+  Route::get('/', $controller_path . '\admin\HomePage@index')->name('pages-home');
 
   Route::post('psb/validation', [psb::class, 'validation']);
   Route::post('psb/update_data_pribadi', [psb::class, 'update_data_pribadi']);
