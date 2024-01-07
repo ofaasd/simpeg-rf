@@ -5,6 +5,20 @@
 
 (function () {
   // Color Variables
+  const bulan = [
+    'Januari',
+    'Februari',
+    'Maret',
+    'April',
+    'Mei',
+    'Juni',
+    'Juli',
+    'Agustus',
+    'September',
+    'Oktober',
+    'November',
+    'Desember'
+  ];
   const purpleColor = '#836AF9',
     yellowColor = '#ffe800',
     cyanColor = '#28dac6',
@@ -46,21 +60,7 @@
     const barChartVar = new Chart(barChart, {
       type: 'bar',
       data: {
-        labels: [
-          '7/12',
-          '8/12',
-          '9/12',
-          '10/12',
-          '11/12',
-          '12/12',
-          '13/12',
-          '14/12',
-          '15/12',
-          '16/12',
-          '17/12',
-          '18/12',
-          '19/12'
-        ],
+        labels: bulan,
         datasets: [
           {
             data: [275, 90, 190, 205, 125, 85, 55, 87, 127, 150, 230, 280, 190],
@@ -118,6 +118,17 @@
             }
           }
         }
+      }
+    });
+  }
+  const barChart2 = document.getElementById('barChart2');
+  if (barChart) {
+    $.ajax({
+      url: ''.concat(baseUrl).concat('/get_jumlah_psb'),
+      method: 'POST',
+      data: { tahun: $('#tahun').val() },
+      success: function (data) {
+        console.log(data);
       }
     });
   }

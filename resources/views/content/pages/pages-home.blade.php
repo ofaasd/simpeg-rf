@@ -2,6 +2,14 @@
 $configData = Helper::appClasses();
 @endphp
 
+@section('vendor-script')
+<script src="{{asset('assets/vendor/libs/chartjs/chartjs.js')}}"></script>
+@endsection
+
+@section('page-script')
+<script src="{{asset('assets/js/charts-chartjs.js')}}"></script>
+@endsection
+
 @extends('layouts/layoutMaster')
 
 @section('title', 'Home')
@@ -116,8 +124,120 @@ $configData = Helper::appClasses();
       </div>
     </div>
   </div>
-
-
+  <!-- Bar Charts -->
+  <div class="col-xl-8 col-12 mb-4">
+    <div class="card">
+      <div class="card-header header-elements">
+        <h5 class="card-title mb-0">Statistik Pendaftar PSB</h5>
+        <div class="card-action-element ms-auto py-0">
+          <select name="tahun_psb" id="tahun_psb" class="form-control">
+            @for($i=date('Y');$i>=date('Y')-5; $i--)
+            <option value="{{$i}}">{{$i}}</option>
+            @endfor
+          </select>
+        </div>
+      </div>
+      <div class="card-body">
+        <canvas id="barChart2" class="chartjs" ></canvas>
+      </div>
+    </div>
+  </div>
+  <!-- /Bar Charts -->
 </div>
+<script>
+  const purpleColor = '#836AF9',
+    yellowColor = '#ffe800',
+    cyanColor = '#28dac6',
+    orangeColor = '#FF8132',
+    orangeLightColor = '#ffcf5c',
+    oceanBlueColor = '#299AFF',
+    greyColor = '#4F5D70',
+    greyLightColor = '#EDF1F4',
+    blueColor = '#2B9AFF',
+    blueLightColor = '#84D0FF';
+  let cardColor, headingColor, labelColor, borderColor, legendColor;
 
+  document.addEventListener("DOMContentLoaded", function(event) {
+    get_jumlah_psb();
+    $("#tahun_psb").change(function(){
+      get_jumlah_psb();
+    });
+  });
+  function get_jumlah_psb(){
+    $.ajax({
+      url: ''.concat(baseUrl).concat('get_jumlah_psb'),
+      method: 'POST',
+      data: { tahun: $('#tahun_psb').val() },
+      success: function (data) {
+        const chartStatus = Chart.getChart("barChart2");
+        if (chartStatus != undefined) {
+          chartStatus.destroy();
+        }
+        const barChart = document.getElementById('barChart2');
+        const barChartVar = new Chart(barChart, {
+            type: 'bar',
+            data: {
+              labels: data[0],
+              datasets: [
+                {
+                  data: data[1],
+                  backgroundColor: orangeLightColor,
+                  borderColor: 'transparent',
+                  maxBarThickness: 15,
+                  borderRadius: {
+                    topRight: 15,
+                    topLeft: 15
+                  }
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              animation: {
+                duration: 500
+              },
+              plugins: {
+                tooltip: {
+                  rtl: isRtl,
+                  backgroundColor: cardColor,
+                  titleColor: headingColor,
+                  bodyColor: legendColor,
+                  borderWidth: 1,
+                  borderColor: borderColor
+                },
+                legend: {
+                  display: false
+                }
+              },
+              scales: {
+                x: {
+                  grid: {
+                    color: borderColor,
+                    drawBorder: false,
+                    borderColor: borderColor
+                  },
+                  ticks: {
+                    color: labelColor
+                  }
+                },
+                y: {
+                  min: 0,
+                  grid: {
+                    color: borderColor,
+                    drawBorder: false,
+                    borderColor: borderColor
+                  },
+                  ticks: {
+                    stepSize: 100,
+                    color: labelColor
+                  }
+                }
+              }
+            }
+          });
+      }
+    });
+  }
+</script>
 @endsection

@@ -70,4 +70,32 @@ class HomePage extends Controller
       )
     );
   }
+  public function get_jumlah_psb(Request $request)
+  {
+    $tahun = $request->tahun;
+    $bulan = [
+      1 => 'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
+    $jumlah = [];
+    foreach ($bulan as $key => $value) {
+      $psb2 = PsbPesertaOnline::whereRaw('MONTH(FROM_UNIXTIME(created_at)) = ' . $key)->whereRaw(
+        'YEAR(FROM_UNIXTIME(created_at)) = ' . $tahun
+      );
+      $jumlah[$key] = $psb2->count();
+    }
+    $hasil[0] = array_values($bulan);
+    $hasil[1] = array_values($jumlah);
+    return response()->json($hasil);
+  }
 }
