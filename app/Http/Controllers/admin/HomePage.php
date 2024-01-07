@@ -14,6 +14,7 @@ use App\Models\EmployeeNew;
 //pembayaran
 use App\Models\Pembayaran;
 //jumlah_belum_bayar
+use DB;
 
 class HomePage extends Controller
 {
@@ -61,6 +62,8 @@ class HomePage extends Controller
       ->groupBy('nama_santri')
       ->count();
     echo $jumlah_santri_lapor;
+    \DB::enableQueryLog();
+    dd(\DB::getQueryLog());
     exit();
     $jumlah_siswa_belum_lapor = $jumlah_siswa - $jumlah_santri_lapor;
 
