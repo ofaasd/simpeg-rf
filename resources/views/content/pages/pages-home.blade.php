@@ -80,7 +80,7 @@ $configData = Helper::appClasses();
           <div class="avatar me-2">
             <span class="avatar-initial rounded bg-label-danger"><i class="mdi mdi-account-off mdi-20px"></i></span>
           </div>
-          <h4 class="ms-1 mb-0 display-6 text-white">0</h4>
+          <h4 class="ms-1 mb-0 display-6 text-white">{{$jumlah_siswa_belum_lapor}}</h4>
         </div>
         <p class="mb-0 card-title text-white">Siswa Belum Lapor Pembayaran</p>
         <p class="mb-0">
