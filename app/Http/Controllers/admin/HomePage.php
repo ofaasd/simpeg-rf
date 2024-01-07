@@ -66,6 +66,13 @@ class HomePage extends Controller
     if ($bayar_lalu > 0) {
       $jumlah_pembayaran_lalu = $bayar_lalu;
     }
+
+    $jumlah_santri_lapor = $bayar_lalu = Pembayaran::whereMonth('tanggal_validasi', $bulan_lalu)
+      ->whereYear('tanggal_validasi', $tahun)
+      ->group_by('nama_santri')
+      ->count();
+    $jumlah_siswa_belum_lapor = $jumlah_siswa - $jumlah_santri_lapor;
+
     return view(
       'content.pages.pages-home',
       compact(
@@ -74,7 +81,8 @@ class HomePage extends Controller
         'jumlah_siswa',
         'jumlah_pegawai',
         'jumlah_pembayaran',
-        'jumlah_pembayaran_lalu'
+        'jumlah_pembayaran_lalu',
+        'jumlah_siswa_belum_lapor'
       )
     );
   }
