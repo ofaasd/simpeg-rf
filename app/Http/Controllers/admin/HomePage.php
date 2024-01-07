@@ -28,6 +28,7 @@ class HomePage extends Controller
     $jumlah_siswa_belum_lapor = 0;
 
     $bulan = (int) date('m');
+    $tahun = (int) date('Y');
     $gelombang = PsbGelombang::where('pmb_online', 1)->first();
     $psb = PsbPesertaOnline::where('gelombang_id', $gelombang->id);
     $psb2 = PsbPesertaOnline::where('gelombang_id', $gelombang->id)->whereMonth('created_at', $bulan);
@@ -48,13 +49,20 @@ class HomePage extends Controller
       $jumlah_pegawai = $pegawai;
     }
 
-    $bayar = Pembayaran::whereMonth('tanggal_validasi', $bulan)->sum('jumlah');
+    $bayar = Pembayaran::whereMonth('tanggal_validasi', $bulan)
+      ->whereYear('tanggal_validasi', $tahun)
+      ->sum('jumlah');
     if ($bayar > 0) {
       $jumlah_pembayaran = $bayar;
     }
-
+    if ($bulan == 1) {
+      $bulan = 13;
+      $tahun = $tahun - 1;
+    }
     $bulan_lalu = $bulan - 1;
-    $bayar_lalu = Pembayaran::whereMonth('tanggal_validasi', $bulan_lalu)->sum('jumlah');
+    $bayar_lalu = Pembayaran::whereMonth('tanggal_validasi', $bulan_lalu)
+      ->whereYear('tanggal_validasi', $tahun)
+      ->sum('jumlah');
     if ($bayar_lalu > 0) {
       $jumlah_pembayaran_lalu = $bayar_lalu;
     }
