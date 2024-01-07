@@ -56,10 +56,12 @@ class HomePage extends Controller
       $jumlah_pembayaran = $bayar;
     }
 
-    $jumlah_santri_lapor = Pembayaran::whereMonth('tanggal_validasi', $bulan)
-      ->whereYear('tanggal_validasi', $tahun)
+    $jumlah_santri_lapor = Pembayaran::whereMonth('tanggal_bayar', $bulan)
+      ->whereYear('tanggal_bayar', $tahun)
       ->groupBy('nama_santri')
       ->count();
+    echo $jumlah_santri_lapor;
+    exit();
     $jumlah_siswa_belum_lapor = $jumlah_siswa - $jumlah_santri_lapor;
 
     if ($bulan == 1) {
