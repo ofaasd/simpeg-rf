@@ -62,6 +62,10 @@ class HomePage extends Controller
       ->groupBy('nama_santri')
       ->count();
     echo $jumlah_santri_lapor;
+    echo '<br />';
+    echo $bulan;
+    echo '<br />';
+    echo $tahun;
     \DB::enableQueryLog();
     dd(\DB::getQueryLog());
     exit();
