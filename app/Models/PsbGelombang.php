@@ -35,18 +35,12 @@ class PsbGelombang extends Model
 {
   protected $table = 'psb_gelombang';
   public $timestamps = false;
-  protected $dateFormat = 'U';
 
   protected $casts = [
     'no_gel' => 'int',
-    'tgl_mulai' => 'datetime',
-    'tgl_akhir' => 'datetime',
-    'ujian' => 'datetime',
-    'pengumuman' => 'datetime',
-    'reg_mulai' => 'datetime',
-    'reg_akhir' => 'datetime',
-    'semester' => 'bool',
-    'jenis' => 'bool',
+    'tgl_mulai' => 'date:Y-m-d',
+    'tgl_akhir' => 'date:Y-m-d',
+    'jenis' => 'int',
     'pmb_online' => 'int',
   ];
 
@@ -56,14 +50,7 @@ class PsbGelombang extends Model
     'nama_gel_long',
     'tgl_mulai',
     'tgl_akhir',
-    'ujian',
-    'jam_ujian',
-    'hari_ujian',
-    'pengumuman',
-    'reg_mulai',
-    'reg_akhir',
     'tahun',
-    'semester',
     'jenis',
     'pmb_online',
   ];

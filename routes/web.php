@@ -136,6 +136,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/murroby', AdminMurrobyController::class);
 
   Route::resource('/psb', psb::class);
+  Route::resource('/gelombang', $controller_path . '\admin\GelombangController');
 
   Route::resource('/ustadz/murroby', MurrobyController::class);
   Route::resource('/ustadz/tahfidz', UstTahfidzController::class);

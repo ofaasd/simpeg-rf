@@ -158,7 +158,7 @@
       "slug": "psb",
       "submenu": [
         {
-          "url": "/tbd",
+          "url": "/gelombang",
           "name": "Gelombang",
           "slug": "psb-gelombang"
         },
