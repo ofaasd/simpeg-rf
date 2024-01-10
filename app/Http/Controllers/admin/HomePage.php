@@ -40,7 +40,7 @@ class HomePage extends Controller
       $jumlah_psb_baru = $psb2->count();
     }
 
-    $santri = Santri::count();
+    $santri = Santri::where('status', 0)->count();
     if ($santri > 0) {
       $jumlah_siswa = $santri;
     }

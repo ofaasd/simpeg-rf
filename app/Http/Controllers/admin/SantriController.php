@@ -68,6 +68,7 @@ class SantriController extends Controller
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
+        $totalFiltered = Santri::where('status', 0)->count();
       } else {
         $search = $request->input('search.value');
 
