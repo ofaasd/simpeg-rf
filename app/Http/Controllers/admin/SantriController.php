@@ -76,7 +76,8 @@ class SantriController extends Controller
             $query
               ->where('id', 'LIKE', "%{$search}%")
               ->orWhere('nama', 'LIKE', "%{$search}%")
-              ->orWhere('no_induk', 'LIKE', "%{$search}%");
+              ->orWhere('no_induk', 'LIKE', "%{$search}%")
+              ->orWhere('kelas', 'LIKE', "%{$search}%");
           })
           ->offset($start)
           ->limit($limit)
@@ -88,7 +89,8 @@ class SantriController extends Controller
             $query
               ->where('id', 'LIKE', "%{$search}%")
               ->orWhere('nama', 'LIKE', "%{$search}%")
-              ->orWhere('no_induk', 'LIKE', "%{$search}%");
+              ->orWhere('no_induk', 'LIKE', "%{$search}%")
+              ->orWhere('kelas', 'LIKE', "%{$search}%");
           })
           ->count();
       }
