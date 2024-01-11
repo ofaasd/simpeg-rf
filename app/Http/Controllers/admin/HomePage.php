@@ -60,7 +60,7 @@ class HomePage extends Controller
     $jumlah_santri_lapor = Pembayaran::whereMonth('tanggal_bayar', $bulan)
       ->whereYear('tanggal_bayar', $tahun)
       ->groupBy('nama_santri');
-    $jumlah_siswa_belum_lapor = $jumlah_santri_lapor->toSql();
+    $jumlah_siswa_belum_lapor = $jumlah_santri_lapor->toSql() . ' ' . $bulan . ' ' . $tahun;
 
     if ($bulan == 1) {
       $bulan = 13;
