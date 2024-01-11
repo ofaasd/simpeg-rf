@@ -115,6 +115,7 @@ class psb extends Controller
           $day = $dob->diff($today)->d;
           $psbBerkas = PsbBerkasPendukung::where('psb_peserta_id', $row->id)->first();
           $user = UserPsb::where('username', $row->no_pendaftaran)->first();
+          $PsbSeragam = PsbSeragam::where('psb_peserta_id', $row->id)->first();
           $nestedData['id'] = $row->id;
           $nestedData['fake_id'] = ++$ids;
           $nestedData['no_pendaftaran'] = $row->no_pendaftaran . '';
@@ -128,10 +129,15 @@ class psb extends Controller
           $nestedData['file_kk'] = $psbBerkas->file_kk ?? '';
           $nestedData['file_ktp'] = $psbBerkas->file_ktp ?? '';
           $nestedData['file_rapor'] = $psbBerkas->file_rapor ?? '';
-
           $nestedData['no_wa'] = $user->no_hp ?? '';
-          $nestedData['umur'] = $year ?? '';
+          $nestedData['password'] = $user->password_ori ?? '';
+          $nestedData['umur_tahun'] = $year ?? '';
+          $nestedData['umur_bulan'] = $year ?? '';
           $nestedData['jenis_kelamin'] = $row->jenis_kelamin ?? '';
+          $nestedData['berat_badan'] = $PsbSeragam->berat_badan ?? '';
+          $nestedData['tinggi_badan'] = $PsbSeragam->tinggi_badan ?? '';
+          $nestedData['lingkar_dada'] = $PsbSeragam->lingkar_dada ?? '';
+          $nestedData['lingkar_pinggul'] = $PsbSeragam->lingkar_pinggul ?? '';
           $data[] = $nestedData;
         }
       }

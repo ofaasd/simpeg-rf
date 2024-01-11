@@ -27,10 +27,11 @@
           <th>Nama</th>
           <th>TTL</th>
           <th>No. WA</th>
-          <th>Umur</th>
           <th>JK</th>
-          <th>Verif</th>
+          <th>Uk. Baju</th>
+
           <th>Berkas</th>
+          <th>Verif</th>
           {{-- <th>Verifikasi</th>
           <th>Ujian</th>
           <th>Diterima</th> --}}

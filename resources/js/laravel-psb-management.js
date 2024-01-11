@@ -118,7 +118,9 @@ $(function () {
               $name +
               '</span> <br /> (' +
               full.no_pendaftaran +
-              ')</a>' +
+              ') <br /> pass : ' +
+              full.password +
+              '</a>' +
               '</div>' +
               '</div>';
             return $row_output;
@@ -129,7 +131,8 @@ $(function () {
           render: function render(data, type, full, meta) {
             return '<span>'
               .concat(full.tempat_lahir, '</span><br /><span>')
-              .concat(full.tanggal_lahir, '</span><br />');
+              .concat(full.tanggal_lahir, '</span><br />')
+              .concat('(' + full.umur_tahun + ' tahun ' + full.umur_bulan + ' bulan)');
           }
         },
         {
@@ -141,25 +144,20 @@ $(function () {
         {
           targets: 5,
           render: function render(data, type, full, meta) {
-            return '<span>'.concat(full.umur, '</span>');
+            return '<span>'.concat(full.jenis_kelamin, '</span>');
           }
         },
         {
           targets: 6,
           render: function render(data, type, full, meta) {
-            return '<span>'.concat(full.jenis_kelamin, '</span>');
-          }
-        },
-        {
-          searchable: false,
-          orderable: false,
-          targets: 7,
-          render: function render(data, type, full, meta) {
-            if (parseInt(full.status_diterima) == 1) {
-              return "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>";
-            } else {
-              return "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
-            }
+            return '<span>BB : '
+              .concat(full.berat_badan, ' kg</span><br />')
+              .concat('<span>TB : ')
+              .concat(full.tinggi_badan, ' cm</span><br />')
+              .concat('<span>LD : ')
+              .concat(full.lingkar_dada, ' cm</span><br />')
+              .concat('<span>LP : ')
+              .concat(full.lingkar_pinggul, ' cm</span><br />');
           }
         },
         {
@@ -186,6 +184,18 @@ $(function () {
               file_rapor +
               '</small>'
             );
+          }
+        },
+        {
+          searchable: false,
+          orderable: false,
+          targets: 7,
+          render: function render(data, type, full, meta) {
+            if (parseInt(full.status_diterima) == 1) {
+              return "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>";
+            } else {
+              return "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
+            }
           }
         },
         {
