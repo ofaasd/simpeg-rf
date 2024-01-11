@@ -32,7 +32,9 @@ class HomePage extends Controller
     $tahun = (int) date('Y');
     $gelombang = PsbGelombang::where('pmb_online', 1)->first();
     $psb = PsbPesertaOnline::where('gelombang_id', $gelombang->id);
-    $psb2 = PsbPesertaOnline::where('gelombang_id', $gelombang->id)->whereMonth('created_at', $bulan);
+    $psb2 = PsbPesertaOnline::where('gelombang_id', $gelombang->id)->whereRaw(
+      'MONTH(FROM_UNIXTIME(created_at)) = ' . $bulan
+    );
     if ($psb->count() > 0) {
       $jumlah_psb = $psb->count();
     }
