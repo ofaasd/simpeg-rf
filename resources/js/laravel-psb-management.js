@@ -163,7 +163,7 @@ $(function () {
         {
           searchable: false,
           orderable: false,
-          targets: 8,
+          targets: 7,
           render: function render(data, type, full, meta) {
             const file_kk = full['file_kk']
               ? "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>"
@@ -189,7 +189,7 @@ $(function () {
         {
           searchable: false,
           orderable: false,
-          targets: 7,
+          targets: 8,
           render: function render(data, type, full, meta) {
             if (parseInt(full.status_diterima) == 1) {
               return "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>";
