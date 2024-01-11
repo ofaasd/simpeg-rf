@@ -863,7 +863,7 @@ https://psb.ppatq-rf.id';
     foreach ($user as $row) {
       $psb_peserta = PsbPesertaOnline::where('no_pendaftaran', $row->username)->first();
       $update_user = UserPsb::find($row->id);
-      print_r($psb_peserta);
+      print_r($psb_peserta->tanggal_lahir);
       echo $row->username;
 
       // $tahun = date('Y', $psb_peserta->tanggal_lahir);
