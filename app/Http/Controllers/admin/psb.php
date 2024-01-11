@@ -863,14 +863,16 @@ https://psb.ppatq-rf.id';
     foreach ($user as $row) {
       $psb_peserta = PsbPesertaOnline::where('no_pendaftaran', $row->username)->first();
       $update_user = UserPsb::find($row->id);
-      $tahun = date('Y', $psb_peserta->tanggal_lahir);
-      $bt = date('dm', $psb_peserta->tanggal_lahir);
-      $nama = substr($psb_peserta->nama, 0, 3);
-      $update_user->password_ori = $tahun . $nama . $bt;
-      if ($update_user->save()) {
-        echo 'berhasil';
-        echo '<br />';
-      }
+      echo $psb_peserta->tanggal_lahir;
+
+      // $tahun = date('Y', $psb_peserta->tanggal_lahir);
+      // $bt = date('dm', $psb_peserta->tanggal_lahir);
+      // $nama = substr($psb_peserta->nama, 0, 3);
+      // $update_user->password_ori = $tahun . $nama . $bt;
+      // if ($update_user->save()) {
+      //   echo 'berhasil';
+      //   echo '<br />';
+      // }
     }
   }
 }
