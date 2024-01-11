@@ -862,6 +862,7 @@ https://psb.ppatq-rf.id';
     $user = UserPsb::all();
     foreach ($user as $row) {
       $psb_peserta = PsbPesertaOnline::where('no_pendaftaran', 'RF.ppatq.011.23');
+      echo $psb_peserta->toSql() . 'RF.ppatq.011.23';
       if ($psb_peserta->count() > 0) {
         $psb_peserta = $psb_peserta->first();
         $update_user = UserPsb::find($row->id);
