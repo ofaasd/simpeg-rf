@@ -60,7 +60,7 @@ class HomePage extends Controller
     $jumlah_santri_lapor = Pembayaran::whereMonth('tanggal_bayar', 1)
       ->whereYear('tanggal_bayar', 2024)
       ->distinct('nama_santri');
-    $jumlah_siswa_belum_lapor = $jumlah_santri_lapor->count();
+    $jumlah_siswa_belum_lapor = $jumlah_siswa - $jumlah_santri_lapor->count();
 
     if ($bulan == 1) {
       $bulan = 13;
