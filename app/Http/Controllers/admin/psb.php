@@ -401,6 +401,7 @@ class psb extends Controller
 
       $user->username = $username;
       $user->password = md5($password);
+      $user->password_ori = $password;
       if ($user->save()) {
         //kirim pesan wa disini
         $pesan =
