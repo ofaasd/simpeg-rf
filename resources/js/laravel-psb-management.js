@@ -150,14 +150,14 @@ $(function () {
         {
           targets: 6,
           render: function render(data, type, full, meta) {
-            return '<span>BB : '
-              .concat(full.berat_badan, ' kg</span><br />')
-              .concat('<span>TB : ')
-              .concat(full.tinggi_badan, ' cm</span><br />')
-              .concat('<span>LD : ')
-              .concat(full.lingkar_dada, ' cm</span><br />')
-              .concat('<span>LP : ')
-              .concat(full.lingkar_pinggul, ' cm</span><br />');
+            return '<span><small>BB : '
+              .concat(full.berat_badan, ' kg</small></span><br />')
+              .concat('<span><small>TB : ')
+              .concat(full.tinggi_badan, ' cm</small></span><br />')
+              .concat('<span><small>LD : ')
+              .concat(full.lingkar_dada, ' cm</small></span><br />')
+              .concat('<span><small>LP : ')
+              .concat(full.lingkar_pinggul, ' cm</small></span><br />');
           }
         },
         {
