@@ -82,7 +82,7 @@ $configData = Helper::appClasses();
           </div>
           <h4 class="ms-1 mb-0 display-6 text-white">{{$jumlah_siswa_belum_lapor}}</h4>
         </div>
-        <p class="mb-0 card-title text-white">Siswa Belum Lapor Pembayaran</p>
+        <p class="mb-0 card-title text-white">{{$jumlah_siswa_belum_lapor/$jumlah_siswa*100}} % siswa belum melaporkan pembayaran</p>
         <p class="mb-0">
           <span class="me-1 text-white fw-bold" ></span>
           <small class="text-white fw-bold"></small>
