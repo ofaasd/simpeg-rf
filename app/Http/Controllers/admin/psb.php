@@ -856,4 +856,20 @@ https://psb.ppatq-rf.id';
       ->get();
     echo json_encode($get_kelurahan);
   }
+  public function generate_password()
+  {
+    $user = UserPsb::all();
+    foreach ($user as $row) {
+      $psb_peserta = PsbPesertaOnline::where('no_peserta', $row->username)->first;
+      $update_user = UserPsb::find($row->id);
+      $tahun = date('Y', $psb_peserta->tanggal_lahir);
+      $bt = date('dm', $psb_peserta->tanggal_lahir);
+      $nama = substr($psb_peserta->nama, 0, 3);
+      $update_user->password_ori = $tahun . $nama . $bt;
+      if ($update_user->save()) {
+        echo 'berhasil';
+        echo '<br />';
+      }
+    }
+  }
 }
