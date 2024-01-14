@@ -780,9 +780,9 @@ https://psb.ppatq-rf.id';
   {
     $id = $request->id;
     $request->validate([
-      'kk' => [File::types(['jpg', 'jpeg', 'png', 'pdf'])->max(10 * 1024)],
-      'ktp' => [File::types(['jpg', 'jpeg', 'png', 'pdf'])->max(10 * 1024)],
-      'rapor' => [File::types(['jpg', 'jpeg', 'png', 'pdf'])->max(10 * 1024)],
+      'kk' => [File::types(['jpg', 'jpeg', 'png', 'pdf'])],
+      'ktp' => [File::types(['jpg', 'jpeg', 'png', 'pdf'])],
+      'rapor' => [File::types(['jpg', 'jpeg', 'png', 'pdf'])],
     ]);
     $nama_file = ['kk', 'ktp', 'rapor'];
     $array = [];
