@@ -90,14 +90,12 @@ class psb extends Controller
           ->orderBy($order, $dir)
           ->get();
 
-        $totalFiltered = PsbPesertaOnline::where('jabatan_new', 12)
-          ->where(function ($query) use ($search) {
-            $query
-              ->where('id', 'LIKE', "%{$search}%")
-              ->orWhere('nama', 'LIKE', "%{$search}%")
-              ->orWhere('no_pendaftaran', 'LIKE', "%{$search}%");
-          })
-          ->count();
+        $totalFiltered = PsbPesertaOnline::where(function ($query) use ($search) {
+          $query
+            ->where('id', 'LIKE', "%{$search}%")
+            ->orWhere('nama', 'LIKE', "%{$search}%")
+            ->orWhere('no_pendaftaran', 'LIKE', "%{$search}%");
+        })->count();
       }
 
       $data = [];
