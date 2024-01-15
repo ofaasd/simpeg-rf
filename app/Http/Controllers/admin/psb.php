@@ -18,7 +18,9 @@ use App\Models\ProvinsiTbl;
 use App\Models\KotaKabTbl;
 use App\Models\KecamatanTbl;
 use App\Models\KelurahanTbl;
+use App\Models\TemplatePesan;
 use App\Helpers\Helpers_wa;
+
 use DateTime;
 
 class psb extends Controller
@@ -880,5 +882,121 @@ https://psb.ppatq-rf.id';
         }
       }
     }
+  }
+  public function ujian(Request $request)
+  {
+    if (empty($request->input('length'))) {
+      $title = 'Ujian';
+      $indexed = $this->indexed2;
+      $pesan = TemplatePesan::where('status', 1)->first();
+      return view('admin.psb.ujian', compact('title', 'indexed', 'pesan'));
+    } else {
+      $columns = [
+        1 => 'id',
+        2 => 'no_pendaftaran',
+        3 => 'nama',
+        4 => 'ttl',
+        5 => 'bayar',
+      ];
+
+      $search = [];
+
+      $totalData = PsbPesertaOnline::count();
+
+      $totalFiltered = $totalData;
+
+      $limit = $request->input('length');
+      $start = $request->input('start');
+      $order = $columns[$request->input('order.0.column')];
+      $dir = $request->input('order.0.dir');
+
+      if (empty($request->input('search.value'))) {
+        $PsbPesertaOnline = PsbPesertaOnline::offset($start)
+          ->limit($limit)
+          ->orderBy($order, $dir)
+          ->get();
+      } else {
+        $search = $request->input('search.value');
+
+        $PsbPesertaOnline = PsbPesertaOnline::where(function ($query) use ($search) {
+          $query
+            ->where('id', 'LIKE', "%{$search}%")
+            ->orWhere('nama', 'LIKE', "%{$search}%")
+            ->orWhere('no_pendaftaran', 'LIKE', "%{$search}%");
+        })
+          ->offset($start)
+          ->limit($limit)
+          ->orderBy($order, $dir)
+          ->get();
+
+        $totalFiltered = PsbPesertaOnline::where('jabatan_new', 12)
+          ->where(function ($query) use ($search) {
+            $query
+              ->where('id', 'LIKE', "%{$search}%")
+              ->orWhere('nama', 'LIKE', "%{$search}%")
+              ->orWhere('no_pendaftaran', 'LIKE', "%{$search}%");
+          })
+          ->count();
+      }
+
+      $data = [];
+
+      if (!empty($PsbPesertaOnline)) {
+        // providing a dummy id instead of database ids
+        $ids = $start;
+
+        foreach ($PsbPesertaOnline as $row) {
+          $bukti_bayar = 0;
+          $bukti = PsbBuktiPembayaran::where('psb_peserta_id', $row->id);
+          if ($bukti->count() > 0) {
+            $bukti_bayar = $bukti->first()->status;
+          }
+          $nestedData['id'] = $row->id;
+          $nestedData['fake_id'] = ++$ids;
+          $nestedData['no_pendaftaran'] = $row->no_pendaftaran . '';
+          $nestedData['nama'] = $row->nama ?? '';
+          $nestedData['ttl'] = $row->tempat_lahir . ', ' . date('d-m-Y', $row->tanggal_lahir) . '';
+          $nestedData['bayar'] = $bukti_bayar;
+          $data[] = $nestedData;
+        }
+      }
+
+      if ($data) {
+        return response()->json([
+          'draw' => intval($request->input('draw')),
+          'recordsTotal' => intval($totalData),
+          'recordsFiltered' => intval($totalFiltered),
+          'code' => 200,
+          'data' => $data,
+        ]);
+      } else {
+        return response()->json([
+          'message' => 'Internal Server Error',
+          'code' => 500,
+          'data' => [],
+        ]);
+      }
+    }
+  }
+  public function simpan_template_pesan(Request $request)
+  {
+    $id = $request->id;
+    $pesan = $request->template_pesan;
+    $get_pesan = TemplatePesan::find($id);
+    $get_pesan->pesan = $pesan;
+    return $get_pesan->save();
+  }
+  public function edit_ujian($id)
+  {
+    $peserta = PsbPesertaOnline::where('id', $id)->first();
+    $walisan = PsbWaliPesertum::where('psb_peserta_id', $id)->first();
+    $template_pesan = TemplatePesan::where('status', 1)->first();
+
+    $pesan = str_replace('{{nama}}', $peserta->nama, $template_pesan->pesan);
+
+    $data['pesan'] = $pesan;
+    $data['nama'] = $peserta->nama;
+    $data['no_hp'] = $walisan->no_hp;
+    return $data;
   }
 }

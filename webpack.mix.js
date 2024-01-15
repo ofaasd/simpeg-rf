@@ -139,6 +139,7 @@ mix.js('resources/js/laravel-detail-santri.js', 'public/js/');
 mix.js('resources/js/laravel-saku-masuk.js', 'public/js/');
 mix.js('resources/js/laravel-psb-management.js', 'public/js/');
 mix.js('resources/js/laravel-validasi-management.js', 'public/js/');
+mix.js('resources/js/laravel-ujian-management.js', 'public/js/');
 mix.js('resources/js/laravel-gelombang-management.js', 'public/js/');
 
 mix.copy('node_modules/@mdi/font/fonts/*', 'public/assets/vendor/fonts/materialdesignicons');

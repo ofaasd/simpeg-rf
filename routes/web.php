@@ -77,6 +77,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::get('psb_new/validasi', [psb::class, 'validasi']);
   Route::get('psb_new/validasi/{id}/edit', [psb::class, 'edit_validasi']);
   Route::post('psb_new/validasi', [psb::class, 'store_validasi']);
+  Route::get('psb_new/ujian', [psb::class, 'ujian']);
+  Route::post('psb_new/ujian', [psb::class, 'store_ujian']);
+  Route::get('psb_new/ujian/{id}/edit_ujian', [psb::class, 'edit_ujian']);
+  Route::post('psb_new/ujian', [psb::class, 'ujian']);
+  Route::post('psb_new/simpan_template_pesan', [psb::class, 'simpan_template_pesan']);
 
   Route::get('/structural-position/get-school/{id}', '\admin\StrucutralPositionController@getSchool');
   Route::get('/murroby/uang-saku/{id}', [AdminMurrobyController::class, 'uang_saku']);
