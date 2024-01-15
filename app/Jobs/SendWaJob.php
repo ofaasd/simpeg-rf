@@ -27,18 +27,18 @@ class SendWaJob implements ShouldQueue
   public function handle(): void
   {
     //
-    $tanggal = date('Y-m-d');
-    $get_peserta = PsbPesertaOnline::whereRaw('FROM_UNIXTIME(created_at) = ' . $tanggal);
-    $jumlah = $get_peserta->count();
-    $data_pesan =
-      "*Laporan dari Sistem PSB PPATQ RF*
+    // $tanggal = date('Y-m-d');
+    // $get_peserta = PsbPesertaOnline::whereRaw('FROM_UNIXTIME(created_at) = ' . $tanggal);
+    // $jumlah = $get_peserta->count();
+    // $data_pesan =
+    //   "*Laporan dari Sistem PSB PPATQ RF*
 
-    Jumlah Pendaftar Hari ini " .
-      $jumlah .
-      ' ';
+    // Jumlah Pendaftar Hari ini " .
+    //   $jumlah .
+    //   ' ';
 
     $data['no_wa'] = '082326248982';
-    $data['pesan'] = $data_pesan;
+    $data['pesan'] = 'testing';
 
     $number_key = '9qrE9KWANsXXHCA9';
     $wa_api = 'X2Y7UZOZT0WVQVTG';
