@@ -443,7 +443,7 @@ $(function () {
   // clearing form data when offcanvas hidden
   offCanvasForm.on('hidden.bs.offcanvas', function () {
     //fv.resetForm(true);
-    addNewForm.trigger("reset");
+    $('#addNew' + title + 'Form').trigger("reset");
     $('#bukti_file').html("");
   });
 });
