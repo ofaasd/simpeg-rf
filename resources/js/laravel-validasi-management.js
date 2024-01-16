@@ -411,6 +411,8 @@ $(function () {
       url: url_save,
       processData: false,
       contentType: false,
+      crossDomain: true,
+      dataType: 'jsonp',
       method: 'POST',
       success: function success(status) {
         dt.draw();
