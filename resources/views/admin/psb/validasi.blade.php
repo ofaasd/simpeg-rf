@@ -132,7 +132,7 @@
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", function(event) {
-  const url_save = 'https://psb.ppatq-rf.id/api/update_data_berkas';
+  const url_save = 'https://psb.ppatq-rf.id/api/simpan_bukti_bayar_api_admin';
   $("#formUpdateValidasi").submit(function(e){
     e.preventDefault();
     //alert("asdasd");
