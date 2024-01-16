@@ -889,6 +889,13 @@ https://psb.ppatq-rf.id';
       $title = 'Ujian';
       $indexed = $this->indexed2;
       $pesan = TemplatePesan::where('status', 1)->first();
+      $psb_peserta = PsbPesertaOnline::where('status',2)->whereNotNull("no_test")->get();
+      foreach($psb_peserta as $row){
+        $update_peserta = PsbPesertaOnline::find($row->id);
+        $pecah = explode(".",$psb_peserta->no_pendaftaran);
+        $update_peserta->no_test = $pecah[2];
+        $update_peserta->save();
+      }
       return view('admin.psb.ujian', compact('title', 'indexed', 'pesan'));
     } else {
       $columns = [
