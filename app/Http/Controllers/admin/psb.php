@@ -892,7 +892,7 @@ https://psb.ppatq-rf.id';
       $psb_peserta = PsbPesertaOnline::where('status',2)->whereNotNull("no_test")->get();
       foreach($psb_peserta as $row){
         $update_peserta = PsbPesertaOnline::find($row->id);
-        $pecah = explode(".",$psb_peserta->no_pendaftaran);
+        $pecah = explode(".",$row->no_pendaftaran);
         $update_peserta->no_test = $pecah[2];
         $update_peserta->save();
       }
