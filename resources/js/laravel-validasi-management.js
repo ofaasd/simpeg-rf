@@ -442,6 +442,7 @@ $(function () {
 
   // clearing form data when offcanvas hidden
   offCanvasForm.on('hidden.bs.offcanvas', function () {
-    fv.resetForm(true);
+    //fv.resetForm(true);
+    addNewForm.trigger("reset");
   });
 });
