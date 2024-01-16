@@ -911,14 +911,14 @@ https://psb.ppatq-rf.id';
       $dir = $request->input('order.0.dir');
 
       if (empty($request->input('search.value'))) {
-        $PsbPesertaOnline = PsbPesertaOnline::offset($start)
+        $PsbPesertaOnline = PsbPesertaOnline::where('status',2)->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
       } else {
         $search = $request->input('search.value');
 
-        $PsbPesertaOnline = PsbPesertaOnline::where(function ($query) use ($search) {
+        $PsbPesertaOnline = PsbPesertaOnline::where('status',2)->where(function ($query) use ($search) {
           $query
             ->where('id', 'LIKE', "%{$search}%")
             ->orWhere('nama', 'LIKE', "%{$search}%")
@@ -929,7 +929,7 @@ https://psb.ppatq-rf.id';
           ->orderBy($order, $dir)
           ->get();
 
-        $totalFiltered = PsbPesertaOnline::where('jabatan_new', 12)
+        $totalFiltered = PsbPesertaOnline::where('status',2)->where('jabatan_new', 12)
           ->where(function ($query) use ($search) {
             $query
               ->where('id', 'LIKE', "%{$search}%")
