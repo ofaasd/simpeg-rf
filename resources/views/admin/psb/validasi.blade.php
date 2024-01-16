@@ -61,8 +61,8 @@
 
         </div>
         <div class="form-floating form-floating-outline mb-4">
-          <input type="file" class="form-control" id="add-{{strtolower($title)}}-bukti" placeholder="" name="bukti" />
-          <label for="add-{{strtolower($title)}}-bukti">File Bukti</label>
+          <input type="file" class="form-control" id="add-{{strtolower($title)}}-file_bukti" placeholder="" name="bukti" />
+          <label for="add-{{strtolower($title)}}-file_bukti">File Bukti</label>
         </div>
         <div class="form-floating form-floating-outline mb-4">
           <select name="status" id="add-{{strtolower($title)}}-status" class='form-control'>
