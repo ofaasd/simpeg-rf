@@ -81,7 +81,7 @@
   <div class="modal fade" id="modalValidasi" tabindex="-1" aria-labelledby="modalValidasiLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form enctype="multipart/form-data" class="add-new-{{strtolower($title)}} pt-0" id="addNew{{$title}}Form">
+        <form enctype="multipart/form-data" action="javascript:void(0)" class="add-new-{{strtolower($title)}} pt-0" id="formUpdateValidasi">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">Add {{$title}}</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -130,4 +130,46 @@
     </div>
   </div>
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {
+  const url_save = 'https://psb.ppatq-rf.id/api/simpan_bukti_bayar_api_admin';
+  $("#formUpdateValidasi").submit(function(e){
+    e.preventDefault();
+    //alert("asdasd");
+    let data = new FormData(this);
+    //alert(data);
+    $.ajax({
+        method:"POST",
+        url: url_save,
+        processData: false,
+        contentType: false,
+        data : data,
+        success : function(data){ 
+          Swal.fire({
+              title: 'success!',
+              text: 'Data Berhasil Disimpan',
+              icon: 'success',
+              confirmButtonText: 'Tutup',
+              timer : 2000,
+              customClass: {
+                confirmButton: 'btn btn-success'
+              }
+          });
+        },
+        error: function (reject) {
+            if( reject.status === 422 ) {
+                var errors = $.parseJSON(reject.responseText);
+                $.each(errors.errors, function (key, val) {
+                    $("#" + key + "_error").html('<div class="alert alert-danger col-md-6"></div>');
+                    $.each(val,function(key2,val2){
+                        $("#" + key + "_error > .alert").append(val2 + "<br />");
+                    });
+                });
+            }
+        }
+    });
+
+})
+});
+</script>
 @endsection
