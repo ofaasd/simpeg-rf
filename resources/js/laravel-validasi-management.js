@@ -84,7 +84,7 @@ $(function () {
             return (
               '<div class="d-inline-block text-nowrap">' +
               '<button class="btn btn-sm btn-icon edit-record" data-id="'
-                .concat(full['id'], '" data-bs-toggle="modal" data-bs-target="#modalValidasi"')
+                .concat(full['id'], '" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAdd')
                 .concat(title, '"><i class="mdi mdi-pencil-outline mdi-20px"></i></button>')
             );
           }
@@ -411,7 +411,6 @@ $(function () {
       url: url_save,
       processData: false,
       contentType: false,
-      crossDomain: true,
       method: 'POST',
       success: function success(status) {
         dt.draw();
