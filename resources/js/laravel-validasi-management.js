@@ -444,5 +444,6 @@ $(function () {
   offCanvasForm.on('hidden.bs.offcanvas', function () {
     //fv.resetForm(true);
     addNewForm.trigger("reset");
+    $('#bukti_file').html("");
   });
 });
