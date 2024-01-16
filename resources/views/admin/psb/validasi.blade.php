@@ -81,7 +81,7 @@
   <div class="modal fade" id="modalValidasi" tabindex="-1" aria-labelledby="modalValidasiLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form enctype="multipart/form-data" action="javascript:void(0)" class="add-new-{{strtolower($title)}} pt-0" id="formUpdateValidasi">
+        <form enctype="multipart/form-data" action="javascript:void(0)" id="formUpdateValidasi">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">Add {{$title}}</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -132,7 +132,7 @@
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", function(event) {
-  const url_save = 'https://psb.ppatq-rf.id/api/simpan_bukti_bayar_api_admin';
+  const url_save = 'https://psb.ppatq-rf.id/api/update_data_berkas';
   $("#formUpdateValidasi").submit(function(e){
     e.preventDefault();
     //alert("asdasd");
