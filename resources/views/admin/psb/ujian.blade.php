@@ -53,7 +53,7 @@
           <label for="add-{{strtolower($title)}}-no_hp">No. HP</label>
         </div>
         <div class="form-floating form-floating-outline mb-4">
-          <textarea type="text" class="form-control" id="add-{{strtolower($title)}}-pesan" placeholder="Template Pesan" name="pesan" ></textarea>
+          <textarea type="text" class="form-control" id="add-{{strtolower($title)}}-pesan" placeholder="Template Pesan" name="pesan" rows="30"></textarea>
           <label for="add-{{strtolower($title)}}-pesan">Pesan</label>
         </div>
 
