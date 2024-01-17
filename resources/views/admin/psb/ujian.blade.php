@@ -75,7 +75,7 @@
           @csrf
           <input type="hidden" name="id" value="{{$pesan->id}}">
           <div class="form-floating form-floating-outline mb-4">
-            <textarea  class="form-control" id="template_pesan_text" placeholder="Template Pesan" name="template_pesan" aria-label="">{{$pesan->pesan}}</textarea>
+            <textarea  class="form-control" id="template_pesan_text" placeholder="Template Pesan" name="template_pesan" aria-label="" rows="30">{{$pesan->pesan}}</textarea>
             <label for="template_pesan_text">Template Pesan</label>
           </div>
 
