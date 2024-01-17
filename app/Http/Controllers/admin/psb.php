@@ -889,10 +889,12 @@ https://psb.ppatq-rf.id';
       $title = 'Ujian';
       $indexed = $this->indexed2;
       $pesan = TemplatePesan::where('status', 1)->first();
-      $psb_peserta = PsbPesertaOnline::where('status',2)->whereNotNull("no_test")->get();
-      foreach($psb_peserta as $row){
+      $psb_peserta = PsbPesertaOnline::where('status', 2)
+        ->whereNotNull('no_test')
+        ->get();
+      foreach ($psb_peserta as $row) {
         $update_peserta = PsbPesertaOnline::find($row->id);
-        $pecah = explode(".",$row->no_pendaftaran);
+        $pecah = explode('.', $row->no_pendaftaran);
         $update_peserta->no_test = $pecah[2];
         $update_peserta->save();
       }
@@ -918,25 +920,28 @@ https://psb.ppatq-rf.id';
       $dir = $request->input('order.0.dir');
 
       if (empty($request->input('search.value'))) {
-        $PsbPesertaOnline = PsbPesertaOnline::where('status',2)->offset($start)
+        $PsbPesertaOnline = PsbPesertaOnline::where('status', 2)
+          ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
       } else {
         $search = $request->input('search.value');
 
-        $PsbPesertaOnline = PsbPesertaOnline::where('status',2)->where(function ($query) use ($search) {
-          $query
-            ->where('id', 'LIKE', "%{$search}%")
-            ->orWhere('nama', 'LIKE', "%{$search}%")
-            ->orWhere('no_pendaftaran', 'LIKE', "%{$search}%");
-        })
+        $PsbPesertaOnline = PsbPesertaOnline::where('status', 2)
+          ->where(function ($query) use ($search) {
+            $query
+              ->where('id', 'LIKE', "%{$search}%")
+              ->orWhere('nama', 'LIKE', "%{$search}%")
+              ->orWhere('no_pendaftaran', 'LIKE', "%{$search}%");
+          })
           ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
 
-        $totalFiltered = PsbPesertaOnline::where('status',2)->where('jabatan_new', 12)
+        $totalFiltered = PsbPesertaOnline::where('status', 2)
+          ->where('jabatan_new', 12)
           ->where(function ($query) use ($search) {
             $query
               ->where('id', 'LIKE', "%{$search}%")
@@ -997,9 +1002,14 @@ https://psb.ppatq-rf.id';
   {
     $peserta = PsbPesertaOnline::where('id', $id)->first();
     $walisan = PsbWaliPesertum::where('psb_peserta_id', $id)->first();
+    $user = UserPsb::where('username', $peserta->no_pendaftaran)->first();
     $template_pesan = TemplatePesan::where('status', 1)->first();
 
     $pesan = str_replace('{{nama}}', $peserta->nama, $template_pesan->pesan);
+    $pesan = str_replace('{{tanggal_validasi}}', date('Y-m-d H:i:s', $peserta->tanggal_validasi), $pesan);
+    $pesan = str_replace('{{no_test}}', $peserta->no_test, $pesan);
+    $pesan = str_replace('{{username}}', $user->username, $pesan);
+    $pesan = str_replace('{{password}}', $user->password_ori, $pesan);
 
     $data['pesan'] = $pesan;
     $data['nama'] = $peserta->nama;
