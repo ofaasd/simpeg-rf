@@ -390,7 +390,7 @@ $(function () {
 
     $.ajax({
       data: $('#addNew' + title + 'Form').serialize(),
-      url: ''.concat(baseUrl).concat(page),
+      url: ''.concat(baseUrl).concat('psb_new/').concat(page),
       method: 'POST',
       success: function success(status) {
         dt.draw();
