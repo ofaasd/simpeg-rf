@@ -387,11 +387,9 @@ $(function () {
   }).on('core.form.valid', function () {
     // adding or updating user when form successfully validate
     //update file bukti jika ada ke api
-    const formElement = $('#addNew' + title + 'Form');
-    let data = new FormData(formElement[0]);
 
     $.ajax({
-      data: data,
+      data: $('#addNew' + title + 'Form').serialize(),
       url: ''.concat(baseUrl).concat(page),
       method: 'POST',
       success: function success(status) {
@@ -424,6 +422,6 @@ $(function () {
 
   // clearing form data when offcanvas hidden
   offCanvasForm.on('hidden.bs.offcanvas', function () {
-    fv.resetForm(true);
+    $('#addNew' + title + 'Form').trigger('reset');
   });
 });
