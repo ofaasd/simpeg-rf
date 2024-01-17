@@ -1016,4 +1016,13 @@ https://psb.ppatq-rf.id';
     $data['no_hp'] = $walisan->no_hp;
     return $data;
   }
+  public function kirim_wa(Request $request)
+  {
+    $no_hp = $request->no_hp;
+    $pesan = $request->pesan;
+    $data['no_wa'] = $request->no_hp;
+    $data['pesan'] = $pesan;
+
+    Helpers_wa::send_wa($data);
+  }
 }
