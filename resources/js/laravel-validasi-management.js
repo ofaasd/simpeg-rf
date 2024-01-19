@@ -104,9 +104,9 @@ $(function () {
             }
             const penguman = full['pengumuman_validasi_wa'];
             if(hasil == 0){
-              hasiil.concat(' ').concat(`<a href='${baseUrl}/validasi/kirim_file_pengumuman/${full['id']}'><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>`);
+              hasil.concat(' ').concat(`<a href='${baseUrl}/validasi/kirim_file_pengumuman/${full['id']}'><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>`);
             }else{
-              hasiil.concat(' ').concat(`<i class="mdi mdi-whatsapp mdi-20px text-secondary"></i>`);
+              hasil.concat(' ').concat(`<i class="mdi mdi-whatsapp mdi-20px text-secondary"></i>`);
             }
             
             return hasil;
