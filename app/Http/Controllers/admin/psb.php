@@ -125,6 +125,7 @@ class psb extends Controller
           $nestedData['status'] = $row->status ?? '';
           $nestedData['status_ujian'] = $row->status_ujian ?? '';
           $nestedData['status_diterima'] = $row->status_diterima ?? '';
+          
           $nestedData['file_photo'] = $psbBerkas->file_photo ?? '';
           $nestedData['file_kk'] = $psbBerkas->file_kk ?? '';
           $nestedData['file_ktp'] = $psbBerkas->file_ktp ?? '';
@@ -233,6 +234,7 @@ class psb extends Controller
           $nestedData['nama'] = $row->nama ?? '';
           $nestedData['ttl'] = $row->tempat_lahir . ', ' . date('d-m-Y', $row->tanggal_lahir) . '';
           $nestedData['bayar'] = $bukti_bayar;
+          $nestedData['pengumuman_validasi_wa'] = $row->pengumuman_validasi_wa ?? 0;
           $data[] = $nestedData;
         }
       }

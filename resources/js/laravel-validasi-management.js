@@ -93,14 +93,23 @@ $(function () {
           targets: 5,
           className: 'text-center',
           render: function render(data, type, full, meta) {
-            var $verified = full['bayar'];
+            const $verified = full['bayar'];
+            let hasil = '';
             if ($verified == 0) {
-              return '<i class="mdi mdi-shield-off-outline mdi-20px text-danger" ></i>';
+               hasil = '<i class="mdi mdi-shield-off-outline mdi-20px text-danger" ></i>';
             } else if ($verified == 1) {
-              return '<i class="mdi mdi-shield-check-outline mdi-20px text-secondary"></i>';
+               hasil = '<i class="mdi mdi-shield-check-outline mdi-20px text-secondary"></i>';
             } else {
-              return '<i class="mdi mdi-shield-check-outline mdi-20px text-success"></i>';
+               hasil = '<i class="mdi mdi-shield-check-outline mdi-20px text-success"></i>';
             }
+            const penguman = full['pengumuman_validasi_wa'];
+            if(hasil == 0){
+              hasiil.concat(' ').concat(`<a href='${baseUrl}/validasi/kirim_file_pengumuman/${full['id']}'><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>`);
+            }else{
+              hasiil.concat(' ').concat(`<i class="mdi mdi-whatsapp mdi-20px text-secondary"></i>`);
+            }
+            
+            return hasil;
           }
         }
       ],
