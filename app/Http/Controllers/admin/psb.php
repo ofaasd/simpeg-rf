@@ -164,6 +164,7 @@ class psb extends Controller
     if (empty($request->input('length'))) {
       $title = 'Validasi';
       $indexed = $this->indexed2;
+      $pesan = TemplatePesan::where('status', 1)->first();
       return view('admin.psb.validasi', compact('title', 'indexed'));
     } else {
       $columns = [
