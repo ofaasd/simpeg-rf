@@ -280,7 +280,24 @@ class psb extends Controller
           'psb_peserta_id' => $request->psb_peserta_id,
         ]
       );
+      if($request->status == "2"){
+        $peserta = PsbPesertaOnline::where('id', $request->psb_peserta_id)->first();
+        $walisan = PsbWaliPesertum::where('psb_peserta_id', $request->psb_peserta_id)->first();
+        $user = UserPsb::where('username', $peserta->no_pendaftaran)->first();
+        $template_pesan = TemplatePesan::where('status', 1)->first();
 
+        $pesan = str_replace('{{nama}}', $peserta->nama, $template_pesan->pesan);
+        $pesan = str_replace('{{tanggal_validasi}}', date('Y-m-d H:i:s', $peserta->tanggal_validasi), $pesan);
+        $pesan = str_replace('{{no_test}}', $peserta->no_test, $pesan);
+        $pesan = str_replace('{{username}}', $user->username, $pesan);
+        $pesan = str_replace('{{password}}', $user->password_ori, $pesan);
+      
+        $data['no_wa'] = $request->no_hp;
+        $data['no_hp'] = $walisan->no_hp;
+
+        Helpers_wa::send_wa($data);
+      }
+      
       // user updated
       return response()->json('Updated');
     } else {
@@ -298,6 +315,23 @@ class psb extends Controller
         ]
       );
       if ($PsbBuktiPembayaran) {
+        if($request->status == "2"){
+          $peserta = PsbPesertaOnline::where('id', $request->psb_peserta_id)->first();
+          $walisan = PsbWaliPesertum::where('psb_peserta_id', $request->psb_peserta_id)->first();
+          $user = UserPsb::where('username', $peserta->no_pendaftaran)->first();
+          $template_pesan = TemplatePesan::where('status', 1)->first();
+  
+          $pesan = str_replace('{{nama}}', $peserta->nama, $template_pesan->pesan);
+          $pesan = str_replace('{{tanggal_validasi}}', date('Y-m-d H:i:s', $peserta->tanggal_validasi), $pesan);
+          $pesan = str_replace('{{no_test}}', $peserta->no_test, $pesan);
+          $pesan = str_replace('{{username}}', $user->username, $pesan);
+          $pesan = str_replace('{{password}}', $user->password_ori, $pesan);
+        
+          $data['no_wa'] = $request->no_hp;
+          $data['no_hp'] = $walisan->no_hp;
+  
+          Helpers_wa::send_wa($data);
+        }
         // user created
         return response()->json('Created');
       } else {
