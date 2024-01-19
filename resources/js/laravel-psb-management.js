@@ -191,7 +191,7 @@ $(function () {
           orderable: false,
           targets: 8,
           render: function render(data, type, full, meta) {
-            if (parseInt(full.status_diterima) == 1) {
+            if (parseInt(full.status) == 2) {
               return "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>";
             } else {
               return "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";

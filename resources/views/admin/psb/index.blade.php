@@ -31,7 +31,7 @@
           <th>Uk. Baju</th>
 
           <th>Berkas</th>
-          <th>Verif</th>
+          <th>Valid</th>
           {{-- <th>Verifikasi</th>
           <th>Ujian</th>
           <th>Diterima</th> --}}
