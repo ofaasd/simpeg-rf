@@ -94,7 +94,7 @@ $(function () {
                 hasil +
                 '<a href=' +
                 baseUrl +
-                'validasi/kirim_file_pengumuman/' +
+                'psb_new/kirim_file_pengumuman/' +
                 full['id'] +
                 '><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>';
             } else {

@@ -1062,4 +1062,7 @@ https://psb.ppatq-rf.id';
 
     Helpers_wa::send_wa($data);
   }
+  public function kirim_file_pengumuman($id){
+    echo $id;
+  }
 }

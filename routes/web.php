@@ -81,6 +81,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('psb_new/ujian', [psb::class, 'kirim_wa']);
   Route::get('psb_new/ujian/{id}/edit_ujian', [psb::class, 'edit_ujian']);
   Route::post('psb_new/simpan_template_pesan', [psb::class, 'simpan_template_pesan']);
+  Route::get('psb_new/kirim_file_pengumuman/{id}', [psb::class, 'kirim_file_pengumuman']);
 
   Route::get('/structural-position/get-school/{id}', '\admin\StrucutralPositionController@getSchool');
   Route::get('/murroby/uang-saku/{id}', [AdminMurrobyController::class, 'uang_saku']);
