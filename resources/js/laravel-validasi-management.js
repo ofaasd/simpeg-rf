@@ -81,12 +81,20 @@ $(function () {
           searchable: false,
           orderable: false,
           render: function render(data, type, full, meta) {
-            return (
+            var hasil = ''.concat(
               '<div class="d-inline-block text-nowrap">' +
               '<button class="btn btn-sm btn-icon edit-record" data-id="'
                 .concat(full['id'], '" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAdd')
                 .concat(title, '"><i class="mdi mdi-pencil-outline mdi-20px"></i></button>')
             );
+
+            const penguman = full['pengumuman_validasi_wa'];
+            if(penguman == 0){
+              hasil.concat(' ',`<a href='${baseUrl}/validasi/kirim_file_pengumuman/${full['id']}'><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>`);
+            }else{
+              hasil.concat(' ',`<i class="mdi mdi-whatsapp mdi-20px text-secondary"></i>`);
+            }
+            return hasil;
           }
         },
         {
@@ -102,12 +110,7 @@ $(function () {
             } else {
                hasil = '<i class="mdi mdi-shield-check-outline mdi-20px text-success"></i>';
             }
-            const penguman = full['pengumuman_validasi_wa'];
-            if(penguman == 0){
-              hasil.concat(' ').concat(`<a href='${baseUrl}/validasi/kirim_file_pengumuman/${full['id']}'><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>`);
-            }else{
-              hasil.concat(' ').concat(`<i class="mdi mdi-whatsapp mdi-20px text-secondary"></i>`);
-            }
+            
             
             return hasil;
           }
