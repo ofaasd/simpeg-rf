@@ -92,11 +92,7 @@ $(function () {
               //   hasil.concat(' ', '<a href=' + baseUrl + '/validasi/kirim_file_pengumuman/' + full['id'] + '><i class="mdi mdi-message mdi-20px text-success"></i></a>');
               hasil =
                 hasil +
-                '<a href=' +
-                baseUrl +
-                'psb_new/kirim_file_pengumuman/' +
-                full['id'] +
-                '><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>';
+                '<a href="javascript:void(0)" data-id="'+full['id']+'" class="btn_send_pengumuman"><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>';
             } else {
               hasil = hasil + ' <i class="mdi mdi-whatsapp mdi-20px text-secondary"></i>';
             }
@@ -372,6 +368,36 @@ $(function () {
           }
         }
       });
+    });
+  });
+  $(document).on('click', '.btn_send_pengumuman', function () {
+    const id = $(this).data('id');
+    $.ajax({
+      url: baseUrl+'psb_new/kirim_file_pengumuman/' + id,
+      method: 'GET',
+      success: function success(status) {
+        dt.draw();
+        // sweetalert
+        Swal.fire({
+          icon: 'success',
+          title: 'Successfully '.concat(status, '!'),
+          text: ''.concat(title, ' ').concat(status, ' Successfully.'),
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      },
+      error: function error(err) {
+        offCanvasForm.offcanvas('hide');
+        Swal.fire({
+          title: 'Duplicate Entry!',
+          text: title + ' Not Saved !',
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
     });
   });
 
