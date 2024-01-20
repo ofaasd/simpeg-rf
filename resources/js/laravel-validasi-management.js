@@ -88,8 +88,8 @@ $(function () {
                 .concat(title, '"><i class="mdi mdi-pencil-outline mdi-20px"></i></button>')
             );
 
-            const penguman = full['pengumuman_validasi_wa'];
-            if(penguman == 0){
+            const pengumuman = full['pengumuman_validasi_wa'];
+            if(pengumuman == 0){
               hasil.concat(' ',`<a href='${baseUrl}/validasi/kirim_file_pengumuman/${full['id']}'><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>`);
             }else{
               hasil.concat(' ',`<i class="mdi mdi-whatsapp mdi-20px text-secondary"></i>`);
