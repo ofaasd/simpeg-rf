@@ -90,9 +90,9 @@ $(function () {
 
             const pengumuman = full['pengumuman_validasi_wa'];
             if(pengumuman == 0){
-              hasil.concat(' ',`<a href='${baseUrl}/validasi/kirim_file_pengumuman/${full['id']}'><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>`);
+              hasil.concat(' ','<a href=' + baseUrl+ '/validasi/kirim_file_pengumuman/' + full['id']+ '><i class="mdi mdi-message mdi-20px text-success"></i></a>');
             }else{
-              hasil.concat(' ',`<i class="mdi mdi-whatsapp mdi-20px text-secondary"></i>`);
+              hasil.concat(' ','<i class="mdi mdi-message mdi-20px text-secondary"></i>');
             }
             return hasil;
           }

@@ -234,7 +234,7 @@ class psb extends Controller
           $nestedData['nama'] = $row->nama ?? '';
           $nestedData['ttl'] = $row->tempat_lahir . ', ' . date('d-m-Y', $row->tanggal_lahir) . '';
           $nestedData['bayar'] = $bukti_bayar;
-          $nestedData['pengumuman_validasi_wa'] = $row->pengumuman_validasi_wa ?? 0;
+          $nestedData['pengumuman_validasi_wa'] = $row->pengumuman_validasi_wa;
           $data[] = $nestedData;
         }
       }
