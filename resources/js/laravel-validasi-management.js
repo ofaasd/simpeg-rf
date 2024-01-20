@@ -83,16 +83,22 @@ $(function () {
           render: function render(data, type, full, meta) {
             var hasil = ''.concat(
               '<div class="d-inline-block text-nowrap">' +
-              '<button class="btn btn-sm btn-icon edit-record" data-id="'
-                .concat(full['id'], '" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAdd')
-                .concat(title, '"><i class="mdi mdi-pencil-outline mdi-20px"></i></button>')
+                '<button class="btn btn-sm btn-icon edit-record" data-id="'
+                  .concat(full['id'], '" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAdd')
+                  .concat(title, '"><i class="mdi mdi-pencil-outline mdi-20px"></i></button>')
             );
-
-            const pengumuman = full['pengumuman_validasi_wa'];
-            if(pengumuman == 0){
-              hasil.concat(' ','<a href=' + baseUrl+ '/validasi/kirim_file_pengumuman/' + full['id']+ '><i class="mdi mdi-message mdi-20px text-success"></i></a>');
-            }else{
-              hasil.concat(' ','<i class="mdi mdi-message mdi-20px text-secondary"></i>');
+            var pengumuman = full['pengumuman_validasi_wa'];
+            if (pengumuman == 0) {
+              //   hasil.concat(' ', '<a href=' + baseUrl + '/validasi/kirim_file_pengumuman/' + full['id'] + '><i class="mdi mdi-message mdi-20px text-success"></i></a>');
+              hasil =
+                hasil +
+                '<a href=' +
+                baseUrl +
+                'validasi/kirim_file_pengumuman/' +
+                full['id'] +
+                '><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>';
+            } else {
+              hasil = hasil + ' <i class="mdi mdi-whatsapp mdi-20px text-secondary"></i>';
             }
             return hasil;
           }
@@ -104,14 +110,13 @@ $(function () {
             const $verified = full['bayar'];
             let hasil = '';
             if ($verified == 0) {
-               hasil = '<i class="mdi mdi-shield-off-outline mdi-20px text-danger" ></i>';
+              hasil = '<i class="mdi mdi-shield-off-outline mdi-20px text-danger" ></i>';
             } else if ($verified == 1) {
-               hasil = '<i class="mdi mdi-shield-check-outline mdi-20px text-secondary"></i>';
+              hasil = '<i class="mdi mdi-shield-check-outline mdi-20px text-secondary"></i>';
             } else {
-               hasil = '<i class="mdi mdi-shield-check-outline mdi-20px text-success"></i>';
+              hasil = '<i class="mdi mdi-shield-check-outline mdi-20px text-success"></i>';
             }
-            
-            
+
             return hasil;
           }
         }
@@ -455,7 +460,7 @@ $(function () {
   // clearing form data when offcanvas hidden
   offCanvasForm.on('hidden.bs.offcanvas', function () {
     //fv.resetForm(true);
-    $('#addNew' + title + 'Form').trigger("reset");
-    $('#bukti_file').html("");
+    $('#addNew' + title + 'Form').trigger('reset');
+    $('#bukti_file').html('');
   });
 });
