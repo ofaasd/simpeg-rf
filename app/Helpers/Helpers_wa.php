@@ -40,4 +40,38 @@ class Helpers_wa
     curl_close($curl);
     return $response;
   }
+  public static function send_wa_file($data){
+
+    $number_key = '9qrE9KWANsXXHCA9';
+    $wa_api = "X2Y7UZOZT0WVQVTG";
+
+    $curl = curl_init();
+
+    $dataSending = array();
+    $dataSending["api_key"] = $wa_api;
+    $dataSending["number_key"] = $number_key;
+    $dataSending["phone_no"] = $data['no_wa'];
+    $dataSending["url"] = $data['file'];
+
+
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://api.watzap.id/v1/send_file_url',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_POSTFIELDS => json_encode($dataSending),
+      CURLOPT_HTTPHEADER => array(
+      'Content-Type: application/json'
+      ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    return $response;
+  }
 }

@@ -1063,6 +1063,19 @@ https://psb.ppatq-rf.id';
     Helpers_wa::send_wa($data);
   }
   public function kirim_file_pengumuman($id){
-    echo $id;
+
+    $peserta = PsbPesertaOnline::where('id', $id)->first();
+    $walisan = PsbWaliPesertum::where('psb_peserta_id', $id)->first();
+
+    $data['no_wa'] = $walisan->no_hp;
+    $data['file'] = 'https://manajemen.ppatq-rf.id/assets/file/pengumuman.pdf';
+
+    if(Helpers_wa::send_wa_file($data)){
+      $update_peserta = PsbPesertaOnline::find($id);
+      $update_peserta->pengumuman_validasi_wa = 1;
+      $update_peserta->save();
+    }else{
+      echo "gagal Kirim File";
+    }
   }
 }
