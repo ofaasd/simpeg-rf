@@ -125,7 +125,7 @@ class psb extends Controller
           $nestedData['status'] = $row->status ?? '';
           $nestedData['status_ujian'] = $row->status_ujian ?? '';
           $nestedData['status_diterima'] = $row->status_diterima ?? '';
-          $nestedData['tanggal_daftar'] = $row->created_at;
+          $nestedData['tanggal_daftar'] = date('d-m-Y', strtotime($row->created_at));
           
           $nestedData['file_photo'] = $psbBerkas->file_photo ?? '';
           $nestedData['file_kk'] = $psbBerkas->file_kk ?? '';
@@ -230,13 +230,13 @@ class psb extends Controller
           if ($bukti->count() > 0) {
             $bukti_row = $bukti->first();
             $bukti_bayar = $bukti_row->status;
-            $tanggal_bayar = date('d-m-Y', $bukti_row->created_at);
+            $tanggal_bayar = date('d-m-Y', strtotime($bukti_row->created_at));
           }
           $nestedData['id'] = $row->id;
           $nestedData['fake_id'] = ++$ids;
           $nestedData['no_pendaftaran'] = $row->no_pendaftaran . '';
           $nestedData['nama'] = $row->nama ?? '';
-          $nestedData['ttl'] = "TD : " . date('d-m-Y', (int)$row->created_at) . ' <br /> TB : ' . $tanggal_bayar;
+          $nestedData['ttl'] = "TD : " . date('d-m-Y', strtotime($row->created_at)) . ' <br /> TB : ' . $tanggal_bayar;
           $nestedData['bayar'] = $bukti_bayar;
           $nestedData['pengumuman_validasi_wa'] = $row->pengumuman_validasi_wa;
           $data[] = $nestedData;
