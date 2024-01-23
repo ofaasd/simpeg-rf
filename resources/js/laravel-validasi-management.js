@@ -105,6 +105,7 @@ $(function () {
           className: 'text-center',
           render: function render(data, type, full, meta) {
             const $verified = full['bayar'];
+            const $pengumuman_warning = full['pengumuman_warning'];
             let hasil = '';
             if ($verified == 0) {
               hasil = '<i class="mdi mdi-shield-off-outline mdi-20px text-danger" ></i>';

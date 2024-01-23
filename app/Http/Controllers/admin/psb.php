@@ -235,6 +235,7 @@ class psb extends Controller
           $nestedData['id'] = $row->id;
           $nestedData['fake_id'] = ++$ids;
           $nestedData['no_pendaftaran'] = $row->no_pendaftaran . '';
+          $nestedData['pengumuman_warning'] = $row->warning_pembayaran_wa . '';
           $nestedData['nama'] = $row->nama ?? '';
           $nestedData['ttl'] = "TD : " . date('d-m-Y', strtotime($row->created_at)) . ' <br /> TB : ' . $tanggal_bayar;
           $nestedData['bayar'] = $bukti_bayar;
