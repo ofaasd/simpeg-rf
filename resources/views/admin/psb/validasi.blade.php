@@ -30,7 +30,7 @@
           <th>Id</th>
           <th>Nama</th>
           <th>No. Pendaftaran</th>
-          <th>TTL</th>
+          <th>Daftar Bayar</th>
           <th>Pembayaran</th>
           <th>Actions</th>
         </tr>

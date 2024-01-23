@@ -150,6 +150,12 @@ $(function () {
         {
           targets: 6,
           render: function render(data, type, full, meta) {
+            return '<span>'.concat(full.tanggal_daftar, '</span>');
+          }
+        },
+        {
+          targets: 7,
+          render: function render(data, type, full, meta) {
             return '<span><small>BB : '
               .concat(full.berat_badan, ' kg</small></span><br />')
               .concat('<span><small>TB : ')
@@ -163,7 +169,7 @@ $(function () {
         {
           searchable: false,
           orderable: false,
-          targets: 7,
+          targets: 8,
           render: function render(data, type, full, meta) {
             const file_kk = full['file_kk']
               ? "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>"
@@ -189,7 +195,7 @@ $(function () {
         {
           searchable: false,
           orderable: false,
-          targets: 8,
+          targets: 9,
           render: function render(data, type, full, meta) {
             if (parseInt(full.status) == 2) {
               return "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>";
@@ -201,7 +207,7 @@ $(function () {
         {
           searchable: false,
           orderable: false,
-          targets: 9,
+          targets: 10,
           render: function render(data, type, full, meta) {
             return (
               '<button class="btn btn-sm btn-icon delete-record" data-id="' +

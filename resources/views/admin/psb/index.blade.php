@@ -28,8 +28,8 @@
           <th>TTL</th>
           <th>No. WA</th>
           <th>JK</th>
+          <th>Daftar</th>
           <th>Uk. Baju</th>
-
           <th>Berkas</th>
           <th>Valid</th>
           {{-- <th>Verifikasi</th>

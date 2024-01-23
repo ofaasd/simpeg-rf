@@ -84,7 +84,7 @@ $(function () {
             var hasil = ''.concat(
               '<div class="d-inline-block text-nowrap">' +
                 '<button class="btn btn-sm btn-icon edit-record" data-id="'
-                  .concat(full['id'], '" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAdd')
+                  .concat(full['id'], '" data-bs-toggle="offcanvas" title="Detail Pembayaran" data-bs-target="#offcanvasAdd')
                   .concat(title, '"><i class="mdi mdi-pencil-outline mdi-20px"></i></button>')
             );
             var pengumuman = full['pengumuman_validasi_wa'];
@@ -92,13 +92,14 @@ $(function () {
               //   hasil.concat(' ', '<a href=' + baseUrl + '/validasi/kirim_file_pengumuman/' + full['id'] + '><i class="mdi mdi-message mdi-20px text-success"></i></a>');
               hasil =
                 hasil +
-                '<a href="javascript:void(0)" data-id="'+full['id']+'" class="btn_send_pengumuman"><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>';
+                '<a href="javascript:void(0)" title="Kirim WA Pengumuman Pendaftaran" data-id="'+full['id']+'" class="btn_send_pengumuman"><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>';
             } else {
               hasil = hasil + ' <i class="mdi mdi-whatsapp mdi-20px text-secondary"></i>';
             }
             return hasil;
           }
         },
+      
         {
           targets: 5,
           className: 'text-center',
@@ -107,6 +108,12 @@ $(function () {
             let hasil = '';
             if ($verified == 0) {
               hasil = '<i class="mdi mdi-shield-off-outline mdi-20px text-danger" ></i>';
+              if($pengumuman_warning == 0){
+                hasil = hasil +
+                '<a href="javascript:void(0)" title="Kirim WA Peringatan untuk Bayar" data-id="'+full['id']+'" class="btn_send_warning"><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>';
+              }else{
+                hasil = hasil + ' <i class="mdi mdi-whatsapp mdi-20px text-secondary"></i>';
+              }
             } else if ($verified == 1) {
               hasil = '<i class="mdi mdi-shield-check-outline mdi-20px text-secondary"></i>';
             } else {

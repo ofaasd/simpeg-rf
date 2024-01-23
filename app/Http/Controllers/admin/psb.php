@@ -125,6 +125,7 @@ class psb extends Controller
           $nestedData['status'] = $row->status ?? '';
           $nestedData['status_ujian'] = $row->status_ujian ?? '';
           $nestedData['status_diterima'] = $row->status_diterima ?? '';
+          $nestedData['tanggal_daftar'] = date('d-m-Y', $row->created_at);
           
           $nestedData['file_photo'] = $psbBerkas->file_photo ?? '';
           $nestedData['file_kk'] = $psbBerkas->file_kk ?? '';
@@ -225,14 +226,17 @@ class psb extends Controller
         foreach ($PsbPesertaOnline as $row) {
           $bukti_bayar = 0;
           $bukti = PsbBuktiPembayaran::where('psb_peserta_id', $row->id);
+          $tanggal_bayar = "";
           if ($bukti->count() > 0) {
-            $bukti_bayar = $bukti->first()->status;
+            $bukti_row = $bukti->first();
+            $bukti_bayar = $bukti_row->status;
+            $tanggal_bayar = date('d-m-Y', $bukti_row->created_at);
           }
           $nestedData['id'] = $row->id;
           $nestedData['fake_id'] = ++$ids;
           $nestedData['no_pendaftaran'] = $row->no_pendaftaran . '';
           $nestedData['nama'] = $row->nama ?? '';
-          $nestedData['ttl'] = $row->tempat_lahir . ', ' . date('d-m-Y', $row->tanggal_lahir) . '';
+          $nestedData['ttl'] = "TD : " . date('d-m-Y', $row->created_at) . ' <br /> TB : ' . $tanggal_bayar;
           $nestedData['bayar'] = $bukti_bayar;
           $nestedData['pengumuman_validasi_wa'] = $row->pengumuman_validasi_wa;
           $data[] = $nestedData;
