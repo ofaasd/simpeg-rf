@@ -125,7 +125,7 @@ class psb extends Controller
           $nestedData['status'] = $row->status ?? '';
           $nestedData['status_ujian'] = $row->status_ujian ?? '';
           $nestedData['status_diterima'] = $row->status_diterima ?? '';
-          $nestedData['tanggal_daftar'] = date('d-m-Y', (int)$row->created_at);
+          $nestedData['tanggal_daftar'] = $row->created_at;
           
           $nestedData['file_photo'] = $psbBerkas->file_photo ?? '';
           $nestedData['file_kk'] = $psbBerkas->file_kk ?? '';
