@@ -84,7 +84,10 @@ $(function () {
             var hasil = ''.concat(
               '<div class="d-inline-block text-nowrap">' +
                 '<button class="btn btn-sm btn-icon edit-record" data-id="'
-                  .concat(full['id'], '" data-bs-toggle="offcanvas" title="Detail Pembayaran" data-bs-target="#offcanvasAdd')
+                  .concat(
+                    full['id'],
+                    '" data-bs-toggle="offcanvas" title="Detail Pembayaran" data-bs-target="#offcanvasAdd'
+                  )
                   .concat(title, '"><i class="mdi mdi-pencil-outline mdi-20px"></i></button>')
             );
             var pengumuman = full['pengumuman_validasi_wa'];
@@ -92,14 +95,16 @@ $(function () {
               //   hasil.concat(' ', '<a href=' + baseUrl + '/validasi/kirim_file_pengumuman/' + full['id'] + '><i class="mdi mdi-message mdi-20px text-success"></i></a>');
               hasil =
                 hasil +
-                '<a href="javascript:void(0)" title="Kirim WA Pengumuman Pendaftaran" data-id="'+full['id']+'" class="btn_send_pengumuman"><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>';
+                '<a href="javascript:void(0)" title="Kirim WA Pengumuman Pendaftaran" data-id="' +
+                full['id'] +
+                '" class="btn_send_pengumuman"><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>';
             } else {
               hasil = hasil + ' <i class="mdi mdi-whatsapp mdi-20px text-secondary"></i>';
             }
             return hasil;
           }
         },
-      
+
         {
           targets: 5,
           className: 'text-center',
@@ -109,10 +114,13 @@ $(function () {
             let hasil = '';
             if ($verified == 0) {
               hasil = '<i class="mdi mdi-shield-off-outline mdi-20px text-danger" ></i>';
-              if($pengumuman_warning == 0){
-                hasil = hasil +
-                '<a href="javascript:void(0)" title="Kirim WA Peringatan untuk Bayar" data-id="'+full['id']+'" class="btn_send_warning"><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>';
-              }else{
+              if ($pengumuman_warning == 0) {
+                hasil =
+                  hasil +
+                  '<a href="javascript:void(0)" title="Kirim WA Peringatan untuk Bayar" data-id="' +
+                  full['id'] +
+                  '" class="btn_send_warning"><i class="mdi mdi-whatsapp mdi-20px text-success"></i></a>';
+              } else {
                 hasil = hasil + ' <i class="mdi mdi-whatsapp mdi-20px text-secondary"></i>';
               }
             } else if ($verified == 1) {
@@ -139,141 +147,7 @@ $(function () {
         sLengthMenu: '_MENU_',
         search: '',
         searchPlaceholder: 'Search..'
-      },
-      // Buttons with Dropdown
-      buttons: [
-        {
-          extend: 'collection',
-          className: 'btn btn-label-primary dropdown-toggle mx-3',
-          text: '<i class="mdi mdi-export-variant me-sm-1"></i>Export',
-          buttons: [
-            {
-              extend: 'print',
-              title: title,
-              text: '<i class="mdi mdi-printer-outline me-1" ></i>Print',
-              className: 'dropdown-item',
-              exportOptions: {
-                columns: [2, 3, 4, 5],
-                // prevent avatar to be print
-                format: {
-                  body: function body(inner, coldex, rowdex) {
-                    if (inner.length <= 0) return inner;
-                    var el = $.parseHTML(inner);
-                    var result = '';
-                    $.each(el, function (index, item) {
-                      result = result + item.innerText;
-                    });
-                    return result;
-                  }
-                }
-              },
-              customize: function customize(win) {
-                //customize print view for dark
-                $(win.document.body)
-                  .css('color', config.colors.headingColor)
-                  .css('border-color', config.colors.borderColor)
-                  .css('background-color', config.colors.body);
-                $(win.document.body)
-                  .find('table')
-                  .addClass('compact')
-                  .css('color', 'inherit')
-                  .css('border-color', 'inherit')
-                  .css('background-color', 'inherit');
-              }
-            },
-            {
-              extend: 'csv',
-              title: title,
-              text: '<i class="mdi mdi-file-document-outline me-1" ></i>Csv',
-              className: 'dropdown-item',
-              exportOptions: {
-                columns: [2, 3, 4, 5],
-                // prevent avatar to be print
-                format: {
-                  body: function body(inner, coldex, rowdex) {
-                    if (inner.length <= 0) return inner;
-                    var el = $.parseHTML(inner);
-                    var result = '';
-                    $.each(el, function (index, item) {
-                      result = result + item.innerText;
-                    });
-                    return result;
-                  }
-                }
-              }
-            },
-            {
-              extend: 'excel',
-              title: title,
-              text: '<i class="mdi mdi-file-excel-outline me-1" ></i>Excel',
-              className: 'dropdown-item',
-              exportOptions: {
-                columns: [2, 3, 4, 5],
-                // prevent avatar to be display
-                format: {
-                  body: function body(inner, coldex, rowdex) {
-                    if (inner.length <= 0) return inner;
-                    var el = $.parseHTML(inner);
-                    var result = '';
-                    $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
-                        result = result + item.lastChild.textContent;
-                      } else result = result + item.innerText;
-                    });
-                    return result;
-                  }
-                }
-              }
-            },
-            {
-              extend: 'pdf',
-              title: title,
-              text: '<i class="mdi mdi-file-pdf-box me-1"></i>Pdf',
-              className: 'dropdown-item',
-              exportOptions: {
-                columns: [2, 3, 4, 5],
-                // prevent avatar to be display
-                format: {
-                  body: function body(inner, coldex, rowdex) {
-                    if (inner.length <= 0) return inner;
-                    var el = $.parseHTML(inner);
-                    var result = '';
-                    $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
-                        result = result + item.lastChild.textContent;
-                      } else result = result + item.innerText;
-                    });
-                    return result;
-                  }
-                }
-              }
-            },
-            {
-              extend: 'copy',
-              title: title,
-              text: '<i class="mdi mdi-content-copy me-1" ></i>Copy',
-              className: 'dropdown-item',
-              exportOptions: {
-                columns: [2, 3],
-                // prevent avatar to be copy
-                format: {
-                  body: function body(inner, coldex, rowdex) {
-                    if (inner.length <= 0) return inner;
-                    var el = $.parseHTML(inner);
-                    var result = '';
-                    $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
-                        result = result + item.lastChild.textContent;
-                      } else result = result + item.innerText;
-                    });
-                    return result;
-                  }
-                }
-              }
-            }
-          ]
-        }
-      ]
+      }
       // For responsive popup
     });
   }
@@ -381,7 +255,7 @@ $(function () {
   $(document).on('click', '.btn_send_pengumuman', function () {
     const id = $(this).data('id');
     $.ajax({
-      url: baseUrl+'psb_new/kirim_file_pengumuman/' + id,
+      url: baseUrl + 'psb_new/kirim_file_pengumuman/' + id,
       method: 'GET',
       success: function success(status) {
         dt.draw();
@@ -411,7 +285,7 @@ $(function () {
   $(document).on('click', '.btn_send_warning', function () {
     const id = $(this).data('id');
     $.ajax({
-      url: baseUrl+'psb_new/kirim_file_warning/' + id,
+      url: baseUrl + 'psb_new/kirim_file_warning/' + id,
       method: 'GET',
       success: function success(status) {
         dt.draw();
