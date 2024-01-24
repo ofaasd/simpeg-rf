@@ -1090,10 +1090,10 @@ https://psb.ppatq-rf.id';
     $user = UserPsb::where('username', $peserta->no_pendaftaran)->first();
     $pesan = "*Otomatis dari Sistem PSB PPATQ.*
 
-    Mohon maaf, pada catatan Panitia Penerimaan Santri Baru PPATQRF, belum ada bukti pembayaran, segera melakukan pembayaran atau jika sudah melakukan pembayaran uang pendaftaran, mohon segera dilaporan melalui alamat psb.ppatq-rf.id dengan
-    username : {{username}}
-    password : {{password}}
-    atau kirim bukti bayar ke nomor 0822 9857 6026 (ust. Aris), aktifitas lapor uang pendaftaran ini, akan digunakan dikirimnya syarat-syarat mengikuti test seleksi. Kami sampaikan permohonan maaf, jika ada WA ini karena mengganggu Apabila sudah melakukan pembayaran. Silakan dipastikan telah mendapatkan file syarat mengikuti test seleksi. Terimakasih.";
+Mohon maaf, pada catatan Panitia Penerimaan Santri Baru PPATQRF, belum ada bukti pembayaran, segera melakukan pembayaran atau jika sudah melakukan pembayaran uang pendaftaran, mohon segera dilaporan melalui alamat psb.ppatq-rf.id dengan
+username : {{username}}
+password : {{password}}
+atau kirim bukti bayar ke nomor 0822 9857 6026 (ust. Aris), aktifitas lapor uang pendaftaran ini, akan digunakan dikirimnya syarat-syarat mengikuti test seleksi. Kami sampaikan permohonan maaf, jika ada WA ini karena mengganggu Apabila sudah melakukan pembayaran. Silakan dipastikan telah mendapatkan file syarat mengikuti test seleksi. Terimakasih.";
     $pesan = str_replace('{{username}}', $user->username, $pesan);
     $pesan = str_replace('{{password}}', $user->password_ori, $pesan);
     $data['no_wa'] = $walisan->no_hp;
