@@ -408,6 +408,36 @@ $(function () {
       }
     });
   });
+  $(document).on('click', '.btn_send_warning', function () {
+    const id = $(this).data('id');
+    $.ajax({
+      url: baseUrl+'psb_new/kirim_file_warning/' + id,
+      method: 'GET',
+      success: function success(status) {
+        dt.draw();
+        // sweetalert
+        Swal.fire({
+          icon: 'success',
+          title: 'Successfully '.concat(status, '!'),
+          text: ''.concat(title, ' ').concat(status, ' Successfully.'),
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      },
+      error: function error(err) {
+        offCanvasForm.offcanvas('hide');
+        Swal.fire({
+          title: 'Duplicate Entry!',
+          text: title + ' Not Saved !',
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    });
+  });
 
   // changing the title
   $('.add-new').on('click', function () {
