@@ -126,7 +126,7 @@ class psb extends Controller
           $nestedData['status_ujian'] = $row->status_ujian ?? '';
           $nestedData['status_diterima'] = $row->status_diterima ?? '';
           $nestedData['tanggal_daftar'] = date('d-m-Y', strtotime($row->created_at));
-          
+
           $nestedData['file_photo'] = $psbBerkas->file_photo ?? '';
           $nestedData['file_kk'] = $psbBerkas->file_kk ?? '';
           $nestedData['file_ktp'] = $psbBerkas->file_ktp ?? '';
@@ -167,7 +167,7 @@ class psb extends Controller
       $title = 'Validasi';
       $indexed = $this->indexed2;
       $pesan = TemplatePesan::where('status', 1)->first();
-      return view('admin.psb.validasi', compact('title','pesan', 'indexed'));
+      return view('admin.psb.validasi', compact('title', 'pesan', 'indexed'));
     } else {
       $columns = [
         1 => 'id',
@@ -226,7 +226,7 @@ class psb extends Controller
         foreach ($PsbPesertaOnline as $row) {
           $bukti_bayar = 0;
           $bukti = PsbBuktiPembayaran::where('psb_peserta_id', $row->id);
-          $tanggal_bayar = "";
+          $tanggal_bayar = '';
           if ($bukti->count() > 0) {
             $bukti_row = $bukti->first();
             $bukti_bayar = $bukti_row->status;
@@ -237,7 +237,7 @@ class psb extends Controller
           $nestedData['no_pendaftaran'] = $row->no_pendaftaran . '';
           $nestedData['pengumuman_warning'] = $row->warning_pembayaran_wa . '';
           $nestedData['nama'] = $row->nama ?? '';
-          $nestedData['ttl'] = "TD : " . date('d-m-Y', strtotime($row->created_at)) . ' <br /> TB : ' . $tanggal_bayar;
+          $nestedData['ttl'] = 'TD : ' . date('d-m-Y', strtotime($row->created_at)) . ' <br /> TB : ' . $tanggal_bayar;
           $nestedData['bayar'] = $bukti_bayar;
           $nestedData['pengumuman_validasi_wa'] = $row->pengumuman_validasi_wa;
           $data[] = $nestedData;
@@ -288,7 +288,7 @@ class psb extends Controller
           'psb_peserta_id' => $request->psb_peserta_id,
         ]
       );
-      if($request->status == "2"){
+      if ($request->status == '2') {
         $peserta = PsbPesertaOnline::where('id', $request->psb_peserta_id)->first();
         $walisan = PsbWaliPesertum::where('psb_peserta_id', $request->psb_peserta_id)->first();
         $user = UserPsb::where('username', $peserta->no_pendaftaran)->first();
@@ -299,13 +299,13 @@ class psb extends Controller
         $pesan = str_replace('{{no_test}}', $peserta->no_test, $pesan);
         $pesan = str_replace('{{username}}', $user->username, $pesan);
         $pesan = str_replace('{{password}}', $user->password_ori, $pesan);
-      
+
         $data['no_wa'] = $request->no_hp;
         $data['no_hp'] = $walisan->no_hp;
 
         Helpers_wa::send_wa($data);
       }
-      
+
       // user updated
       return response()->json('Updated');
     } else {
@@ -323,21 +323,21 @@ class psb extends Controller
         ]
       );
       if ($PsbBuktiPembayaran) {
-        if($request->status == "2"){
+        if ($request->status == '2') {
           $peserta = PsbPesertaOnline::where('id', $request->psb_peserta_id)->first();
           $walisan = PsbWaliPesertum::where('psb_peserta_id', $request->psb_peserta_id)->first();
           $user = UserPsb::where('username', $peserta->no_pendaftaran)->first();
           $template_pesan = TemplatePesan::where('status', 1)->first();
-  
+
           $pesan = str_replace('{{nama}}', $peserta->nama, $template_pesan->pesan);
           $pesan = str_replace('{{tanggal_validasi}}', date('Y-m-d H:i:s', $peserta->tanggal_validasi), $pesan);
           $pesan = str_replace('{{no_test}}', $peserta->no_test, $pesan);
           $pesan = str_replace('{{username}}', $user->username, $pesan);
           $pesan = str_replace('{{password}}', $user->password_ori, $pesan);
-        
+
           $data['no_wa'] = $request->no_hp;
           $data['no_hp'] = $walisan->no_hp;
-  
+
           Helpers_wa::send_wa($data);
         }
         // user created
@@ -1067,29 +1067,30 @@ https://psb.ppatq-rf.id';
 
     Helpers_wa::send_wa($data);
   }
-  public function kirim_file_pengumuman($id){
-
+  public function kirim_file_pengumuman($id)
+  {
     $peserta = PsbPesertaOnline::where('id', $id)->first();
     $walisan = PsbWaliPesertum::where('psb_peserta_id', $id)->first();
 
     $data['no_wa'] = $walisan->no_hp;
     $data['file'] = 'https://manajemen.ppatq-rf.id/assets/file/pengumuman.pdf';
 
-    if(Helpers_wa::send_wa_file($data)){
+    if (Helpers_wa::send_wa_file($data)) {
       $update_peserta = PsbPesertaOnline::find($id);
       $update_peserta->pengumuman_validasi_wa = 1;
       $update_peserta->save();
-    }else{
-      echo "gagal Kirim File";
+    } else {
+      echo 'gagal Kirim File';
     }
   }
-  public function kirim_file_warning($id){
+  public function kirim_file_warning($id)
+  {
     $peserta = PsbPesertaOnline::where('id', $id)->first();
     $walisan = PsbWaliPesertum::where('psb_peserta_id', $id)->first();
     $user = UserPsb::where('username', $peserta->no_pendaftaran)->first();
-    $pesan = "*Otomatis dari Sistem PSB PPATQ.* 
+    $pesan = "*Otomatis dari Sistem PSB PPATQ.*
 
-    Mohon maaf, pada catatan Panitia Penerimaan Santri Baru PPATQRF, belum ada bukti pembayaran, segera melakukan pembayaran atau jika sudah melakukan pembayaran uang pendaftaran, mohon segera dilaporan melalui alamat psb.ppatq-rf.id dengan 
+    Mohon maaf, pada catatan Panitia Penerimaan Santri Baru PPATQRF, belum ada bukti pembayaran, segera melakukan pembayaran atau jika sudah melakukan pembayaran uang pendaftaran, mohon segera dilaporan melalui alamat psb.ppatq-rf.id dengan
     username : {{username}}
     password : {{password}}
     atau kirim bukti bayar ke nomor 0822 9857 6026 (ust. Aris), aktifitas lapor uang pendaftaran ini, akan digunakan dikirimnya syarat-syarat mengikuti test seleksi. Kami sampaikan permohonan maaf, jika ada WA ini karena mengganggu Apabila sudah melakukan pembayaran. Silakan dipastikan telah mendapatkan file syarat mengikuti test seleksi. Terimakasih.";
@@ -1098,13 +1099,13 @@ https://psb.ppatq-rf.id';
     $data['no_wa'] = $walisan->no_hp;
     $data['pesan'] = $pesan;
 
-    if(Helpers_wa::send_wa_file($data)){
+    if (Helpers_wa::send_wa($data)) {
       $update_peserta = PsbPesertaOnline::find($id);
       $update_peserta->warning_pembayaran_wa = 1;
       $update_peserta->save();
-      echo "Berhasil";
-    }else{
-      echo "gagal Kirim File";
+      echo 'Berhasil';
+    } else {
+      echo 'gagal Kirim File';
     }
   }
 }
