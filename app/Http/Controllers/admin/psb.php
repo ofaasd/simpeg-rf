@@ -20,6 +20,8 @@ use App\Models\KecamatanTbl;
 use App\Models\KelurahanTbl;
 use App\Models\TemplatePesan;
 use App\Helpers\Helpers_wa;
+use App\Exports\PsbExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 use DateTime;
 
@@ -1123,5 +1125,9 @@ Terimakasih.";
     } else {
       echo 'gagal Kirim File';
     }
+  }
+  public function exportData()
+  {
+    return Excel::download(new PsbExport(), 'DataPSB.xlsx');
   }
 }

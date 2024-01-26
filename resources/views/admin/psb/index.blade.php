@@ -11,7 +11,15 @@
 @include('admin/psb/menu_psb')
 <div class="card">
   <div class="card-header">
-    <h5 class="card-title mb-0">Daftar Peserta PSB</h5>
+    <div class="row">
+      <div class="col-md-6">
+        <h5 class="card-title mb-0">Daftar Peserta PSB</h5>
+      </div>
+      <div class="col-md-6 text-right">
+        <a href="{{URL::to('/psb_new/export')}}" class="btn btn-info" style="float:right"> Export Excel</a>
+      </div>
+    </div>
+
   </div>
   <div class="card-datatable table-responsive">
 
