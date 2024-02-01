@@ -45,7 +45,7 @@ class psb extends Controller
     'Desember',
   ];
   public $indexed = ['', 'id', 'no_pendaftaran', 'nama', 'ttl', 'status', 'status_ujian', 'status_diterima'];
-  public $indexed2 = ['', 'id', 'no_pendaftaran', 'nama', 'ttl', 'bayar'];
+  public $indexed2 = ['', 'id', 'nama', 'no_pendaftaran', 'ttl', 'bayar'];
   public function index(Request $request)
   {
     //
@@ -173,8 +173,8 @@ class psb extends Controller
     } else {
       $columns = [
         1 => 'id',
-        2 => 'no_pendaftaran',
-        3 => 'nama',
+        2 => 'nama',
+        3 => 'no_pendaftaran',
         4 => 'ttl',
         5 => 'bayar',
       ];
