@@ -26,6 +26,7 @@ class HomePage extends Controller
     $jumlah_pegawai = 0;
     $jumlah_pembayaran = 0;
     $tot_bayar = 0;
+    $rincian_pembayaran = [];
     $jumlah_pembayaran_lalu = 0;
     $jumlah_siswa_belum_lapor = 0;
 
@@ -60,15 +61,15 @@ class HomePage extends Controller
       $jumlah_pembayaran = $bayar;
     }
 
-    $bayar = Pembayaran::whereMonth('tanggal_validasi', $bulan)
-      ->whereYear('tanggal_validasi', $tahun)
+    $bayar = Pembayaran::whereRaw('MONTH(FROM_UNIXTIME(created_at)) = ' . $bulan)
+      ->whereRaw('YEAR(FROM_UNIXTIME(created_at)) = ' . $tahun)
       ->sum('jumlah');
     if ($bayar > 0) {
       $tot_bayar = $bayar;
     }
 
-    $jumlah_santri_lapor = Pembayaran::whereRaw('MONTH(FROM_UNIXTIME(created_at)) = ' . $bulan)
-      ->whereRaw('YEAR(FROM_UNIXTIME(created_at)) = ' . $tahun)
+    $jumlah_santri_lapor = Pembayaran::whereMonth('tanggal_bayar', $bulan)
+      ->whereYear('tanggal_bayar', $tahun)
       ->distinct('nama_santri');
     $jumlah_siswa_belum_lapor = $jumlah_siswa - $jumlah_santri_lapor->count();
 
