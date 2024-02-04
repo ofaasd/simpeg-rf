@@ -25,6 +25,8 @@ class HomePage extends Controller
     $jumlah_siswa = 0;
     $jumlah_pegawai = 0;
     $jumlah_pembayaran = 0;
+    $total_pembayaran = 0;
+    $rincian_pembayaran = [];
     $jumlah_pembayaran_lalu = 0;
     $jumlah_siswa_belum_lapor = 0;
 
@@ -59,8 +61,15 @@ class HomePage extends Controller
       $jumlah_pembayaran = $bayar;
     }
 
-    $jumlah_santri_lapor = Pembayaran::whereMonth('tanggal_bayar', $bulan)
-      ->whereYear('tanggal_bayar', $tahun)
+    $total_bayar = Pembayaran::whereMonth('tanggal_validasi', $bulan)
+      ->whereYear('tanggal_validasi', $tahun)
+      ->sum('jumlah');
+    if ($bayar > 0) {
+      $total_pembayaran = $total_bayar;
+    }
+
+    $jumlah_santri_lapor = Pembayaran::whereRaw('MONTH(FROM_UNIXTIME(created_at)) = ' . $bulan)
+      ->whereRaw('YEAR(FROM_UNIXTIME(created_at)) = ' . $tahun)
       ->distinct('nama_santri');
     $jumlah_siswa_belum_lapor = $jumlah_siswa - $jumlah_santri_lapor->count();
 
@@ -79,6 +88,7 @@ class HomePage extends Controller
     return view(
       'content.pages.pages-home',
       compact(
+        'total_pembayaran',
         'jumlah_psb_baru',
         'jumlah_psb',
         'jumlah_siswa',
