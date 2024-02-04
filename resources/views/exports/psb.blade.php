@@ -31,10 +31,17 @@
   </tr>
   </thead>
   <tbody>
+  @php
+  $i = 1;
+  @endphp
   @foreach($psb as $row)
+  @php
+  $no_tes = explode('.',$row->no_pendaftaran);
+  @endphp
       <tr>
+          <td>{{ $i }}</td>
+          <td>{{ $no_tes[2] }}</td>
           <td>{{ $row->nama }}</td>
-          <td>{{ $row->no_test }}</td>
           <td>{{ $psb_asal[$row->id]->nisn }}</td>
           <td>{{ $row->anak_ke }}</td>
           <td>{{ $row->jumlah_saudara }}</td>
@@ -60,6 +67,9 @@
           <td>{{ $psb_seragam[$row->id]->lingkar_dada }}</td>
           <td>{{ $psb_seragam[$row->id]->lingkar_pinggul }}</td>
       </tr>
+  @php
+  $i++;
+  @endphp
   @endforeach
   </tbody>
 </table>
