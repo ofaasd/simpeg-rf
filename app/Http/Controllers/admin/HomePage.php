@@ -64,7 +64,7 @@ class HomePage extends Controller
     $total_bayar = Pembayaran::whereMonth('tanggal_validasi', $bulan)
       ->whereYear('tanggal_validasi', $tahun)
       ->sum('jumlah');
-    if ($bayar > 0) {
+    if ($total_bayar > 0) {
       $total_pembayaran = $total_bayar;
     }
 
