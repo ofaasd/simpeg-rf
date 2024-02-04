@@ -26,7 +26,6 @@ class HomePage extends Controller
     $jumlah_pegawai = 0;
     $jumlah_pembayaran = 0;
     $total_pembayaran = 0;
-    $rincian_pembayaran = [];
     $jumlah_pembayaran_lalu = 0;
     $jumlah_siswa_belum_lapor = 0;
 
@@ -88,14 +87,14 @@ class HomePage extends Controller
     return view(
       'content.pages.pages-home',
       compact(
-        'total_pembayaran',
         'jumlah_psb_baru',
         'jumlah_psb',
         'jumlah_siswa',
         'jumlah_pegawai',
         'jumlah_pembayaran',
         'jumlah_pembayaran_lalu',
-        'jumlah_siswa_belum_lapor'
+        'jumlah_siswa_belum_lapor',
+        'total_pembayaran'
       )
     );
   }
