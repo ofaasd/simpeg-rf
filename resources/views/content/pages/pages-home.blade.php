@@ -97,7 +97,7 @@ $configData = Helper::appClasses();
           <div class="avatar me-2">
             <span class="avatar-initial rounded bg-label-warning"><i class="mdi mdi-cash mdi-20px"></i></span>
           </div>
-          <h4 class="ms-1 mb-0 display-6 text-white">Rp . {{number_format($jumlah_pembayaran,0,",",".")}} / Rp . {{$tot_bayar}}</h4>
+          <h4 class="ms-1 mb-0 display-6 text-white">Rp . {{number_format($jumlah_pembayaran,0,",",".")}} / Rp . {{number_format($tot_bayar)}}</h4>
         </div>
         <p class="mb-0 card-title text-white">Jumlah Pembayaran Valid Bulan Ini / Total Pembayaran Bulan Ini</p>
         <p class="mb-0">
