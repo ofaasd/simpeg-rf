@@ -61,8 +61,8 @@ class HomePage extends Controller
       $jumlah_pembayaran = $bayar;
     }
 
-    $bayar = Pembayaran::whereRaw('MONTH(FROM_UNIXTIME(created_at)) = ' . $bulan)
-      ->whereRaw('YEAR(FROM_UNIXTIME(created_at)) = ' . $tahun)
+    $bayar = Pembayaran::whereMonth('tanggal_bayar', $bulan)
+      ->whereYear('tanggal_bayar', $tahun)
       ->sum('jumlah');
     if ($bayar > 0) {
       $tot_bayar = $bayar;
