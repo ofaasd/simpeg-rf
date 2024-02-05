@@ -84,7 +84,6 @@ class HomePage extends Controller
     if ($bayar_lalu > 0) {
       $jumlah_pembayaran_lalu = $bayar_lalu;
     }
-    $list_pen = [1 => 'S2/S3', 'S1' . 'Diploma', 'SMA/MA', 'SMP/MTS', 'SD/MI'];
 
     return view(
       'content.pages.pages-home',
@@ -96,8 +95,7 @@ class HomePage extends Controller
         'jumlah_pembayaran',
         'jumlah_pembayaran_lalu',
         'jumlah_siswa_belum_lapor',
-        'tot_bayar',
-        'list_pen'
+        'tot_bayar'
       )
     );
   }
