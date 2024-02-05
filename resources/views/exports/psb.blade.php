@@ -37,7 +37,7 @@
   @foreach($psb as $row)
   @php
   $no_tes = explode('.',$row->no_pendaftaran);
-  var_dump($lsit_pen);
+  var_dump($list_pen);
   exit;
   @endphp
       <tr>
