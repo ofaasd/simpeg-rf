@@ -56,10 +56,10 @@
           <td>{{ Helper_user::getProvinsi($row->prov_id) ?? '' }}</td>
           <td>{{ $row->kode_pos }}</td>
           <td>{{ $psb_wali[$row->id]->nama_ayah }}</td>
-          <td>{{ $list_pendidikan[$psb_wali[$row->id]->pendidikan_ayah] }}</td>
+          <td>{{ $list_pen[$psb_wali[$row->id]->pendidikan_ayah] }}</td>
           <td>{{ $psb_wali[$row->id]->pekerjaan_ayah }}</td>
           <td>{{ $psb_wali[$row->id]->nama_ibu }}</td>
-          <td>{{ $list_pendidikan[$psb_wali[$row->id]->pendidikan_ibu] }}</td>
+          <td>{{ $list_pen[$psb_wali[$row->id]->pendidikan_ibu] }}</td>
           <td>{{ $psb_wali[$row->id]->pekerjaan_ibu }}</td>
           <td>{{ $psb_wali[$row->id]->no_hp }}</td>
           <td>{{ $psb_seragam[$row->id]->tinggi_badan }}</td>
