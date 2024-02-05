@@ -37,7 +37,7 @@
   @foreach($psb as $row)
   @php
   $no_tes = explode('.',$row->no_pendaftaran);
-  $list_pen = [1 => 'S2/S3', 'S1' . 'Diploma', 'SMA/MA', 'SMP/MTS', 'SD/MI'];
+  $list_pen = [1 => 'S2/S3', 'S1' , 'Diploma', 'SMA/MA', 'SMP/MTS', 'SD/MI'];
   @endphp
       <tr>
           <td>{{ $i }}</td>
