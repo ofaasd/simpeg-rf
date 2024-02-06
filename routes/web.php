@@ -30,6 +30,7 @@ use App\Http\Controllers\admin\LaporanController;
 use App\Http\Controllers\admin\AkuntansiController;
 use App\Http\Controllers\admin\UangMasukController;
 use App\Http\Controllers\admin\UangKeluarController;
+use App\Http\Controllers\admin\KesehatanController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -142,6 +143,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/santri', SantriController::class);
   Route::resource('/profile', ProfileController::class);
   Route::resource('/murroby', AdminMurrobyController::class);
+  Route::resource('/kesehatan', KesehatanController::class);
 
   Route::resource('/psb', psb::class);
   Route::resource('/gelombang', $controller_path . '\admin\GelombangController');

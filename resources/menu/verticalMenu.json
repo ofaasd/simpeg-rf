@@ -189,6 +189,12 @@
       "slug": "akuntansi"
     },
     {
+      "url": "/kesehatan",
+      "icon": "menu-icon tf-icons mdi mdi-bottle-tonic-plus",
+      "name": "Kesehatan",
+      "slug": "kesehatan"
+    },
+    {
       "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-printer",
       "name": "Cetak",
@@ -275,12 +281,6 @@
       "icon": "menu-icon tf-icons mdi mdi-bowl-mix",
       "name": "Dapur",
       "slug": "dapur"
-    },
-    {
-      "url": "/tbd",
-      "icon": "menu-icon tf-icons mdi mdi-bottle-tonic-plus",
-      "name": "Kesehatan",
-      "slug": "kesehatan"
     },
     {
       "url": "/tbd",
