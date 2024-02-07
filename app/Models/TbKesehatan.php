@@ -33,8 +33,14 @@ class TbKesehatan extends Model
   protected $casts = [
     'santri_id' => 'int',
     'tanggal_sakit' => 'int',
-    'tanggal_sembuh' => 'int',
   ];
 
-  protected $fillable = ['santri_id', 'sakit', 'tanggal_sakit', 'tanggal_sembuh', 'keterangan'];
+  protected $fillable = [
+    'santri_id',
+    'sakit',
+    'tanggal_sakit',
+    'tanggal_sembuh',
+    'keterangan_sakit',
+    'keterangan_sembuh',
+  ];
 }
