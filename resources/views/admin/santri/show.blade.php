@@ -97,6 +97,74 @@
     </div>
   </div>
 </div>
-
+<div class="modal fade" id="modal_pemeriksaan" tabindex="-1" data-backdrop="false" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+    <div class="modal-content p-3 p-md-5">
+      <div class="modal-body py-3 py-md-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="text-center mb-4">
+          <h3 class="mb-2">Pemeriksaan Santri</h3>
+          <p class="pt-1">Tambah history pertumbuhan santri_photo</p>
+        </div>
+        <form id="formPemeriksaan" class="row g-4" onsubmit="return false">
+          <input type="hidden" name="no_induk" id="no_induk" value="{{$var['santri']->no_induk}}">
+          <input type="hidden" name="id" id="id_pemeriksaan">
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <input type="date" id='tanggal_pemeriksaan' name="tanggal_pemeriksaan" class="form-control" value="{{date('Y-m-d')}}">
+              <label for="tanggal_pemeriksaan">Tanggal Periksa</label>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="input-group input-group-merge">
+              <div class="form-floating form-floating-outline">
+                <input type="number" class="form-control" name="tinggi_badan" id="tinggi_badan" placeholder="Tinggi Badan" aria-label="Tinggi Badan" aria-describedby="tinggi_badan">
+                <label for="tinggi_badan">Tinggi Badan</label>
+              </div>
+              <span class="input-group-text">CM</span>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="input-group input-group-merge">
+              <div class="form-floating form-floating-outline">
+                <input type="number" class="form-control" name="berat_badan" id="berat_badan" placeholder="Berat Badan" aria-label="Berat Badan" aria-describedby="berat_badan">
+                <label for="berat_badan">Berat Badan</label>
+              </div>
+              <span class="input-group-text">KG</span>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="input-group input-group-merge">
+              <div class="form-floating form-floating-outline">
+                <input type="number" class="form-control" name="lingkar_pinggul" id="lingkar_pinggul" placeholder="Lingkar Pinggul" aria-label="Lingkar Pinggul" aria-describedby="lingkar_pinggul">
+                <label for="lingkar_pinggul">Lingkar Pinggul</label>
+              </div>
+              <span class="input-group-text">CM</span>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="input-group input-group-merge">
+              <div class="form-floating form-floating-outline">
+                <input type="number" class="form-control" name="lingkar_dada" id="lingkar_dada" placeholder="Lingkar Dada" aria-label="Lingkar Dada" aria-describedby="lingkar_dada">
+                <label for="lingkar_dada">Lingkar Dada</label>
+              </div>
+              <span class="input-group-text">CM</span>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <input type="text" id='kondisi_gigi' name="kondisi_gigi" class="form-control">
+              <label for="kondisi_gigi">Kondisi Gigi</label>
+            </div>
+          </div>
+          <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 @endsection

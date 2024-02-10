@@ -103,6 +103,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('/santri/update_tahfidz', [SantriController::class, 'update_tahfidz']);
   Route::post('/santri/teman_tahfidz', [SantriController::class, 'teman_tahfidz']);
   Route::get('/santri/generate_kelas', [SantriController::class, 'generate_kelas']);
+
+  Route::post('/santri/pemeriksaan', [SantriController::class, 'pemeriksaan']);
+  Route::get('/santri/pemeriksaan/{id}', [SantriController::class, 'edit_pemeriksaan']);
+  Route::get('/santri/reload_pemeriksaan/{id}', [SantriController::class, 'reload_pemeriksaan']);
+  Route::delete('/santri/delete_pemeriksaan/{id}', [SantriController::class, 'delete_pemeriksaan']);
+
   Route::post('/ustadz/uang-saku/get_all', [UangSakuController::class, 'get_all']);
   Route::get('/ketahfidzan', [TahfidzController::class, 'ketahfidzan']);
   Route::get('/ketahfidzan/{id}', [TahfidzController::class, 'tahfidz_detail']);

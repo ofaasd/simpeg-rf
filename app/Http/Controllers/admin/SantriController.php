@@ -15,6 +15,7 @@ use App\Models\SantriKelas;
 use App\Models\SantriTahfidz;
 use App\Models\TahunAjaran;
 use App\Models\Province;
+use App\Models\TbPemeriksaan;
 use Illuminate\Support\Facades\DB;
 use Image;
 
@@ -424,6 +425,7 @@ class SantriController extends Controller
     $var['kelas'] = Kelas::all();
     $var['kamar'] = Kamar::all();
     $var['tahfidz'] = Tahfidz::all();
+
     if ($var['santri']->kamar_id != 0) {
       $var['curr_kamar'] = Kamar::find($var['santri']->kamar_id);
     }
@@ -433,8 +435,10 @@ class SantriController extends Controller
     if ($var['santri']->tahfidz_id != 0) {
       $var['curr_tahfidz'] = Tahfidz::find($var['santri']->tahfidz_id);
     }
-    $var['menu'] = ['biodata', 'keluarga', 'kamar', 'kelas', 'tahfidz'];
+    $var['menu'] = ['biodata', 'keluarga', 'kamar', 'kelas', 'tahfidz', 'pemeriksaan'];
     $status = [0 => 'aktif', 1 => 'lulus/alumni', 2 => 'boyong/keluar', 3 => 'meninggal'];
+
+    $var['pemeriksaan'] = TbPemeriksaan::where('no_induk', $var['santri']->no_induk)->get();
     return view('admin.santri.show', compact('status', 'title', 'var'));
   }
 
@@ -518,5 +522,70 @@ class SantriController extends Controller
         }
       }
     }
+  }
+  public function pemeriksaan(Request $request)
+  {
+    $id = $request->id;
+
+    if ($id) {
+      // update the value
+      $pemeriksaan = TbPemeriksaan::updateOrCreate(
+        ['id' => $id],
+        [
+          'no_induk' => $request->no_induk,
+          'tanggal_pemeriksaan' => strtotime($request->tanggal_pemeriksaan),
+          'tinggi_badan' => $request->tinggi_badan,
+          'berat_badan' => $request->berat_badan,
+          'lingkar_pinggul' => $request->lingkar_pinggul,
+          'lingkar_dada' => $request->lingkar_dada,
+          'kondisi_gigi' => $request->kondisi_gigi,
+        ]
+      );
+
+      // user updated
+      return response()->json('Updated');
+    } else {
+      // create new one if email is unique
+      //$userEmail = User::where('email', $request->email)->first();
+
+      $pemeriksaan = TbPemeriksaan::updateOrCreate(
+        ['id' => $id],
+        [
+          'no_induk' => $request->no_induk,
+          'tanggal_pemeriksaan' => strtotime($request->tanggal_pemeriksaan),
+          'tinggi_badan' => $request->tinggi_badan,
+          'berat_badan' => $request->berat_badan,
+          'lingkar_pinggul' => $request->lingkar_pinggul,
+          'lingkar_dada' => $request->lingkar_dada,
+          'kondisi_gigi' => $request->kondisi_gigi,
+        ]
+      );
+      if ($pemeriksaan) {
+        // user created
+        return response()->json('Created');
+      } else {
+        return response()->json('Failed Create Academic');
+      }
+    }
+  }
+  public function reload_pemeriksaan($id)
+  {
+    $where = ['id' => $id];
+    $var['santri'] = Santri::where($where)->first();
+    $var['pemeriksaan'] = TbPemeriksaan::where('no_induk', $var['santri']->no_induk)->get();
+
+    return view('admin.santri.table_pemeriksaan', compact('var'));
+  }
+  public function edit_pemeriksaan($id)
+  {
+    $where = ['id' => $id];
+
+    $pemeriksaan = TbPemeriksaan::where($where)->first();
+    return response()->json($pemeriksaan);
+  }
+  public function delete_pemeriksaan(string $id)
+  {
+    $pemeriksaan = TbPemeriksaan::where('id', $id)->delete();
+    echo 'berhasil menghapus data';
   }
 }
