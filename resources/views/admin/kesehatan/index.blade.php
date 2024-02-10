@@ -116,7 +116,7 @@
             <div class="form-floating form-floating-outline">
               <select name="santri_id" id="santri_id" class="form-control select2">
                 @foreach($santri as $row)
-                <option value="{{$row->id}}" >{{$row->nama}} - {{$row->kelas}}</option>
+                <option value="{{$row->no_induk}}" >{{$row->nama}} - {{$row->kelas}}</option>
                 @endforeach
               </select>
               <label for="santri_id">Nama Santri</label>
