@@ -176,10 +176,22 @@
       "slug": "akuntansi"
     },
     {
-      "url": "/kesehatan",
+      "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-bottle-tonic-plus",
       "name": "Kesehatan",
-      "slug": "kesehatan"
+      "slug": "kesehatan",
+      "submenu": [
+        {
+          "url": "/kesehatan",
+          "name": "Laporan Santri Sakit",
+          "slug": "kesehatan-index"
+        },
+        {
+          "url": "/kesehatan/santri",
+          "name": "Laporan Pemeriksaan Santri",
+          "slug": "kesehatan-santri"
+        }
+      ]
     },
     {
       "url": "#",

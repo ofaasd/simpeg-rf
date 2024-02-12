@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Santri;
 use App\Models\TbKesehatan;
+use App\Models\TbPemeriksaan;
 
 class KesehatanController extends Controller
 {
@@ -201,5 +202,55 @@ class KesehatanController extends Controller
     }
 
     return view('admin.kesehatan.table', compact('santri', 'list_santri', 'title', 'kesehatan', 'var'));
+  }
+
+  public function santri(Request $request)
+  {
+    //
+    $santri = Santri::where('status', 0)->get();
+
+    $var['berat_badan'] = [];
+    $var['tinggi_badan'] = [];
+    $var['lingkar_pinggul'] = [];
+    $var['lingkar_dada'] = [];
+    $var['kondisi_gigi'] = [];
+
+    foreach ($santri as $row) {
+      $pemeriksaan = TbPemeriksaan::where('no_induk', $row->no_induk)->orderBy('id', 'desc');
+      if ($pemeriksaan->count() > 0) {
+        $hasil = $pemeriksaan->first();
+        $var['berat_badan'][$row->no_induk] = $hasil->berat_badan;
+        $var['tinggi_badan'][$row->no_induk] = $hasil->tinggi_badan;
+        $var['lingkar_pinggul'][$row->no_induk] = $hasil->lingkar_pinggul;
+        $var['lingkar_dada'][$row->no_induk] = $hasil->lingkar_dada;
+        $var['kondisi_gigi'][$row->no_induk] = $hasil->kondisi_gigi;
+      } else {
+        $var['berat_badan'][$row->no_induk] = 0;
+        $var['tinggi_badan'][$row->no_induk] = 0;
+        $var['lingkar_pinggul'][$row->no_induk] = 0;
+        $var['lingkar_dada'][$row->no_induk] = 0;
+        $var['kondisi_gigi'][$row->no_induk] = 0;
+      }
+    }
+    $title = 'Daftar Santri';
+    return view('admin.kesehatan.santri', compact('santri', 'title', 'var'));
+  }
+  public function get_santri(string $id)
+  {
+    $where = ['id' => $id];
+    $var['santri'] = Santri::where($where)->first();
+    $var['santri_photo'] = asset('assets/img/avatars/1.png');
+    if (!empty($var['santri']->photo) && $var['santri']->photo_location == 2) {
+      $var['santri_photo'] = asset('assets/img/upload/photo/' . $var['santri']->photo);
+    } elseif (!empty($var['santri']->photo) && $var['santri']->photo_location == 1) {
+      $var['santri_photo'] = 'https://payment.ppatq-rf.id/assets/upload/user/' . $var['santri']->photo;
+    }
+    $title = 'santri';
+
+    $var['menu'] = ['pemeriksaan'];
+    $status = [0 => 'aktif', 1 => 'lulus/alumni', 2 => 'boyong/keluar', 3 => 'meninggal'];
+
+    $var['pemeriksaan'] = TbPemeriksaan::where('no_induk', $var['santri']->no_induk)->get();
+    return view('admin.kesehatan.detail', compact('status', 'title', 'var'));
   }
 }
