@@ -170,6 +170,19 @@
       ]
     },
     {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-chart-line",
+      "name": "Laporan",
+      "slug": "laporan",
+      "submenu": [
+        {
+          "url": "/laporan/pembayaran",
+          "name": "Laporan Pembayaran",
+          "slug": "laporan-pembayaran"
+        }
+      ]
+    },
+    {
       "url": "/admin/akuntansi",
       "icon": "menu-icon tf-icons mdi mdi-cash",
       "name": "keuangan",
@@ -183,30 +196,9 @@
     },
     {
       "url": "#",
-      "icon": "menu-icon tf-icons mdi mdi-chart-line",
-      "name": "Laporan",
-      "slug": "laporan",
-      "badge": [
-        "danger",
-        "1"
-      ],
-      "submenu": [
-        {
-          "url": "/laporan/pembayaran",
-          "name": "Laporan Pembayaran",
-          "slug": "laporan-pembayaran"
-        }
-      ]
-    },
-    {
-      "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-printer",
       "name": "Cetak",
       "slug": "cetak",
-      "badge": [
-        "danger",
-        "1"
-      ],
       "submenu": [
         {
           "url": "/tbd",
@@ -230,10 +222,6 @@
       "icon": "menu-icon tf-icons mdi mdi-ticket",
       "name": "Kegiatan",
       "slug": "kegiatan",
-      "badge": [
-        "danger",
-        "1"
-      ],
       "submenu": [
         {
           "url": "/tbd",
@@ -252,10 +240,6 @@
       "icon": "menu-icon tf-icons mdi mdi-cash",
       "name": "Penggajian",
       "slug": "penggajian",
-      "badge": [
-        "danger",
-        "1"
-      ],
       "submenu": [
         {
           "url": "/tbd",
@@ -276,43 +260,51 @@
     },
     {
       "url": "/tbd",
+      "name": "Penilaian Kinerja",
+      "icon": "menu-icon tf-icons mdi mdi-format-list-numbered",
+      "slug": "Kinerja"
+    },
+    {
+      "url": "/tbd",
       "icon": "menu-icon tf-icons mdi mdi-account-outline",
       "name": "Alumni",
-      "slug": "alumni",
-      "badge": [
-        "danger",
-        "1"
-      ]
+      "slug": "alumni"
     },
     {
       "url": "/tbd",
       "icon": "menu-icon tf-icons mdi mdi-view-list-outline",
       "name": "Aset",
-      "slug": "aset",
-      "badge": [
-        "danger",
-        "1"
-      ]
+      "slug": "aset"
+    },
+    {
+      "url": "/tbd",
+      "icon": "menu-icon tf-icons mdi mdi-bowl-mix",
+      "name": "Dapur",
+      "slug": "dapur"
     },
     {
       "url": "/tbd",
       "icon": "menu-icon tf-icons mdi mdi-tshirt-crew-outline",
       "name": "Laundry",
-      "slug": "laundry",
-      "badge": [
-        "danger",
-        "1"
-      ]
+      "slug": "laundry"
     },
     {
       "url": "/tbd",
       "icon": "menu-icon tf-icons mdi mdi-email-open-heart-outline",
       "name": "Media Saran",
-      "slug": "media_saran",
-      "badge": [
-        "danger",
-        "1"
-      ]
+      "slug": "media_saran"
+    },
+    {
+      "url": "/tbd",
+      "icon": "menu-icon tf-icons mdi mdi-hexagram",
+      "name": "Executive",
+      "slug": "executive"
+    },
+    {
+      "url": "/tbd",
+      "icon": "menu-icon tf-icons mdi mdi-star-circle-outline",
+      "name": "Mutu",
+      "slug": "mutu"
     },
     {
       "url": "/user-list",
