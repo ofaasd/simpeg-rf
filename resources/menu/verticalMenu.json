@@ -186,10 +186,6 @@
       "icon": "menu-icon tf-icons mdi mdi-chart-line",
       "name": "Laporan",
       "slug": "laporan",
-      "badge": [
-        "danger",
-        "1"
-      ],
       "submenu": [
         {
           "url": "/laporan/pembayaran",
