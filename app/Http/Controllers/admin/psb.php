@@ -209,14 +209,12 @@ class psb extends Controller
           ->orderBy($order, $dir)
           ->get();
 
-        $totalFiltered = PsbPesertaOnline::where('jabatan_new', 12)
-          ->where(function ($query) use ($search) {
-            $query
-              ->where('id', 'LIKE', "%{$search}%")
-              ->orWhere('nama', 'LIKE', "%{$search}%")
-              ->orWhere('no_pendaftaran', 'LIKE', "%{$search}%");
-          })
-          ->count();
+        $totalFiltered = PsbPesertaOnline::where(function ($query) use ($search) {
+          $query
+            ->where('id', 'LIKE', "%{$search}%")
+            ->orWhere('nama', 'LIKE', "%{$search}%")
+            ->orWhere('no_pendaftaran', 'LIKE', "%{$search}%");
+        })->count();
       }
 
       $data = [];
@@ -492,6 +490,7 @@ https://psb.ppatq-rf.id';
       $data->kode_pos = $request->kode_pos;
       $data->gelombang_id = $gelombang->id;
       $data->no_pendaftaran = $username;
+      $data->input_by = 2;
       $data->user_id = $id;
       if ($data->save()) {
         $walsan = new PsbWaliPesertum();

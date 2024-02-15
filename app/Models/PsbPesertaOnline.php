@@ -83,5 +83,6 @@ class PsbPesertaOnline extends Model
     'no_pendaftaran',
     'gelombang_id',
     'kode_pos',
+    'input_by',
   ];
 }
