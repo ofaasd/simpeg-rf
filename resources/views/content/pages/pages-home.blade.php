@@ -32,6 +32,14 @@ $configData = Helper::appClasses();
           <span class="me-1 text-white fw-bold" >{{$jumlah_psb_baru}}</span>
           <small class="text-white fw-bold">Siswa Baru Pada Bulan ini</small>
         </p>
+        <div class="row" style="border-top:1px solid #fff; margin-top:20px; padding-top:10px;">
+          <div class="col-md-6">
+            <span class="me-1 text-white fw-bold" >L : {{$jumlah_psb_laki}}</span>
+          </div>
+          <div class="col-md-6">
+            <span class="me-1 text-white fw-bold" >P : {{$jumlah_psb_perempuan}}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -51,6 +59,14 @@ $configData = Helper::appClasses();
           <span class="me-1 text-white fw-bold" ></span>
           <small class="text-white fw-bold"></small>
         </p>
+        <div class="row" style="border-top:1px solid #fff; margin-top:20px; padding-top:10px;">
+          <div class="col-md-6">
+            <span class="me-1 text-white fw-bold" >L : {{$jumlah_siswa_l}}</span>
+          </div>
+          <div class="col-md-6">
+            <span class="me-1 text-white fw-bold" >P : {{$jumlah_siswa_p}}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -70,6 +86,14 @@ $configData = Helper::appClasses();
           <span class="me-1 text-white fw-bold" ></span>
           <small class="text-white fw-bold"></small>
         </p>
+        <div class="row" style="border-top:1px solid #fff; margin-top:20px; padding-top:10px;">
+          <div class="col-md-6">
+            <span class="me-1 text-white fw-bold" >L : {{$jumlah_pegawai_l}}</span>
+          </div>
+          <div class="col-md-6">
+            <span class="me-1 text-white fw-bold" >P : {{$jumlah_pegawai_p}}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

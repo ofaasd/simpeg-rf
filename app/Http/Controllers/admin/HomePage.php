@@ -24,11 +24,17 @@ class HomePage extends Controller
     $jumlah_psb_baru = 0;
     $jumlah_siswa = 0;
     $jumlah_pegawai = 0;
+    $jumlah_pegawai_l = 0;
+    $jumlah_pegawai_p = 0;
     $jumlah_pembayaran = 0;
     $tot_bayar = 0;
     $rincian_pembayaran = [];
     $jumlah_pembayaran_lalu = 0;
     $jumlah_siswa_belum_lapor = 0;
+    $jumlah_psb_laki = 0;
+    $jumlah_psb_perempuan = 0;
+    $jumlah_siswa_l = 0;
+    $jumlah_siswa_p = 0;
 
     $bulan = (int) date('m');
     $tahun = (int) date('Y');
@@ -39,19 +45,25 @@ class HomePage extends Controller
     );
     if ($psb->count() > 0) {
       $jumlah_psb = $psb->count();
+      $jumlah_psb_laki = $psb->where('jenis_kelamin', 'L')->count();
+      $jumlah_psb_perempuan = $psb->where('jenis_kelamin', 'P')->count();
     }
     if ($psb2->count() > 0) {
       $jumlah_psb_baru = $psb2->count();
     }
 
-    $santri = Santri::where('status', 0)->count();
-    if ($santri > 0) {
-      $jumlah_siswa = $santri;
+    $santri = Santri::where('status', 0);
+    if ($santri->count() > 0) {
+      $jumlah_siswa = $santri->count();
+      $jumlah_siswa_l = $santri->where('jenis_kelamin', 'L')->count();
+      $jumlah_siswa_p = $santri->where('jenis_kelamin', 'P')->count();
     }
 
     $pegawai = EmployeeNew::count();
     if ($pegawai > 0) {
       $jumlah_pegawai = $pegawai;
+      $jumlah_pegawai_l = EmployeeNew::where('jenis_kelamin', 'Laki-laki')->count();
+      $jumlah_pegawai_p = EmployeeNew::where('jenis_kelamin', 'Perempuan')->count();
     }
 
     $bayar = Pembayaran::whereMonth('tanggal_validasi', $bulan)
@@ -89,9 +101,15 @@ class HomePage extends Controller
       'content.pages.pages-home',
       compact(
         'jumlah_psb_baru',
+        'jumlah_psb_laki',
+        'jumlah_psb_perempuan',
         'jumlah_psb',
         'jumlah_siswa',
+        'jumlah_siswa_l',
+        'jumlah_siswa_p',
         'jumlah_pegawai',
+        'jumlah_pegawai_l',
+        'jumlah_pegawai_p',
         'jumlah_pembayaran',
         'jumlah_pembayaran_lalu',
         'jumlah_siswa_belum_lapor',
