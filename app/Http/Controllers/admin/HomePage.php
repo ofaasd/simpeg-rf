@@ -46,7 +46,9 @@ class HomePage extends Controller
     if ($psb->count() > 0) {
       $jumlah_psb = $psb->count();
       $jumlah_psb_laki = $psb->where('jenis_kelamin', 'L')->count();
-      $jumlah_psb_perempuan = $psb->where('jenis_kelamin', 'P')->count();
+      $jumlah_psb_perempuan = PsbPesertaOnline::where('gelombang_id', $gelombang->id)
+        ->where('jenis_kelamin', 'P')
+        ->count();
     }
     if ($psb2->count() > 0) {
       $jumlah_psb_baru = $psb2->count();
@@ -56,7 +58,9 @@ class HomePage extends Controller
     if ($santri->count() > 0) {
       $jumlah_siswa = $santri->count();
       $jumlah_siswa_l = $santri->where('jenis_kelamin', 'L')->count();
-      $jumlah_siswa_p = $santri->where('jenis_kelamin', 'P')->count();
+      $jumlah_siswa_p = Santri::where('status', 0)
+        ->where('jenis_kelamin', 'P')
+        ->count();
     }
 
     $pegawai = EmployeeNew::count();
