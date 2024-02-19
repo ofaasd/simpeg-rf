@@ -11,6 +11,7 @@ use App\Models\KotaKabTbl;
 use App\Models\KecamatanTbl;
 use App\Models\KelurahanTbl;
 use App\Models\PsbSeragam;
+use App\Models\UserPsb;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use DateTime;
@@ -28,6 +29,7 @@ class PsbExport implements FromView
     $psb_asal = [];
     $psb_seragam = [];
     $tahun = [];
+    $psb_user = [];
     foreach ($psb as $row) {
       $tanggal_lahir = $row->tanggal_lahir;
       $dob = new DateTime(date('Y-m-d', $tanggal_lahir));
@@ -40,6 +42,7 @@ class PsbExport implements FromView
       $psb_berkas[$row->id] = PsbBerkasPendukung::where('psb_peserta_id', $row->id)->first();
       $psb_asal[$row->id] = PsbSekolahAsal::where('psb_peserta_id', $row->id)->first();
       $psb_seragam[$row->id] = PsbSeragam::where('psb_peserta_id', $row->id)->first();
+      $psb_user[$row->id] = UserPsb::where('username', $row->no_pendaftaran)->first();
     }
 
     return view('exports.psb', [
@@ -48,6 +51,7 @@ class PsbExport implements FromView
       'psb_berkas' => $psb_berkas,
       'psb_asal' => $psb_asal,
       'psb_seragam' => $psb_seragam,
+      'psb_user' => $psb_user,
       'tahun' => $tahun,
     ]);
   }

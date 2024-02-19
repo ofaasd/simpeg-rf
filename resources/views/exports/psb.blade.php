@@ -3,6 +3,7 @@
   <tr>
     <th>No. </th>
     <th>No. Tes</th>
+    <th>No. Pendaftaran/Username</th>
     <th>Nama</th>
     <th>NISN</th>
     <th>Anak ke</th>
@@ -28,6 +29,7 @@
     <th>Berat Badan</th>
     <th>Lingkar Dada</th>
     <th>Lingkar Pinggul</th>
+    <th>Password</th>
   </tr>
   </thead>
   <tbody>
@@ -42,6 +44,7 @@
       <tr>
           <td>{{ $i }}</td>
           <td>{{ $no_tes[2] }}</td>
+          <td>{{ $row->no_pendaftaran }}</td>
           <td>{{ $row->nama }}</td>
           <td>{{ $psb_asal[$row->id]->nisn }}</td>
           <td>{{ $row->anak_ke }}</td>
@@ -67,6 +70,7 @@
           <td>{{ $psb_seragam[$row->id]->berat_badan }}</td>
           <td>{{ $psb_seragam[$row->id]->lingkar_dada }}</td>
           <td>{{ $psb_seragam[$row->id]->lingkar_pinggul }}</td>
+          <td>{{ $psb_user[$row->id]->password_ori }}</td>
       </tr>
   @php
   $i++;
