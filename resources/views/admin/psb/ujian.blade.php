@@ -18,12 +18,6 @@
 <input type="hidden" name="page" id='page' value='ujian'>
 <input type="hidden" name="url" id='url' value='psb_new/ujian'>
 <input type="hidden" name="title" id='title' value='Ujian'>
-  <div class="row">
-    <div class="col-md-12 text-start">
-      <a href="javascript:void(0)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#templatePesan">Template Pesan</a>
-    </div>
-  </div>
-
     <table class="datatables-{{strtolower($title)}} table">
       <thead class="table-light">
         <tr>
@@ -60,31 +54,6 @@
         <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
         <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
       </form>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="templatePesan" tabindex="-1" aria-labelledby="templatePesanLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form enctype="multipart/form-data" class="template_pesan pt-0" id="template_pesan_form">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Template Pesan</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-          @csrf
-          <input type="hidden" name="id" value="{{$pesan->id}}">
-          <div class="form-floating form-floating-outline mb-4">
-            <textarea  class="form-control" id="template_pesan_text" placeholder="Template Pesan" name="template_pesan" aria-label="" style="height:200px">{{$pesan->pesan}}</textarea>
-            <label for="template_pesan_text">Template Pesan</label>
-          </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Simpan</button>
-      </div>
-    </form>
     </div>
   </div>
 </div>
