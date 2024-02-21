@@ -58,7 +58,16 @@ class Helpers_wa
     $dataSending = [];
     $dataSending['api_key'] = $wa_api;
     $dataSending['number_key'] = $number_key;
-    $dataSending['phone_no'] = $data['no_wa'];
+
+    $prefix = substr($data['no_wa'], 0, 2);
+    if ($prefix == '62') {
+      $new_prefix = 0;
+      $no_wa = $new_prefix . substr($data['no_wa'], 2);
+    } else {
+      $no_wa = $data['no_wa'];
+    }
+
+    $dataSending['phone_no'] = $no_wa;
     $dataSending['url'] = $data['file'];
 
     curl_setopt_array($curl, [
