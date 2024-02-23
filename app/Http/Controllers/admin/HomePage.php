@@ -35,6 +35,20 @@ class HomePage extends Controller
     $jumlah_psb_perempuan = 0;
     $jumlah_siswa_l = 0;
     $jumlah_siswa_p = 0;
+    $list_bulan = [
+      1 => 'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
 
     $bulan = (int) date('m');
     $tahun = (int) date('Y');
@@ -104,6 +118,7 @@ class HomePage extends Controller
     return view(
       'content.pages.pages-home',
       compact(
+        'list_bulan',
         'jumlah_psb_baru',
         'jumlah_psb_laki',
         'jumlah_psb_perempuan',

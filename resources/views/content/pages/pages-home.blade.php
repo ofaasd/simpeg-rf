@@ -106,7 +106,7 @@ $configData = Helper::appClasses();
           </div>
           <h4 class="ms-1 mb-0 display-6 text-white">{{$jumlah_siswa_belum_lapor}}</h4>
         </div>
-        <p class="mb-0 card-title text-white">{{number_format($jumlah_siswa_belum_lapor/$jumlah_siswa*100, 2, ".",".")}} % siswa belum melaporkan pembayaran</p>
+        <p class="mb-0 card-title text-white">{{number_format($jumlah_siswa_belum_lapor/$jumlah_siswa*100, 2, ".",".")}} % siswa belum melaporkan pembayaran bulan {{$list_bulan[(int)date('m')]}}</p>
         <p class="mb-0">
           <span class="me-1 text-white fw-bold" ></span>
           <small class="text-white fw-bold"></small>
@@ -123,7 +123,7 @@ $configData = Helper::appClasses();
           </div>
           <h4 class="ms-1 mb-0 display-6 text-white">Rp . {{number_format($jumlah_pembayaran,0,",",".")}} / Rp . {{number_format($tot_bayar,0,",",".")}}</h4>
         </div>
-        <p class="mb-0 card-title text-white">Jumlah Pembayaran Valid Bulan Ini / Total Pembayaran Bulan Ini</p>
+        <p class="mb-0 card-title text-white">Jumlah Pembayaran Valid Bulan {{$list_bulan[(int)date('m')]}} / Total Pembayaran Bulan {{$list_bulan[(int)date('m')]}}</p>
         <p class="mb-0">
           <span class="me-1 text-white fw-bold" ></span>
           <small class="text-white fw-bold"></small>
