@@ -260,6 +260,10 @@
       // or send the form data to server via an Ajax request
       // To make the demo simple, I just placed an alert
       const myForm = $('#wizard-validation-form').serialize();
+      $('#wizard-validation-form .btn-submit').prop('disabled', true);
+      $('#wizard-validation-form .btn-submit').html(
+        '<span class="spinner-border me-1" role="status" aria-hidden="true"></span> Loading...'
+      );
       $.ajax({
         data: myForm,
         url: ''.concat(baseUrl).concat('psb/validation'),
@@ -285,7 +289,8 @@
                   }
                 });
                 data = JSON.parse(data);
-
+                $('#wizard-validation-form .btn-submit').prop('disabled', false);
+                $('#wizard-validation-form .btn-submit').html('Submit');
                 window.location.href = ''.concat(baseUrl).concat('psb/berkas_pendukung/').concat(data[0].id);
 
                 // $('#wizard-validation').html(`
@@ -316,6 +321,8 @@
             data.forEach(function (item) {
               $('#alert-show').prepend("<div class='alert alert-danger'>" + item.msg + '</div>');
             });
+            $('#wizard-validation-form .btn-submit').prop('disabled', false);
+            $('#wizard-validation-form .btn-submit').html('Submit');
           }
         }
       });

@@ -22,6 +22,7 @@ use App\Models\TemplatePesan;
 use App\Helpers\Helpers_wa;
 use App\Exports\PsbExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 
 use DateTime;
 
@@ -388,8 +389,17 @@ class psb extends Controller
       $hitung++;
     }
 
-    $nama = $request->nama_panggilan;
-    $peserta = PsbPesertaOnline::where(['nama' => $nama, 'tanggal_lahir' => $tanggal_lahir])->count();
+    $nama = $request->nama_lengkap;
+    $jenis_kelamin = $request->jenis_kelamin;
+    $nik = $request->nik;
+    $int_tanggal_lahir = strtotime($tanggal_lahir);
+    $peserta = PsbPesertaOnline::where([
+      'nama' => $nama,
+      'tanggal_lahir' => strtotime($tanggal_lahir),
+      'jenis_kelamin' => $jenis_kelamin,
+      'nik' => $nik,
+    ])->count();
+
     if ($peserta > 0) {
       $array[] = [
         'code' => 3,
