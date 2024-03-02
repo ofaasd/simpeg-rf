@@ -42,5 +42,6 @@ class TbKesehatan extends Model
     'tanggal_sembuh',
     'keterangan_sakit',
     'keterangan_sembuh',
+    'tindakan',
   ];
 }

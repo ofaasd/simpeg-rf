@@ -5,9 +5,10 @@
       <td>Kelas</td>
       <td>Murroby</td>
       <td>Tgl Sakit</td>
-      <td>Sakit</td>
+      <td>Gangguan Kesehatan</td>
       <td>Keterangan</td>
-      <td>Tgl Sembuh</td>
+      <td>Tindakan</td>
+      <td>Deskripsi</td>
       <td>Keterangan</td>
       <td>Aksi</td>
     </tr>
@@ -24,7 +25,8 @@
         <td>{{date('d-m-Y', $row->tanggal_sakit)}}</td>
         <td>{{$row->sakit}}</td>
         <td>{{$row->keterangan_sakit}}</td>
-        <td>{{($row->tanggal_sembuh == 0)?'':date('d-m-Y', $row->tanggal_sembuh)}}</td>
+        <td>{{$row->tindakan}}</td>
+        <td>{{$row->keterangan_sembuh}}</td>
         <td>{{$row->keterangan_sembuh}}</td>
         <td>
           <div class="btn-group btn-group-sm" role="group" aria-label="First group">

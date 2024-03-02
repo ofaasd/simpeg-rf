@@ -1,12 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\ustadz;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Santri;
 use App\Models\TbKesehatan;
 use App\Models\TbPemeriksaan;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\EmployeeNew;
+use App\Models\Kamar;
 
 class KesehatanController extends Controller
 {
@@ -30,7 +34,16 @@ class KesehatanController extends Controller
       'November',
       'Desember',
     ];
-    $santri = Santri::all();
+
+    $id_user = Auth::user()->id;
+    $user = User::find($id_user);
+    $id = $user->pegawai_id;
+    $where = ['id' => $id];
+    $var['EmployeeNew'] = EmployeeNew::where($where)->first();
+    $title = 'Pegawai';
+    $kamar = Kamar::where('employee_id', $id)->first();
+
+    $santri = Santri::where('kamar_id', $kamar->id)->get();
     $title = 'Kesehatan Santri';
     $bulan = date('m');
     $tahun = date('Y');
@@ -40,8 +53,10 @@ class KesehatanController extends Controller
     }
     $var['bulan'] = $bulan;
     $var['tahun'] = $tahun;
-    $kesehatan = TbKesehatan::whereRaw('MONTH(FROM_UNIXTIME(tanggal_sakit)) = ' . $bulan)
+    $kesehatan = TbKesehatan::join('santri_detail', 'tb_kesehatan.santri_id', '=', 'santri_detail.no_induk')
+      ->whereRaw('MONTH(FROM_UNIXTIME(tanggal_sakit)) = ' . $bulan)
       ->whereRaw('YEAR(FROM_UNIXTIME(tanggal_sakit)) = ' . $tahun)
+      ->where('santri_detail.kamar_id', $kamar->id)
       ->get();
     $list_santri = [];
     foreach ($santri as $row) {
@@ -161,7 +176,15 @@ class KesehatanController extends Controller
       'November',
       'Desember',
     ];
-    $santri = Santri::all();
+    $id_user = Auth::user()->id;
+    $user = User::find($id_user);
+    $id = $user->pegawai_id;
+    $where = ['id' => $id];
+    $var['EmployeeNew'] = EmployeeNew::where($where)->first();
+    $title = 'Pegawai';
+    $kamar = Kamar::where('employee_id', $id)->first();
+
+    $santri = Santri::where('kamar_id', $kamar->id)->get();
     $title = 'Kesehatan Santri';
     $bulan = date('m');
     $tahun = date('Y');
@@ -171,8 +194,10 @@ class KesehatanController extends Controller
     }
     $var['bulan'] = $bulan;
     $var['tahun'] = $tahun;
-    $kesehatan = TbKesehatan::whereRaw('MONTH(FROM_UNIXTIME(tanggal_sakit)) = ' . $bulan)
+    $kesehatan = TbKesehatan::join('santri_detail', 'tb_kesehatan.santri_id', '=', 'santri_detail.no_induk')
+      ->whereRaw('MONTH(FROM_UNIXTIME(tanggal_sakit)) = ' . $bulan)
       ->whereRaw('YEAR(FROM_UNIXTIME(tanggal_sakit)) = ' . $tahun)
+      ->where('santri_detail.kamar_id', $kamar->id)
       ->get();
     $list_santri = [];
     foreach ($santri as $row) {
@@ -185,14 +210,24 @@ class KesehatanController extends Controller
   public function santri(Request $request)
   {
     //
-    $santri = Santri::where('status', 0)->get();
+    $id_user = Auth::user()->id;
+    $user = User::find($id_user);
+    $id = $user->pegawai_id;
+    $where = ['id' => $id];
+    $var['EmployeeNew'] = EmployeeNew::where($where)->first();
+    $title = 'Pegawai';
+    $kamar = Kamar::where('employee_id', $id)->first();
+
+    $santri = Santri::where('status', 0)
+      ->where('kamar_id', $kamar->id)
+      ->get();
 
     $var['berat_badan'] = [];
     $var['tinggi_badan'] = [];
     $var['lingkar_pinggul'] = [];
     $var['lingkar_dada'] = [];
     $var['kondisi_gigi'] = [];
-
+    $var['tanggal_periksa'] = [];
     foreach ($santri as $row) {
       $pemeriksaan = TbPemeriksaan::where('no_induk', $row->no_induk)->orderBy('id', 'desc');
       if ($pemeriksaan->count() > 0) {
@@ -202,12 +237,14 @@ class KesehatanController extends Controller
         $var['lingkar_pinggul'][$row->no_induk] = $hasil->lingkar_pinggul;
         $var['lingkar_dada'][$row->no_induk] = $hasil->lingkar_dada;
         $var['kondisi_gigi'][$row->no_induk] = $hasil->kondisi_gigi;
+        $var['tanggal_periksa'][$row->no_induk] = date('d-m-Y', $hasil->tanggal_periksa);
       } else {
         $var['berat_badan'][$row->no_induk] = 0;
         $var['tinggi_badan'][$row->no_induk] = 0;
         $var['lingkar_pinggul'][$row->no_induk] = 0;
         $var['lingkar_dada'][$row->no_induk] = 0;
         $var['kondisi_gigi'][$row->no_induk] = 0;
+        $var['tanggal_periksa'][$row->no_induk] = '';
       }
     }
     $title = 'Daftar Santri';

@@ -48,7 +48,7 @@
             </div>
           </div>
           <div class="col-md-6 text-right">
-            <button type="button" id="btnTambahSantriSakit" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal_sakit" style="float:right"> Tambah Santri Sakit</button>
+            <button type="button" id="btnTambahSantriSakit" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal_sakit" style="float:right">+ Tambah</button>
           </div>
         </div>
         <div id="table_kesehatan">
@@ -59,9 +59,10 @@
                 <td>Kelas</td>
                 <td>Murroby</td>
                 <td>Tgl Sakit</td>
-                <td>Sakit</td>
+                <td>Gangguan Kesehatan</td>
                 <td>Keterangan</td>
-                <td>Tgl Sembuh</td>
+                <td>Tindakan</td>
+                <td>Deskripsi</td>
                 <td>Keterangan</td>
                 <td>Aksi</td>
               </tr>
@@ -78,7 +79,8 @@
                   <td>{{date('d-m-Y', $row->tanggal_sakit)}}</td>
                   <td>{{$row->sakit}}</td>
                   <td>{{$row->keterangan_sakit}}</td>
-                  <td>{{($row->tanggal_sembuh == 0)?'':date('d-m-Y', $row->tanggal_sembuh)}}</td>
+                  <td>{{$row->tindakan}}</td>
+                  <td>{{$row->keterangan_sembuh}}</td>
                   <td>{{$row->keterangan_sembuh}}</td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="First group">
@@ -124,14 +126,14 @@
           </div>
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <input type="text" id='sakit' name="sakit" class="form-control">
-              <label for="sakit">Sakit</label>
+              <input type="date" id='tanggal_sakit' name="tanggal_sakit" class="form-control" value="{{date('Y-m-d')}}" placeholder="tanggal_sakit">
+              <label for="tanggal_sakit">Tanggal Sakit</label>
             </div>
           </div>
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <input type="date" id='tanggal_sakit' name="tanggal_sakit" class="form-control" value="{{date('Y-m-d')}}">
-              <label for="tanggal_sakit">Tanggal Sakit</label>
+              <input type="text" id='sakit' name="sakit" class="form-control" placeholder="memar, flu, demam, typus, DB, cacar, gatal kulit, infeksi dll">
+              <label for="sakit">Item Gangguan Kesehatan</label>
             </div>
           </div>
           <div class="col-12 col-md-6">
@@ -140,19 +142,18 @@
               <label for="keterangan_sakit">Keterangan Sakit</label>
             </div>
           </div>
-
-            <div class="col-12 col-md-6 sembuh_area" style="display:none">
-              <div class="form-floating form-floating-outline">
-                <input type="date" id='tanggal_sembuh' name="tanggal_sembuh" class="form-control">
-                <label for="tanggal_sembuh">Tanggal Sembuh</label>
-              </div>
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <input type="text" id='tindakan' name="tindakan" class="form-control">
+              <label for="tindakan">Tindakan</label>
             </div>
-            <div class="col-12 col-md-6 sembuh_area" style="display:none">
-              <div class="form-floating form-floating-outline">
-                <input type="text" id='keterangan_sembuh' name="keterangan_sembuh" class="form-control">
-                <label for="keterangan_sembuh">Keterangan Sembuh</label>
-              </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <input type="text" id='keterangan_sembuh' name="keterangan_sembuh" class="form-control">
+              <label for="keterangan_sembuh">Deskripsi</label>
             </div>
+          </div>
           <div class="col-12 text-center">
             <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
             <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>

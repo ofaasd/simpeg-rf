@@ -54,6 +54,24 @@
     },
     {
       "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-bottle-tonic-plus",
+      "name": "Kesehatan",
+      "slug": "murroby",
+      "submenu": [
+        {
+          "url": "/ustadz/kesehatan",
+          "name": "Laporan Santri Sakit",
+          "slug": "murroby"
+        },
+        {
+          "url": "/ustadz/kesehatan/santri",
+          "name": "Laporan Pemeriksaan Santri",
+          "slug": "murroby"
+        }
+      ]
+    },
+    {
+      "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-cash",
       "name": "Penggajian",
       "slug": "penggajian",

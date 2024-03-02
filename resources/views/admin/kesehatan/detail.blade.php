@@ -32,8 +32,8 @@
 
 @section('content')
 <div class="row" style="margin-bottom:10px">
-  <div class="col-12">
-    <a href="{{url('/kesehatan/santri')}}" class='btn btn-primary'>Kembali ke Daftar Santri</a>
+  <div class="col-12" id="tombol_kembali">
+
   </div>
 </div>
 <div class="row">
@@ -166,5 +166,10 @@
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    $("#tombol_kembali").html('<a href="' + document.referrer + '" class="btn btn-primary">Kembali ke Daftar Santri</a>');
+  });
 
+</script>
 @endsection

@@ -30,9 +30,9 @@
 
 @section('content')
 
-@include('ustadz/murroby/header')
+@include('ustadz/tahfidz/header')
 <!-- Navbar pills -->
-@include('ustadz/murroby/nav')
+@include('ustadz/tahfidz/nav')
 <!--/ Navbar pills -->
 <div class="card">
   <div class="card-header">

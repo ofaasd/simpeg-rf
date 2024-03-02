@@ -26,6 +26,7 @@ use App\Http\Controllers\ustadz\DetailTahfidzController;
 use App\Http\Controllers\admin\AdminDetailTahfidzController;
 use App\Http\Controllers\ustadz\SakuMasukController;
 use App\Http\Controllers\ustadz\SakuKeluarController;
+use App\Http\Controllers\ustadz\KesehatanController as UstKesehatanController;
 use App\Http\Controllers\admin\LaporanController;
 use App\Http\Controllers\admin\AkuntansiController;
 use App\Http\Controllers\admin\UangMasukController;
@@ -89,6 +90,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('kesehatan/reload', [KesehatanController::class, 'reload']);
   Route::get('kesehatan/santri', [KesehatanController::class, 'santri']);
   Route::get('kesehatan/santri/{id}', [KesehatanController::class, 'get_santri']);
+
+  Route::post('ustadz/kesehatan/reload', [UstKesehatanController::class, 'reload']);
+  Route::get('ustadz/kesehatan/santri', [UstKesehatanController::class, 'santri']);
+  Route::get('ustadz/kesehatan/santri/{id}', [UstKesehatanController::class, 'get_santri']);
 
   Route::get('/structural-position/get-school/{id}', '\admin\StrucutralPositionController@getSchool');
   Route::get('/murroby/uang-saku/{id}', [AdminMurrobyController::class, 'uang_saku']);
@@ -154,6 +159,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/profile', ProfileController::class);
   Route::resource('/murroby', AdminMurrobyController::class);
   Route::resource('/kesehatan', KesehatanController::class);
+  Route::resource('/ustadz/kesehatan', UstKesehatanController::class);
 
   Route::resource('/psb', psb::class);
   Route::resource('/gelombang', $controller_path . '\admin\GelombangController');

@@ -51,6 +51,8 @@
                 <td>LP</td>
                 <td>LD</td>
                 <td>Gigi</td>
+                <td>Tgl periksa</td>
+
               </tr>
             </thead>
             <tbody id="table_uang_saku">
@@ -65,6 +67,7 @@
                   <td>{{$var['lingkar_pinggul'][$row->no_induk] }}</td>
                   <td>{{$var['lingkar_dada'][$row->no_induk] }}</td>
                   <td>{{$var['kondisi_gigi'][$row->no_induk] }}</td>
+                  <td>{{$var['tanggal_periksa'][$row->no_induk] }}</td>
                 </tr>
               @endforeach
             </tbody>
