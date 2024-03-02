@@ -183,7 +183,7 @@
       "submenu": [
         {
           "url": "/kesehatan",
-          "name": "Laporan Santri Sakit",
+          "name": "Laporan Kesehatan Santri",
           "slug": "kesehatan-index"
         },
         {
