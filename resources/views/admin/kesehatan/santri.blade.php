@@ -62,7 +62,7 @@
                   <td><a href="{{URL::to('/kesehatan/santri/' . $row->id )}}">{{$row->nama}}</a></td>
                   <td>{{$row->kelas}}</td>
                   <td>{{$row->kamar_id}}</td>
-                  <td>{{ $var['berat_badan'][$row->no_induk] }}</td>
+                  <td>{{$var['berat_badan'][$row->no_induk] }}</td>
                   <td>{{$var['tinggi_badan'][$row->no_induk] }}</td>
                   <td>{{$var['lingkar_pinggul'][$row->no_induk] }}</td>
                   <td>{{$var['lingkar_dada'][$row->no_induk] }}</td>

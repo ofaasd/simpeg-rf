@@ -192,6 +192,7 @@ class KesehatanController extends Controller
     $var['lingkar_pinggul'] = [];
     $var['lingkar_dada'] = [];
     $var['kondisi_gigi'] = [];
+    $var['tanggal_periksa'] = [];
 
     foreach ($santri as $row) {
       $pemeriksaan = TbPemeriksaan::where('no_induk', $row->no_induk)->orderBy('id', 'desc');
@@ -202,12 +203,14 @@ class KesehatanController extends Controller
         $var['lingkar_pinggul'][$row->no_induk] = $hasil->lingkar_pinggul;
         $var['lingkar_dada'][$row->no_induk] = $hasil->lingkar_dada;
         $var['kondisi_gigi'][$row->no_induk] = $hasil->kondisi_gigi;
+        $var['tanggal_periksa'][$row->no_induk] = date('d-m-Y', $hasil->tanggal_periksa);
       } else {
         $var['berat_badan'][$row->no_induk] = 0;
         $var['tinggi_badan'][$row->no_induk] = 0;
         $var['lingkar_pinggul'][$row->no_induk] = 0;
         $var['lingkar_dada'][$row->no_induk] = 0;
         $var['kondisi_gigi'][$row->no_induk] = 0;
+        $var['tanggal_periksa'][$row->no_induk] = '';
       }
     }
     $title = 'Daftar Santri';
