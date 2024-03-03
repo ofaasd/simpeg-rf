@@ -32,6 +32,7 @@ use App\Http\Controllers\admin\AkuntansiController;
 use App\Http\Controllers\admin\UangMasukController;
 use App\Http\Controllers\admin\UangKeluarController;
 use App\Http\Controllers\admin\KesehatanController;
+use App\Http\Controllers\admin\AgendaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -90,6 +91,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('kesehatan/reload', [KesehatanController::class, 'reload']);
   Route::get('kesehatan/santri', [KesehatanController::class, 'santri']);
   Route::get('kesehatan/santri/{id}', [KesehatanController::class, 'get_santri']);
+
+  Route::post('agenda/reload', [AgendaController::class, 'reload']);
 
   Route::post('ustadz/kesehatan/reload', [UstKesehatanController::class, 'reload']);
   Route::get('ustadz/kesehatan/santri', [UstKesehatanController::class, 'santri']);
@@ -159,6 +162,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/profile', ProfileController::class);
   Route::resource('/murroby', AdminMurrobyController::class);
   Route::resource('/kesehatan', KesehatanController::class);
+  Route::resource('/agenda', AgendaController::class);
   Route::resource('/ustadz/kesehatan', UstKesehatanController::class);
 
   Route::resource('/psb', psb::class);

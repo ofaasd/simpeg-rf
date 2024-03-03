@@ -207,6 +207,12 @@
       ]
     },
     {
+      "url": "/agenda",
+      "icon": "menu-icon tf-icons mdi mdi-ticket",
+      "name": "Agenda",
+      "slug": "agenda"
+    },
+    {
       "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-printer",
       "name": "Cetak",
@@ -230,28 +236,6 @@
           "url": "/tbd",
           "name": "Laporan Absen",
           "slug": "cetak-laporan-absen"
-        }
-      ]
-    },
-    {
-      "url": "#",
-      "icon": "menu-icon tf-icons mdi mdi-ticket",
-      "name": "Kegiatan",
-      "slug": "kegiatan",
-      "badge": [
-        "danger",
-        "1"
-      ],
-      "submenu": [
-        {
-          "url": "/tbd",
-          "name": "Pengajuan Kegiatan",
-          "slug": "kegiatan-pengajuan"
-        },
-        {
-          "url": "/tbd",
-          "name": "Kontrol Anggaran",
-          "slug": "kegiatan-kontrol-anggaran"
         }
       ]
     },
