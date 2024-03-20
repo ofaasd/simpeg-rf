@@ -33,6 +33,7 @@ use App\Http\Controllers\admin\UangMasukController;
 use App\Http\Controllers\admin\UangKeluarController;
 use App\Http\Controllers\admin\KesehatanController;
 use App\Http\Controllers\admin\AgendaController;
+use App\Http\Controllers\admin\PembayaranController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -144,6 +145,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('/admin/uang_masuk/hapus', [UangMasukController::class, 'hapus']);
   Route::post('/admin/uang_keluar/hapus', [UangKeluarController::class, 'hapus']);
 
+  Route::post('/pembayaran/index', [PembayaranController::class, 'index']);
+  Route::get('/pembayaran/export', [PembayaranController::class, 'export']);
+
   Route::resource('/users', UserController::class);
   Route::resource('/user-list', UserManagement::class);
   Route::resource('/pegawai', Pegawai::class);
@@ -162,6 +166,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/profile', ProfileController::class);
   Route::resource('/murroby', AdminMurrobyController::class);
   Route::resource('/kesehatan', KesehatanController::class);
+  Route::resource('/pembayaran', PembayaranController::class);
   Route::resource('/agenda', AgendaController::class);
   Route::resource('/ustadz/kesehatan', UstKesehatanController::class);
 

@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Pembayaran;
 use App\Models\DetailPembayaran;
+use App\Models\RefJenisPembayaran;
+use App\Models\Kamar;
+use App\Models\EmployeeNew;
+use App\Models\Santri;
+use App\Models\Kelas;
 
 class PembayaranController extends Controller
 {
@@ -25,9 +30,62 @@ class PembayaranController extends Controller
     'Note',
     'Validasi',
   ];
-  public function index()
+  public $bulan = [
+    1 => 'Januari',
+    'Februari',
+    'Maret',
+    'April',
+    'Mei',
+    'Juni',
+    'Juli',
+    'Agustus',
+    'September',
+    'Oktober',
+    'November',
+    'Desember',
+  ];
+  public function index(Request $request)
   {
     //
+
+    $periode = (int) date('m');
+    $tahun = (int) date('Y');
+    $kelas = 0;
+    if (empty($request->periode)) {
+      $where = [
+        'periode' => $periode,
+        'tahun' => $tahun,
+        'is_hapus' => 0,
+      ];
+    } else {
+      $where = [
+        'periode' => $request->periode,
+        'tahun' => $request->tahun,
+        'kelas' => $request->kelas,
+        'is_hapus' => 0,
+      ];
+      $periode = $request->periode;
+    }
+    $kelas = Santri::select('kelas')
+      ->groupBy('kelas')
+      ->get();
+    $pembayaran = Pembayaran::where($where)
+      ->join('santri_detail', 'santri_detail.no_induk', '=', 'tb_pembayaran.nama_santri')
+      ->get();
+    $title = 'Pembayaran';
+    $kamar = Kamar::all();
+    $data['nama_murroby'] = [];
+    $data['bulan'] = $this->bulan;
+    $data['periode'] = $periode;
+    $data['tahun'] = $tahun;
+
+    foreach ($kamar as $row) {
+      // $data['nama_murroby'][$row->id] = $this->db
+      //   ->get_where('employee_new', ['id' => $row->employee_id])
+      //   ->row()->nama;
+      $data['nama_murroby'][$row->id] = EmployeeNew::find($row->employee_id)->nama;
+    }
+    return view('admin.pembayaran.index', compact('title', 'pembayaran', 'data', 'kelas'));
   }
 
   /**
@@ -150,5 +208,62 @@ class PembayaranController extends Controller
   public function destroy(string $id)
   {
     //
+  }
+  public function export(Request $request)
+  {
+    $periode = $request->periode;
+    $tahun = $request->tahun;
+    $kelas = $request->kelas;
+    $where = [
+      'periode' => $request->periode,
+      'tahun' => $request->tahun,
+      'kelas' => $request->kelas,
+      'is_hapus' => 0,
+    ];
+    $pembayaran = Pembayaran::select(
+      'tb_pembayaran.*',
+      'santri_detail.nama',
+      'santri_detail.no_induk',
+      'santri_detail.kelas',
+      'santri_detail.kamar_id'
+    )
+      ->where($where)
+      ->join('santri_detail', 'santri_detail.no_induk', '=', 'tb_pembayaran.nama_santri')
+      ->orderBy('no_induk')
+      ->get();
+    $data['jenis_pembayaran'] = RefJenisPembayaran::all();
+    $data['detail'] = [];
+    $id_sudah = [];
+    foreach ($pembayaran as $pem) {
+      $id_sudah[] = $pem->nama_santri;
+      foreach ($data['jenis_pembayaran'] as $jenis) {
+        $where = [
+          'id_pembayaran' => $pem->id,
+          'id_jenis_pembayaran' => $jenis->id,
+        ];
+        $detail = DetailPembayaran::where($where);
+        if ($detail->count() > 0) {
+          $data['detail'][$pem->id][$jenis->id] = $detail->first()->nominal;
+        } else {
+          $data['detail'][$pem->id][$jenis->id] = 0;
+        }
+      }
+    }
+    $data['sisa_santri'] = Santri::where('kelas', $request->kelas)
+      ->whereNotIn('no_induk', $id_sudah)
+      ->orderBy('no_induk')
+      ->get();
+    $kamar = Kamar::all();
+    $data['nama_murroby'] = [];
+    $data['bulan'] = $this->bulan;
+    $data['periode'] = $periode;
+    $data['tahun'] = $tahun;
+    foreach ($kamar as $row) {
+      // $data['nama_murroby'][$row->id] = $this->db
+      //   ->get_where('employee_new', ['id' => $row->employee_id])
+      //   ->row()->nama;
+      $data['nama_murroby'][$row->id] = EmployeeNew::find($row->employee_id)->nama;
+    }
+    return view('admin.pembayaran.export', compact('periode', 'tahun', 'kelas', 'data', 'pembayaran'));
   }
 }

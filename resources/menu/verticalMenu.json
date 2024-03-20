@@ -213,6 +213,12 @@
       "slug": "agenda"
     },
     {
+      "url": "/pembayaran",
+      "icon": "menu-icon tf-icons mdi mdi-cash",
+      "name": "Pembayaran",
+      "slug": "pembayaran"
+    },
+    {
       "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-printer",
       "name": "Cetak",
