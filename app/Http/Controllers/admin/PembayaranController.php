@@ -51,6 +51,7 @@ class PembayaranController extends Controller
     $periode = (int) date('m');
     $tahun = (int) date('Y');
     $kelas = 0;
+    $data['kelas'] = 0;
     if (empty($request->periode)) {
       $where = [
         'periode' => $periode,
@@ -65,6 +66,7 @@ class PembayaranController extends Controller
         'is_hapus' => 0,
       ];
       $periode = $request->periode;
+      $data['kelas'] = $request->kelas;
     }
     $kelas = Santri::select('kelas')
       ->groupBy('kelas')
@@ -258,6 +260,7 @@ class PembayaranController extends Controller
     $data['bulan'] = $this->bulan;
     $data['periode'] = $periode;
     $data['tahun'] = $tahun;
+
     foreach ($kamar as $row) {
       // $data['nama_murroby'][$row->id] = $this->db
       //   ->get_where('employee_new', ['id' => $row->employee_id])

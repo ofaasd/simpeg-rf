@@ -29,7 +29,7 @@
           <div class="form-floating form-floating-outline mb-4 col-md-4">
             <select name="kelas" id="kelas" class='form-control col-md-4'>
               @foreach($kelas as $row)
-                <option value="{{$row->kelas}}">{{$row->kelas}}</option>
+                <option value="{{$row->kelas}}" {{($data['kelas'] == $row->kelas)?'selected':''}}>{{$row->kelas}}</option>
               @endforeach
             </select>
             <label for="kelas">Kelas</label>
