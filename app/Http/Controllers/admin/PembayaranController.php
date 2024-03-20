@@ -70,6 +70,7 @@ class PembayaranController extends Controller
     }
     $kelas = Santri::select('kelas')
       ->groupBy('kelas')
+      ->orderBy('kelas')
       ->get();
     $pembayaran = Pembayaran::where($where)
       ->join('santri_detail', 'santri_detail.no_induk', '=', 'tb_pembayaran.nama_santri')
