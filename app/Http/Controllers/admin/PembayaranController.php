@@ -11,6 +11,8 @@ use App\Models\Kamar;
 use App\Models\EmployeeNew;
 use App\Models\Santri;
 use App\Models\Kelas;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PembayaranExport;
 
 class PembayaranController extends Controller
 {
@@ -214,60 +216,65 @@ class PembayaranController extends Controller
   }
   public function export(Request $request)
   {
-    $periode = $request->periode;
-    $tahun = $request->tahun;
-    $kelas = $request->kelas;
-    $where = [
-      'periode' => $request->periode,
-      'tahun' => $request->tahun,
-      'kelas' => $request->kelas,
-      'is_hapus' => 0,
-    ];
-    $pembayaran = Pembayaran::select(
-      'tb_pembayaran.*',
-      'santri_detail.nama',
-      'santri_detail.no_induk',
-      'santri_detail.kelas',
-      'santri_detail.kamar_id'
-    )
-      ->where($where)
-      ->join('santri_detail', 'santri_detail.no_induk', '=', 'tb_pembayaran.nama_santri')
-      ->orderBy('no_induk')
-      ->get();
-    $data['jenis_pembayaran'] = RefJenisPembayaran::all();
-    $data['detail'] = [];
-    $id_sudah = [];
-    foreach ($pembayaran as $pem) {
-      $id_sudah[] = $pem->nama_santri;
-      foreach ($data['jenis_pembayaran'] as $jenis) {
-        $where = [
-          'id_pembayaran' => $pem->id,
-          'id_jenis_pembayaran' => $jenis->id,
-        ];
-        $detail = DetailPembayaran::where($where);
-        if ($detail->count() > 0) {
-          $data['detail'][$pem->id][$jenis->id] = $detail->first()->nominal;
-        } else {
-          $data['detail'][$pem->id][$jenis->id] = 0;
-        }
-      }
-    }
-    $data['sisa_santri'] = Santri::where('kelas', $request->kelas)
-      ->whereNotIn('no_induk', $id_sudah)
-      ->orderBy('no_induk')
-      ->get();
-    $kamar = Kamar::all();
-    $data['nama_murroby'] = [];
-    $data['bulan'] = $this->bulan;
-    $data['periode'] = $periode;
-    $data['tahun'] = $tahun;
+    // $periode = $request->periode;
+    // $tahun = $request->tahun;
+    // $kelas = $request->kelas;
+    // $where = [
+    //   'periode' => $request->periode,
+    //   'tahun' => $request->tahun,
+    //   'kelas' => $request->kelas,
+    //   'is_hapus' => 0,
+    // ];
+    // $pembayaran = Pembayaran::select(
+    //   'tb_pembayaran.*',
+    //   'santri_detail.nama',
+    //   'santri_detail.no_induk',
+    //   'santri_detail.kelas',
+    //   'santri_detail.kamar_id'
+    // )
+    //   ->where($where)
+    //   ->join('santri_detail', 'santri_detail.no_induk', '=', 'tb_pembayaran.nama_santri')
+    //   ->orderBy('no_induk')
+    //   ->get();
+    // $data['jenis_pembayaran'] = RefJenisPembayaran::all();
+    // $data['detail'] = [];
+    // $id_sudah = [];
+    // foreach ($pembayaran as $pem) {
+    //   $id_sudah[] = $pem->nama_santri;
+    //   foreach ($data['jenis_pembayaran'] as $jenis) {
+    //     $where = [
+    //       'id_pembayaran' => $pem->id,
+    //       'id_jenis_pembayaran' => $jenis->id,
+    //     ];
+    //     $detail = DetailPembayaran::where($where);
+    //     if ($detail->count() > 0) {
+    //       $data['detail'][$pem->id][$jenis->id] = $detail->first()->nominal;
+    //     } else {
+    //       $data['detail'][$pem->id][$jenis->id] = 0;
+    //     }
+    //   }
+    // }
+    // $data['sisa_santri'] = Santri::where('kelas', $request->kelas)
+    //   ->whereNotIn('no_induk', $id_sudah)
+    //   ->orderBy('no_induk')
+    //   ->get();
+    // $kamar = Kamar::all();
+    // $data['nama_murroby'] = [];
+    // $data['bulan'] = $this->bulan;
+    // $data['periode'] = $periode;
+    // $data['tahun'] = $tahun;
 
-    foreach ($kamar as $row) {
-      // $data['nama_murroby'][$row->id] = $this->db
-      //   ->get_where('employee_new', ['id' => $row->employee_id])
-      //   ->row()->nama;
-      $data['nama_murroby'][$row->id] = EmployeeNew::find($row->employee_id)->nama;
-    }
-    return view('admin.pembayaran.export', compact('periode', 'tahun', 'kelas', 'data', 'pembayaran'));
+    // foreach ($kamar as $row) {
+    //   // $data['nama_murroby'][$row->id] = $this->db
+    //   //   ->get_where('employee_new', ['id' => $row->employee_id])
+    //   //   ->row()->nama;
+    //   $data['nama_murroby'][$row->id] = EmployeeNew::find($row->employee_id)->nama;
+    // }
+    // return view('admin.pembayaran.export', compact('periode', 'tahun', 'kelas', 'data', 'pembayaran'));
+
+    return Excel::download(
+      new PembayaranExport($request->tahun, $request->periode, $request->kelas),
+      'DataPembayaran' . $request->tahun . '-' . $request->periode . '-' . $request->kelas . '.xlsx'
+    );
   }
 }

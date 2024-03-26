@@ -10,14 +10,23 @@ use App\Models\Kamar;
 use App\Models\EmployeeNew;
 use App\Models\Santri;
 use App\Models\Kelas;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
 
-class PembayaranExport implements FromCollection
+class PembayaranExport implements FromView
 {
   /**
    * @return \Illuminate\Support\Collection
    */
 
-  public function view($tahun, $periode, $kelas): View
+  public function __construct(int $tahun, int $periode, string $kelas)
+  {
+    $this->tahun = $tahun;
+    $this->periode = $periode;
+    $this->kelas = $kelas;
+  }
+
+  public function view(): View
   {
     $periode = $this->periode;
     $tahun = $this->tahun;
@@ -57,13 +66,13 @@ class PembayaranExport implements FromCollection
         }
       }
     }
-    $data['sisa_santri'] = Santri::where('kelas', $this->kelas)
+    $data['sisa_santri'] = Santri::where('kelas', $kelas)
       ->whereNotIn('no_induk', $id_sudah)
       ->orderBy('no_induk')
       ->get();
     $kamar = Kamar::all();
     $data['nama_murroby'] = [];
-    $data['bulan'] = $this->bulan;
+    $data['bulan'] = $periode;
     $data['periode'] = $periode;
     $data['tahun'] = $tahun;
     foreach ($kamar as $row) {
