@@ -33,7 +33,7 @@
           @foreach($data['jenis_pembayaran'] as $jenis)
             <td data-format="RP#,##0_-">Rp{{number_format($data['detail'][$s->id][$jenis->id],0,".",",")}}</td>
           @endforeach
-          <td>Rp{{number_format($s->jumlah,0,".",",")}}</td>
+          <td data-format="RP#,##0_-">Rp{{number_format($s->jumlah,0,".",",")}}</td>
           <td bgcolor="#2ecc71">{{$s->validasi}}</td>
           <td>{{$periode}}</td>
           <td>{{$tahun}}</td>
@@ -51,7 +51,7 @@
         @foreach($data['jenis_pembayaran'] as $jenis)
           <td data-format="RP#,##0_-" bgcolor="#2ecc71" >Rp0</td>
         @endforeach
-        <td bgcolor="#2ecc71">Rp0</td>
+        <td data-format="RP#,##0_-" bgcolor="#2ecc71">Rp0</td>
         <td bgcolor="#2ecc71">0</td>
         <td>{{$periode}}</td>
         <td>{{$tahun}}</td>
