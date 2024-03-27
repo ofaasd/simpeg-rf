@@ -221,4 +221,16 @@ class PembayaranController extends Controller
       'DataPembayaran' . $request->tahun . '-' . $request->periode . '-' . $request->kelas . '.xlsx'
     );
   }
+  public function review(Request $request)
+  {
+    $hasil = json_decode($request->hasil, true);
+    $title = 'Pembayaran';
+    $data['bulan'] = $this->bulan;
+    $data['periode'] = $hasil[0]['bulan'];
+    $data['tahun'] = $hasil[0]['tahun'];
+    $data['kelas'] = $hasil[0]['kode_kelas'];
+    $data['jenis_pembayaran'] = RefJenisPembayaran::all();
+
+    return view('admin.pembayaran.review', compact('title', 'hasil', 'data'));
+  }
 }

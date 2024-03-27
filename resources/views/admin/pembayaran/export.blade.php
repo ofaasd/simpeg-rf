@@ -1,17 +1,19 @@
 <table class="table" id="table-laporan">
 
   <tr>
-      <td>ID Bayar</td>
-      <td>No. Induk</td>
-      <td>Nama Santri</td>
-      <td>Kode Kelas</td>
-      <td>Kode Murroby</td>
-      <td>Tanggal Bayar</td>
+      <td>id_bayar</td>
+      <td>no_induk</td>
+      <td>nama_santri</td>
+      <td>kode_kelas</td>
+      <td>kode_murroby</td>
+      <td>tanggal_bayar</td>
       @foreach($data['jenis_pembayaran'] as $jenis)
         <td>{{$jenis->jenis}}</td>
       @endforeach
-      <td>Total</td>
-      <td>Status</td>
+      <td>total</td>
+      <td>status</td>
+      <td>bulan</td>
+      <td>tahun</td>
   </tr>
 
   @php
@@ -29,10 +31,12 @@
           <td>{{$s->kamar_id}} ({{ ($s->kamar_id==0)?"":$data['nama_murroby'][$s->kamar_id]}})</td>
           <td>{{$s->tanggal_bayar}}</td>
           @foreach($data['jenis_pembayaran'] as $jenis)
-            <td>{{$data['detail'][$s->id][$jenis->id]}}</td>
+            <td data-format="RP#,##0_-">Rp{{number_format($data['detail'][$s->id][$jenis->id],0,".",",")}}</td>
           @endforeach
-          <td>Rp.  {{number_format($s->jumlah, 0, ',', '.')}}</td>
-          <td>{{$s->validasi}}</td>
+          <td>Rp{{number_format($s->jumlah,0,".",",")}}</td>
+          <td bgcolor="#2ecc71">{{$s->validasi}}</td>
+          <td>{{$periode}}</td>
+          <td>{{$tahun}}</td>
       </tr>
     @php $i++; @endphp
   @endforeach
@@ -45,10 +49,12 @@
         <td>{{$s->kamar_id}} ({{ ($s->kamar_id==0)?"":$data['nama_murroby'][$s->kamar_id]}})</td>
         <td></td>
         @foreach($data['jenis_pembayaran'] as $jenis)
-          <td>0</td>
+          <td data-format="RP#,##0_-" bgcolor="#2ecc71" >Rp0</td>
         @endforeach
-        <td>Rp.  0</td>
-        <td>0</td>
+        <td bgcolor="#2ecc71">Rp0</td>
+        <td bgcolor="#2ecc71">0</td>
+        <td>{{$periode}}</td>
+        <td>{{$tahun}}</td>
     </tr>
     @endforeach
 </table>

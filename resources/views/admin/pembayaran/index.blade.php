@@ -54,7 +54,7 @@
     <div class="col-md-12" style="padding:20px;">
       <a href="#" id="filter_btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filter">Filter</a>
       <a href="#" id="export_btn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#filter">Export</a>
-      <a href="#" id="import_btn" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#import">Import</a>
+      <!--<a href="#" id="import_btn" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#import">Import</a>-->
       <div class="modal fade" id="filter" tabindex="-1" aria-labelledby="filterLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -97,18 +97,26 @@
       <div class="modal fade" id="import" tabindex="-1" aria-labelledby="importLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
-            <form method="GET" action='{{URL::to('/pembayaran')}}'>
+            <form method="POST" action='{{URL::to('/pembayaran/review')}}'>
               <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Filter</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
+                <div class="form-floating form-floating-outline mb-4 col-md-6">
+                  <select name="kelas" id="kelas" class='form-control'>
+                    @foreach($kelas as $row)
+                      <option value="{{$row->kelas}}" {{($data['kelas'] == $row->kelas)?'selected':''}}>{{$row->kelas}}</option>
+                    @endforeach
+                  </select>
+                  <label for="kelas">Kelas</label>
+                </div>
                 <div class="form-floating form-floating-outline mb-4 col-md-12">
                   <input type="file" id="input_file" name="upload" class="form-control">
                   <label for="upload">File Upload</label>
                 </div>
                 <div class="form-floating form-floating-outline mb-4 col-md-12">
-                  <textarea name="hasil" id="xlx_json" class="form-control"></textarea>
+                  <textarea name="hasil" id="xlx_json" class="form-control" readonly></textarea>
                   <label for="hasil">Hasil</label>
                 </div>
 
@@ -125,7 +133,7 @@
       <br />
       @if(!empty($data))
 
-          <h2 style='text-align:center; margin-top:40px;'>Syahriyah {{ $data['bulan'][$data['periode']] }} {{ $data['tahun'] }}</h2>
+          <h2 style='text-align:center; margin-top:40px;'>Laporan Pembayaran {{ $data['bulan'][$data['periode']] }} {{ $data['tahun'] }}</h2>
               <table class="table" id="table-laporan">
                   <thead>
                       <tr>
