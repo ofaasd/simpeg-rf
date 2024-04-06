@@ -2,8 +2,13 @@
 $configData = Helper::appClasses();
 @endphp
 
+@section('vendor-style')
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/spinkit/spinkit.css')}}" />
+@endsection
+
 @section('vendor-script')
 <script src="{{asset('assets/vendor/libs/chartjs/chartjs.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/block-ui/block-ui.js')}}"></script>
 @endsection
 
 @section('page-script')
@@ -149,7 +154,7 @@ $configData = Helper::appClasses();
     </div>
   </div>
   <!-- Bar Charts -->
-  <div class="col-xl-8 col-12 mb-4">
+  <div class="col-lg-8 col-12 mb-4">
     <div class="card">
       <div class="card-header header-elements">
         <h5 class="card-title mb-0">Statistik Pendaftar PSB</h5>
@@ -163,6 +168,38 @@ $configData = Helper::appClasses();
       </div>
       <div class="card-body">
         <canvas id="barChart2" class="chartjs" ></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-12 mb-4">
+    <div class="card" id="card-block">
+      <div class="card-header header-elements">
+        <h5 class="card-title mb-0">Statistik Target Pembayaran</h5>
+          <div class="row g-3 align-items-center" style="margin-top:10px">
+            <div class="col-auto">
+              <select name="bulan_target" id="bulan_target" class="form-control">
+                @foreach($list_bulan as $key=>$bulan)
+                <option value="{{$key}}" {{ ($key == (int)date('m')) ? "selected" : ""}}>{{$bulan}}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="col-auto">
+              <select name="tahun_target" id="tahun_target" class="form-control">
+                @for($i=date('Y');$i>=date('Y')-5; $i--)
+                <option value="{{$i}}">{{$i}}</option>
+                @endfor
+              </select>
+            </div>
+            <div class="col-auto">
+              <select name="kelas_target" id="kelas_target" class="form-control">
+                @foreach($kelas as $row)
+                <option value="{{$row->kelas}}">{{$row->kelas}}</option>
+                @endforeach
+              </select>
+            </div>
+      </div>
+      <div class="card-body">
+        <canvas id="doughnutCharts" class="chartjs mb-4" style="width:100%!important"></canvas>
       </div>
     </div>
   </div>
@@ -183,11 +220,22 @@ $configData = Helper::appClasses();
 
   document.addEventListener("DOMContentLoaded", function(event) {
     get_jumlah_psb();
+    get_target();
     $("#tahun_psb").change(function(){
       get_jumlah_psb();
+
+    });
+    $('#bulan_target').change(function(){
+      get_target();
+    });
+    $('#tahun_target').change(function(){
+      get_target();
+    });
+    $('#kelas_target').change(function(){
+      get_target();
     });
   });
-  function get_jumlah_psb(){
+  const get_jumlah_psb = () => {
     $.ajax({
       url: ''.concat(baseUrl).concat('get_jumlah_psb'),
       method: 'POST',
@@ -263,5 +311,69 @@ $configData = Helper::appClasses();
       }
     });
   }
+  const get_target = () => {
+    $('#card-block').block({
+      message:
+        '<div class="d-flex justify-content-center"><p class="mb-0">Tunggu Sebentar</p> <div class="sk-wave m-0"><div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div></div> </div>',
+      css: {
+        backgroundColor: 'transparent',
+        color: '#fff',
+        border: '0'
+      },
+      overlayCSS: {
+        opacity: 0.5
+      }
+    });
+    $.ajax({
+      url: ''.concat(baseUrl).concat('get_target'),
+      method: 'POST',
+      data: { bulan: $('#bulan_target').val(),tahun: $('#tahun_target').val(),kelas:$('#kelas_target').val() },
+      success: function (data) {
+        const chartStatus = Chart.getChart("doughnutCharts");
+        if (chartStatus != undefined) {
+          chartStatus.destroy();
+        }
+        const doughnutChart = document.getElementById('doughnutCharts');
+        const doughnutChartVar = new Chart(doughnutChart, {
+          type: 'doughnut',
+          data: {
+            labels: data[0],
+            datasets: [
+              {
+                data: data[1],
+                backgroundColor: [cyanColor, orangeLightColor, config.colors.primary],
+                borderWidth: 0,
+                pointStyle: 'rectRounded'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            animation: {
+              duration: 500
+            },
+            cutout: '68%',
+            plugins: {
+              legend: {
+                display: true
+              },
+              tooltip: {
+
+                // Updated default tooltip UI
+                rtl: isRtl,
+                backgroundColor: cardColor,
+                titleColor: headingColor,
+                bodyColor: legendColor,
+                borderWidth: 1,
+                borderColor: borderColor
+              }
+            }
+          }
+        });
+        $('#card-block').unblock();
+      }
+    });
+  }
+
 </script>
 @endsection

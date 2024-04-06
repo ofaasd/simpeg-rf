@@ -133,6 +133,68 @@
     });
   }
 
+  const doughnutChart2 = document.getElementById('doughnutChart2');
+  if (doughnutChart2) {
+    $.ajax({
+      url: ''.concat(baseUrl).concat('get_target'),
+      method: 'POST',
+      data: { tahun: $('#tahun_target').val(), bulan: $('#bulan_target').val(), kelas: $('#kelas_target').val() },
+      success: function (data) {
+        console.log(data);
+      }
+    });
+  }
+
+  // Doughnut Chart
+  // --------------------------------------------------------------------
+
+  const doughnutChart = document.getElementById('doughnutChart');
+  if (doughnutChart) {
+    const doughnutChartVar = new Chart(doughnutChart, {
+      type: 'doughnut',
+      data: {
+        labels: ['Tablet', 'Mobile', 'Desktop'],
+        datasets: [
+          {
+            data: [10, 10, 80],
+            backgroundColor: [cyanColor, orangeLightColor, config.colors.primary],
+            borderWidth: 0,
+            pointStyle: 'rectRounded'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        animation: {
+          duration: 500
+        },
+        cutout: '68%',
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                const label = context.labels || '',
+                  value = context.parsed;
+                const output = ' ' + label + ' : ' + value + ' %';
+                return output;
+              }
+            },
+            // Updated default tooltip UI
+            rtl: isRtl,
+            backgroundColor: cardColor,
+            titleColor: headingColor,
+            bodyColor: legendColor,
+            borderWidth: 1,
+            borderColor: borderColor
+          }
+        }
+      }
+    });
+  }
+
   // Horizontal Bar Chart
   // --------------------------------------------------------------------
 
@@ -805,56 +867,6 @@
               stepSize: 100,
               color: labelColor
             }
-          }
-        }
-      }
-    });
-  }
-
-  // Doughnut Chart
-  // --------------------------------------------------------------------
-
-  const doughnutChart = document.getElementById('doughnutChart');
-  if (doughnutChart) {
-    const doughnutChartVar = new Chart(doughnutChart, {
-      type: 'doughnut',
-      data: {
-        labels: ['Tablet', 'Mobile', 'Desktop'],
-        datasets: [
-          {
-            data: [10, 10, 80],
-            backgroundColor: [cyanColor, orangeLightColor, config.colors.primary],
-            borderWidth: 0,
-            pointStyle: 'rectRounded'
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        animation: {
-          duration: 500
-        },
-        cutout: '68%',
-        plugins: {
-          legend: {
-            display: false
-          },
-          tooltip: {
-            callbacks: {
-              label: function (context) {
-                const label = context.labels || '',
-                  value = context.parsed;
-                const output = ' ' + label + ' : ' + value + ' %';
-                return output;
-              }
-            },
-            // Updated default tooltip UI
-            rtl: isRtl,
-            backgroundColor: cardColor,
-            titleColor: headingColor,
-            bodyColor: legendColor,
-            borderWidth: 1,
-            borderColor: borderColor
           }
         }
       }

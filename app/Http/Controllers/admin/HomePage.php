@@ -13,6 +13,7 @@ use App\Models\Santri;
 use App\Models\EmployeeNew;
 //pembayaran
 use App\Models\Pembayaran;
+use App\Models\DetailPembayaran;
 //jumlah_belum_bayar
 use DB;
 
@@ -115,9 +116,15 @@ class HomePage extends Controller
       $jumlah_pembayaran_lalu = $bayar_lalu;
     }
 
+    $kelas = Santri::select('kelas')
+      ->groupBy('kelas')
+      ->orderBy('kelas')
+      ->get();
+
     return view(
       'content.pages.pages-home',
       compact(
+        'kelas',
         'list_bulan',
         'jumlah_psb_baru',
         'jumlah_psb_laki',
@@ -162,6 +169,35 @@ class HomePage extends Controller
     }
     $hasil[0] = array_values($bulan);
     $hasil[1] = array_values($jumlah);
+    return response()->json($hasil);
+  }
+  public function get_target(Request $request)
+  {
+    $total_santri = 0;
+    $sudah_bayar = 0;
+
+    $bulan = $request->bulan;
+    $tahun = $request->tahun;
+    $kelas = $request->kelas;
+
+    $siswa = Santri::where('kelas', $kelas)->get();
+    foreach ($siswa as $row) {
+      $total_santri++;
+      $pembayaran = Pembayaran::where(['periode' => $bulan, 'tahun' => $tahun, 'nama_santri' => $row->no_induk]);
+      if ($pembayaran->count() > 0) {
+        foreach ($pembayaran->get() as $pem) {
+          $detail = DetailPembayaran::where('id_pembayaran', $pem->id)
+            ->where('id_jenis_pembayaran', 1)
+            ->count();
+          if ($detail > 0) {
+            $sudah_bayar++;
+          }
+        }
+      }
+    }
+    $belum_bayar = $total_santri - $sudah_bayar;
+    $hasil[0] = ['Belum Lapor', 'Sudah Lapor'];
+    $hasil[1] = [$belum_bayar, $sudah_bayar];
     return response()->json($hasil);
   }
 }
