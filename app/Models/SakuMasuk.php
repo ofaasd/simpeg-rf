@@ -35,7 +35,7 @@ class SakuMasuk extends Model
     'jumlah' => 'int',
   ];
 
-  protected $fillable = ['dari', 'jumlah', 'tanggal', 'no_induk'];
+  protected $fillable = ['dari', 'jumlah', 'tanggal', 'no_induk', 'id_pembayaran'];
 
   public function santri(): BelongsTo
   {

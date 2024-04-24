@@ -9,10 +9,15 @@ class DetailPembayaran extends Model
 {
   use HasFactory;
   protected $table = 'tb_detail_pembayaran';
-  protected $dateFormat = 'U';
 
   public function tb_saku_keluar()
   {
     return $this->belongsTo(Pembayaran::class, 'id_pembayaran');
   }
+
+  protected $fillable = [
+		'id_pembayaran',
+    'id_jenis_pembayaran',
+    'nominal',
+	];
 }

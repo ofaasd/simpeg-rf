@@ -149,6 +149,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('/pembayaran/index', [PembayaranController::class, 'index']);
   Route::get('/pembayaran/export', [PembayaranController::class, 'export']);
   Route::post('/pembayaran/review', [PembayaranController::class, 'review']);
+  Route::post('/pembayaran/detail_bayar', [PembayaranController::class, 'detail_bayar']);
+  Route::post('/pembayaran/update_status', [PembayaranController::class, 'update_status']);
 
   Route::resource('/users', UserController::class);
   Route::resource('/user-list', UserManagement::class);

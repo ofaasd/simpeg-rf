@@ -11,8 +11,13 @@ use App\Models\Kamar;
 use App\Models\EmployeeNew;
 use App\Models\Santri;
 use App\Models\Kelas;
+use App\Models\SakuMasuk;
+use App\Models\UangSaku;
+use App\Models\RefBank as Bank;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PembayaranExport;
+use App\Helpers\Helpers_wa;
+use Intervention\Image\Facades\Image;
 
 class PembayaranController extends Controller
 {
@@ -74,7 +79,14 @@ class PembayaranController extends Controller
       ->groupBy('kelas')
       ->orderBy('kelas')
       ->get();
-    $pembayaran = Pembayaran::where($where)
+    $pembayaran = Pembayaran::select(
+      'tb_pembayaran.*',
+      'santri_detail.nama',
+      'santri_detail.no_induk',
+      'santri_detail.kelas',
+      'santri_detail.kamar_id'
+    )
+      ->where($where)
       ->join('santri_detail', 'santri_detail.no_induk', '=', 'tb_pembayaran.nama_santri')
       ->get();
     $title = 'Pembayaran';
@@ -99,6 +111,13 @@ class PembayaranController extends Controller
   public function create()
   {
     //
+
+    $title = "Tambah Pembayaran";
+    $santri = Santri::all();
+    $list_bulan = $this->bulan;
+    $ref_bank = Bank::all();
+    $jenis_pembayaran = RefJenisPembayaran::all();
+    return view('admin.pembayaran.create', compact('title', 'santri','list_bulan','ref_bank','jenis_pembayaran'));
   }
 
   /**
@@ -107,80 +126,176 @@ class PembayaranController extends Controller
   public function store(Request $request)
   {
     //
-    if (empty($request->input('length'))) {
-      $academic = academic::all();
-      $title = 'Academic';
-      $indexed = $this->indexed;
-      return view('admin.academic.index', compact('title', 'indexed'));
-    } else {
-      $columns = [
-        1 => 'id',
-        2 => 'name',
-        3 => 'description',
-      ];
 
-      $search = [];
+    $jumlah = str_replace(".", "", $request->jumlah);
+    $tipe = $request->tipe;
+    $bank_pengirim = 0;
+    if($tipe == "Bank")
+      $bank_pengirim = $request->bank_pengirim;
 
-      $totalData = Academic::count();
+    $id = $request->id;
+    if($id){
+      //update the value
 
-      $totalFiltered = $totalData;
+      $pembayaran = Pembayaran::updateOrCreate(
+        ['id' => $id],
+        [
+          'nama_santri' => $request->nama_santri,
+          'jumlah' => $jumlah,
+          'tanggal_bayar' => $request->tanggal_bayar,
+          'periode' => $request->periode,
+          'tahun' => $request->tahun,
+          'bank_pengirim' => $bank_pengirim,
+          'atas_nama' => $request->atas_nama,
+          'catatan' => $request->catatan,
+          'no_wa' => $request->no_wa,
+          'validasi' => $request->validasi,
+          'note_validasi' => $request->note_validasi,
+          'tipe' => $tipe,
+          'input_by' => 4,
+        ]
 
-      $limit = $request->input('length');
-      $start = $request->input('start');
-      $order = $columns[$request->input('order.0.column')];
-      $dir = $request->input('order.0.dir');
+      );
 
-      if (empty($request->input('search.value'))) {
-        $academic = Academic::offset($start)
-          ->limit($limit)
-          ->orderBy($order, $dir)
-          ->get();
-      } else {
-        $search = $request->input('search.value');
-
-        $academic = Academic::where('id', 'LIKE', "%{$search}%")
-          ->orWhere('name', 'LIKE', "%{$search}%")
-          ->offset($start)
-          ->limit($limit)
-          ->orderBy($order, $dir)
-          ->get();
-
-        $totalFiltered = Academic::where('id', 'LIKE', "%{$search}%")
-          ->orWhere('name', 'LIKE', "%{$search}%")
-          ->count();
-      }
-
-      $data = [];
-
-      if (!empty($academic)) {
-        // providing a dummy id instead of database ids
-        $ids = $start;
-
-        foreach ($academic as $row) {
-          $nestedData['id'] = $row->id;
-          $nestedData['fake_id'] = ++$ids;
-          $nestedData['name'] = $row->name;
-          $nestedData['description'] = $row->description;
-          $data[] = $nestedData;
+      if ($request->file('bukti')) {
+        $photo = $request->file('bukti');
+        $filename = date('YmdHi') . $photo->getClientOriginalName();
+        $kompres = Image::make($photo)
+          ->resize(400, 400)
+          ->save('assets/img/upload/bukti/' . $filename);
+        if ($kompres) {
+          //$file = $request->file->store('public/assets/img/upload/photo');
+          $Pembayaran = Pembayaran::find($id);
+          $Pembayaran->bukti = $filename;
+          $Pembayaran->save();
         }
       }
 
-      if ($data) {
-        return response()->json([
-          'draw' => intval($request->input('draw')),
-          'recordsTotal' => intval($totalData),
-          'recordsFiltered' => intval($totalFiltered),
-          'code' => 200,
-          'data' => $data,
-        ]);
-      } else {
-        return response()->json([
-          'message' => 'Internal Server Error',
-          'code' => 500,
-          'data' => [],
-        ]);
+      $delete_jenis = DetailPembayaran::where('id_pembayaran',$id)->delete();
+
+      $jenis_pembayaran = $request->jenis_pembayaran;
+      $id_jenis_pembayaran = $request->id_jenis_pembayaran;
+      foreach($jenis_pembayaran as $key=>$value){
+        if($value != 0 && !empty($value)){
+          $nominal = str_replace(".", "", $value);
+          $data_detail = array(
+              'id_pembayaran'=>$id,
+              'id_jenis_pembayaran' => $id_jenis_pembayaran[$key],
+              'nominal' => $nominal,
+          );
+          //$query = $this->db->insert('tb_detail_pembayaran',$data_detail);
+          $detail = DetailPembayaran::create($data_detail);
+
+          $saku_masuk = SakuMasuk::where('id_pembayaran',$id);
+          $uang_saku = UangSaku::where('no_induk',$request->nama_santri)->first();
+          if($id_jenis_pembayaran[$key] == 3 && $request->validasi == 1 && $saku_masuk->count() > 0){
+            $old_saku_masuk = $saku_masuk->first()->jumlah;
+
+            $data = array(
+              'dari' => 1,
+              'jumlah' => $nominal,
+              'tanggal' => $request->tanggal_bayar,
+              'no_induk' => $request->nama_santri,
+            );
+            $update_saku_masuk = SakuMasuk::where('id_pembayaran',$id)->update($data);
+            $data2 = array(
+              'jumlah' => $uang_saku->jumlah - $old_saku_masuk + $nominal
+            );
+            $update_tb_uang_saku = UangSaku::where('no_induk',$request->nama_santri)->update($data2);
+          }
+        }
+      }
+      $get_kelas = Santri::where('no_induk',$request->nama_santri)->first();
+      $hasil = [
+        'status' => 1,
+        'kelas' => $get_kelas->kelas,
+        'periode' => $request->periode,
+        'tahun' => $request->tahun,
+      ];
+      return response()->json($hasil);
+    }else{
+
+      //create new record
+      $pembayaran = Pembayaran::updateOrCreate(
+        ['id' => $id],
+        [
+          'nama_santri' => $request->nama_santri,
+          'jumlah' => $jumlah,
+          'tanggal_bayar' => $request->tanggal_bayar,
+          'periode' => $request->periode,
+          'tahun' => $request->tahun,
+          'bank_pengirim' => $bank_pengirim,
+          'atas_nama' => $request->atas_nama,
+          'catatan' => $request->catatan,
+          'no_wa' => $request->no_wa,
+          'validasi' => $request->validasi,
+          'note_validasi' => $request->note_validasi,
+          'tipe' => $tipe,
+          'input_by' => 4,
+        ]
+
+      );
+      $id = Pembayaran::orderBy('id','desc')->limit(1)->first()->id;
+      if ($request->file('bukti')) {
+        $photo = $request->file('bukti');
+        $filename = date('YmdHi') . $photo->getClientOriginalName();
+        $kompres = Image::make($photo)
+          ->resize(400, 400)
+          ->save('assets/img/upload/bukti/' . $filename);
+        if ($kompres) {
+          //$file = $request->file->store('public/assets/img/upload/photo');
+          $Pembayaran = Pembayaran::find($id);
+          $Pembayaran->bukti = $filename;
+          $Pembayaran->save();
+        }
+      }
+
+      $jenis_pembayaran = $request->jenis_pembayaran;
+      $id_jenis_pembayaran = $request->id_jenis_pembayaran;
+      foreach($jenis_pembayaran as $key=>$value){
+        if($value != 0 && !empty($value)){
+          $nominal = str_replace(".", "", $value);
+          $data_detail = array(
+              'id_pembayaran'=>$id,
+              'id_jenis_pembayaran' => $id_jenis_pembayaran[$key],
+              'nominal' => $nominal,
+          );
+          //$query = $this->db->insert('tb_detail_pembayaran',$data_detail);
+          $detail = DetailPembayaran::create($data_detail);
+
+          $uang_saku = UangSaku::where('no_induk',$request->nama_santri)->first();
+          if($id_jenis_pembayaran[$key] == 3 && $request->validasi == 1){
+
+            $data = array(
+              'dari' => 1,
+              'jumlah' => $nominal,
+              'tanggal' => $request->tanggal_bayar,
+              'no_induk' => $request->nama_santri,
+              'id_pembayaran' => $id
+            );
+            $update_saku_masuk = SakuMasuk::create($data);
+            $data2 = array(
+              'jumlah' => $uang_saku->jumlah + $nominal
+            );
+            $update_tb_uang_saku = UangSaku::where('no_induk',$request->nama_santri)->update($data2);
+          }
+        }
+      }
+      if($pembayaran){
+        $get_kelas = Santri::where('no_induk',$request->nama_santri)->first();
+        $hasil = [
+          'status' => 1,
+          'kelas' => $get_kelas->kelas,
+          'periode' => $request->periode,
+          'tahun' => $request->tahun,
+          'id_pembayaran' => $pembayaran->id,
+        ];
+        return response()->json($hasil);
+      }else{
+        return response()->json('Error');
       }
     }
+
   }
 
   /**
@@ -197,6 +312,22 @@ class PembayaranController extends Controller
   public function edit(string $id)
   {
     //
+    $title = "Edit Pembayaran";
+    $santri = Santri::all();
+    $list_bulan = $this->bulan;
+    $ref_bank = Bank::all();
+    $jenis_pembayaran = RefJenisPembayaran::all();
+    $pembayaran = Pembayaran::where('id',$id)->first();
+    $detailPembayaran = DetailPembayaran::where('id_pembayaran',$id)->get();
+    $list_detail = [];
+    foreach($jenis_pembayaran as $jenis){
+      $list_detail[$jenis->id] = 0;
+    }
+    foreach($detailPembayaran as $row){
+      $list_detail[$row->id_jenis_pembayaran] = number_format($row->nominal,0,',','.');
+    }
+    $curr_santri = Santri::where('no_induk',$pembayaran->nama_santri)->first();
+    return view('admin.pembayaran.create', compact('title', 'santri','list_bulan','ref_bank','jenis_pembayaran','pembayaran','list_detail','curr_santri'));
   }
 
   /**
@@ -213,6 +344,9 @@ class PembayaranController extends Controller
   public function destroy(string $id)
   {
     //
+    $pembayaran = Pembayaran::where('id', $id)->delete();
+    $detail = DetailPembayaran::where('id_pembayaran', $id)->delete();
+
   }
   public function export(Request $request)
   {
@@ -232,5 +366,45 @@ class PembayaranController extends Controller
     $data['jenis_pembayaran'] = RefJenisPembayaran::all();
 
     return view('admin.pembayaran.review', compact('title', 'hasil', 'data'));
+  }
+  public function detail_bayar(Request $request)
+  {
+    $id = $request->id;
+    $pembayaran = Pembayaran::select(
+      'tb_pembayaran.*',
+      'santri_detail.nama',
+      'santri_detail.no_induk',
+      'santri_detail.kelas',
+      'santri_detail.kamar_id',
+      'employee_new.nama as nama_murroby'
+      )->join('santri_detail', 'santri_detail.no_induk', '=', 'tb_pembayaran.nama_santri')
+      ->join('ref_kamar','ref_kamar.id','=','santri_detail.kamar_id')
+      ->join('employee_new','employee_new.id','=','ref_kamar.employee_id')
+      ->where('tb_pembayaran.id', $id)
+      ->first();
+    $detail_pembayaran = DetailPembayaran::where('id_pembayaran', $id)->get();
+    $gabung = [];
+    $gabung[0] = $pembayaran;
+    $get_detail = [];
+    foreach ($detail_pembayaran as $row) {
+      $jenis = RefJenisPembayaran::where('id', $row->id_jenis_pembayaran)->first();
+      $get_detail[$jenis->jenis] = number_format($row->nominal, 0, ',', '.');
+    }
+    $gabung[1] = $get_detail;
+    return json_encode($gabung);
+  }
+  public function update_status(Request $request){
+    $id = $request->id;
+    $status = $request->status;
+    $data = [
+      'validasi' => $status,
+    ];
+    $update = Pembayaran::where('id',$id)->update($data);
+    if( $update){
+      $hasil = [
+        'status' => 1,
+      ];
+      return response()->json($hasil);
+    }
   }
 }

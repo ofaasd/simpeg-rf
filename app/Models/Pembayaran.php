@@ -9,5 +9,20 @@ class Pembayaran extends Model
 {
   use HasFactory;
   protected $table = 'tb_pembayaran';
-  protected $dateFormat = 'U';
+
+  protected $fillable = [
+		'nama_santri',
+    'jumlah',
+    'tanggal_bayar',
+    'periode',
+    'tahun' ,
+    'bank_pengirim',
+    'atas_nama',
+    'catatan',
+    'no_wa',
+    'validasi',
+    'note_validasi',
+    'tipe',
+    'input_by',
+	];
 }
