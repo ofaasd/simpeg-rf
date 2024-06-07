@@ -10,6 +10,7 @@ use App\Models\Pembayaran;
 use App\Models\DetailPembayaran;
 use App\Models\Kamar;
 use App\Models\EmployeeNew;
+use PhpParser\Node\Expr\Isset_;
 
 class LaporanController extends Controller
 {
@@ -45,7 +46,9 @@ class LaporanController extends Controller
       foreach ($pembayaran as $row) {
         $detailPembayaran = DetailPembayaran::where('id_pembayaran', $row->id)->get();
         foreach ($detailPembayaran as $detail) {
-          $santri[$row->nama_santri][$detail->id_jenis_pembayaran] += $detail->nominal;
+          if(isset($detail->id_jenis_pembayaran)){
+            $santri[$row->nama_santri][$detail->id_jenis_pembayaran] += $detail->nominal;
+          }
         }
       }
       // var_dump($santri[5]);

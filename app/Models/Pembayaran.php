@@ -11,11 +11,11 @@ class Pembayaran extends Model
   protected $table = 'tb_pembayaran';
 
   protected $fillable = [
-		'nama_santri',
+    'nama_santri',
     'jumlah',
     'tanggal_bayar',
     'periode',
-    'tahun' ,
+    'tahun',
     'bank_pengirim',
     'atas_nama',
     'catatan',
@@ -24,5 +24,6 @@ class Pembayaran extends Model
     'note_validasi',
     'tipe',
     'input_by',
-	];
+    'created_at',
+  ];
 }

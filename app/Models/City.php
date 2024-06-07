@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class City
- * 
+ *
  * @property int $city_id
  * @property string|null $city_name
  * @property int|null $prov_id
@@ -19,16 +19,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class City extends Model
 {
-	protected $table = 'cities';
-	protected $primaryKey = 'city_id';
-	public $timestamps = false;
+  protected $table = 'cities';
+  protected $primaryKey = 'city_id';
+  public $timestamps = false;
 
-	protected $casts = [
-		'prov_id' => 'int'
-	];
+  protected $casts = [
+    'prov_id' => 'int',
+  ];
 
-	protected $fillable = [
-		'city_name',
-		'prov_id'
-	];
+  protected $fillable = ['city_name', 'prov_id'];
 }

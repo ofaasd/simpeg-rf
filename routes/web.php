@@ -34,6 +34,11 @@ use App\Http\Controllers\admin\UangKeluarController;
 use App\Http\Controllers\admin\KesehatanController;
 use App\Http\Controllers\admin\AgendaController;
 use App\Http\Controllers\admin\PembayaranController;
+use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\NewMenuController;
+use App\Models\Kategori;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,6 +56,17 @@ $controller_path = 'App\Http\Controllers';
 
 Route::get('/page-2', $controller_path . '\pages\Page2@index')->name('pages-page-2');
 
+Route::get('/poto', $controller_path . '\BeritaController@poto')->name('poto');
+
+Route::get('/statistika', $controller_path . '\statistika@index')->name('statistika');
+Route::post('/getJumlahPsb', $controller_path . '\statistika@getJumlahPsb');
+Route::post('/getTarget', $controller_path . '\statistika@getTarget');
+Route::post('/getPembayaran', $controller_path . '\statistika@getStatistikPembayaran');
+Route::get('/get_kota_santri', $controller_path . '\statistika@get_kota_santri');
+Route::get('/get_isi_kamar_santri', $controller_path . '\statistika@get_isi_kamar_santri');
+Route::get('/pembayaranBulanIni', $controller_path . '\statistika@getPembayaranBulanINi');
+
+Route::get('/dashboard', $controller_path . '\admin\HomePage@index')->name('pages-home');
 // pages
 Route::get('/pages/misc-error', $controller_path . '\pages\MiscError@index')->name('pages-misc-error');
 
@@ -95,6 +111,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::get('kesehatan/santri/{id}', [KesehatanController::class, 'get_santri']);
 
   Route::post('agenda/reload', [AgendaController::class, 'reload']);
+  Route::post('kategori-berita/reload', [KategoriController::class, 'reload']);
+  Route::get('post-berita/reload', [BeritaController::class, 'reload']);
 
   Route::post('ustadz/kesehatan/reload', [UstKesehatanController::class, 'reload']);
   Route::get('ustadz/kesehatan/santri', [UstKesehatanController::class, 'santri']);
@@ -173,6 +191,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/pembayaran', PembayaranController::class);
   Route::resource('/agenda', AgendaController::class);
   Route::resource('/ustadz/kesehatan', UstKesehatanController::class);
+  Route::resource('/kategori-berita', KategoriController::class);
+  Route::resource('/post-berita', BeritaController::class);
 
   Route::resource('/psb', psb::class);
   Route::resource('/gelombang', $controller_path . '\admin\GelombangController');
@@ -185,4 +205,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/detail_ketahfidzan', AdminDetailTahfidzController::class);
   Route::resource('/ustadz/saku_masuk', SakuMasukController::class);
   Route::resource('/ustadz/saku_keluar', SakuKeluarController::class);
+
+  Route::resource('/new-menu', NewMenuController::class);
 });

@@ -166,6 +166,7 @@ class AgendaController extends Controller
     //
     $agenda = Agenda::where('id', $id)->delete();
   }
+
   public function reload(Request $request)
   {
     $title = 'Agenda';

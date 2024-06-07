@@ -462,8 +462,7 @@ class psb extends Controller
       $user->password_ori = $password;
       if ($user->save()) {
         //kirim pesan wa disini
-        $pesan =
-          '*Pesan ini dikirim dari sistem*
+        $pesan ='*Pesan ini dikirim dari sistem*
 
 Selamat anda sudah terdaftar pada web Penerimaan Peserta Didik Baru PPATQ Radlatul Falah Pati
 Silahkan catat username dan password di bawah ini untuk dapat mengubah dan melengkapi data

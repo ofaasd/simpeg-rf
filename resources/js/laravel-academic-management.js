@@ -9,6 +9,7 @@ $(function () {
   //initial variabl
   var page = $('#page').val();
   var title = $('#title').val();
+  console.log(title)
   var my_column = $('#my_column').val();
   const pecah = my_column.split('\n');
   let my_data = [];

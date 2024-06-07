@@ -207,6 +207,24 @@
       ]
     },
     {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-access-point",
+      "name": "Berita",
+      "slug": "berita",
+      "submenu": [
+        {
+          "url": "/post-berita",
+          "name": "Post Berita",
+          "slug": "post-berita"
+        },
+        {
+          "url": "/kategori-berita",
+          "name": "Kategori Berita",
+          "slug": "kategori-berita"
+        }
+      ]
+    },
+    {
       "url": "/agenda",
       "icon": "menu-icon tf-icons mdi mdi-ticket",
       "name": "Agenda",
