@@ -5,40 +5,26 @@
 @section('vendor-style')
   <link rel="stylesheet" href="{{asset('assets/vendor/libs/spinkit/spinkit.css')}}" />
   <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
-  <link rel="stylesheet" href="{{asset('assets/vendor/libs/quill/typography.css')}}" />
-  <link rel="stylesheet" href="{{asset('assets/vendor/libs/quill/katex.css')}}" />
-  <link rel="stylesheet" href="{{asset('assets/vendor/libs/quill/editor.css')}}" />
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
 @endsection
 
 @section('vendor-script')
   <script src="{{asset('assets/vendor/libs/block-ui/block-ui.js')}}"></script>
   <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-  <script src="{{asset('assets/vendor/libs/quill/katex.js')}}"></script>
-  <script src="{{asset('assets/vendor/libs/quill/quill.js')}}"></script>
+<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+
 @endsection
 @section('page-script')
-  <script src="{{asset('assets/js/forms-extras-custom.js')}}"></script>
-  <script src="{{asset('assets/js/forms-editors.js')}}"></script>
+
 @endsection
 @section('content')
 <style>
   table.dataTable td, table.dataTable th {
     font-size: 0.8em;
   }
-  #editor-container {
-    height: 100%;
-    /* added these styles */
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
 
-  #full-editor {
-    height: 100%;
-    /* added these styles */
-    flex: 1;
-    overflow-y: auto;
-    width: 100%;
+  trix-toolbar [data-trix-button-group='file-tools']{
+    display: none;
   }
 </style>
 <!--/ Navbar pills -->
@@ -63,7 +49,6 @@
                 <td>Judul</td>
                 <td>Kategori</td>
                 <td>Penulis</td>
-                <td>slug</td>
                 <td>Aksi</td>
               </tr>
             </thead>
@@ -74,7 +59,6 @@
                   <td>{{ $row->judul }}</td>
                   <td>{{ $row->kategori->nama_kategori }}</td>
                   <td>{{ $row->user->name }}</td>
-                  <td>{{ $row->slug }}</td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="First group">
                       <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-berita waves-effect" data-bs-toggle="modal" data-bs-target="#modal_berita" data-status="berita"><i class="mdi mdi-pencil me-1"></i></button>
@@ -120,10 +104,9 @@
             </div>
           </div>
           <div class="col-12 col-md-12">
-            <div id="editor-container">
-              <label for="full-editor">Isi Berita</label>
-              <div id="full-editor"></div>
-            </div>
+            <label for="isi_berita">Isi Berita</label>
+            <input id="isi_berita" type="hidden" name="isi_berita">
+            <trix-editor id="trix_id" input="isi_berita" placeholder="ketik disini..."></trix-editor>
           </div>
           <div class="col-12 col-md-6" >
             <div class="form-floating form-floating-outline">
@@ -155,6 +138,10 @@
 
 @endsection
 <script>
+document.addEventListener('trix-file-accept', function(e){
+  e.preventDefault();
+})
+  
 function zeroPadded(val) {
   if (val >= 10)
     return val;
@@ -178,7 +165,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     e.preventDefault();
 
     var formData = new FormData(this);
-    formData.append('isi_berita',$("#full-editor").html());
     //showBlock();
     insert_update(formData);
   });
@@ -189,17 +175,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
     $.get(''.concat(baseUrl).concat('post-berita/').concat(id, '/edit'), function (data) {
     Object.keys(data).forEach(key => {
         // console.log(key);
-      console.log(data)
+      console.log(data[key])
         if(key == 'id'){
           $('#id_berita')
             .val(data[key])
             .trigger('change');
-        }else if(key == 'isi_berita'){
-          $("#full-editor").html(data[key]);
         }else if(key == 'thumbnail'){
           $("#link_thumbnail").html('<a href="' + baseUrl + 'assets/img/upload/berita/thumbnail/' + data[key] + '" target="_blank">Link Gambar</a>');
         }else if(key == 'gambar_dalam'){
           $("#link_foto_isi").html('<a href="' + baseUrl + 'assets/img/upload/berita/foto_isi/' + data[key] + '" target="_blank">Link Gambar</a>');
+        }else if(key == 'isi_berita'){
+          $('isi_berita').val(data[key]).trigger('change');
+          document.querySelector("trix-editor").editor.loadHTML(data[key])
         }else{
           $('#' + key)
               .val(data[key])
