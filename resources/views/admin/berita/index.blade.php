@@ -95,7 +95,7 @@
           </div>
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <select name="kategori" class="form-control">
+              <select name="kategori" class="form-control" id="kategori_id">
                 @foreach($kategori as $value)
                   <option value="{{$value->id}}">{{$value->nama_kategori}}</option>
                 @endforeach
@@ -175,7 +175,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     $.get(''.concat(baseUrl).concat('post-berita/').concat(id, '/edit'), function (data) {
     Object.keys(data).forEach(key => {
         // console.log(key);
-      console.log(data[key])
         if(key == 'id'){
           $('#id_berita')
             .val(data[key])

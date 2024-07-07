@@ -192,7 +192,17 @@ class BeritaController extends Controller
    */
   public function destroy(string $id)
   {
-    $berita = Berita::where('id', $id)->delete();
+    $berita = Berita::where('id', $id)->first();
+
+    if (!empty($berita->thumbnail)) {
+      unlink(public_path('assets/img/upload/berita/thumbnail/' . $berita->thumbnail));
+    }
+
+    if (!empty($berita->gambar_dalam)) {
+      unlink(public_path('assets/img/upload/berita/foto_isi/' . $berita->gambar_dalam));
+    }
+
+    $berita->delete();
   }
 
   public function reload()
