@@ -26,13 +26,13 @@
                 <div class="col-md-6">
                   <div id="my_camera" style="margin:auto;"></div>
                   <br/>
-                  <input type="button" class="btn btn-success" value="Ambil Gambar" onClick="take_snapshot()">
+                  <input type="button" class="btn btn-success me-sm-3 me-1 data-submit" value="Ambil Gambar" onClick="take_snapshot()">
                   <input type="hidden" name="image" class="image-tag">
                 </div>
                 <div class="col-md-6">
                   <br/>
                   <div id="results" style="text-align:center">Hasil Photo</div>
-                  <label for="kordinat">Kordinat</label>
+
                   <input type="hidden" name="lat" id="lat" class="form-control" >
                   <input type="hidden" name="long" id="long" class="form-control" >
                 </div>
