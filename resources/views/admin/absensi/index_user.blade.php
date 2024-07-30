@@ -21,7 +21,7 @@
           <input type="hidden" name="title" id='title' value='Absensi'>
           <form class="add-new-{{strtolower($title)}} pt-0" id="addNew{{$title}}Form" action="javascript:void(0)">
             @csrf
-            <div class="form-floating form-floating-outline mb-4">
+            <div class="mb-4">
               <div class="row">
                 <div class="col-md-6">
                   <div id="my_camera" style="margin:auto;"></div>
