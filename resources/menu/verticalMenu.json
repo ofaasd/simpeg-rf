@@ -237,6 +237,18 @@
       "slug": "pembayaran"
     },
     {
+      "url": "/alumni",
+      "icon": "menu-icon tf-icons mdi mdi-account-outline",
+      "name": "Alumni",
+      "slug": "alumni"
+    },
+    {
+      "url": "/media_saran",
+      "icon": "menu-icon tf-icons mdi mdi-email-open-heart-outline",
+      "name": "Media Saran",
+      "slug": "media_saran"
+    },
+    {
       "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-printer",
       "name": "Cetak",
@@ -292,39 +304,9 @@
     },
     {
       "url": "/tbd",
-      "icon": "menu-icon tf-icons mdi mdi-account-outline",
-      "name": "Alumni",
-      "slug": "alumni",
-      "badge": [
-        "danger",
-        "1"
-      ]
-    },
-    {
-      "url": "/tbd",
       "icon": "menu-icon tf-icons mdi mdi-view-list-outline",
       "name": "Aset",
       "slug": "aset",
-      "badge": [
-        "danger",
-        "1"
-      ]
-    },
-    {
-      "url": "/tbd",
-      "icon": "menu-icon tf-icons mdi mdi-tshirt-crew-outline",
-      "name": "Laundry",
-      "slug": "laundry",
-      "badge": [
-        "danger",
-        "1"
-      ]
-    },
-    {
-      "url": "/tbd",
-      "icon": "menu-icon tf-icons mdi mdi-email-open-heart-outline",
-      "name": "Media Saran",
-      "slug": "media_saran",
       "badge": [
         "danger",
         "1"

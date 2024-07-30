@@ -34,6 +34,8 @@ use App\Http\Controllers\admin\UangKeluarController;
 use App\Http\Controllers\admin\KesehatanController;
 use App\Http\Controllers\admin\AgendaController;
 use App\Http\Controllers\admin\PembayaranController;
+use App\Http\Controllers\admin\AlumniController;
+use App\Http\Controllers\admin\SaranController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\NewMenuController;
@@ -196,6 +198,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
   Route::resource('/psb', psb::class);
   Route::resource('/gelombang', $controller_path . '\admin\GelombangController');
+
+  Route::resource('/alumni', $controller_path . '\admin\AlumniController');
+  Route::resource('/media_saran', $controller_path . '\admin\SaranController');
 
   Route::resource('/ustadz/murroby', MurrobyController::class);
   Route::resource('/ustadz/tahfidz', UstTahfidzController::class);
