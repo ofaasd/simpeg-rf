@@ -10,7 +10,7 @@
 <!-- {{strtolower($title)}} List Table -->
 <div class="card">
   <div class="card-header">
-    <h5 class="card-title mb-0">Manajemen Ruang Tahfidz</h5>
+    <h5 class="card-title mb-0">Manajemen Tahfidz</h5>
   </div>
   <div class="card-datatable table-responsive">
 <textarea name='column' id='my_column' style="display:none">@foreach($indexed as $value) {{$value . "\n"}} @endforeach</textarea>
@@ -45,7 +45,7 @@
         </div>
         <div class="form-floating form-floating-outline mb-4">
           <select  class="form-control" id="add-{{strtolower($title)}}-code" name="code" >
-            @for($i=1;$i<=15;$i++)
+            @for($i=1;$i<=26;$i++)
               @foreach($code as $value)
                 <option value='{{$i}}{{$value}}'>{{$i}}{{$value}}</option>
               @endforeach
