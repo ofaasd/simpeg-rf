@@ -16,6 +16,7 @@ use App\Models\SantriTahfidz;
 use App\Models\TahunAjaran;
 use App\Models\Province;
 use App\Models\TbPemeriksaan;
+use App\Models\TbBerkasPendukung;
 use Illuminate\Support\Facades\DB;
 use Image;
 
@@ -435,10 +436,12 @@ class SantriController extends Controller
     if ($var['santri']->tahfidz_id != 0) {
       $var['curr_tahfidz'] = Tahfidz::find($var['santri']->tahfidz_id);
     }
-    $var['menu'] = ['biodata', 'keluarga', 'kamar', 'kelas', 'tahfidz', 'pemeriksaan'];
+    $var['menu'] = ['biodata', 'keluarga', 'kamar', 'kelas', 'tahfidz', 'pemeriksaan', 'berkas'];
     $status = [0 => 'aktif', 1 => 'lulus/alumni', 2 => 'boyong/keluar', 3 => 'meninggal'];
 
     $var['pemeriksaan'] = TbPemeriksaan::where('no_induk', $var['santri']->no_induk)->get();
+
+    $var['berkas'] = TbBerkasPendukung::where('no_induk',$var['santri']->no_induk)->first();
     return view('admin.santri.show', compact('status', 'title', 'var'));
   }
 
