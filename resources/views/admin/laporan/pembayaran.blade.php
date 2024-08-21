@@ -17,9 +17,9 @@
 
               @foreach($var['bulan'] as $key=>$value)
                 @if($key == 0)
-                <option value="0" {{($data['periode']==0)?"selected":""}}>Semua</option>
+                <option value="0" {{(!empty($data['periode']) && $data['periode']==0)?"selected":""}}>Semua</option>
                 @else
-                  <option value="{{$key}}" {{($data['periode']==$key)?"selected":""}}>{{$value}}</option>
+                  <option value="{{$key}}" {{(!empty($data['periode']) && $data['periode']==$key)?"selected":""}}>{{$value}}</option>
                 @endif
               @endforeach
             </select>
@@ -33,7 +33,7 @@
             <select name="kelas" id="kelas" class='form-control col-md-4'>
               <option value="0">Semua</option>
               @foreach($var['kelas'] as $kelas)
-              <option value="{{$kelas->kelas}}" {{($data['kelas']==$kelas->kelas)?"selected":""}}>{{$kelas->kelas}}</option>
+              <option value="{{$kelas->kelas}}" {{(!empty($data['kelas']) && $data['kelas']==$kelas->kelas)?"selected":""}}>{{$kelas->kelas}}</option>
               @endforeach
             </select>
             <label for="periode">Kelas</label>
@@ -41,7 +41,7 @@
           <div class="form-floating form-floating-outline mb-4 col-md-4">
             <select name="status" id="status" class='form-control col-md-4'>
               @foreach($var['status'] as $key=>$status)
-              <option value="{{$key}}" {{($data['status']==$key)?"selected":""}}>{{$status}}</option>
+              <option value="{{$key}}" {{(!empty($data['status']) && $data['status']==$key)?"selected":""}}>{{$status}}</option>
               @endforeach
             </select>
             <label for="periode">Status</label>
