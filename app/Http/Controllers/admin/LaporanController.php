@@ -17,11 +17,28 @@ class LaporanController extends Controller
   //
   public function pembayaran(Request $request)
   {
+    $bulan = [
+      0 => '',
+      1 => 'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
     if (!empty($request->input())) {
       $periode = $request->input('periode');
       $tahun = $request->input('tahun');
       $data['jenis_pembayaran'] = RefJenisPembayaran::all();
-      $data['siswa'] = Santri::all();
+
+      $kelas = $request->input('kelas');
+      $status = $request->input('status');
       if ($periode == 0) {
         $where = [
           'tahun' => $tahun,
@@ -34,7 +51,22 @@ class LaporanController extends Controller
           'is_hapus' => 0,
         ];
       }
-      $pembayaran = Pembayaran::where($where)->get();
+      if($kelas != 0){
+        $where['kelas'] = $kelas;
+        $data['siswa'] = Santri::where('kelas',$kelas)->get();
+      }else{
+        $data['siswa'] = Santri::all();
+      }
+      if($status != 0){
+        if($status == 1){
+          $where['validasi'] = 1;
+        }
+      }
+
+      $pembayaran = Pembayaran::select('tb_pembayaran.*')
+        ->join('santri_detail','santri_detail.no_induk','=','tb_pembayaran.nama_santri')
+        ->where($where)
+        ->get();
       $santri = [];
       //inisiasi
       foreach ($data['siswa'] as $siswa) {
@@ -42,15 +74,28 @@ class LaporanController extends Controller
           $santri[$siswa->no_induk][$jenis_pembayaran->id] = 0;
         }
       }
-      //assign nilai di dalamnya
-      foreach ($pembayaran as $row) {
-        $detailPembayaran = DetailPembayaran::where('id_pembayaran', $row->id)->get();
-        foreach ($detailPembayaran as $detail) {
-          if(isset($detail->id_jenis_pembayaran)){
-            $santri[$row->nama_santri][$detail->id_jenis_pembayaran] += $detail->nominal;
+      $id_sudah = [];
+      if($pembayaran){
+        //assign nilai di dalamnya
+        foreach ($pembayaran as $row) {
+          $id_sudah[] = $row->nama_santri;
+          $detailPembayaran = DetailPembayaran::where('id_pembayaran', $row->id)->get();
+          foreach ($detailPembayaran as $detail) {
+            if(!empty($detail->id_jenis_pembayaran) && $detail->id_jenis_pembayaran != 0 && $row->nama_santri != 0){
+              $santri[$row->nama_santri][$detail->id_jenis_pembayaran] += $detail->nominal;
+            }
           }
         }
       }
+      $data['santri_valid'] = Santri::where('kelas', $kelas)
+      ->whereIn('no_induk', $id_sudah)
+      ->orderBy('no_induk')
+      ->get();
+
+      $data['sisa_santri'] = Santri::where('kelas', $kelas)
+      ->whereNotIn('no_induk', $id_sudah)
+      ->orderBy('no_induk')
+      ->get();
       // var_dump($santri[5]);
       // exit;
 
@@ -63,31 +108,48 @@ class LaporanController extends Controller
         $data['nama_murroby'][$row->id] = EmployeeNew::find($row->employee_id)->nama;
       }
 
-      $bulan = [
-        1 => 'Januari',
-        'Februari',
-        'Maret',
-        'April',
-        'Mei',
-        'Juni',
-        'Juli',
-        'Agustus',
-        'September',
-        'Oktober',
-        'November',
-        'Desember',
-      ];
-      $data['bulan'] = $bulan;
+
+      $var['bulan'] = $bulan;
       $data['santri'] = $santri;
       $data['periode'] = $periode;
       $data['tahun'] = $tahun;
+      $data['kelas'] = $kelas;
+      $data['status'] = $status;
+      $var['kelas'] = Santri::select('kelas')
+      ->groupBy('kelas')
+      ->orderBy('kelas')
+      ->get();
+      $var['status'] = [
+        0 => 'Semua',
+        'Sudah Valid Lapor',
+        'Belum Lapor'
+      ];
+      $data['bulan'] = $bulan;
       //$data['title'] = 'Syahriyah ' . $bulan[$periode] . ' ' . $tahun;
       $title = 'Laporan Syahriah';
-      return view('admin.laporan.pembayaran', compact('title', 'data'));
+
+      return view('admin.laporan.pembayaran', compact('title', 'data','var'));
     } else {
+      $var['bulan'] = $bulan;
       $data = '';
+      $var['kelas'] = Santri::select('kelas')
+      ->groupBy('kelas')
+      ->orderBy('kelas')
+      ->get();
+      $var['status'] = [
+        0 => 'Semua',
+        'Sudah Valid Lapor',
+        'Belum Lapor'
+      ];
       $title = 'Laporan Syahriah';
-      return view('admin.laporan.pembayaran', compact('data', 'title'));
+      return view('admin.laporan.pembayaran', compact('data','var', 'title'));
     }
   }
+  public function export(Request $request){
+    return Excel::download(
+      new PembayaranExport($request->tahun, $request->periode, $request->kelas, $request->validasi),
+      'DataPembayaran' . $request->tahun . '-' . $request->periode . '-' . $request->kelas . '.xlsx'
+    );
+  }
+
 }
