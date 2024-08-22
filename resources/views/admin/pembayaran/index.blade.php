@@ -54,7 +54,7 @@
                   <label for="periode">Periode</label>
                 </div>
                 <div class="form-floating form-floating-outline mb-4 col-md-6">
-                  <input type="number" name='tahun' id='tahun' class='form-control col-md-2' value='{{ date('Y') }}'>
+                  <input type="number" name='tahun' id='tahun' class='form-control col-md-2' value='{{ $data['tahun'] }}'>
                   <label for="tahun">Tahun</label>
                 </div>
                 <div class="form-floating form-floating-outline mb-4 col-md-6">
@@ -64,6 +64,14 @@
                     @endforeach
                   </select>
                   <label for="kelas">Kelas</label>
+                </div>
+                <div class="form-floating form-floating-outline mb-4 col-md-6">
+                  <select name="status" id="status" class='form-control col-md-4'>
+                    @foreach($data['status'] as $key=>$value)
+                    <option value="{{$key}}" {{(!empty($data['status']) && $data['status']==$key)?"selected":""}}>{{$value}}</option>
+                    @endforeach
+                  </select>
+                  <label for="periode">Status</label>
                 </div>
               </div>
               <div class="modal-footer" >
@@ -131,37 +139,68 @@
                   <tbody>
                       @php
                       $i = 1;
-                      @endphp
-                      @foreach ($pembayaran as $s)
-                        @php
-                          $total = 0;
-                        @endphp
-                          <tr>
-                              <td>{{$i}}</td>
-                              <td>{{$s->no_induk}}</td>
-                              <td>{{$s->nama}}</td>
-                              <td>{{$s->kelas}}</td>
-                              <td>{{$s->kamar_id}} ({{ ($s->kamar_id==0)?"":$data['nama_murroby'][$s->kamar_id]}})</td>
 
-                              <td>{{$s->tanggal_bayar}}</td>
-                              <td>@if($s->validasi == 0)
-                                    <button class='btn btn-secondary btn-xs btn-status' data-bs-toggle="modal" data-bs-target="#status" data-id="{{$s->id}}" style="padding-top:10px;padding-bottom:10px;">Belum Valid</button>
-                                  @elseif($s->validasi == 1)
-                                    <button class='btn btn-primary btn-xs btn-status' data-bs-toggle="modal" data-bs-target="#status" data-id="{{$s->id}}" style="padding-top:10px;padding-bottom:10px;">Valid</button>
-                                  @else
-                                    <button class='btn btn-danger btn-xs btn-status' data-bs-toggle="modal" data-bs-target="#status" data-id="{{$s->id}}" style="padding-top:10px;padding-bottom:10px;">Tidak Valid</button>
-                                  @endif
-                              </td>
-                              <td>Rp.  {{number_format($s->jumlah, 0, ',', '.')}}</td>
-                              <td>
-                                <div class="btn-group" role="group" aria-label="First group">
-                                  <a href="{{URL::to('pembayaran/' . $s->id . '/edit')}}" class="btn btn-outline-primary waves-effect"><i class="tf-icons mdi mdi-pencil-outline"></i></a>
-                                  <a href="#" class="btn btn-outline-danger waves-effect delete-record" data-id="{{$s->id}}"><i class="tf-icons mdi mdi-delete-outline"></i></a>
-                                </div>
-                              </td>
-                          </tr>
-                        @php $i++; @endphp
-                      @endforeach
+                      @endphp
+                      @if($status >= 0 && $status < 4)
+                        @foreach ($pembayaran as $s)
+                          @php
+                            $total = 0;
+                          @endphp
+                            <tr>
+                                <td>{{$i}}</td>
+                                <td>{{$s->no_induk}}</td>
+                                <td>{{$s->nama}}</td>
+                                <td>{{$s->kelas}}</td>
+                                <td>{{$s->kamar_id}} ({{ ($s->kamar_id==0)?"":$data['nama_murroby'][$s->kamar_id]}})</td>
+
+                                <td>{{$s->tanggal_bayar}}</td>
+                                <td>@if($s->validasi == 0)
+                                      <button class='btn btn-secondary btn-xs btn-status' data-bs-toggle="modal" data-bs-target="#status" data-id="{{$s->id}}" style="padding-top:10px;padding-bottom:10px;">Belum Valid</button>
+                                    @elseif($s->validasi == 1)
+                                      <button class='btn btn-primary btn-xs btn-status' data-bs-toggle="modal" data-bs-target="#status" data-id="{{$s->id}}" style="padding-top:10px;padding-bottom:10px;">Valid</button>
+                                    @else
+                                      <button class='btn btn-danger btn-xs btn-status' data-bs-toggle="modal" data-bs-target="#status" data-id="{{$s->id}}" style="padding-top:10px;padding-bottom:10px;">Tidak Valid</button>
+                                    @endif
+                                </td>
+                                <td>Rp.  {{number_format($s->jumlah, 0, ',', '.')}}</td>
+                                <td>
+                                  <div class="btn-group" role="group" aria-label="First group">
+                                    <a href="{{URL::to('pembayaran/' . $s->id . '/edit')}}" class="btn btn-outline-primary waves-effect"><i class="tf-icons mdi mdi-pencil-outline"></i></a>
+                                    <a href="#" class="btn btn-outline-danger waves-effect delete-record" data-id="{{$s->id}}"><i class="tf-icons mdi mdi-delete-outline"></i></a>
+                                  </div>
+                                </td>
+                            </tr>
+                          @php $i++; @endphp
+                        @endforeach
+                      @endif
+                      @if($status == 0 || $status == 4)
+                        @foreach($data['sisa_santri'] as $s)
+                          @php
+                          $total = 0;
+                          @endphp
+                            <tr>
+                                <td>{{$i}}</td>
+                                <td>{{$s->no_induk}}</td>
+                                <td>{{$s->nama}}</td>
+                                <td>{{$s->kelas}}</td>
+                                <td>{{$s->kamar_id}} ({{ ($s->kamar_id==0)?"":$data['nama_murroby'][$s->kamar_id]}})</td>
+
+                                <td>-</td>
+                                <td>
+                                  <button class='btn btn-danger btn-xs btn-status' data-bs-toggle="modal" data-bs-target="#kirim_wa" data-id="{{$s->id}}" style="padding-top:10px;padding-bottom:10px;">Belum Lapor</button>
+                                </td>
+                                <td>Rp.  0</td>
+                                <td>
+                                  <div class="btn-group" role="group" aria-label="First group">
+                                    <div class="btn-group" role="group" aria-label="First group">
+                                      <a href="javascript:void(0)" class="btn btn-outline-primary waves-effect btn-wa" data-bs-toggle="modal" data-bs-target="#msg" data-id="{{$s->no_induk}}" title="Kirim Pesan WA"><i class="tf-icons mdi mdi-whatsapp"></i></a>
+                                    </div>
+                                  </div>
+                                </td>
+                            </tr>
+                          @php $i++; @endphp
+                        @endforeach
+                      @endif
                   </tbody>
               </table>
       @endif
@@ -241,6 +280,36 @@
               <div class="modal-footer" >
                 <div class="form-floating form-floating-outline col-md-12" id="footer-filter">
                   <button type="submit" class="btn btn-primary waves-effect waves-light" id="btnSave">Update Status</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="msg" tabindex="-1" aria-labelledby="importLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" id="block_status_modal">
+          <div class="modal-content" >
+            <form method="POST" action='javascript:void(0)' id="formSendWarning">
+              <input type="hidden" name="id_santri" id="id_santri_warning">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Kirim Pesan WA</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div id="alert-wa"></div>
+                <div class="form-floating form-floating-outline col-md-12 mb-4">
+                  <input type="text" name="no_wa" class="form-control" id="no_hp" placeholder="No. HP">
+                  <label for="no_hp">No. HP</label>
+                </div>
+                <div class="form-floating form-floating-outline col-md-12 mb-4">
+                  <textarea name="pesan" class="form-control" id="pesan" style="height:100px;"></textarea>
+                  <label for="pesan">Pesan Teks</label>
+                </div>
+              </div>
+              <div class="modal-footer" >
+                <div class="form-floating form-floating-outline col-md-12" id="footer-filter">
+                  <button type="submit" class="btn btn-primary waves-effect waves-light" id="btnSaveWarning">Kirim WA</button>
                 </div>
               </div>
             </form>
@@ -354,7 +423,7 @@
                   }
               })
             }
-            $('#btnSave').unBlock();
+            $('#btnSave').unblock();
           }
         });
 
@@ -415,7 +484,84 @@
       }
     });
   });
+    $(document).on('click', '.btn-wa', function () {
+      const url_get_wa = "{{URL::to('pembayaran/get_pesan_warning')}}";
+      $.ajax({
+        method:"POST",
+        url: url_get_wa,
+        data : {
+          'no_induk' : $(this).data('id'),
+          'periode' : $("#periode :selected").text(),
+          'tahun' : $("#tahun").val(),
+          'bulan' : $("#periode").val(),
+        },
+        success : function(data){
+          console.log(data[2]);
+          if(data[2] > 0){
+            $("#alert-wa").html('<div class="alert alert-warning">Santri sudah pernah dikirim pesan WA</div>');
+          }else{
+            $("#alert-wa").html('');
+          }
+          $("#no_hp").val(data[0].no_hp.replace(/\s/g, '') );
+          $("#pesan").val(data[1]);
+          $("#id_santri_warning").val(data[0].no_induk);
+        }
+      });
+    });
+    $("#formSendWarning").submit(function(e){
+      e.preventDefault();
+        $('#btnSaveWarning').block({
+          message:
+            '<div class="d-flex justify-content-center"><p class="mb-0">Tunggu Sebentar</p> <div class="sk-wave m-0"><div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div></div> </div>',
+          css: {
+            backgroundColor: 'transparent',
+            color: '#fff',
+            border: '0'
+          },
+          overlayCSS: {
+            opacity: 0.5
+          }
+        });
+        let data = new FormData(this);
+        const url_save = "{{URL::to('pembayaran/send_warning')}}";
+        data.append('periode', $("#periode").val());
+        data.append('tahun', $("#tahun").val());
+        data.append('id_santri', $("#id_santri_warning").val());
+        $.ajax({
+          method:"POST",
+          url: url_save,
+          processData: false,
+          contentType: false,
+          data : data,
+          success : function(data){
+            if(data.status == 1){
+              Swal.fire({
+                  title: 'success!',
+                  text: 'Data Berhasil Disimpan',
+                  icon: 'success',
+                  timer : 2000,
+                  customClass: {
+                    confirmButton: 'btn btn-success'
+                  }
+              });
+            }else{
+              Swal.fire({
+                  title: 'Gagal!',
+                  text: 'Data Gagal Disimpan',
+                  icon: 'error',
+                  timer : 2000,
+                  customClass: {
+                    confirmButton: 'btn btn-success'
+                  }
+              })
+            }
+            $("#msg").modal('hide');
+            $('#btnSaveWarning').unblock();
+          }
+        });
+    });
   });
+
   const eskpor = () => {
     const periode = $("#periode").val();
     const tahun = $("#tahun").val();

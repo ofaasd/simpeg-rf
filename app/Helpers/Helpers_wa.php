@@ -6,12 +6,12 @@ use Config;
 
 class Helpers_wa
 {
-  public $number_key = '9qrE9KWANsXXHCA9';
+  public $number_key = 'eBki5ua379TKv7Xl';
   public $wa_api = 'X2Y7UZOZT0WVQVTG';
 
   public static function send_wa($data)
   {
-    $number_key = '9qrE9KWANsXXHCA9';
+    $number_key = 'eBki5ua379TKv7Xl';
     $wa_api = 'X2Y7UZOZT0WVQVTG';
 
     $curl = curl_init();
@@ -50,7 +50,7 @@ class Helpers_wa
   }
   public static function send_wa_file($data)
   {
-    $number_key = '9qrE9KWANsXXHCA9';
+    $number_key = 'eBki5ua379TKv7Xl';
     $wa_api = 'X2Y7UZOZT0WVQVTG';
 
     $curl = curl_init();

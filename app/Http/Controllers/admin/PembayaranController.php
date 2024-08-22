@@ -13,6 +13,7 @@ use App\Models\Santri;
 use App\Models\Kelas;
 use App\Models\SakuMasuk;
 use App\Models\UangSaku;
+use App\Models\SendWaWarning;
 use App\Models\RefBank as Bank;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PembayaranExport;
@@ -72,7 +73,11 @@ class PembayaranController extends Controller
         'kelas' => $request->kelas,
         'is_hapus' => 0,
       ];
+      if($request->status > 0 && $request->status <=3){
+        $where['validasi'] = ($request->status-1);
+      }
       $periode = $request->periode;
+      $tahun = $request->tahun;
       $data['kelas'] = $request->kelas;
     }
     $kelas = Santri::select('kelas')
@@ -89,6 +94,20 @@ class PembayaranController extends Controller
       ->where($where)
       ->join('santri_detail', 'santri_detail.no_induk', '=', 'tb_pembayaran.nama_santri')
       ->get();
+    $id_sudah = [];
+    foreach($pembayaran as $row){
+      $id_sudah[] = $row->nama_santri;
+    }
+    if(!empty($request->kelas)){
+      $data['sisa_santri'] = Santri::where('kelas', $request->kelas)
+        ->whereNotIn('no_induk', $id_sudah)
+        ->orderBy('no_induk')
+        ->get();
+    }else{
+      $data['sisa_santri'] = Santri::whereNotIn('no_induk', $id_sudah)
+        ->orderBy('no_induk')
+        ->get();
+    }
     $title = 'Pembayaran';
     $kamar = Kamar::all();
     $data['nama_murroby'] = [];
@@ -96,13 +115,25 @@ class PembayaranController extends Controller
     $data['periode'] = $periode;
     $data['tahun'] = $tahun;
 
+    $data['status'] = [
+      'semua',
+      'belum valid',
+      'valid',
+      'tidak_valid',
+      'belum lapor',
+    ];
+    $status = 0;
+    if(!empty($request->status)){
+      $status = $request->status;
+    }
+
     foreach ($kamar as $row) {
       // $data['nama_murroby'][$row->id] = $this->db
       //   ->get_where('employee_new', ['id' => $row->employee_id])
       //   ->row()->nama;
       $data['nama_murroby'][$row->id] = EmployeeNew::find($row->employee_id)->nama;
     }
-    return view('admin.pembayaran.index', compact('title', 'pembayaran', 'data', 'kelas'));
+    return view('admin.pembayaran.index', compact('title', 'status', 'pembayaran', 'data', 'kelas'));
   }
 
   /**
@@ -403,6 +434,62 @@ class PembayaranController extends Controller
     if( $update){
       $hasil = [
         'status' => 1,
+      ];
+      return response()->json($hasil);
+    }
+  }
+  public function get_pesan_warning(Request $request){
+    $no_induk = $request->no_induk;
+    $santri = Santri::where('no_induk',$no_induk)->first();
+    $pesan = '[ Admin Bendahara PPATQRF ]
+
+Yth. Bp/Ibu ' . $santri->nama_lengkap_ayah . '/' . $santri->nama_lengkap_ibu . ', Wali Santri ' . $santri->nama . ' kelas ' . $santri->kelas . '.
+
+Mohon maaf kami belum menerima laporan pembayaran bulan ' . $request->periode . ' tahun ' . $request->tahun .
+'. Jika merasa sudah melakukan pembayaran, harap segera melaporkan pembayaran melalui https://payment.ppatq-rf.id atau dapat menghubungi bagian tata usaha PPATQ-RF.
+Kami ucapkan banyak terima kasih kepada (Bp/Ibu) ' . $santri->nama_lengkap_ayah . '/' . $santri->nama_lengkap_ibu . ', salam kami kepada keluarga.
+Semoga pekerjaan dan usahanya diberikan kelancaran dan menghasilkan Rizqi yang banyak dan berkah, aamiin.
+';
+    $data[] = $santri;
+    $data[] = $pesan;
+    $cek_data = SendWaWarning::where(['id_santri'=>$no_induk,'periode'=>$request->bulan,'tahun'=>$request->tahun])->count();
+    $data[] = $cek_data;
+    return response()->json($data);
+  }
+  public function send_warning(Request $request){
+    $no_wa = $request->no_wa;
+    $periode = $request->periode;
+    $tahun = $request->tahun;
+    $pesan = $request->pesan;
+    $create = SendWaWarning::create([
+      'no_wa' => $no_wa,
+      'periode' => $periode,
+      'pesan' => $pesan,
+      'id_santri' => $request->id_santri,
+      'tahun' => $tahun,
+    ]);
+
+
+
+    //return response()->json($hasil);
+    if($create){
+      $hasil = [
+        'status' => 1,
+      ];
+      $data_wa['no_wa'] = $no_wa;
+      $data_wa['pesan'] = $pesan;
+      $kirim = Helpers_wa::send_wa($data_wa);
+      if($kirim){
+        return response()->json($hasil);
+      }else{
+        $hasil = [
+          'status' => 3,
+        ];
+        return response()->json($hasil);
+      }
+    }else{
+      $hasil = [
+        'status' => 0,
       ];
       return response()->json($hasil);
     }
