@@ -114,6 +114,34 @@
           "url": "/tbd",
           "name": "Jatah Cuti Tahunan",
           "slug": "master-data-jatah-cuti-tahunan"
+        },
+        {
+          "url": "#",
+          "icon": "menu-icon tf-icons mdi mdi-account-tie-outline",
+          "name": "Aset",
+          "slug": "aset",
+          "submenu": [
+            {
+              "url": "master/aset/gedung",
+              "name": "Gedung",
+              "slug": "master-gedung"
+            },
+            {
+              "url": "master/aset/lantai",
+              "name": "Lantai",
+              "slug": "master-lantai"
+            },
+            {
+              "url": "master/aset/jenis-ruang",
+              "name": "Jenis Ruang",
+              "slug": "master-jenis-ruang"
+            },
+            {
+              "url": "master/aset/jenis-barang",
+              "name": "Jenis Barang",
+              "slug": "master-jenis-barang"
+            }
+          ]
         }
       ]
     },
@@ -307,14 +335,27 @@
       "icon": "menu-icon tf-icons mdi mdi-view-list-outline",
       "name": "Aset",
       "slug": "aset",
-      "badge": [
-        "danger",
-        "1"
-      ]
+      "submenu": [
+            {
+              "url": "aset/tanah",
+              "name": "Tanah",
+              "slug": "tanah"
+            },
+            {
+              "url": "aset/ruang",
+              "name": "Ruang",
+              "slug": "ruang"
+            },
+            {
+              "url": "aset/barang",
+              "name": "Barang",
+              "slug": "barang"
+            }
+          ]
     },
     {
       "url": "/user-list",
-      "icon": "menu-icon tf-icons mdi mdi-account-outline",
+    "icon": "menu-icon tf-icons mdi mdi-account-outline",
       "name": "User",
       "slug": "User Management"
     }

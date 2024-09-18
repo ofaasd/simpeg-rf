@@ -35,10 +35,19 @@ use App\Http\Controllers\admin\KesehatanController;
 use App\Http\Controllers\admin\AgendaController;
 use App\Http\Controllers\admin\PembayaranController;
 use App\Http\Controllers\admin\AlumniController;
+use App\Http\Controllers\admin\master\aset\MasterGedungController;
+use App\Http\Controllers\admin\master\aset\MasterJenisBarang;
+use App\Http\Controllers\admin\master\aset\MasterJenisBarangController;
+use App\Http\Controllers\admin\master\aset\MasterJenisRuangController;
+use App\Http\Controllers\admin\master\aset\MasterLantaiController;
+use App\Http\Controllers\admin\master\aset\MasterRuangController;
+use App\Http\Controllers\admin\RuangController;
 use App\Http\Controllers\admin\SaranController;
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\NewMenuController;
+use App\Http\Controllers\TanahController;
 use App\Models\Kategori;
 
 /*
@@ -59,6 +68,8 @@ $controller_path = 'App\Http\Controllers';
 Route::get('/page-2', $controller_path . '\pages\Page2@index')->name('pages-page-2');
 
 Route::get('/poto', $controller_path . '\BeritaController@poto')->name('poto');
+
+Route::get('/sinkronisasi', $controller_path . '\BeritaController@sinkronisasi')->name('sinkronisasi');
 
 Route::get('/statistika', $controller_path . '\statistika@index')->name('statistika');
 Route::post('/getJumlahPsb', $controller_path . '\statistika@getJumlahPsb');
@@ -197,6 +208,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/ustadz/kesehatan', UstKesehatanController::class);
   Route::resource('/kategori-berita', KategoriController::class);
   Route::resource('/post-berita', BeritaController::class);
+  Route::resource('/master/aset/gedung', MasterGedungController::class);
+  Route::resource('/master/aset/lantai', MasterLantaiController::class);
+  Route::resource('/master/aset/jenis-ruang', MasterJenisRuangController::class);
+  Route::resource('/master/aset/jenis-barang', MasterJenisBarangController::class);
+
+  Route::resource('/aset/ruang', RuangController::class);
+  Route::resource('/aset/barang', BarangController::class);
+  Route::resource('/aset/tanah', TanahController::class);
 
   Route::resource('/psb', psb::class);
   Route::resource('/gelombang', $controller_path . '\admin\GelombangController');

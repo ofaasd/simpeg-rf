@@ -7,6 +7,8 @@ use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 use Image;
 
@@ -19,10 +21,88 @@ class BeritaController extends Controller
   public function index()
   {
     $title = 'Berita';
-    $berita = Berita::all();
+    $berita = Berita::latest()->get();
     $kategori = Kategori::all();
+
+    $response = Http::accept('application/json')->get('https://newapi.ppatq-rf.sch.id/public/index.php/post');
+    $beritaSch = count($response->json());
+
+    if ($beritaSch > $berita->count()) {
+      Session::put('isNotif', true);
+    } else {
+      Session::put('isNotif', false);
+    }
+
     return view('admin.berita.index', compact('berita', 'title', 'kategori'));
   }
+
+  public function sinkronisasi()
+{
+    $response = Http::accept('application/json')->get('https://newapi.ppatq-rf.sch.id/public/index.php/post');
+    
+    if ($response->successful()) {
+      $json = $response->json();
+
+      foreach ($json as $berita) {
+        $this->insertBerita(
+          $berita['ID'] ?? null,
+          $berita['post_author'] ?? null,
+          // $berita['thumbnail'] ?? null,
+          // $berita['gambarDalam'] ?? null,
+          $berita['post_content'] ?? null,
+          $berita['post_title'] ?? null,
+          $berita['post_status'] ?? null,
+          $berita['post_name'] ?? null,
+          $berita['post_date'] ?? null
+        );
+      }
+      
+        $jumlah = count($json);
+        return back()->with('success', 'Berhasil menambah data', $jumlah);
+      }
+      
+      // Mengembalikan 0 jika respons tidak berhasil
+      return 0;
+    }
+    
+    private function insertBerita(
+      $id,
+      $postAuthor,
+      // $thumbnail,
+      // $gambarDalam,
+      $isi_berita,
+      $judulBerita,
+      $postStatus,
+      $slug,
+      $createdAt
+      ) {
+        $berita = Berita::where('id', $id)->first();
+        $response = Http::get('https://newapi.ppatq-rf.sch.id/public/index.php/post_image/' . $id);
+
+        $thumbnail = $response->failed() ? '' : str_replace(['"', '\\'], '', $response->body());
+
+        $isi_berita = str_replace("\r\n", '</p><p>', $isi_berita);
+        $siIsi = '<p>' . $isi_berita . '</p>';
+        if (!$berita) {
+          return Berita::insertGetId([
+            'id' => $id,
+            'judul' => $judulBerita,
+            'user_id' => $postAuthor,
+            'kategori_id' => 2,
+            'slug' => $slug,
+            'thumbnail' => $thumbnail,
+            // 'gambar_dalam' => $gambarDalam,
+            'isi_berita' => $siIsi,
+            'status' => $postStatus,
+            'created_at' => $createdAt,
+        ]);
+    } else {
+        return $berita->id;
+    }
+}
+
+
+
 
   /**
    * Show the form for creating a new resource.
@@ -194,13 +274,13 @@ class BeritaController extends Controller
   {
     $berita = Berita::where('id', $id)->first();
 
-    if (!empty($berita->thumbnail)) {
-      unlink(public_path('assets/img/upload/berita/thumbnail/' . $berita->thumbnail));
-    }
+    // if (!empty($berita->thumbnail)) {
+    //   unlink(public_path('assets/img/upload/berita/thumbnail/' . $berita->thumbnail));
+    // }
 
-    if (!empty($berita->gambar_dalam)) {
-      unlink(public_path('assets/img/upload/berita/foto_isi/' . $berita->gambar_dalam));
-    }
+    // if (!empty($berita->gambar_dalam)) {
+    //   unlink(public_path('assets/img/upload/berita/foto_isi/' . $berita->gambar_dalam));
+    // }
 
     $berita->delete();
   }
