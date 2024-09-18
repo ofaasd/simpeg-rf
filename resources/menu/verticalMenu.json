@@ -117,7 +117,7 @@
         },
         {
           "url": "#",
-          "icon": "menu-icon tf-icons mdi mdi-account-tie-outline",
+          "icon": "menu-icon tf-icons mdi mdi-folder-move",
           "name": "Aset",
           "slug": "aset",
           "submenu": [
@@ -147,7 +147,7 @@
     },
     {
       "url": "#",
-      "icon": "menu-icon tf-icons mdi mdi-account-tie-outline",
+      "icon": "menu-icon tf-icons mdi mdi-folder-move",
       "name": "Pegawai",
       "slug": "pegawai",
       "submenu": [
@@ -331,7 +331,7 @@
       ]
     },
     {
-      "url": "/tbd",
+      "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-view-list-outline",
       "name": "Aset",
       "slug": "aset",
