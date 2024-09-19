@@ -141,7 +141,7 @@
           </div>
           <div class="col-12 col-md-12 text-center" >
             <div class="form-floating form-floating-outline">
-              <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+              <button type="submit" class="btn btn-primary me-sm-3 me-1" id="btn-submit">Submit</button>
               <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
             </div>
           </div>
@@ -179,11 +179,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
   $('.dataTable').dataTable();
 
   $('#formBerita').submit(function(e) {
-    e.preventDefault();
+      e.preventDefault();
 
-    var formData = new FormData(this);
-    //showBlock();
-    insert_update(formData);
+      var formData = new FormData(this);
+      
+      $('#btn-submit').prop('disabled', true);
+
+      insert_update(formData).done(function() {
+          $('#btn-submit').prop('disabled', false);
+      }).fail(function() {
+          $('#btn-submit').prop('disabled', false);
+      });
   });
 
   $(document).on('click', '.edit-berita', function () {
@@ -191,7 +197,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     // get data
     $.get(''.concat(baseUrl).concat('post-berita/').concat(id, '/edit'), function (data) {
     Object.keys(data).forEach(key => {
-        // console.log(key);
         if(key == 'id'){
           $('#id_berita')
             .val(data[key])
@@ -213,7 +218,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
   $(document).on('click', '.delete-berita', function () {
     const id = $(this).data('id');
-    console.log(id)
     // SweetAlert for confirmation of delete
     Swal.fire({
         title: 'Are you sure?',

@@ -144,7 +144,7 @@
           </div>
           <div class="col-12 col-md-12 text-center" >
             <div class="form-floating form-floating-outline">
-              <button type="submit" class="btn btn-primary me-sm-3 me-1 btn-submit">Submit</button>
+              <button type="submit" class="btn btn-primary me-sm-3 me-1" id="btn-submit">Submit</button>
               <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
             </div>
           </div>
@@ -168,13 +168,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
   $('.dataTable').dataTable();
 
   $('#formRuang').submit(function(e) {
-    e.preventDefault();
+      e.preventDefault();
 
-    var formData = new FormData(this);
-    //showBlock();
-    $('.btn-submit').prop('disabled', true);
-    insert_update(formData);
-    $('.btn-submit').prop('disabled', false);
+      var formData = new FormData(this);
+      
+      $('#btn-submit').prop('disabled', true);
+
+      insert_update(formData).done(function() {
+          $('#btn-submit').prop('disabled', false);
+      }).fail(function() {
+          $('#btn-submit').prop('disabled', false);
+      });
   });
 
   $('#btnTambahRuang').on('click', function(){

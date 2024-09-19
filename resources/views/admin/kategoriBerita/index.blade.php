@@ -86,7 +86,7 @@
           </div>
           <div class="col-12 col-md-12 text-center" >
             <div class="form-floating form-floating-outline">
-              <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+              <button type="submit" class="btn btn-primary me-sm-3 me-1" id="btn-submit">Submit</button>
               <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
             </div>
           </div>
@@ -110,10 +110,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
 $('.dataTable').dataTable();
 
   $('#formKategori').submit(function(e) {
-    e.preventDefault();
-    //showBlock();
-    var formData = new FormData(this);
-    insert_update(formData);
+      e.preventDefault();
+
+      var formData = new FormData(this);
+      
+      $('#btn-submit').prop('disabled', true);
+
+      insert_update(formData).done(function() {
+          $('#btn-submit').prop('disabled', false);
+      }).fail(function() {
+          $('#btn-submit').prop('disabled', false);
+      });
   });
 
   $(document).on('click', '.edit_kategori', function () {
@@ -121,8 +128,6 @@ $('.dataTable').dataTable();
     // get data
     $.get(''.concat(baseUrl).concat('kategori-berita/').concat(id, '/edit'), function (data) {
     Object.keys(data).forEach(key => {
-        //console.log(key);
-
         if(key == 'id'){
           $('#id_kategori')
             .val(data[key])
