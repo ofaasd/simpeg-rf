@@ -43,6 +43,7 @@ use App\Http\Controllers\admin\master\aset\MasterLantaiController;
 use App\Http\Controllers\admin\master\aset\MasterRuangController;
 use App\Http\Controllers\admin\RuangController;
 use App\Http\Controllers\admin\SaranController;
+use App\Http\Controllers\BangunanController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\KategoriController;
@@ -216,6 +217,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/aset/ruang', RuangController::class);
   Route::resource('/aset/barang', BarangController::class);
   Route::resource('/aset/tanah', TanahController::class);
+  Route::resource('/aset/bangunan', BangunanController::class);
 
   Route::resource('/psb', psb::class);
   Route::resource('/gelombang', $controller_path . '\admin\GelombangController');

@@ -147,7 +147,7 @@
     },
     {
       "url": "#",
-      "icon": "menu-icon tf-icons mdi mdi-folder-move",
+      "icon": "menu-icon tf-icons mdi mdi-account-tie-outline",
       "name": "Pegawai",
       "slug": "pegawai",
       "submenu": [
@@ -350,6 +350,11 @@
               "url": "aset/barang",
               "name": "Barang",
               "slug": "barang"
+            },
+            {
+              "url": "aset/bangunan",
+              "name": "Bangunan",
+              "slug": "bangunan"
             }
           ]
     },
