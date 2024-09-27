@@ -192,8 +192,9 @@
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
               <select name="statusTanah" class="form-control" id="status_tanah">
-                  <option value="hm">HM</option>
                   <option value="sewa">SEWA</option>
+                  <option value="aktif">AKTIF</option>
+                  <option value="dijual">DIJUAL</option>
               </select>
               <label for="status_tanah">Status Tanah</label>
             </div>

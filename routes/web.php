@@ -211,6 +211,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/post-berita', BeritaController::class);
   Route::resource('/master/aset/gedung', MasterGedungController::class);
   Route::resource('/master/aset/lantai', MasterLantaiController::class);
+  Route::resource('/master/aset/ruang', MasterRuangController::class);
   Route::resource('/master/aset/jenis-ruang', MasterJenisRuangController::class);
   Route::resource('/master/aset/jenis-barang', MasterJenisBarangController::class);
 

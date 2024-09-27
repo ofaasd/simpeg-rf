@@ -211,8 +211,9 @@
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
               <select name="status" class="form-control" id="status">
-                  <option value="hm">HM</option>
-                  <option value="sewa">SEWA</option>
+                <option value="sewa">SEWA</option>
+                <option value="aktif">AKTIF</option>
+                <option value="dijual">DIJUAL</option>
               </select>
               <label for="status">Status Bangunan</label>
             </div>

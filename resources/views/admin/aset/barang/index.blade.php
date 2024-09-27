@@ -45,6 +45,7 @@
                 <td>Nama Barang</td>
                 <td>Kondisi Penerimaan</td>
                 <td>Tanggal Perolehan</td>
+                <td>Status</td>
                 <td>Catatan</td>
                 <td>Aksi</td>
               </tr>
@@ -57,6 +58,7 @@
                   <td>{{ $row->nama }}</td>
                   <td>{{ ucwords(str_replace('-', ' ', $row->kondisi_penerimaan)) }}</td>
                   <td>{{ \Carbon\Carbon::parse($row->tanggal_perolehan)->locale('id')->translatedFormat('d F Y') }}</td>
+                  <td>{{ ucwords($row->status) }}</td>
                   <td>{{ $row->catatan }}</td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="First group">
@@ -130,6 +132,18 @@
               <label for="catatan">Catatan</label>
             </div>
           </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <select name="status" class="form-control" id="status">
+                <option value="normal">Normal</option>
+                <option value="rusak">Rusak</option>
+                <option value="hilang">Hilang</option>
+              </select>
+              <label for="status">Status Barang</label>
+            </div>
+          </div>
+
           <div class="col-12 col-md-12 text-center" >
             <div class="form-floating form-floating-outline">
               <button type="submit" class="btn btn-primary me-sm-3 me-1" id="btn-submit">Submit</button>
@@ -173,6 +187,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     $('#nama').val('');
     $('#tanggal_perolehan').val('');
     $('#catatan').val('');
+    $('#status').val('');
   })
 
   $(document).on('click', '.edit-barang', function () {
@@ -180,6 +195,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     $('#nama').val('');
     $('#tanggal_perolehan').val('');
     $('#catatan').val('');
+    $('#status').val('');
     // get data
     $.get(''.concat(baseUrl).concat('aset/barang/').concat(id, '/edit'), function (data) {
     Object.keys(data).forEach(key => {

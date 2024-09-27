@@ -37,9 +37,14 @@
       <div class="card-body" style="overflow-x:scroll">
         <div class="row">
           <div class="col-md-12">
-            <form action="{{ route('sinkronisasi') }}" method="GET">
-              @csrf
-              <button type="submit" class="btn btn-secondary btn-sm" >Sinkronkan Berita @if(session()->has('isNotif') && session('isNotif')) <span class="badge bg-danger rounded-pill ms-2 p-2">  </span> @endif</button>
+            <form id="form-sinkronisasi" action="{{ route('sinkronisasi') }}" method="GET">
+                @csrf
+                <button type="submit" id="btn-sinkronisasi" class="btn btn-secondary btn-sm">
+                    Sinkronkan Berita
+                    @if(session()->has('isNotif') && session('isNotif')) 
+                        <span class="badge bg-danger rounded-pill ms-2 p-2"></span> 
+                    @endif
+                </button>
             </form>
           </div>
           <div class="col-md-12 text-right">
@@ -63,8 +68,8 @@
                 <tr>
                   <td>{{$loop->iteration}}</td>
                   <td>{{ $row->judul }}</td>
-                  <td>{{ $row->kategori->nama_kategori }}</td>
-                  <td>{{ $row->user->name }}</td>
+                  <td>{{ $row->kategori->nama_kategori ?? '' }}</td>
+                  <td>{{ $row->user->name ?? '' }}</td>
                   <td>{{ $row->status }}</td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="First group">
@@ -165,6 +170,7 @@ function zeroPadded(val) {
   else
     return '0' + val;
 }
+
 document.addEventListener("DOMContentLoaded", function(event) {
   $(".select2").select2({
     dropdownParent: $("#modal_sakit")
@@ -189,6 +195,37 @@ document.addEventListener("DOMContentLoaded", function(event) {
           $('#btn-submit').prop('disabled', false);
       }).fail(function() {
           $('#btn-submit').prop('disabled', false);
+      });
+  });
+
+  $('#form-sinkronisasi').on('submit', function(e) {
+      e.preventDefault();
+
+      var $btn = $('#btn-sinkronisasi');
+      var originalText = $btn.html();
+      
+      $btn.prop('disabled', true);
+      $btn.html('<i class="fa fa-spinner fa-spin"></i> Sinkronisasi...'); 
+
+      // Send AJAX request
+      $.ajax({
+          url: $(this).attr('action'), 
+          type: 'GET', 
+          data: $(this).serialize(),
+          success: function(response) {
+              console.log('Response received:', response);
+              Swal.fire('Success', 'Sinkronisasi berhasil!', 'success');
+
+              $btn.prop('disabled', false);
+              $btn.html(originalText);
+          },
+          error: function(xhr) {
+              console.error('Error occurred:', xhr);
+              Swal.fire('Error', 'Terjadi kesalahan saat sinkronisasi!', 'error');
+
+              $btn.prop('disabled', false);
+              $btn.html(originalText);
+          }
       });
   });
 

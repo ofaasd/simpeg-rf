@@ -38,6 +38,7 @@ class BarangController extends Controller
                 'kondisi_penerimaan' => $request->kondisiPenerimaan,
                 'tanggal_perolehan' => $request->tglPerolehan,
                 'catatan' => $request->catatan,
+                'status' => $request->status,
               ]
             );
 
@@ -50,6 +51,7 @@ class BarangController extends Controller
                 'kondisi_penerimaan' => $request->kondisiPenerimaan,
                 'tanggal_perolehan' => $request->tglPerolehan,
                 'catatan' => $request->catatan,
+                'status' => $request->status,
             ]
           );
         }

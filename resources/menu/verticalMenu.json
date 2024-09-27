@@ -355,6 +355,16 @@
               "url": "aset/bangunan",
               "name": "Bangunan",
               "slug": "bangunan"
+            },
+            {
+              "url": "aset/elektronik",
+              "name": "Elektronik",
+              "slug": "elektronik"
+            },
+            {
+              "url": "aset/non-elektronik",
+              "name": "Non Elektronik",
+              "slug": "non-elektronik"
             }
           ]
     },

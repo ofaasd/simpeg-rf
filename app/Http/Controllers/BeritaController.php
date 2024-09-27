@@ -37,45 +37,43 @@ class BeritaController extends Controller
   }
 
   public function sinkronisasi()
-{
-    $response = Http::accept('application/json')->get('https://newapi.ppatq-rf.sch.id/public/index.php/post');
-    
-    if ($response->successful()) {
-      $json = $response->json();
+  {
+      $response = Http::accept('application/json')->get('https://newapi.ppatq-rf.sch.id/public/index.php/post');
+      
+      if ($response->successful()) {
+          $json = $response->json();
+          $jumlah = 0;
 
-      foreach ($json as $berita) {
-        $this->insertBerita(
-          $berita['ID'] ?? null,
-          $berita['post_author'] ?? null,
-          // $berita['thumbnail'] ?? null,
-          // $berita['gambarDalam'] ?? null,
-          $berita['post_content'] ?? null,
-          $berita['post_title'] ?? null,
-          $berita['post_status'] ?? null,
-          $berita['post_name'] ?? null,
-          $berita['post_date'] ?? null
-        );
+          foreach ($json as $berita) {
+              $this->insertBerita(
+                  $berita['ID'] ?? null,
+                  $berita['post_author'] ?? null,
+                  $berita['post_content'] ?? null,
+                  $berita['post_title'] ?? null,
+                  $berita['post_status'] ?? null,
+                  $berita['post_name'] ?? null,
+                  $berita['post_date'] ?? null
+              );
+              $jumlah++;
+          }
+
+          return back()->with('success', 'Berhasil menambah ' . $jumlah . ' data berita');
       }
-      
-        $jumlah = count($json);
-        return back()->with('success', 'Berhasil menambah data', $jumlah);
-      }
-      
-      // Mengembalikan 0 jika respons tidak berhasil
-      return 0;
-    }
+
+      return back()->with('error', 'Gagal menyinkronkan data berita');
+  }
     
     private function insertBerita(
       $id,
       $postAuthor,
       // $thumbnail,
-      // $gambarDalam,
       $isi_berita,
       $judulBerita,
       $postStatus,
       $slug,
       $createdAt
-      ) {
+      ) 
+      {
         $berita = Berita::where('id', $id)->first();
         $response = Http::get('https://newapi.ppatq-rf.sch.id/public/index.php/post_image/' . $id);
 
@@ -84,25 +82,21 @@ class BeritaController extends Controller
         $isi_berita = str_replace("\r\n", '</p><p>', $isi_berita);
         $siIsi = '<p>' . $isi_berita . '</p>';
         if (!$berita) {
-          return Berita::insertGetId([
-            'id' => $id,
-            'judul' => $judulBerita,
-            'user_id' => $postAuthor,
-            'kategori_id' => 2,
-            'slug' => $slug,
-            'thumbnail' => $thumbnail,
-            // 'gambar_dalam' => $gambarDalam,
-            'isi_berita' => $siIsi,
-            'status' => $postStatus,
-            'created_at' => $createdAt,
-        ]);
-    } else {
-        return $berita->id;
-    }
-}
-
-
-
+            return Berita::insertGetId([
+                  'id' => $id,
+                  'judul' => $judulBerita,
+                  'user_id' => $postAuthor,
+                  'kategori_id' => 2,
+                  'slug' => $slug,
+                  'thumbnail' => $thumbnail,
+                  'isi_berita' => $siIsi,
+                  'status' => $postStatus,
+                  'created_at' => $createdAt,
+              ]);
+        } else {
+            return $berita->id;
+        }
+      }
 
   /**
    * Show the form for creating a new resource.

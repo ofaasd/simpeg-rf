@@ -29,32 +29,42 @@
   <div class="col-xl-12">
   <div class="card mb-4" id="card-block">
       <div class="card-header">
-        <h4>Master Jenis Barang</h4>
+        <h4>Master Ruang</h4>
       </div>
       <div class="card-body" style="overflow-x:scroll">
         <div class="row">
           <div class="col-md-12 text-right">
-            <button type="button" id="btnTambahJenisBarang" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal_jenis_barang" style="float:right">+ Tambah</button>
+            <button type="button" id="btnTambahRuang" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal_ruang" style="float:right">+ Tambah</button>
           </div>
         </div>
-        <div id="table_jenis_barang">
+        <div id="table_ruang">
           <table class="dataTable table">
             <thead>
               <tr>
                 <td>No.</td>
-                <td>Jenis Barang</td>
+                <td>Gedung</td>
+                <td>Lantai</td>
+                <td>Kode Ruang</td>
+                <td>Jenis Ruang</td>
+                <td>Nama</td>
+                <td>Kapasitas</td>
                 <td>Aksi</td>
               </tr>
             </thead>
-            <tbody id="table_jenis_barang">
-              @foreach($jenisBarang as $row)
+            <tbody id="table_ruang">
+              @foreach($ruang as $row)
                 <tr>
                   <td>{{$loop->iteration}}</td>
+                  <td>{{ $row->gedung }}</td>
+                  <td>{{ $row->lantai }}</td>
+                  <td>{{ $row->kodeRuang }}</td>
+                  <td>{{ $row->jenisRuang }}</td>
                   <td>{{ $row->nama }}</td>
+                  <td>{{ $row->kapasitas }}</td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="First group">
-                      <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-jenis-barang waves-effect" data-bs-toggle="modal" data-bs-target="#modal_jenis_barang" data-status="lantai"><i class="mdi mdi-pencil me-1"></i></button>
-                      <button type="button" id="btnDelete" data-id="{{$row->id}}" class="btn btn-danger waves-effect delete-jenis-barang" data-bs-toggle="modal" data-bs-target="#hapus"><i class="mdi mdi-trash-can me-1"></i></button>
+                      <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-ruang waves-effect" data-bs-toggle="modal" data-bs-target="#modal_ruang" data-status="lantai"><i class="mdi mdi-pencil me-1"></i></button>
+                      <button type="button" id="btnDelete" data-id="{{$row->id}}" class="btn btn-danger waves-effect delete-ruang" data-bs-toggle="modal" data-bs-target="#hapus"><i class="mdi mdi-trash-can me-1"></i></button>
                     </div>
                   </td>
                 </tr>
@@ -67,25 +77,73 @@
   </div>
 </div>
 <!-- uang Saku Masuk -->
-<form id="formJenisBarang"  onsubmit="return false">
-  <div class="modal fade" id="modal_jenis_barang"  aria-hidden="true">
+<form id="formRuang"  onsubmit="return false">
+  <div class="modal fade" id="modal_ruang"  aria-hidden="true">
     <div class="modal-dialog modal-lg modal-simple modal-edit-user">
       <div class="modal-content p-3 p-md-5">
         <div class="modal-body py-3 py-md-0">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           <div class="text-center mb-4">
-            <h3 class="mb-2">Jenis Barang</h3>
-            <p class="pt-1">Tambah jenis barang baru</p>
+            <h3 class="mb-2">Ruang</h3>
+            <p class="pt-1">Tambah Master Ruang baru</p>
           </div>
           <div class="row g-4">
-          <input type="hidden" name="id" id="id_jenis_barang">
+          <input type="hidden" name="id" id="id_ruang">
 
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <input type="text" id='nama' name="nama" class="form-control" placeholder="cth: TV">
-              <label for="nama">Jenis Barang</label>
+              <select name="gedung" class="form-control" id="id_gedung">
+                @foreach($refGedung as $row)
+                  <option value="{{$row->id}}">{{$row->nama}}</option>
+                @endforeach
+              </select>
+              <label for="id_gedung">Gedung</label>
             </div>
           </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <select name="gedung" class="form-control" id="id_lantai">
+                @foreach($refLantai as $row)
+                  <option value="{{$row->id}}">{{$row->nama}}</option>
+                @endforeach
+              </select>
+              <label for="id_lantai">Lantai</label>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <input type="text" id='kode_ruang' name="kodeRuang" class="form-control">
+              <label for="kode_ruang">Kode Ruang</label>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <select name="gedung" class="form-control" id="id_jenis_ruang">
+                @foreach($refJenisRuang as $row)
+                  <option value="{{$row->id}}">{{$row->nama}}</option>
+                @endforeach
+              </select>
+              <label for="id_jenis_ruang">Jenis Ruang</label>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <input type="text" id='nama' name="nama" class="form-control">
+              <label for="nama">Nama</label>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <input type="text" id='kapasitas' name="kapasitas" class="form-control" placeholder="cth: laboratorium">
+              <label for="kapasitas">Kapasitas</label>
+            </div>
+          </div>
+
           <div class="col-12 col-md-12 text-center" >
             <div class="form-floating form-floating-outline">
               <button type="submit" class="btn btn-primary me-sm-3 me-1" id="btn-submit">Submit</button>
@@ -111,7 +169,7 @@ function zeroPadded(val) {
 document.addEventListener("DOMContentLoaded", function(event) {
   $('.dataTable').dataTable();
 
-  $('#formJenisBarang').submit(function(e) {
+  $('#formRuang').submit(function(e) {
       e.preventDefault();
 
       var formData = new FormData(this);
@@ -125,30 +183,35 @@ document.addEventListener("DOMContentLoaded", function(event) {
       });
   });
 
-  $('#btnTambahJenisBarang').on('click', function(){
+  $('#btnTambahRuang').on('click', function(){
     $('#nama').val('');
+    $('#kode_ruang').val('');
+    $('#kapasitas').val('');
   })
 
-  $(document).on('click', '.edit-jenis-barang', function () {
+  $(document).on('click', '.edit-ruang', function () {
     const id = $(this).data('id');
     $('#nama').val('');
+    $('#kode_ruang').val('');
+    $('#kapasitas').val('');
+
     // get data
-    $.get(''.concat(baseUrl).concat('master/aset/jenis-barang/').concat(id, '/edit'), function (data) {
+    $.get(''.concat(baseUrl).concat('master/aset/ruang/').concat(id, '/edit'), function (data) {
     Object.keys(data).forEach(key => {
-        if(key == 'id'){
-          $('#id_jenis_barang')
-            .val(data[key])
-            .trigger('change');
-        }else{
+        // if(key == 'ird'){
+        //   $('#id_jenis_ruang')
+        //     .val(data[key])
+        //     .trigger('change');
+        // }else{
           $('#' + key)
             .val(data[key])
             .trigger('change');
-        }
+        // }
     });
     });
   });
 
-  $(document).on('click', '.delete-jenis-barang', function () {
+  $(document).on('click', '.delete-ruang', function () {
     const id = $(this).data('id');
     // SweetAlert for confirmation of delete
     Swal.fire({
@@ -167,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             // Delete the data
             $.ajax({
                 type: 'DELETE',
-                url: ''.concat(baseUrl, 'master/aset/jenis-barang/', id),
+                url: ''.concat(baseUrl, 'master/aset/ruang/', id),
                 success: function () {
                     // Success SweetAlert after successful deletion
                     Swal.fire({
@@ -210,14 +273,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 function insert_update(formData){
   $.ajax({
       data: formData,
-      url: ''.concat(baseUrl).concat('master/aset/jenis-barang'),
+      url: ''.concat(baseUrl).concat('master/aset/ruang'),
       type: 'POST',
       cache: false,
       contentType: false,
       processData: false,
       success: function success(status) {
         //hilangkan modal
-        $('#modal_jenis_barang').modal('hide');
+        $('#modal_ruang').modal('hide');
         //reset form
         Swal.fire({
           icon: 'success',
