@@ -45,7 +45,7 @@ class AdminDetailTahfidzController extends Controller
       $var['id_tahfidz'] = $tahfidz->id;
       $title = 'Tahfidz Santri';
       $page = 'DetailKetahfidzan';
-      $var['kode_juz'] = KodeJuz::all();
+      $var['kode_juz'] = KodeJuz::orderBy('kode','asc')->get();
       $indexed = $this->indexed;
       return view('admin.tahfidz.tahfidz_detail', compact('title', 'page', 'indexed', 'var', 'ta', 'id'));
     } else {

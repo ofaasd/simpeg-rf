@@ -211,12 +211,12 @@
       "submenu": [
         {
           "url": "/kesehatan",
-          "name": "Laporan Kesehatan Santri",
+          "name": "Kesehatan Santri",
           "slug": "kesehatan-index"
         },
         {
           "url": "/kesehatan/santri",
-          "name": "Laporan Pemeriksaan Santri",
+          "name": "Pemeriksaan Santri",
           "slug": "kesehatan-santri"
         }
       ]
@@ -336,41 +336,41 @@
       "name": "Aset",
       "slug": "aset",
       "submenu": [
-            {
-              "url": "aset/tanah",
-              "name": "Tanah",
-              "slug": "tanah"
-            },
-            {
-              "url": "aset/ruang",
-              "name": "Ruang",
-              "slug": "ruang"
-            },
-            {
-              "url": "aset/barang",
-              "name": "Barang",
-              "slug": "barang"
-            },
-            {
-              "url": "aset/bangunan",
-              "name": "Bangunan",
-              "slug": "bangunan"
-            },
-            {
-              "url": "aset/elektronik",
-              "name": "Elektronik",
-              "slug": "elektronik"
-            },
-            {
-              "url": "aset/non-elektronik",
-              "name": "Non Elektronik",
-              "slug": "non-elektronik"
-            }
-          ]
+        {
+          "url": "aset/tanah",
+          "name": "Tanah",
+          "slug": "tanah"
+        },
+        {
+          "url": "aset/ruang",
+          "name": "Ruang",
+          "slug": "ruang"
+        },
+        {
+          "url": "aset/barang",
+          "name": "Barang",
+          "slug": "barang"
+        },
+        {
+          "url": "aset/bangunan",
+          "name": "Bangunan",
+          "slug": "bangunan"
+        },
+        {
+          "url": "aset/elektronik",
+          "name": "Elektronik",
+          "slug": "elektronik"
+        },
+        {
+          "url": "aset/non-elektronik",
+          "name": "Non Elektronik",
+          "slug": "non-elektronik"
+        }
+      ]
     },
     {
       "url": "/user-list",
-    "icon": "menu-icon tf-icons mdi mdi-account-outline",
+      "icon": "menu-icon tf-icons mdi mdi-account-outline",
       "name": "User",
       "slug": "User Management"
     }
