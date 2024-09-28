@@ -91,7 +91,11 @@ $(function () {
               $initials = $name.match(/\b\w/g) || [],
               $output;
             $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-            $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';
+            if(full.photo){
+              $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '"><img src="'+full.url_photo+'/' + full.photo +'"></span>';
+            }else{
+              $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';
+            }
 
             // Creates full output for row
             var $row_output =
@@ -138,6 +142,14 @@ $(function () {
           targets: 6,
           render: function render(data, type, full, meta) {
             return '<span>'.concat(full.pendidikan, '</span>');
+          }
+        },
+        {
+          searchable: false,
+          orderable: false,
+          targets: 7,
+          render: function render(data, type, full, meta) {
+            return '<span>'.concat(full.jumlah_santri, '</span>');
           }
         }
       ],

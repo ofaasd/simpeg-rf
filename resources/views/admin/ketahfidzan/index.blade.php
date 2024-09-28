@@ -26,6 +26,7 @@
           <th>Jabatan</th>
           <th>Alamat</th>
           <th>Pendidikan</th>
+          <th>Jumlah Santri</th>
         </tr>
       </thead>
     </table>

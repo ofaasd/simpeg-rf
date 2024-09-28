@@ -12,6 +12,7 @@ use App\Models\Santri;
 use App\Models\Loggin_mk1 as log;
 use Illuminate\Http\Request;
 use Session;
+use URL;
 
 class TahfidzController extends Controller
 {
@@ -302,6 +303,11 @@ class TahfidzController extends Controller
         $ids = $start;
 
         foreach ($EmployeeNew as $row) {
+          $ref_tahfidz = Tahfidz::where('employee_id',$row->id)->first();
+          $jumlah_santri = 0;
+          if($ref_tahfidz){
+            $jumlah_santri = Santri::where('tahfidz_id',$ref_tahfidz->id)->count() ?? 0;
+          }
           $nestedData['id'] = $row->id;
           $nestedData['fake_id'] = ++$ids;
           $nestedData['nama'] = $row->nama;
@@ -309,6 +315,10 @@ class TahfidzController extends Controller
           $nestedData['jabatan'] = $row->jab->name ?? '';
           $nestedData['alamat'] = $row->alamat;
           $nestedData['pendidikan'] = $row->pen->name ?? '';
+          $nestedData['jumlah_santri'] = $jumlah_santri;
+          $nestedData['photo'] = $row->photo ?? 0;
+          $nestedData['url_photo'] = URL::to('assets/img/upload/photo');
+
           $data[] = $nestedData;
         }
       }
