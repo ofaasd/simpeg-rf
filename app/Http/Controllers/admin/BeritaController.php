@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
 use App\Models\Berita;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
@@ -66,7 +67,6 @@ class BeritaController extends Controller
     private function insertBerita(
       $id,
       $postAuthor,
-      // $thumbnail,
       $isi_berita,
       $judulBerita,
       $postStatus,

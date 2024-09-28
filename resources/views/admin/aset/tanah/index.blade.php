@@ -58,7 +58,7 @@
                   <td>{{ $row->no_sertifikat }}</td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="First group">
-                        <button type="button" id="btnView" data-id="{{$row->id}}" class="btn btn-success view-tanah waves-effect" data-bs-toggle="modal" data-bs-target="#modal_view_tanah" data-status="view_tanah"><i class="mdi mdi-eye me-1"></i></button>
+                      <button type="button" id="btnView" data-id="{{$row->id}}" class="btn btn-success view-tanah waves-effect" data-bs-toggle="modal" data-bs-target="#modal_view_tanah" data-status="view_tanah"><i class="mdi mdi-eye me-1"></i></button>
                       <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-tanah waves-effect" data-bs-toggle="modal" data-bs-target="#modal_tanah" data-status="tanah"><i class="mdi mdi-pencil me-1"></i></button>
                       <button type="button" id="btnDelete" data-id="{{$row->id}}" class="btn btn-danger waves-effect delete-tanah" data-bs-toggle="modal" data-bs-target="#hapus"><i class="mdi mdi-trash-can me-1"></i></button>
                     </div>
@@ -74,7 +74,7 @@
 </div>
 <!-- uang Saku Masuk -->
 
-  <div class="modal fade" id="modal_view_tanah"  aria-hidden="true">
+<div class="modal fade" id="modal_view_tanah"  aria-hidden="true">
     <div class="modal-dialog modal-lg modal-simple">
       <div class="modal-content p-3 p-md-5">
         <div class="modal-body py-3 py-md-0">

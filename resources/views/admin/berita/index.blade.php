@@ -213,7 +213,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
           type: 'GET', 
           data: $(this).serialize(),
           success: function(response) {
-              console.log('Response received:', response);
               Swal.fire('Success', 'Sinkronisasi berhasil!', 'success');
 
               $btn.prop('disabled', false);
@@ -230,29 +229,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 
   $(document).on('click', '.edit-berita', function () {
-    const id = $(this).data('id');
-    // get data
-    $.get(''.concat(baseUrl).concat('post-berita/').concat(id, '/edit'), function (data) {
-    Object.keys(data).forEach(key => {
-        if(key == 'id'){
-          $('#id_berita')
-            .val(data[key])
-            .trigger('change');
-        }else if(key == 'thumbnail'){
-          $("#link_thumbnail").html('<a href="' + baseUrl + 'assets/img/upload/berita/thumbnail/' + data[key] + '" target="_blank">Link Gambar</a>');
-        }else if(key == 'gambar_dalam'){
-          $("#link_foto_isi").html('<a href="' + baseUrl + 'assets/img/upload/berita/foto_isi/' + data[key] + '" target="_blank">Link Gambar</a>');
-        }else if(key == 'isi_berita'){
-          $('isi_berita').val(data[key]).trigger('change');
-          document.querySelector("trix-editor").editor.loadHTML(data[key])
-        }else{
-          $('#' + key)
-              .val(data[key])
-              .trigger('change');
-        }
-    });
-    });
+      const id = $(this).data('id');
+
+      // Ambil data dengan GET request
+      $.get(''.concat(baseUrl).concat('post-berita/').concat(id, '/edit'), function (data) {
+          // Loop untuk memasukkan data ke form
+          Object.keys(data).forEach(key => {
+              if (key == 'id') {
+                  $('#id_berita')
+                      .val(data[key])
+                      .trigger('change');
+              } else if (key == 'thumbnail') {
+                  $("#link_thumbnail").html('<a href="' + baseUrl + 'assets/img/upload/berita/thumbnail/' + data[key] + '" target="_blank">Link Gambar</a>');
+              } else if (key == 'gambar_dalam') {
+                  $("#link_foto_isi").html('<a href="' + baseUrl + 'assets/img/upload/berita/foto_isi/' + data[key] + '" target="_blank">Link Gambar</a>');
+              } else if (key == 'isi_berita') {
+                  $('#isi_berita').val(data[key]).trigger('change');
+                  document.querySelector("trix-editor").editor.loadHTML(data[key]);
+              } else {
+                  $('#' + key)
+                      .val(data[key])
+                      .trigger('change');
+              }
+          });
+
+      });
   });
+
   $(document).on('click', '.delete-berita', function () {
     const id = $(this).data('id');
     // SweetAlert for confirmation of delete

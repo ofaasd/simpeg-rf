@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ruang;
 use App\Models\Barang;
-use App\Models\RefJenisBarang;
+use App\Models\Elektronik;
 use Illuminate\Http\Request;
+use App\Models\RefJenisBarang;
 
 class BarangController extends Controller
 {
@@ -14,13 +16,19 @@ class BarangController extends Controller
     public function index()
     {
         $title = 'Aset Barang';
-        $barang = Barang::select('aset_barang.*', 'ref_jenis_barang.nama as jenisBarang')
+        $barang = Barang::select('aset_barang.*', 'ref_jenis_barang.nama as jenisBarang', 'aset_ruang.kode_ruang as ruang')
         ->leftJoin('ref_jenis_barang', 'ref_jenis_barang.id', '=', 'aset_barang.id_jenis_barang')
+        ->leftJoin('aset_ruang', 'aset_ruang.id', '=', 'aset_barang.id_ruang')
         ->get();
 
         $refJenisBarang = RefJenisBarang::all();
+        $ruang = Ruang::all();
+
+        $asetElektronik = Elektronik::select('aset_elektronik.*', 'aset_ruang.kode_ruang as ruang')
+        ->leftJoin('aset_ruang', 'aset_ruang.id', '=', 'aset_elektronik.id_ruang')
+        ->get();
     
-        return view('admin.aset.barang.index', compact('barang', 'refJenisBarang', 'title'));
+        return view('admin.aset.barang.index', compact('barang', 'refJenisBarang', 'asetElektronik', 'ruang', 'title'));
     }
 
     public function store(Request $request)
@@ -33,6 +41,7 @@ class BarangController extends Controller
             $barang = Barang::updateOrCreate(
               ['id' => $id],
               [
+                'id_ruang' => $request->ruang,
                 'id_jenis_barang' => $request->jenisBarang,
                 'nama' => $request->nama,
                 'kondisi_penerimaan' => $request->kondisiPenerimaan,
@@ -46,6 +55,7 @@ class BarangController extends Controller
           $barang = Barang::updateOrCreate(
             ['id' => $id],
             [
+                'id_ruang' => $request->ruang,
                 'id_jenis_barang' => $request->jenisBarang,
                 'nama' => $request->nama,
                 'kondisi_penerimaan' => $request->kondisiPenerimaan,
