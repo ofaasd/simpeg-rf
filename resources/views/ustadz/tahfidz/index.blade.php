@@ -42,34 +42,38 @@
         <h4>List Santri</h4>
       </div>
       <div class="card-body">
-        <table class="dataTable table">
-          <thead>
-            <tr>
-              <td></td>
-              <td>No Induk</td>
-              <td>Nama</td>
-              <td>Kelas</td>
-              <td>Action</td>
-            </tr>
-          </thead>
-          <tbody>
-            @php
-            $i = 1;
-            @endphp
-            @foreach($var['list_santri'] as $santri)
+        @if(Session::get('tahfidz_id') == 0)
+          <div class="alert alert-danger">Maaf anda belum terdaftar sebagai guru tahfidz. harap daftarkan terlebih dahulu melalui menu master data tahfdiz</div>
+        @else
+          <table class="dataTable table">
+            <thead>
               <tr>
-                <td>{{$i}}</td>
-                <td>{{$santri->no_induk}}</td>
-                <td>{{$santri->nama}}</td>
-                <td>{{$santri->kelas}}</td>
-                <td><a href="{{url('ustadz/tahfidz/' . $santri->no_induk)}}"><span class="mdi mdi-information"></span></a></td>
+                <td></td>
+                <td>No Induk</td>
+                <td>Nama</td>
+                <td>Kelas</td>
+                <td>Action</td>
               </tr>
-            @php
-            $i++;
-            @endphp
-            @endforeach
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              @php
+              $i = 1;
+              @endphp
+              @foreach($var['list_santri'] as $santri)
+                <tr>
+                  <td>{{$i}}</td>
+                  <td>{{$santri->no_induk}}</td>
+                  <td>{{$santri->nama}}</td>
+                  <td>{{$santri->kelas}}</td>
+                  <td><a href="{{url('ustadz/tahfidz/' . $santri->no_induk)}}"><span class="mdi mdi-information"></span></a></td>
+                </tr>
+              @php
+              $i++;
+              @endphp
+              @endforeach
+            </tbody>
+          </table>
+        @endif
       </div>
     </div>
   </div>

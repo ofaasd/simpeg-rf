@@ -346,10 +346,15 @@ class TahfidzController extends Controller
     $var['EmployeeNew'] = EmployeeNew::where($where)->first();
     $title = 'Pegawai';
     $tahfidz = Tahfidz::where('employee_id', $id)->first();
-    Session::put('tahfidz_id', $tahfidz->id);
+    if($tahfidz){
+      Session::put('tahfidz_id', $tahfidz->id);
+      $var['list_santri'] = Santri::where('tahfidz_id', $tahfidz->id)->get();
+    }else{
+      Session::put('tahfidz_id', 0);
+    }
     Session::put('employee_id', $id);
 
-    $var['list_santri'] = Santri::where('tahfidz_id', $tahfidz->id)->get();
+
     return view('ustadz.tahfidz.index', compact('title', 'var', 'id'));
   }
   public function generate_emp_tahfidz()
