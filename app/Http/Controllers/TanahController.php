@@ -107,9 +107,9 @@ class TanahController extends Controller
         $barang = Tanah::where('id', $id)->first();
 
         if ($barang) {
-            $barang->tanggal_perolehan = Carbon::parse($barang->tanggal_perolehan)
+            $barang->tanggal_perolehan = $barang->tanggal_perolehan ? Carbon::parse($barang->tanggal_perolehan)
                 ->locale('id')
-                ->translatedFormat('d F Y');
+                ->translatedFormat('d F Y') : '';
         }
 
         return response()->json($barang);

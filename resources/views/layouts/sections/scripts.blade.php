@@ -35,6 +35,9 @@
 <script src="{{asset('assets/vendor/libs/cleavejs/cleave-phone.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/sweetalert2/sweetalert2.js')}}"></script>
 <script>
+document.addEventListener("DOMContentLoaded", function(event) {
+    $('.loader-container').hide();  
+});
   function reverseNumber(input) {
         return [].map.call(input, function(x) {
             return x;

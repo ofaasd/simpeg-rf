@@ -54,7 +54,7 @@
                   <td>{{ $row->nama }}</td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="First group">
-                      <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-gedung waves-effect" data-bs-toggle="modal" data-bs-target="#modal_gedung" data-status="gedung"><i class="mdi mdi-pencil me-1"></i></button>
+                      <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-gedung waves-effect" data-status="gedung"><i class="mdi mdi-pencil me-1"></i></button>
                       <button type="button" id="btnDelete" data-id="{{$row->id}}" class="btn btn-danger waves-effect delete-gedung" data-bs-toggle="modal" data-bs-target="#hapus"><i class="mdi mdi-trash-can me-1"></i></button>
                     </div>
                   </td>
@@ -134,6 +134,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
   $('#btnTambahGedung').on('click', function(){
+    $('#id_gedung').val('');
     $('#kode').val('');
     $('#nama').val('');
   });
@@ -141,12 +142,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   $(document).on('click', '.edit-gedung', function () {
     const id = $(this).data('id');
-
     $('#kode').val('');
     $('#nama').val('');
     // get data
+    $('.loader-container').show();
     $.get(''.concat(baseUrl).concat('master/aset/gedung/').concat(id, '/edit'), function (data) {
     Object.keys(data).forEach(key => {
+        if (data[key] == null) {
+            data[key] = '';
+        }
         if(key == 'id'){
           $('#id_gedung')
             .val(data[key])
@@ -157,6 +161,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             .trigger('change');
         }
     });
+    $('.loader-container').hide();
+    $('#modal_gedung').modal('show');
     });
   });
 
@@ -175,12 +181,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
         },
         buttonsStyling: false
     }).then(function (result) {
+      $('.loader-container').show();
         if (result.isConfirmed) {
             // Delete the data
             $.ajax({
                 type: 'DELETE',
                 url: ''.concat(baseUrl, 'master/aset/gedung/', id),
                 success: function () {
+                  $('.loader-container').hide();
                     // Success SweetAlert after successful deletion
                     Swal.fire({
                         icon: 'success',
@@ -194,6 +202,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 },
                 error: function (_error) {
                     console.log(_error);
+                    $('.loader-container').hide();
                     // Error SweetAlert in case of failure
                     Swal.fire({
                         title: 'Error!',
@@ -206,6 +215,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 }
             });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
+          $('.loader-container').hide();
             Swal.fire({
                 title: 'Cancelled',
                 text: 'The record is not deleted!',
@@ -220,6 +230,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 function insert_update(formData){
+  $('.loader-container').show();
   $.ajax({
       data: formData,
       url: ''.concat(baseUrl).concat('master/aset/gedung'),
@@ -229,6 +240,7 @@ function insert_update(formData){
       processData: false,
       success: function success(status) {
         //hilangkan modal
+        $('.loader-container').hide();
         $('#modal_gedung').modal('hide');
         //reset form
         Swal.fire({
@@ -244,6 +256,8 @@ function insert_update(formData){
       },
       error: function error(err) {
         //showUnblock();
+        $('.loader-container').hide();
+        $('#modal_gedung').modal('hide');
         console.log(err.responseText);
         Swal.fire({
           title: 'Cant Save Data !',

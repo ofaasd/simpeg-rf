@@ -45,6 +45,7 @@
                         <span class="badge bg-danger rounded-pill ms-2 p-2"></span> 
                     @endif
                 </button>
+                <small>*Membutuhkan waktu yang cukup lama</small>
             </form>
           </div>
           <div class="col-md-12 text-right">
@@ -73,7 +74,7 @@
                   <td>{{ $row->status }}</td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="First group">
-                      <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-berita waves-effect" data-bs-toggle="modal" data-bs-target="#modal_berita" data-status="berita"><i class="mdi mdi-pencil me-1"></i></button>
+                      <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-berita waves-effect" data-status="berita"><i class="mdi mdi-pencil me-1"></i></button>
                       <button type="button" id="btnDelete" data-id="{{$row->id}}" class="btn btn-danger waves-effect delete-berita" data-bs-toggle="modal" data-bs-target="#hapus"><i class="mdi mdi-trash-can me-1"></i></button>
                     </div>
                   </td>
@@ -182,6 +183,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
   $('#modal_sakit').on('hidden.bs.modal', function () {
       $('#formBerita').trigger("reset");
   });
+
+  $('#btnTambahBerita').on('click', function(){
+    $('#id_berita').val('');
+  });
+
   $('.dataTable').dataTable();
 
   $('#formBerita').submit(function(e) {
@@ -205,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var originalText = $btn.html();
       
       $btn.prop('disabled', true);
-      $btn.html('<i class="fa fa-spinner fa-spin"></i> Sinkronisasi...'); 
+      $('.loader-container').show();
 
       // Send AJAX request
       $.ajax({
@@ -213,17 +219,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
           type: 'GET', 
           data: $(this).serialize(),
           success: function(response) {
+            $('.loader-container').hide();
               Swal.fire('Success', 'Sinkronisasi berhasil!', 'success');
 
               $btn.prop('disabled', false);
-              $btn.html(originalText);
           },
           error: function(xhr) {
               console.error('Error occurred:', xhr);
+              $('.loader-container').hide();
               Swal.fire('Error', 'Terjadi kesalahan saat sinkronisasi!', 'error');
 
               $btn.prop('disabled', false);
-              $btn.html(originalText);
           }
       });
   });
@@ -231,10 +237,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
   $(document).on('click', '.edit-berita', function () {
       const id = $(this).data('id');
 
+      $('.loader-container').show();
       // Ambil data dengan GET request
       $.get(''.concat(baseUrl).concat('post-berita/').concat(id, '/edit'), function (data) {
           // Loop untuk memasukkan data ke form
           Object.keys(data).forEach(key => {
+              if (data[key] == null) {
+                data[key] = '';
+              }
               if (key == 'id') {
                   $('#id_berita')
                       .val(data[key])
@@ -252,7 +262,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                       .trigger('change');
               }
           });
-
+          $('.loader-container').hide();
+          $('#modal_berita').modal('show');
       });
   });
 
@@ -271,12 +282,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
         },
         buttonsStyling: false
     }).then(function (result) {
+        $('.loader-container').show();
         if (result.isConfirmed) {
             // Delete the data
             $.ajax({
                 type: 'DELETE',
                 url: ''.concat(baseUrl, 'post-berita/', id),
                 success: function () {
+                    $('.loader-container').hide();
                     // Success SweetAlert after successful deletion
                     Swal.fire({
                         icon: 'success',
@@ -289,6 +302,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 },
                 error: function (_error) {
                     console.log(_error);
+                    $('.loader-container').hide();
                     // Error SweetAlert in case of failure
                     Swal.fire({
                         title: 'Error!',
@@ -301,6 +315,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 }
             });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
+          $('.loader-container').hide();
             Swal.fire({
                 title: 'Cancelled',
                 text: 'The record is not deleted!',
@@ -315,6 +330,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 function insert_update(formData){
+  $('.loader-container').show();
   $.ajax({
       data: formData,
       url: ''.concat(baseUrl).concat('post-berita'),
@@ -327,6 +343,7 @@ function insert_update(formData){
         //showUnblock();
         //hilangkan modal
         $('#modal_berita').modal('hide');
+        $('.loader-container').hide();
         //reset form
         //refresh table
         reload_table();
@@ -341,6 +358,8 @@ function insert_update(formData){
       },
       error: function error(err) {
         //showUnblock();
+        $('#modal_berita').modal('hide');
+        $('.loader-container').hide();
         console.log(err.responseText);
         Swal.fire({
           title: 'Cant Save Data !',

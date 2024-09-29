@@ -64,7 +64,7 @@
                   <td>{{ $row->catatan }}</td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="First group">
-                      <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-ruang waves-effect" data-bs-toggle="modal" data-bs-target="#modal_ruang" data-status="lantai"><i class="mdi mdi-pencil me-1"></i></button>
+                      <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-ruang waves-effect"data-status="lantai"><i class="mdi mdi-pencil me-1"></i></button>
                       <button type="button" id="btnDelete" data-id="{{$row->id}}" class="btn btn-danger waves-effect delete-ruang" data-bs-toggle="modal" data-bs-target="#hapus"><i class="mdi mdi-trash-can me-1"></i></button>
                     </div>
                   </td>
@@ -210,6 +210,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 
   $('#btnTambahRuang').on('click', function(){
+    $('#id').val('');
     $('#nama').val('');
     $('#kode_ruang').val('');
     $('#kapasitas').val('');
@@ -224,9 +225,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
     $('#kapasitas').val('');
     $('#status').val('');
     $('#catatan').val('');
+    $('.loader-container').show();
     // get data
     $.get(''.concat(baseUrl).concat('aset/ruang/').concat(id, '/edit'), function (data) {
     Object.keys(data).forEach(key => {
+      if (data[key] == null) {
+          data[key] = '';
+      }
         if(key == 'last_checking'){
             var dateOnly = data[key].split(' ')[0];
             $('#' + key)
@@ -238,6 +243,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             .trigger('change');
         }
     });
+    $('#modal_ruang').modal('show');
+    $('.loader-container').hide();
     });
   });
 
@@ -256,12 +263,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
         },
         buttonsStyling: false
     }).then(function (result) {
+        $('.loader-container').show();
         if (result.isConfirmed) {
             // Delete the data
             $.ajax({
                 type: 'DELETE',
                 url: ''.concat(baseUrl, 'aset/ruang/', id),
                 success: function () {
+                  $('#modal_ruang').modal('hide');
+                  $('.loader-container').hide();
                     // Success SweetAlert after successful deletion
                     Swal.fire({
                         icon: 'success',
@@ -274,7 +284,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     location.reload();
                 },
                 error: function (_error) {
-                    console.log(_error);
+                  console.log(_error);
+                  $('#modal_ruang').modal('hide');
+                  $('.loader-container').hide();
                     // Error SweetAlert in case of failure
                     Swal.fire({
                         title: 'Error!',
@@ -301,6 +313,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 function insert_update(formData){
+  $('.loader-container').show();
   $.ajax({
       data: formData,
       url: ''.concat(baseUrl).concat('aset/ruang'),
@@ -311,6 +324,7 @@ function insert_update(formData){
       success: function success(status) {
         //hilangkan modal
         $('#modal_ruang').modal('hide');
+        $('.loader-container').hide();
         //reset form
         Swal.fire({
           icon: 'success',
@@ -326,6 +340,8 @@ function insert_update(formData){
       error: function error(err) {
         //showUnblock();
         console.log(err.responseText);
+        $('#modal_ruang').modal('hide');
+        $('.loader-container').hide();
         Swal.fire({
           title: 'Cant Save Data !',
           text:  'Data Not Saved !',

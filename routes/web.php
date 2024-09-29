@@ -133,7 +133,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::get('ustadz/kesehatan/santri', [UstKesehatanController::class, 'santri']);
   Route::get('ustadz/kesehatan/santri/{id}', [UstKesehatanController::class, 'get_santri']);
 
-  Route::get('/structural-position/get-school/{id}', $controller_path .'\admin\StrucutralPositionController@getSchool');
+  Route::get(
+    '/structural-position/get-school/{id}',
+    $controller_path . '\admin\StrucutralPositionController@getSchool'
+  );
   Route::get('/murroby/uang-saku/{id}', [AdminMurrobyController::class, 'uang_saku']);
   Route::get('/murroby/uang-saku-detail/{id}/{id_santri}', [AdminMurrobyController::class, 'uang_saku_detail']);
   Route::post('/pegawai/store_golru', [Pegawai::class, 'store_golru']);

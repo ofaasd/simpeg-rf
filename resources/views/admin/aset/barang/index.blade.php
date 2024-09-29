@@ -23,6 +23,7 @@
     font-size: 0.8em;
   }
 </style>
+
 <!--/ Navbar pills -->
 <div class="row">
   <div class="col-xl-12">
@@ -41,7 +42,7 @@
       <div class="tab-pane fade show active" id="aset-barang" role="tabpanel" aria-labelledby="aset-barang-tab">
         <div class="card mb-4" id="card-block">
           <div class="card-header">
-            <h4>Aset Barang</h4>
+            <h4>Aset Non Elektronik</h4>
           </div>
           <div class="card-body" style="overflow-x:scroll">
             <div class="row">
@@ -77,7 +78,7 @@
                       <td>{{ $row->catatan }}</td>
                       <td>
                         <div class="btn-group btn-group-sm" role="group" aria-label="First group">
-                          <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-barang waves-effect" data-bs-toggle="modal" data-bs-target="#modal_barang" data-status="lantai"><i class="mdi mdi-pencil me-1"></i></button>
+                          <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-barang waves-effect" data-status="lantai"><i class="mdi mdi-pencil me-1"></i></button>
                           <button type="button" id="btnDelete" data-id="{{$row->id}}" class="btn btn-danger waves-effect delete-barang" data-bs-toggle="modal" data-bs-target="#hapus"><i class="mdi mdi-trash-can me-1"></i></button>
                         </div>
                       </td>
@@ -121,8 +122,8 @@
                       <td>{{ ucwords($row->status) }}</td>
                       <td>
                         <div class="btn-group btn-group-sm" role="group" aria-label="First group">
-                          <button type="button" id="btnView" data-id="{{$row->id}}" class="btn btn-success view-elektronik waves-effect" data-bs-toggle="modal" data-bs-target="#modal_view_elektronik" data-status="view_elektronik"><i class="mdi mdi-eye me-1"></i></button>
-                          <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-elektronik waves-effect" data-bs-toggle="modal" data-bs-target="#modal_elektronik" data-status="elektronik"><i class="mdi mdi-pencil me-1"></i></button>
+                          <button type="button" id="btnView" data-id="{{$row->id}}" class="btn btn-success view-elektronik waves-effect" data-status="view_elektronik"><i class="mdi mdi-eye me-1"></i></button>
+                          <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-elektronik waves-effect" data-status="elektronik"><i class="mdi mdi-pencil me-1"></i></button>
                           <button type="button" id="btnDelete" data-id="{{$row->id}}" class="btn btn-danger waves-effect delete-elektronik" data-bs-toggle="modal" data-bs-target="#hapus"><i class="mdi mdi-trash-can me-1"></i></button>
                         </div>
                       </td>
@@ -141,61 +142,6 @@
     </div>
   </div>
 </div>
-
-{{-- <div class="row">
-  <div class="col-xl-12">
-  <div class="card mb-4" id="card-block">
-      <div class="card-header">
-        <h4>Aset Barang</h4>
-      </div>
-      <div class="card-body" style="overflow-x:scroll">
-        <div class="row">
-          <div class="col-md-12 text-right">
-            <button type="button" id="btnTambahBarang" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal_barang" style="float:right">+ Tambah</button>
-          </div>
-        </div>
-        <div id="table_barang">
-          <table class="dataTable table">
-            <thead>
-              <tr>
-                <td>No.</td>
-                <td>Ruang</td>
-                <td>Jenis Barang</td>
-                <td>Nama Barang</td>
-                <td>Kondisi Penerimaan</td>
-                <td>Tanggal Perolehan</td>
-                <td>Status</td>
-                <td>Catatan</td>
-                <td>Aksi</td>
-              </tr>
-            </thead>
-            <tbody id="table_barang">
-              @foreach($barang as $row)
-                <tr>
-                  <td>{{$loop->iteration}}</td>
-                  <td>{{ $row->ruang }}</td>
-                  <td>{{ $row->jenisBarang }}</td>
-                  <td>{{ $row->nama }}</td>
-                  <td>{{ ucwords(str_replace('-', ' ', $row->kondisi_penerimaan)) }}</td>
-                  <td>{{ \Carbon\Carbon::parse($row->tanggal_perolehan)->locale('id')->translatedFormat('d F Y') }}</td>
-                  <td>{{ ucwords($row->status) }}</td>
-                  <td>{{ $row->catatan }}</td>
-                  <td>
-                    <div class="btn-group btn-group-sm" role="group" aria-label="First group">
-                      <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-barang waves-effect" data-bs-toggle="modal" data-bs-target="#modal_barang" data-status="lantai"><i class="mdi mdi-pencil me-1"></i></button>
-                      <button type="button" id="btnDelete" data-id="{{$row->id}}" class="btn btn-danger waves-effect delete-barang" data-bs-toggle="modal" data-bs-target="#hapus"><i class="mdi mdi-trash-can me-1"></i></button>
-                    </div>
-                  </td>
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> --}}
-
 
 {{-- Modal Barang --}}
 <form id="formBarang">
@@ -489,8 +435,30 @@ function zeroPadded(val) {
   else
     return '0' + val;
 }
+
+function toElektronik()
+{
+  $('.tab-slider').attr('style', 'left: 177.867px; width: 139.667px; bottom: 0px;');
+  $('#aset-barang').removeClass('show active');
+  $('#aset-barang-tab').removeClass('active').attr('aria-selected', 'false');
+
+  $('#elektronik').addClass('show active');  // 'show' + 'active' untuk konten tab
+  $('#elektronik-tab')
+      .addClass('active')
+      .attr('aria-selected', 'true')
+      .attr('style', 'border-color: var(--bs-nav-tabs-link-active-border-color);');
+  let tab = new bootstrap.Tab(document.querySelector('#elektronik-tab'));
+  tab.show();
+  console.log('tab hidup')
+}
+
 document.addEventListener("DOMContentLoaded", function(event) {
   $('.dataTable').dataTable();
+  const urlParams = new URLSearchParams(window.location.search);
+    const tab = urlParams.get('tab');
+    if (tab === 'elektronik') {
+        toElektronik();
+    }
 
   $('#formBarang').submit(function(e) {
       e.preventDefault();
@@ -521,6 +489,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 
   $('#btnTambahBarang').on('click', function(){
+    $('#id_barang').val('');
     $('#nama').val('');
     $('#tanggal_perolehan').val('');
     $('#catatan').val('');
@@ -528,6 +497,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   })
 
   $('#btnTambahElektronik').on('click', function(){
+    $('#id_elektronik').val('');
     $('#nama_elektronik').val('');
     $('#tanggal_perolehan_elektronik').val('');
     $('#garansi_elektronik').val('');
@@ -545,8 +515,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     $('#catatan').val('');
     $('#status').val('');
     // get data
+    $('.loader-container').show();
     $.get(''.concat(baseUrl).concat('aset/barang/').concat(id, '/edit'), function (data) {
     Object.keys(data).forEach(key => {
+        if(data[key] == null){
+          data[key] = ''
+        }
         if(key == 'tanggal_perolehan'){
           var dateOnly = data[key].split(' ')[0];
           $('#' + key)
@@ -562,19 +536,28 @@ document.addEventListener("DOMContentLoaded", function(event) {
             .trigger('change');
         }
     });
+    $('#modal_barang').modal('show');
+    $('.loader-container').hide();
     });
   });
 
   $(document).on('click', '.view-elektronik', function () {
       const id = $(this).data('id');
       // Get data
+      $('.loader-container').show();
       $.get(''.concat(baseUrl).concat('aset/elektronik/').concat(id))
           .done(function (data) {
               Object.keys(data).forEach(key => {
-                  $('#view-elektronik-' + key).text(data[key]);
+                if(data[key] == null){
+                  data[key] = ''
+                }
+                $('#view-elektronik-' + key).text(data[key]);
               });
+              $('#modal_view_elektronik').modal('show');
+              $('.loader-container').hide();
           })
           .fail(function (jqXHR, textStatus, errorThrown) {
+              $('.loader-container').hide();
               console.error('Error fetching data:', textStatus, errorThrown);
           });
   });
@@ -590,8 +573,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     $('#catatan_elektronik').val('');
     $('#status_elektronik').val('');
     // get data
+    $('.loader-container').show();
     $.get(''.concat(baseUrl).concat('aset/elektronik/').concat(id, '/edit'), function (data) {
     Object.keys(data).forEach(key => {
+      if(data[key] == null){
+        data[key] = ''
+      }
         if(key == 'tanggal_perolehan'){
           var dateOnly = data[key].split(' ')[0];
           $('#' + key + '_elektronik')
@@ -608,6 +595,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             .trigger('change');
         }
     });
+    $('#modal_elektronik').modal('show');
+    $('.loader-container').hide();
     });
   });
 
@@ -628,11 +617,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
       }).then(function (result) {
           if (result.isConfirmed) {
               // Delete the data
+              $('.loader-container').show();
               $.ajax({
                   type: 'DELETE',
                   url: ''.concat(baseUrl, 'aset/barang/', id),
                   success: function () {
                       // Success SweetAlert after successful deletion
+                      $('.loader-container').hide();
                       Swal.fire({
                           icon: 'success',
                           title: 'Deleted!',
@@ -641,10 +632,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
                               confirmButton: 'btn btn-success'
                           }
                       });
-                      location.reload();
+                      location.href = "barang";
                   },
                   error: function (_error) {
                       console.log(_error);
+                      $('.loader-container').hide();
                       // Error SweetAlert in case of failure
                       Swal.fire({
                           title: 'Error!',
@@ -654,6 +646,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                               confirmButton: 'btn btn-danger'
                           }
                       });
+                      location.href = "barang";
                   }
               });
           } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -685,11 +678,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
           buttonsStyling: false
       }).then(function (result) {
           if (result.isConfirmed) {
+            $('.loader-container').show();
               // Delete the data
               $.ajax({
                   type: 'DELETE',
                   url: ''.concat(baseUrl, 'aset/elektronik/', id),
                   success: function () {
+                    $('.loader-container').hide();
                       // Success SweetAlert after successful deletion
                       Swal.fire({
                           icon: 'success',
@@ -699,10 +694,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
                               confirmButton: 'btn btn-success'
                           }
                       });
-                      location.reload();
+                      location.href = "?tab=elektronik";
                   },
                   error: function (_error) {
                       console.log(_error);
+                      $('.loader-container').hide();
                       // Error SweetAlert in case of failure
                       Swal.fire({
                           title: 'Error!',
@@ -712,9 +708,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
                               confirmButton: 'btn btn-danger'
                           }
                       });
+                      location.href = "?tab=elektronik";
                   }
               });
           } else if (result.dismiss === Swal.DismissReason.cancel) {
+            $('.loader-container').hide();
               Swal.fire({
                   title: 'Cancelled',
                   text: 'The record is not deleted!',
@@ -729,6 +727,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 function insert_update(formData){
+  $('.loader-container').show();
   $.ajax({
       data: formData,
       url: ''.concat(baseUrl).concat('aset/barang'),
@@ -737,6 +736,7 @@ function insert_update(formData){
       contentType: false,
       processData: false,
       success: function success(status) {
+        $('.loader-container').hide();
         //hilangkan modal
         $('#modal_barang').modal('hide');
         //reset form
@@ -749,10 +749,12 @@ function insert_update(formData){
           }
         });
 
-        location.reload();
+        location.href = "barang";
       },
       error: function error(err) {
         //showUnblock();
+        $('#modal_barang').modal('hide');
+        $('.loader-container').hide();
         console.log(err.responseText);
         Swal.fire({
           title: 'Cant Save Data !',
@@ -762,11 +764,14 @@ function insert_update(formData){
             confirmButton: 'btn btn-success'
           }
         });
+        location.href = "barang";
       }
     });
 }
 
-function insert_update_elektronik(formData){
+function insert_update_elektronik(formData)
+{
+  $('.loader-container').show();
   $.ajax({
       data: formData,
       url: ''.concat(baseUrl).concat('aset/elektronik'),
@@ -775,8 +780,9 @@ function insert_update_elektronik(formData){
       contentType: false,
       processData: false,
       success: function success(status) {
+        $('.loader-container').hide();
         //hilangkan modal
-        $('#modal_barang').modal('hide');
+        $('#modal_elektronik').modal('hide');
         //reset form
         Swal.fire({
           icon: 'success',
@@ -787,10 +793,12 @@ function insert_update_elektronik(formData){
           }
         });
 
-        location.reload();
+        location.href = "?tab=elektronik";
       },
       error: function error(err) {
         //showUnblock();
+        $('#modal_elektronik').modal('hide');
+        $('.loader-container').hide();
         console.log(err.responseText);
         Swal.fire({
           title: 'Cant Save Data !',
@@ -800,6 +808,7 @@ function insert_update_elektronik(formData){
             confirmButton: 'btn btn-success'
           }
         });
+        location.href = "?tab=elektronik";
       }
     });
 }
