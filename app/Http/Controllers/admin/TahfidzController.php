@@ -376,4 +376,21 @@ class TahfidzController extends Controller
       echo '<br />';
     }
   }
+  public function grafik(String $id){
+    $where = ['id' => $id];
+    $var['EmployeeNew'] = EmployeeNew::where($where)->first();
+    $title = 'Pegawai';
+    $tahfidz = Tahfidz::where('employee_id', $id)->first();
+    if($tahfidz){
+      Session::put('tahfidz_id', $tahfidz->id);
+      $var['list_santri'] = Santri::where('tahfidz_id', $tahfidz->id)->get();
+    }else{
+      Session::put('tahfidz_id', 0);
+    }
+    Session::put('employee_id', $id);
+
+
+    return view('ustadz.tahfidz.grafik', compact('title', 'var', 'id'));
+
+  }
 }

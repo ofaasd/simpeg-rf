@@ -91,6 +91,7 @@ $(function () {
           render: function render(data, type, full, meta) {
             return (
               '<div class="d-inline-block text-nowrap">' +
+              '<a href="').concat(baseUrl).concat('gelombang_detail/').concat(full['id']).concat('" class="btn btn-sm btn-icon" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" data-bs-original-title="Detail Gelombang"><i class="mdi mdi-clipboard-list mdi-20px"></i></a>'+
               '<button class="btn btn-sm btn-icon edit-record" data-id="'
                 .concat(full['id'], '" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAdd')
                 .concat(title, '"><i class="mdi mdi-pencil-outline mdi-20px"></i></button>') +

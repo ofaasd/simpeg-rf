@@ -159,6 +159,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::delete('/pegawai/hapus_murroby_santri/{id}', [Pegawai::class, 'hapus_murroby_santri']);
   Route::get('/generate_emp_tahfidz', [TahfidzController::class, 'generate_emp_tahfidz']);
   Route::post('/ketahfidzan', [TahfidzController::class, 'ketahfidzan']);
+  Route::get('/ketahfidzan/grafik/{id}', [TahfidzController::class, 'grafik']);
+  Route::get('/ketahfidzan/detail_grafik/{id}', [TahfidzController::class, 'grafik_detail']);
   Route::get('ustadz/detail_ketahfidzan', [AdminDetailTahfidzController::class, 'index']);
   Route::post('ustadz/detail_ketahfidzan', [AdminDetailTahfidzController::class, 'store']);
   Route::post('ustadz/saku_masuk/update_bulan', [SakuMasukController::class, 'update_bulan']);
@@ -185,6 +187,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('/pembayaran/update_status', [PembayaranController::class, 'update_status']);
   Route::post('/pembayaran/get_pesan_warning', [PembayaranController::class, 'get_pesan_warning']);
   Route::post('/pembayaran/send_warning', [PembayaranController::class, 'send_warning']);
+
+  Route::get('/gelombang_detail/{id}', [$controller_path . '\admin\GelombangDetailCOntroller', 'index']);
 
   Route::resource('/users', UserController::class);
   Route::resource('/user-list', UserManagement::class);
@@ -222,6 +226,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
   Route::resource('/psb', psb::class);
   Route::resource('/gelombang', $controller_path . '\admin\GelombangController');
+  Route::resource('/gelombang_detail', $controller_path . '\admin\GelombangDetailCOntroller');
 
   Route::resource('/alumni', $controller_path . '\admin\AlumniController');
   Route::resource('/media_saran', $controller_path . '\admin\SaranController');

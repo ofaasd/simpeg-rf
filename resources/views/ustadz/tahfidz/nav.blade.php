@@ -9,7 +9,7 @@
     @else
       <li class="nav-item"><a class="nav-link {{ (Request::segment(1)=='ketahfidzan')?'active':'' }}" href="{{url('ketahfidzan/' . $id)}}"><i class='mdi mdi-account-outline me-1 mdi-20px'></i>List Santri</a></li>
       <li class="nav-item"><a class="nav-link {{ (Request::segment(1)=='detail_ketahfidzan')?'active':'' }}" href="{{url('detail_ketahfidzan/')}}"><i class='mdi mdi-account-multiple-outline me-1 mdi-20px'></i>Tahfidz Santri</a></li>
-      <li class="nav-item"><a class="nav-link {{ (Request::segment(1)=='grafik_ketahfidzan')?'active':'' }}" href="{{url('grafik_ketahfidzan/')}}"><i class='mdi mdi-view-grid-outline me-1 mdi-20px'></i>Grafik Tahfidz</a></li>
+      <li class="nav-item"><a class="nav-link {{ (Request::segment(2)=='grafik')?'active':'' }}" href="{{url('ketahfidzan/grafik/' . $id)}}"><i class='mdi mdi-view-grid-outline me-1 mdi-20px'></i>Grafik Tahfidz</a></li>
     @endif
     </ul>
   </div>
