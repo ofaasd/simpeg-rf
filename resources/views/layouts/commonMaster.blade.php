@@ -26,6 +26,11 @@
 </head>
 
 <body>
+  <div class="loader-container" id="loader">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+  </div>
   <!-- Layout Content -->
   @yield('layoutContent')
   <!--/ Layout Content -->

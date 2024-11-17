@@ -60,8 +60,8 @@
                   <td>{{ $row->luas }}</td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="First group">
-                        <button type="button" id="btnView" data-id="{{$row->id}}" class="btn btn-success view-bangunan waves-effect" data-bs-toggle="modal" data-bs-target="#modal_view_bangunan" data-status="view_bangunan"><i class="mdi mdi-eye me-1"></i></button>
-                      <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-bangunan waves-effect" data-bs-toggle="modal" data-bs-target="#modal_bangunan" data-status="tanah"><i class="mdi mdi-pencil me-1"></i></button>
+                        <button type="button" id="btnView" data-id="{{$row->id}}" class="btn btn-success view-bangunan waves-effect" data-status="view_bangunan"><i class="mdi mdi-eye me-1"></i></button>
+                      <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-bangunan waves-effect" data-status="tanah"><i class="mdi mdi-pencil me-1"></i></button>
                       <button type="button" id="btnDelete" data-id="{{$row->id}}" class="btn btn-danger waves-effect delete-bangunan" data-bs-toggle="modal" data-bs-target="#hapus"><i class="mdi mdi-trash-can me-1"></i></button>
                     </div>
                   </td>
@@ -131,12 +131,6 @@
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
               <p>Tanggal Pembangunan : <span id='view-tanggal_pembangunan'></span></p>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6">
-            <div class="form-floating form-floating-outline">
-              <a class="btn btn-sm btn-primary" id='view-bukti_fisik' href="" target="_blank">Lihat Bukti</a>
             </div>
           </div>
         </div>
@@ -291,6 +285,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 
   $('#btnTambahBangunan').on('click', function(){
+    $('#id_bangunan').val('');
     $('#nama').val('');
     $('#no_sertifikat').val('');
     $('#tanggal_pembangunan').val('');
@@ -307,18 +302,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
   $(document).on('click', '.view-bangunan', function () {
     const id = $(this).data('id');
     // get data
+    $('.loader-container').show();
     $.get(''.concat(baseUrl).concat('aset/bangunan/').concat(id), function (data) {
     Object.keys(data).forEach(key => {
-        // if(key == ''){
-        //   var dateOnly = data[key];
-        //   $('#view' + key)
-        //     .val(dateOnly)
-        //     .trigger('change');
-        // }else{
+        if (data[key] == null) {
+            data[key] = '';
+        }else{
           $('#view-' + key)
             .text(data[key]);
-        // }
+        }
     });
+    $('.loader-container').hide();
+    $('#modal_view_bangunan').modal('show');
     });
   });
 
@@ -331,9 +326,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
     $('#luas').val('');
     $('#status').val('');
     $('#buktiFisik').val('');
+
+    $('.loader-container').show();
     // get data
     $.get(''.concat(baseUrl).concat('aset/bangunan/').concat(id, '/edit'), function (data) {
     Object.keys(data).forEach(key => {
+      if (data[key] == null) {
+          data[key] = '';
+      }
         if(key == 'id'){
           $('#id_bangunan')
             .val(data[key])
@@ -343,17 +343,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
           $('#' + key)
             .val(dateOnly)
             .trigger('change');
-        }else if(key == 'bukti_fisik'){
-            var href = baseUrl + 'assets/img/upload/bukti_fisik_bangunan/' + data[key]
-            $('#bukti_fisik')
-            .attr('href', href)
-            .attr('target', '_blank');;
         }else{
           $('#' + key)
             .val(data[key])
             .trigger('change');
         }
     });
+    $('.loader-container').hide();
+    $('#modal_bangunan').modal('show');
     });
   });
 
@@ -372,6 +369,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         },
         buttonsStyling: false
     }).then(function (result) {
+        $('.loader-container').show();
         if (result.isConfirmed) {
             // Delete the data
             $.ajax({
@@ -379,6 +377,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 url: ''.concat(baseUrl, 'aset/bangunan/', id),
                 success: function () {
                     // Success SweetAlert after successful deletion
+                    $('.loader-container').hide();
+                    $('#modal_bangunan').modal('hide');
                     Swal.fire({
                         icon: 'success',
                         title: 'Deleted!',
@@ -392,6 +392,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 error: function (_error) {
                     console.log(_error);
                     // Error SweetAlert in case of failure
+                    $('.loader-container').hide();
+                    $('#modal_bangunan').modal('hide');
                     Swal.fire({
                         title: 'Error!',
                         text: 'There was an error deleting the record.',
@@ -403,6 +405,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 }
             });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
+          $('.loader-container').hide();
+          $('#modal_bangunan').modal('hide');
             Swal.fire({
                 title: 'Cancelled',
                 text: 'The record is not deleted!',
@@ -417,6 +421,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 function insert_update(formData){
+  $('.loader-container').show();
   $.ajax({
       data: formData,
       url: ''.concat(baseUrl).concat('aset/bangunan'),
@@ -427,6 +432,7 @@ function insert_update(formData){
       success: function success(status) {
         //hilangkan modal
         $('#modal_bangunan').modal('hide');
+        $('.loader-container').hide();
         //reset form
         Swal.fire({
           icon: 'success',
@@ -442,6 +448,8 @@ function insert_update(formData){
       error: function error(err) {
         //showUnblock();
         console.log(err.responseText);
+        $('.loader-container').hide();
+        $('#modal_bangunan').modal('hide');
         Swal.fire({
           title: 'Cant Save Data !',
           text:  'Data Not Saved !',

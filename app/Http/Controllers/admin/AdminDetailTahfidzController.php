@@ -148,15 +148,19 @@ class AdminDetailTahfidzController extends Controller
     //
     $id = $request->id;
 
+
     if ($id) {
       // update the value
+      $bulan = date('m', strtotime($request->tanggal));
+      $tahun = date('Y', strtotime($request->tanggal));
       $detail = DetailSantriTahfidz::updateOrCreate(
         ['id' => $id],
         [
           'id_tahfidz' => $request->id_tahfidz,
           'no_induk' => $request->no_induk,
-          'bulan' => $request->bulan,
-          'tahun' => $request->tahun,
+          'bulan' => $bulan,
+          'tahun' => $tahun,
+          'tanggal' => $tanggal,
           'id_tahun_ajaran' => $request->id_tahun_ajaran,
           'kode_juz_surah' => $request->kode_juz_surah,
         ]
@@ -166,10 +170,12 @@ class AdminDetailTahfidzController extends Controller
       return response()->json('Updated');
     } else {
       // create new one if email is unique
+      $bulan = date('m', strtotime($request->tanggal));
+      $tahun = date('Y', strtotime($request->tanggal));
       $cek_data = DetailSantriTahfidz::where('id_tahfidz', $request->id_tahfidz)
         ->where('no_induk', $request->no_induk)
-        ->where('bulan', $request->bulan)
-        ->where('tahun', $request->tahun)
+        ->where('bulan', $bulan)
+        ->where('tahun', $tahun)
         ->first();
       if (!empty($cek_data->id)) {
         $id = $cek_data->id;
@@ -180,8 +186,9 @@ class AdminDetailTahfidzController extends Controller
         [
           'id_tahfidz' => $request->id_tahfidz,
           'no_induk' => $request->no_induk,
-          'bulan' => $request->bulan,
-          'tahun' => $request->tahun,
+          'bulan' => $bulan,
+          'tahun' => $tahun,
+          'tanggal' => $tanggal,
           'id_tahun_ajaran' => $request->id_tahun_ajaran,
           'kode_juz_surah' => $request->kode_juz_surah,
         ]

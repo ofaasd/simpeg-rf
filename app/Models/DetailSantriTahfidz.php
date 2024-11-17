@@ -42,7 +42,7 @@ class DetailSantriTahfidz extends Model
     'created-at' => 'int',
   ];
 
-  protected $fillable = ['id_tahfidz', 'no_induk', 'bulan', 'tahun', 'id_tahun_ajaran', 'kode_juz_surah'];
+  protected $fillable = ['id_tahfidz', 'no_induk', 'bulan', 'tahun', 'id_tahun_ajaran', 'kode_juz_surah', 'tanggal'];
   public function tahfidz(): BelongsTo
   {
     return $this->belongsTo(Tahfidz::class, 'id_tahfidz', 'id');

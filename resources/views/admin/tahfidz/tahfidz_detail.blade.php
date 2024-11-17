@@ -75,6 +75,10 @@
           <label for="add-{{strtolower($title)}}-no_induk">Santri</label>
         </div>
         <div class="form-floating form-floating-outline mb-4">
+          <input type="date" class="form-control" id="add-{{strtolower($page)}}-tanggal"> 
+          <label for="add-{{strtolower($title)}}-tanggal">Tanggal</label>
+        </div>
+        <!-- <div class="form-floating form-floating-outline mb-4">
           <select class="form-control" id="add-{{strtolower($page)}}-bulan" name="bulan" >
             @foreach($var['bulan'] as $key=>$value)
               <option value='{{$key}}' {{($key == date('m'))?"selected":""}}>{{$value}}</option>
@@ -89,7 +93,7 @@
             @endfor
           </select>
           <label for="add-{{strtolower($title)}}-tahun">Tahun</label>
-        </div>
+        </div> -->
         <div class="form-floating form-floating-outline mb-4">
           <select class="form-control" id="add-{{strtolower($page)}}-kode_juz_surah" name="kode_juz_surah" >
             @foreach($var['kode_juz'] as $row)

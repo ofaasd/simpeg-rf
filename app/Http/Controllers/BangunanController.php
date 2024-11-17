@@ -85,11 +85,11 @@ class BangunanController extends Controller
         ->first();
 
         if ($bangunan) {
-            $bangunan->tanggal_pembangunan = Carbon::parse($bangunan->tanggal_pembangunan)
+            $bangunan->tanggal_pembangunan = $bangunan->tanggal_pembangunan ? Carbon::parse($bangunan->tanggal_pembangunan)
                 ->locale('id')
-                ->translatedFormat('d F Y');
-            $bangunan->kondisi = ucwords(str_replace('-', ' ', $bangunan->kondisi));
-            $bangunan->status = strtoupper($bangunan->kondisi);
+                ->translatedFormat('d F Y') : '';
+            $bangunan->kondisi = $bangunan->kondisi ? ucwords(str_replace('-', ' ', $bangunan->kondisi)) : '';
+            $bangunan->status = $bangunan->status ? strtoupper($bangunan->kondisi) : '';
         }
 
         return response()->json($bangunan);

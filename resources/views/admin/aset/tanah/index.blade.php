@@ -58,9 +58,9 @@
                   <td>{{ $row->no_sertifikat }}</td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="First group">
-                        <button type="button" id="btnView" data-id="{{$row->id}}" class="btn btn-success view-tanah waves-effect" data-bs-toggle="modal" data-bs-target="#modal_view_tanah" data-status="view_tanah"><i class="mdi mdi-eye me-1"></i></button>
-                      <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-tanah waves-effect" data-bs-toggle="modal" data-bs-target="#modal_tanah" data-status="tanah"><i class="mdi mdi-pencil me-1"></i></button>
-                      <button type="button" id="btnDelete" data-id="{{$row->id}}" class="btn btn-danger waves-effect delete-tanah" data-bs-toggle="modal" data-bs-target="#hapus"><i class="mdi mdi-trash-can me-1"></i></button>
+                      <button type="button" id="btnView" data-id="{{$row->id}}" class="btn btn-success view-tanah waves-effect"><i class="mdi mdi-eye me-1"></i></button>
+                      <button type="button" id="btnEdit" data-id="{{$row->id}}" class="btn btn-primary edit-tanah waves-effect"><i class="mdi mdi-pencil me-1"></i></button>
+                      <button type="button" id="btnDelete" data-id="{{$row->id}}" class="btn btn-danger waves-effect delete-tanah"><i class="mdi mdi-trash-can me-1"></i></button>
                     </div>
                   </td>
                 </tr>
@@ -74,7 +74,7 @@
 </div>
 <!-- uang Saku Masuk -->
 
-  <div class="modal fade" id="modal_view_tanah"  aria-hidden="true">
+<div class="modal fade" id="modal_view_tanah"  aria-hidden="true">
     <div class="modal-dialog modal-lg modal-simple">
       <div class="modal-content p-3 p-md-5">
         <div class="modal-body py-3 py-md-0">
@@ -260,6 +260,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 
   $('#btnTambahTanah').on('click', function(){
+    $('#id_tanah').val('');
     $('#nama').val('');
     $('#alamat').val('');
     $('#no_sertifikat').val('');
@@ -270,14 +271,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
     .attr('href', '#')
     .removeAttr('target'); 
     $('#buktiFisik').val(''); 
-
   })
 
   $(document).on('click', '.view-tanah', function () {
     const id = $(this).data('id');
     // get data
+    $('.loader-container').show();
     $.get(''.concat(baseUrl).concat('aset/tanah/').concat(id), function (data) {
     Object.keys(data).forEach(key => {
+        if(data[key] == null){
+          data[key] = ''
+        }
         if(key == 'bukti_fisik'){
             var href = baseUrl + 'assets/img/upload/bukti_fisik_tanah/' + data[key]
             $('#view-bukti_fisik')
@@ -287,6 +291,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             .text(data[key]);
         }
     });
+    $('#modal_view_tanah').modal('show');
+    $('.loader-container').hide();
     });
   });
 
@@ -300,8 +306,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     $('#luas').val('');
     $('#buktiFisik').val('');
     // get data
+    $('.loader-container').show();
     $.get(''.concat(baseUrl).concat('aset/tanah/').concat(id, '/edit'), function (data) {
     Object.keys(data).forEach(key => {
+        if(data[key] == null){
+          data[key] = ''
+        }
         if(key == 'id'){
           $('#id_tanah')
             .val(data[key])
@@ -322,6 +332,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             .trigger('change');
         }
     });
+    $('#modal_tanah').modal('show');
+    $('.loader-container').hide();
     });
   });
 
@@ -340,6 +352,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         },
         buttonsStyling: false
     }).then(function (result) {
+      $('.loader-container').show();
         if (result.isConfirmed) {
             // Delete the data
             $.ajax({
@@ -347,6 +360,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 url: ''.concat(baseUrl, 'aset/tanah/', id),
                 success: function () {
                     // Success SweetAlert after successful deletion
+                    $('.loader-container').hide();
                     Swal.fire({
                         icon: 'success',
                         title: 'Deleted!',
@@ -359,6 +373,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 },
                 error: function (_error) {
                     console.log(_error);
+                    $('.loader-container').hide();
                     // Error SweetAlert in case of failure
                     Swal.fire({
                         title: 'Error!',
@@ -371,6 +386,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 }
             });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
+          $('.loader-container').hide();
             Swal.fire({
                 title: 'Cancelled',
                 text: 'The record is not deleted!',
@@ -385,6 +401,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 function insert_update(formData){
+  $('.loader-container').show();
   $.ajax({
       data: formData,
       url: ''.concat(baseUrl).concat('aset/tanah'),
@@ -395,6 +412,7 @@ function insert_update(formData){
       success: function success(status) {
         //hilangkan modal
         $('#modal_tanah').modal('hide');
+        $('.loader-container').hide();
         //reset form
         Swal.fire({
           icon: 'success',
@@ -409,6 +427,7 @@ function insert_update(formData){
       },
       error: function error(err) {
         //showUnblock();
+        $('.loader-container').hide();
         console.log(err.responseText);
         Swal.fire({
           title: 'Cant Save Data !',

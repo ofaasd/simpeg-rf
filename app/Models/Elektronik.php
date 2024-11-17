@@ -12,5 +12,15 @@ class Elektronik extends Model
     protected $dateFormat = 'U';
     protected $table = 'aset_elektronik';
 
-    protected $fillable = ['id_gedung', 'id_lantai', 'id_jenis_ruang', 'nama', 'status', 'kapasitas', 'catatan'];
+    protected $fillable = [
+        'id_ruang', 
+        'nama', 
+        'kondisi_penerimaan', 'tanggal_perolehan', 
+        'garansi', 
+        'spesifikasi', 
+        'serial_number', 
+        'last_checking', 
+        'catatan', 
+        'status'
+    ];
 }
