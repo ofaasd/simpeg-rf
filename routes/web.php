@@ -192,7 +192,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('/pembayaran/get_pesan_warning', [PembayaranController::class, 'get_pesan_warning']);
   Route::post('/pembayaran/send_warning', [PembayaranController::class, 'send_warning']);
 
-  Route::get('/gelombang_detail/{id}', [$controller_path . '\admin\GelombangDetailCOntroller', 'index']);
+  Route::get('/gelombang_detail/{id}', [$controller_path . '\admin\GelombangDetailController', 'index']);
 
   Route::resource('/users', UserController::class);
   Route::resource('/user-list', UserManagement::class);
@@ -232,7 +232,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
   Route::resource('/psb', psb::class);
   Route::resource('/gelombang', $controller_path . '\admin\GelombangController');
-  Route::resource('/gelombang_detail', $controller_path . '\admin\GelombangDetailCOntroller');
+  Route::resource('/gelombang_detail', $controller_path . '\admin\GelombangDetailController');
 
   Route::resource('/alumni', $controller_path . '\admin\AlumniController');
   Route::resource('/media_saran', $controller_path . '\admin\SaranController');
