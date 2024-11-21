@@ -194,6 +194,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
   Route::get('/gelombang_detail/{id}', [$controller_path . '\admin\GelombangDetailController', 'index']);
 
+  Route::get('/psb_filter/{id}',  [psb::class, 'index']);
+
   Route::resource('/users', UserController::class);
   Route::resource('/user-list', UserManagement::class);
   Route::resource('/pegawai', Pegawai::class);

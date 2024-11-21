@@ -47,13 +47,19 @@ class psb extends Controller
   ];
   public $indexed = ['', 'id', 'no_pendaftaran', 'nama', 'ttl', 'status', 'status_ujian', 'status_diterima'];
   public $indexed2 = ['', 'id', 'nama', 'no_pendaftaran', 'ttl', 'bayar'];
-  public function index(Request $request)
+  public function index(Request $request, int $id=0)
   {
     //
+    if($id == 0){
+      $id_gelombang = PsbGelombang::orderBy('id','desc')->first()->id;
+    }else{
+      $id_gelombang = $id;
+    }
     if (empty($request->input('length'))) {
       $title = 'Psb';
       $indexed = $this->indexed;
-      return view('admin.psb.index', compact('title', 'indexed'));
+      $gelombang = PsbGelombang::orderBy('id','desc')->get();
+      return view('admin.psb.index', compact('title', 'indexed','gelombang','id'));
     } else {
       $columns = [
         1 => 'id',
@@ -77,14 +83,15 @@ class psb extends Controller
       $dir = $request->input('order.0.dir');
 
       if (empty($request->input('search.value'))) {
-        $PsbPesertaOnline = PsbPesertaOnline::offset($start)
+        $PsbPesertaOnline = PsbPesertaOnline::where('gelombang_id',$id_gelombang)->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
       } else {
         $search = $request->input('search.value');
 
-        $PsbPesertaOnline = PsbPesertaOnline::where(function ($query) use ($search) {
+        $PsbPesertaOnline = PsbPesertaOnline::where('gelombang_id',$id_gelombang)
+        ->where(function ($query) use ($search) {
           $query
             ->where('id', 'LIKE', "%{$search}%")
             ->orWhere('nama', 'LIKE', "%{$search}%")
@@ -95,7 +102,8 @@ class psb extends Controller
           ->orderBy($order, $dir)
           ->get();
 
-        $totalFiltered = PsbPesertaOnline::where(function ($query) use ($search) {
+        $totalFiltered = PsbPesertaOnline::where('gelombang_id',$id_gelombang)
+        ->where(function ($query) use ($search) {
           $query
             ->where('id', 'LIKE', "%{$search}%")
             ->orWhere('nama', 'LIKE', "%{$search}%")
