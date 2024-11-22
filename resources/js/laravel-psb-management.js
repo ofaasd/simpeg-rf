@@ -52,7 +52,7 @@ $(function () {
       processing: true,
       serverSide: true,
       ajax: {
-        url: baseUrl + page + '/' + $("#id_gelombang").val()
+        url: baseUrl + page + '_filter/' + $("#id_gelombang").val()
       },
       columns: my_data,
       columnDefs: [
