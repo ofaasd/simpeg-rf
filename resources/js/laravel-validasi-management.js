@@ -51,7 +51,7 @@ $(function () {
       processing: true,
       serverSide: true,
       ajax: {
-        url: baseUrl + url
+        url: baseUrl + url + '_filter/' + $("#id_gelombang").val()
       },
       columns: my_data,
       columnDefs: [

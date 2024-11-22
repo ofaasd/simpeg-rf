@@ -11,13 +11,27 @@
 @include('admin/psb/menu_psb')
 <div class="card">
   <div class="card-header">
-    <h5 class="card-title mb-0">PSB Validasi Pembayaran</h5>
+    <div class="row">
+      <div class="col-md-8">
+        <h5 class="card-title mb-0">PSB Validasi Pembayaran</h5>
+      </div>
+      <div class="col-md-4">
+        <select name="gelombang" id="gelombang" class="form-control">
+          @foreach($gelombang as $row)
+            <option value="{{$row->id}}" {{$row->id == $id ? "selected":""}}>{{$row->nama_gel_long}}</option>
+          @endforeach
+        </select>
+      </div>
+    </div>
+
+
   </div>
   <div class="card-datatable table-responsive">
 <textarea name='column' id='my_column' style="display:none">@foreach($indexed as $value) {{$value . "\n"}} @endforeach</textarea>
 <input type="hidden" name="page" id='page' value='validasi'>
 <input type="hidden" name="url" id='url' value='psb_new/validasi'>
 <input type="hidden" name="title" id='title' value='Validasi'>
+<input type="hidden" name="id_gelombang" id="id_gelombang" value="{{$id}}">
   <div class="row">
     <div class="col-md-12 text-start">
       <a href="javascript:void(0)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#templatePesan">Template Pesan</a>
@@ -59,9 +73,9 @@
           <textarea  class="form-control" id="add-{{strtolower($title)}}-atas_nama" placeholder="Atas Nama" name="atas_nama" aria-label="Atas Nama"></textarea>
           <label for="add-{{strtolower($title)}}-atas_nama">Atas Nama</label>
         </div>
-        
+
         <input type="hidden"  class="form-control" id="add-{{strtolower($title)}}-psb_peserta_id" placeholder="Atas Nama" name="psb_peserta_id" aria-label="Atas Nama">
-        
+
         <div class="form-floating form-floating-outline mb-4" id="bukti_file">
 
         </div>
@@ -123,6 +137,10 @@
           $(".modal").modal('hide');
         }
       });
+    })
+    const url = "{!! url('/') !!}"
+    $("#gelombang").change(function(){
+      window.location = url.concat('/psb_new/validasi_filter/',$(this).val())
     })
   });
 </script>

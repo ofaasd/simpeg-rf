@@ -172,13 +172,19 @@ class psb extends Controller
       }
     }
   }
-  public function validasi(Request $request)
+  public function validasi(Request $request, int $id = 0)
   {
+    if($id == 0){
+      $id_gelombang = PsbGelombang::orderBy('id','desc')->first()->id;
+    }else{
+      $id_gelombang = $id;
+    }
     if (empty($request->input('length'))) {
       $title = 'Validasi';
       $indexed = $this->indexed2;
       $pesan = TemplatePesan::where('status', 1)->first();
-      return view('admin.psb.validasi', compact('title', 'pesan', 'indexed'));
+      $gelombang = PsbGelombang::orderBy('id','desc')->get();
+      return view('admin.psb.validasi', compact('title', 'pesan', 'indexed', 'gelombang', 'id'));
     } else {
       $columns = [
         1 => 'id',
@@ -190,7 +196,8 @@ class psb extends Controller
 
       $search = [];
 
-      $totalData = PsbPesertaOnline::count();
+      $totalData = PsbPesertaOnline::where('gelombang_id',$id_gelombang)
+      ->count();
 
       $totalFiltered = $totalData;
 
@@ -200,14 +207,16 @@ class psb extends Controller
       $dir = $request->input('order.0.dir');
 
       if (empty($request->input('search.value'))) {
-        $PsbPesertaOnline = PsbPesertaOnline::offset($start)
+        $PsbPesertaOnline = PsbPesertaOnline::where('gelombang_id',$id_gelombang)
+        ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
       } else {
         $search = $request->input('search.value');
 
-        $PsbPesertaOnline = PsbPesertaOnline::where(function ($query) use ($search) {
+        $PsbPesertaOnline = PsbPesertaOnline::where('gelombang_id',$id_gelombang)
+        ->where(function ($query) use ($search) {
           $query
             ->where('id', 'LIKE', "%{$search}%")
             ->orWhere('nama', 'LIKE', "%{$search}%")
@@ -218,7 +227,8 @@ class psb extends Controller
           ->orderBy($order, $dir)
           ->get();
 
-        $totalFiltered = PsbPesertaOnline::where(function ($query) use ($search) {
+        $totalFiltered = PsbPesertaOnline::where('gelombang_id',$id_gelombang)
+        ->where(function ($query) use ($search) {
           $query
             ->where('id', 'LIKE', "%{$search}%")
             ->orWhere('nama', 'LIKE', "%{$search}%")
