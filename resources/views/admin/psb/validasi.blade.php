@@ -9,7 +9,7 @@
 @section('content')
 <!-- {{strtolower($title)}} List Table -->
 @include('admin/psb/menu_psb')
-<div class="card">
+<div class="card">  
   <div class="card-header">
     <div class="row">
       <div class="col-md-8">

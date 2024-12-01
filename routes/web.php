@@ -19,6 +19,7 @@ use App\Http\Controllers\admin\SantriController;
 use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\admin\MurrobyController as AdminMurrobyController;
 use App\Http\Controllers\admin\psb;
+use App\Http\Controllers\admin\PsbSlideController;
 use App\Http\Controllers\ustadz\MurrobyController;
 use App\Http\Controllers\ustadz\UangSakuController;
 use App\Http\Controllers\ustadz\TahfidzController as UstTahfidzController;
@@ -234,6 +235,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   // Route::resource('/aset/non-elektronik', AsetNonElektronikController::class);
 
   Route::resource('/psb', psb::class);
+  Route::resource('/psb_slide', PsbSlideController::class);
   Route::resource('/gelombang', $controller_path . '\admin\GelombangController');
   Route::resource('/gelombang_detail', $controller_path . '\admin\GelombangDetailController');
 
