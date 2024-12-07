@@ -125,7 +125,7 @@ class psb extends Controller
           $month = $dob->diff($today)->m;
           $day = $dob->diff($today)->d;
           $psbBerkas = PsbBerkasPendukung::where('psb_peserta_id', $row->id)->first();
-          $user = UserPsb::where('username', $row->no_pendaftaran)->first();
+          $user = UserPsb::where('no_pendaftaran', $row->no_pendaftaran)->first();
           $PsbSeragam = PsbSeragam::where('psb_peserta_id', $row->id)->first();
           $nestedData['id'] = $row->id;
           $nestedData['fake_id'] = ++$ids;
@@ -310,7 +310,7 @@ class psb extends Controller
       if ($request->status == '2') {
         $peserta = PsbPesertaOnline::where('id', $request->psb_peserta_id)->first();
         $walisan = PsbWaliPesertum::where('psb_peserta_id', $request->psb_peserta_id)->first();
-        $user = UserPsb::where('username', $peserta->no_pendaftaran)->first();
+        $user = UserPsb::where('no_pendaftaran', $peserta->no_pendaftaran)->first();
         $template_pesan = TemplatePesan::where('status', 1)->first();
 
         $pesan = str_replace('{{nama}}', $peserta->nama, $template_pesan->pesan);
@@ -345,7 +345,7 @@ class psb extends Controller
         if ($request->status == '2') {
           $peserta = PsbPesertaOnline::where('id', $request->psb_peserta_id)->first();
           $walisan = PsbWaliPesertum::where('psb_peserta_id', $request->psb_peserta_id)->first();
-          $user = UserPsb::where('username', $peserta->no_pendaftaran)->first();
+          $user = UserPsb::where('no_pendaftaran', $peserta->no_pendaftaran)->first();
           $template_pesan = TemplatePesan::where('status', 1)->first();
 
           $pesan = str_replace('{{nama}}', $peserta->nama, $template_pesan->pesan);
@@ -480,7 +480,7 @@ class psb extends Controller
       $user->password_ori = $password;
       if ($user->save()) {
         //kirim pesan wa disini
-        $pesan ='*Pesan ini dikirim dari sistem*
+        $pesan ='*Pesan dari sistem Manajemen PSB PPATQ-RF*
 
 Selamat anda sudah terdaftar pada web Penerimaan Peserta Didik Baru PPATQ Radlatul Falah Pati
 Silahkan catat username dan password di bawah ini untuk dapat mengubah dan melengkapi data
@@ -1072,7 +1072,7 @@ https://psb.ppatq-rf.id';
   {
     $peserta = PsbPesertaOnline::where('id', $id)->first();
     $walisan = PsbWaliPesertum::where('psb_peserta_id', $id)->first();
-    $user = UserPsb::where('username', $peserta->no_pendaftaran)->first();
+    $user = UserPsb::where('no_pendaftaran', $peserta->no_pendaftaran)->first();
     $template_pesan = TemplatePesan::where('status', 1)->first();
 
     $pesan = str_replace('{{nama}}', $peserta->nama, $template_pesan->pesan);

@@ -194,6 +194,11 @@
           "url": "/psb",
           "name": "PSB",
           "slug": "psb-psb"
+        },
+        {
+          "url": "/psb_slide",
+          "name": "PSB Slideshow",
+          "slug": "psb-slide"
         }
       ]
     },
