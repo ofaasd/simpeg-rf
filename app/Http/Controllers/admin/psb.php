@@ -1115,8 +1115,8 @@ https://psb.ppatq-rf.id';
   {
     $peserta = PsbPesertaOnline::where('id', $id)->first();
     $walisan = PsbWaliPesertum::where('psb_peserta_id', $id)->first();
-    $user = UserPsb::where('username', $peserta->no_pendaftaran)->first();
-    $pesan = "*Otomatis dari Sistem PSB PPATQ.*
+    $user = UserPsb::where('no_pendaftaran', $peserta->no_pendaftaran)->first();
+    $pesan = "*Otomatis dari Sistem Manajamen PSB PPATQ.*
 
 Mohon maaf,
 pada catatan Panitia Penerimaan Santri Baru PPATQ-RF, belum ada bukti bayar/transfer *biaya pendaftaran*
