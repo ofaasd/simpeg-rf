@@ -12,6 +12,7 @@ use App\Models\KecamatanTbl;
 use App\Models\KelurahanTbl;
 use App\Models\PsbSeragam;
 use App\Models\UserPsb;
+use App\Models\PsbGelombang;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use DateTime;
@@ -23,7 +24,8 @@ class PsbExport implements FromView
    */
   public function view(): View
   {
-    $psb = PsbPesertaOnline::all();
+    $gelombang = PsbGelombang::orderBy('id','desc')->limit(1)->first();
+    $psb = PsbPesertaOnline::where('gelombang_id',$gelombang->id)->get();
     $psb_wali = [];
     $psb_berkas = [];
     $psb_asal = [];
@@ -46,7 +48,7 @@ class PsbExport implements FromView
     }
 
     return view('exports.psb', [
-      'psb' => PsbPesertaOnline::all(),
+      'psb' => $psb,
       'psb_wali' => $psb_wali,
       'psb_berkas' => $psb_berkas,
       'psb_asal' => $psb_asal,
