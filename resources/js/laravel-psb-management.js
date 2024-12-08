@@ -55,168 +55,99 @@ $(function () {
         url: baseUrl + page + '_filter/' + $("#id_gelombang").val()
       },
       columns: my_data,
-      columnDefs: [
-        {
-          // For Responsive
-          className: 'control',
-          searchable: false,
-          orderable: false,
-          responsivePriority: 2,
-          targets: 0,
-          render: function render(data, type, full, meta) {
-            return '';
-          }
-        },
-        {
-          searchable: false,
-          orderable: false,
-          targets: 1,
-          render: function render(data, type, full, meta) {
-            return '<span>'.concat(full.fake_id, '</span>');
-          }
-        },
-        {
-          // User full name
-          targets: 2,
-          responsivePriority: 4,
-          render: function render(data, type, full, meta) {
-            var $name = full['nama'];
-            var $id = full['id'];
-            var img = 'https://psb.ppatq-rf.id/assets/images/upload/foto_casan/' + full['file_photo'];
-            // For Avatar badge
-            var stateNum = Math.floor(Math.random() * 6);
-            var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
-            var $state = states[stateNum],
-              $name = full['nama'],
-              $initials = $name.match(/\b\w/g) || [],
-              $output;
-            $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-            if (full['file_photo'] == '')
-              $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';
-            else
-              $output =
-                '<span class="avatar-initial rounded-circle bg-label-' +
-                $state +
-                '"><img class="avatar-initial rounded-circle" src="' +
-                img +
-                '" width="100%"></span>';
+      columnDefs: [{
+        // For Responsive
+        className: 'control',
+        searchable: false,
+        orderable: false,
+        responsivePriority: 2,
+        targets: 0,
+        render: function render(data, type, full, meta) {
+          return '';
+        }
+      }, {
+        searchable: false,
+        orderable: false,
+        targets: 1,
+        render: function render(data, type, full, meta) {
+          return '<span>'.concat(full.fake_id, '</span>');
+        }
+      }, {
+        // User full name
+        targets: 2,
+        responsivePriority: 4,
+        render: function render(data, type, full, meta) {
+          var $name = full['nama'];
+          var $id = full['id'];
+          var img = 'https://psb.ppatq-rf.id/assets/images/upload/foto_casan/' + full['file_photo'];
+          // For Avatar badge
+          var stateNum = Math.floor(Math.random() * 6);
+          var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
+          var $state = states[stateNum],
+            $name = full['nama'],
+            $initials = $name.match(/\b\w/g) || [],
+            $output;
+          $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
+          if (full['file_photo'] == '') $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';else $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '"><img class="avatar-initial rounded-circle" src="' + img + '" width="100%"></span>';
 
-            // Creates full output for row
-            var $row_output =
-              '<div class="d-flex justify-content-start align-items-center user-name">' +
-              '<div class="avatar-wrapper">' +
-              '<div class="avatar avatar-sm me-3">' +
-              $output +
-              '</div>' +
-              '</div>' +
-              '<div class="d-flex flex-column">' +
-              '<a href="' +
-              view +
-              '/' +
-              $id +
-              '" class="text-body text-truncate"><span class="fw-semibold">' +
-              $name +
-              '</span> <br /> (' +
-              full.no_pendaftaran +
-              ') <br /> pass : ' +
-              full.password +
-              '</a>' +
-              '</div>' +
-              '</div>';
-            return $row_output;
-          }
-        },
-        {
-          targets: 3,
-          render: function render(data, type, full, meta) {
-            return '<span>'
-              .concat(full.tempat_lahir, '</span><br /><span>')
-              .concat(full.tanggal_lahir, '</span><br />')
-              .concat('(' + full.umur_tahun + ' tahun ' + full.umur_bulan + ' bulan)');
-          }
-        },
-        {
-          targets: 4,
-          render: function render(data, type, full, meta) {
-            return '<span>'.concat(full.no_wa, '</span>');
-          }
-        },
-        {
-          targets: 5,
-          render: function render(data, type, full, meta) {
-            return '<span>'.concat(full.jenis_kelamin, '</span>');
-          }
-        },
-        {
-          targets: 6,
-          render: function render(data, type, full, meta) {
-            return '<span>'.concat(full.tanggal_daftar, '</span>');
-          }
-        },
-        {
-          targets: 7,
-          render: function render(data, type, full, meta) {
-            return '<span><small>BB : '
-              .concat(full.berat_badan, ' kg</small></span><br />')
-              .concat('<span><small>TB : ')
-              .concat(full.tinggi_badan, ' cm</small></span><br />')
-              .concat('<span><small>LD : ')
-              .concat(full.lingkar_dada, ' cm</small></span><br />')
-              .concat('<span><small>LP : ')
-              .concat(full.lingkar_pinggul, ' cm</small></span><br />');
-          }
-        },
-        {
-          searchable: false,
-          orderable: false,
-          targets: 8,
-          render: function render(data, type, full, meta) {
-            const file_kk = full['file_kk']
-              ? "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>"
-              : "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
-            const file_ktp = full['file_ktp']
-              ? "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>"
-              : "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
-            const file_rapor = full['file_rapor']
-              ? "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>"
-              : "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
-
-            return (
-              '<small class="text-light">KK : ' +
-              file_kk +
-              '</small><br/><small class="text-light">KTP : ' +
-              file_ktp +
-              '</small><br/><small class="text-light">Rapor : ' +
-              file_rapor +
-              '</small>'
-            );
-          }
-        },
-        {
-          searchable: false,
-          orderable: false,
-          targets: 9,
-          render: function render(data, type, full, meta) {
-            if (parseInt(full.status) == 2) {
-              return "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>";
-            } else {
-              return "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
-            }
-          }
-        },
-        {
-          searchable: false,
-          orderable: false,
-          targets: 10,
-          render: function render(data, type, full, meta) {
-            return (
-              '<button class="btn btn-sm btn-icon delete-record" data-id="' +
-              full['id'] +
-              '"><i class="mdi mdi-delete-outline mdi-20px"></i></button></div>'
-            );
+          // Creates full output for row
+          var $row_output = '<div class="d-flex justify-content-start align-items-center user-name">' + '<div class="avatar-wrapper">' + '<div class="avatar avatar-sm me-3">' + $output + '</div>' + '</div>' + '<div class="d-flex flex-column">' + '<a href="' + view + '/' + $id + '" class="text-body text-truncate"><span class="fw-semibold">' + $name + '</span> <br /> (' + full.no_pendaftaran + ') <br /> pass : ' + full.password + '</a>' + '</div>' + '</div>';
+          return $row_output;
+        }
+      }, {
+        targets: 3,
+        render: function render(data, type, full, meta) {
+          return '<span>'.concat(full.tempat_lahir, '</span><br /><span>').concat(full.tanggal_lahir, '</span><br />').concat('(' + full.umur_tahun + ' tahun ' + full.umur_bulan + ' bulan)');
+        }
+      }, {
+        targets: 4,
+        render: function render(data, type, full, meta) {
+          return '<span>'.concat(full.no_wa, '</span>');
+        }
+      }, {
+        targets: 5,
+        render: function render(data, type, full, meta) {
+          return '<span>'.concat(full.jenis_kelamin, '</span>');
+        }
+      }, {
+        targets: 6,
+        render: function render(data, type, full, meta) {
+          return '<span>'.concat(full.tanggal_daftar, '</span>');
+        }
+      }, {
+        targets: 7,
+        render: function render(data, type, full, meta) {
+          return '<span><small>BB : '.concat(full.berat_badan, ' kg</small></span><br />').concat('<span><small>TB : ').concat(full.tinggi_badan, ' cm</small></span><br />').concat('<span><small>LD : ').concat(full.lingkar_dada, ' cm</small></span><br />').concat('<span><small>LP : ').concat(full.lingkar_pinggul, ' cm</small></span><br />');
+        }
+      }, {
+        searchable: false,
+        orderable: false,
+        targets: 8,
+        render: function render(data, type, full, meta) {
+          var file_kk = full['file_kk'] ? "<a href='https://psb.ppatq-rf.id/assets/images/upload/file_kk/"+full['file_kk'] + "' class='text-success' target='_blank'> <i class='mdi mdi-check-circle mdi-20px'></i></a>" : "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
+          var file_ktp = full['file_ktp'] ? "<a href='https://psb.ppatq-rf.id/assets/images/upload/file_ktp/"+full['file_ktp'] + "' class='text-success' target='_blank'> <i class='mdi mdi-check-circle mdi-20px'></i></a>" : "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
+          var file_rapor = full['file_rapor'] ? "<a href='https://psb.ppatq-rf.id/assets/images/upload/file_rapor/"+full['file_rapor'] + "' class='text-success' target='_blank'> <i class='mdi mdi-check-circle mdi-20px'></i></a>" : "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
+          return '<small class="text-light">KK : ' + file_kk + '</small><br/><small class="text-light">KTP : ' + file_ktp + '</small><br/><small class="text-light">Rapor : ' + file_rapor + '</small>';
+        }
+      }, {
+        searchable: false,
+        orderable: false,
+        targets: 9,
+        render: function render(data, type, full, meta) {
+          if (parseInt(full.status) == 2) {
+            return "<span class='text-success'> <i class='mdi mdi-check-circle mdi-20px'></i></span>";
+          } else {
+            return "<span class='text-danger'> <i class='mdi mdi-close-circle mdi-20px'></i></span>";
           }
         }
-      ],
+      }, {
+        searchable: false,
+        orderable: false,
+        targets: 10,
+        render: function render(data, type, full, meta) {
+          return '<a href="https://psb.ppatq-rf.id/assets/formulir/DAFTAR_PPATQ_RF_'+ full['nama_lengkap'] + '_'+ full['no_pendaftaran'] + '.pdf" target="_blank"><i class="mdi mdi-file-pdf-box mdi-20px"></i></a><button class="btn btn-sm btn-icon delete-record" data-id="' + full['id'] + '"><i class="mdi mdi-delete-outline mdi-20px"></i></button></div>';
+        }
+      }],
       order: [[2, 'asc']],
       language: {
         search: '',

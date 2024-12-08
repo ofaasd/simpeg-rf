@@ -132,6 +132,7 @@ class psb extends Controller
           $nestedData['fake_id'] = ++$ids;
           $nestedData['no_pendaftaran'] = $row->no_pendaftaran . '';
           $nestedData['nama'] = substr($row->nama, 0, 15) ?? '';
+          $nestedData['nama_lengkap'] = $row->nama;
           $nestedData['tempat_lahir'] = $row->tempat_lahir ?? '';
           $nestedData['tanggal_lahir'] = !empty($row->tanggal_lahir) ? date('d-m-Y', $row->tanggal_lahir) : '';
           $nestedData['status'] = $row->status ?? '';
