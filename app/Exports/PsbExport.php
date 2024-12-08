@@ -44,7 +44,7 @@ class PsbExport implements FromView
       $psb_berkas[$row->id] = PsbBerkasPendukung::where('psb_peserta_id', $row->id)->first();
       $psb_asal[$row->id] = PsbSekolahAsal::where('psb_peserta_id', $row->id)->first();
       $psb_seragam[$row->id] = PsbSeragam::where('psb_peserta_id', $row->id)->first();
-      $psb_user[$row->id] = UserPsb::where('username', $row->no_pendaftaran)->first();
+      $psb_user[$row->id] = UserPsb::where('no_pendaftaran', $row->no_pendaftaran)->first();
     }
 
     return view('exports.psb', [

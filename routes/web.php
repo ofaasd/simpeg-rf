@@ -122,6 +122,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::get('psb_new/kirim_file_pengumuman/{id}', [psb::class, 'kirim_file_pengumuman']);
   Route::get('psb_new/kirim_file_warning/{id}', [psb::class, 'kirim_file_warning']);
   Route::get('psb_new/export', [psb::class, 'exportData']);
+  Route::get('psb_new/cetak_form/{id}', [psb::class, 'cetak_form']);
 
   Route::post('kesehatan/reload', [KesehatanController::class, 'reload']);
   Route::get('kesehatan/santri', [KesehatanController::class, 'santri']);
