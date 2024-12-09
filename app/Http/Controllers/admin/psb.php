@@ -127,6 +127,7 @@ class psb extends Controller
           $day = $dob->diff($today)->d;
           $psbBerkas = PsbBerkasPendukung::where('psb_peserta_id', $row->id)->first();
           $user = UserPsb::where('no_pendaftaran', $row->no_pendaftaran)->first();
+          $walisan = PsbWaliPesertum::where('psb_peserta_id', $row->id)->first();
           $PsbSeragam = PsbSeragam::where('psb_peserta_id', $row->id)->first();
           $nestedData['id'] = $row->id;
           $nestedData['fake_id'] = ++$ids;
@@ -144,7 +145,7 @@ class psb extends Controller
           $nestedData['file_kk'] = $psbBerkas->file_kk ?? '';
           $nestedData['file_ktp'] = $psbBerkas->file_ktp ?? '';
           $nestedData['file_rapor'] = $psbBerkas->file_rapor ?? '';
-          $nestedData['no_wa'] = $user->no_hp ?? '';
+          $nestedData['no_wa'] = $walisan->no_hp ?? '';
           $nestedData['password'] = $user->password_ori ?? '';
           $nestedData['umur_tahun'] = $year ?? '';
           $nestedData['umur_bulan'] = $year ?? '';
