@@ -19,6 +19,7 @@ use App\Models\KotaKabTbl;
 use App\Models\KecamatanTbl;
 use App\Models\KelurahanTbl;
 use App\Models\TemplatePesan;
+use App\Models\TahunAjaran;
 use App\Helpers\Helpers_wa;
 use App\Exports\PsbExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -74,7 +75,7 @@ class psb extends Controller
 
       $search = [];
 
-      $totalData = PsbPesertaOnline::count();
+      $totalData = PsbPesertaOnline::where('gelombang_id',$id_gelombang)->count();
 
       $totalFiltered = $totalData;
 
@@ -153,6 +154,7 @@ class psb extends Controller
           $nestedData['tinggi_badan'] = $PsbSeragam->tinggi_badan ?? '';
           $nestedData['lingkar_dada'] = $PsbSeragam->lingkar_dada ?? '';
           $nestedData['lingkar_pinggul'] = $PsbSeragam->lingkar_pinggul ?? '';
+          $nestedData['username'] = $user->username ?? '';
           $data[] = $nestedData;
         }
       }
@@ -937,22 +939,64 @@ https://psb.ppatq-rf.id';
   }
   public function generate_password()
   {
-    $user = UserPsb::all();
-    foreach ($user as $row) {
-      $psb_peserta = PsbPesertaOnline::where('no_pendaftaran', $row->username);
-      //echo $psb_peserta->toSql() . 'RF.ppatq.011.23';
-      if ($psb_peserta->count() > 0) {
-        $psb_peserta = $psb_peserta->first();
-        $update_user = UserPsb::find($row->id);
-        $tahun = date('Y', $psb_peserta->tanggal_lahir);
-        $bt = date('dm', $psb_peserta->tanggal_lahir);
-        $nama = substr($psb_peserta->nama, 0, 3);
-        $update_user->password_ori = $tahun . $nama . $bt;
-        if ($update_user->save()) {
-          echo 'berhasil';
-          echo '<br />';
-        }
+    // -- Generate Password--
+    // $user = UserPsb::all();
+    // foreach ($user as $row) {
+    //   $psb_peserta = PsbPesertaOnline::where('no_pendaftaran', $row->username);
+    //   //echo $psb_peserta->toSql() . 'RF.ppatq.011.23';
+    //   if ($psb_peserta->count() > 0) {
+    //     $psb_peserta = $psb_peserta->first();
+    //     $update_user = UserPsb::find($row->id);
+    //     $tahun = date('Y', $psb_peserta->tanggal_lahir);
+    //     $bt = date('dm', $psb_peserta->tanggal_lahir);
+    //     $nama = substr($psb_peserta->nama, 0, 3);
+    //     $update_user->password_ori = $tahun . $nama . $bt;
+    //     if ($update_user->save()) {
+    //       echo 'berhasil';
+    //       echo '<br />';
+    //     }
+    //   }
+    // }
+    // -- Generate id pendaftar --
+    $gelombang = PsbGelombang::where('pmb_online',1)->first();
+    $tahunAjaran = TahunAjaran::where('id',$gelombang->tahun)->first();
+    $peserta = PsbPesertaOnline::where('gelombang_id',$gelombang->id)->where('id_pendaftar',0)->orderBy('id','asc')->get();
+    $last = PsbPesertaOnline::where('gelombang_id',$gelombang->id)->where('id_pendaftar','<>','0')->orderBy('id_pendaftar','desc')->first()->id_pendaftar;
+    echo "id terakhir : " . $last . "<br />";
+
+    foreach($peserta as $row){
+      $id_pendaftar = ++$last;
+      $str_id = "";
+      if(strlen($id_pendaftar) == 1){
+          $str_id = "00" . $id_pendaftar;
+      }elseif(strlen($id_pendaftar) == 2){
+          $str_id = "0" . $id_pendaftar;
+      }else{
+          $str_id = (string)$id_pendaftar;
       }
+      $no_pendaftaran = "RF.ppatq." . $str_id . "." . substr($tahunAjaran->akhir, -2);
+      $password = date('d-m-Y', $row->tanggal_lahir);
+      $new_peserta = PsbPesertaOnline::find($row->id);
+      $new_peserta->no_pendaftaran = $no_pendaftaran;
+      $new_peserta->id_pendaftar = $id_pendaftar;
+      $new_peserta->save();
+      //yanuar athalarik tidak ketemu
+
+      $user = UserPsb::where('nama',$row->nama);
+      $status = "tidak ketemu";
+      if($user->count() > 0){
+        $user = $user->first();
+        $new_user = UserPsb::find($user->id);
+        $new_user->no_pendaftaran = $no_pendaftaran;
+        $new_user->password = md5($password);
+        $new_user->password_ori = $password;
+        $new_user->save();
+        $status = "ketemu";
+      }
+      //
+
+      echo $row->nama . " " . $id_pendaftar . " " . $no_pendaftaran . " - " . $password . " --- " . $status . "<br />";
+
     }
   }
   public function ujian(Request $request)

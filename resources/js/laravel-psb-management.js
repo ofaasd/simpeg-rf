@@ -91,7 +91,7 @@ $(function () {
           if (full['file_photo'] == '') $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';else $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '"><img class="avatar-initial rounded-circle" src="' + img + '" width="100%"></span>';
 
           // Creates full output for row
-          var $row_output = '<div class="d-flex justify-content-start align-items-center user-name">' + '<div class="avatar-wrapper">' + '<div class="avatar avatar-sm me-3">' + $output + '</div>' + '</div>' + '<div class="d-flex flex-column">' + '<a href="' + view + '/' + $id + '" class="text-body text-truncate"><span class="fw-semibold">' + $name + '</span> <br /> (' + full.no_pendaftaran + ') <br /> pass : ' + full.password + '</a>' + '</div>' + '</div>';
+          var $row_output = '<div class="d-flex justify-content-start align-items-center user-name">' + '<div class="avatar-wrapper">' + '<div class="avatar avatar-sm me-3">' + $output + '</div>' + '</div>' + '<div class="d-flex flex-column">' + '<a href="' + view + '/' + $id + '" class="text-body text-truncate"><span class="fw-semibold">' + $name + '</span> <br /> (' + full.no_pendaftaran + ') <br /> uname : ' + full.username + '<br /> pass : ' + full.password + '</a>' + '</div>' + '</div>';
           return $row_output;
         }
       }, {
