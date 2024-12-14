@@ -145,7 +145,10 @@ $(function () {
         orderable: false,
         targets: 10,
         render: function render(data, type, full, meta) {
-          return '<a href="https://psb.ppatq-rf.id/assets/formulir/DAFTAR_PPATQ_RF_'+ full['nama_lengkap'] + '_'+ full['no_pendaftaran'] + '.pdf" target="_blank"><i class="mdi mdi-file-pdf-box mdi-20px"></i></a><button class="btn btn-sm btn-icon delete-record" data-id="' + full['id'] + '"><i class="mdi mdi-delete-outline mdi-20px"></i></button></div>';
+          return '<a href="https://psb.ppatq-rf.id/assets/formulir/DAFTAR_PPATQ_RF_'+ full['nama_lengkap'] + '_'+ full['no_pendaftaran'] + '.pdf" target="_blank"><i class="mdi mdi-file-pdf-box mdi-20px"></i></a>'+
+          '<button class="btn btn-sm btn-icon kirim-wa" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="' + full['id'] + '"><i class="mdi mdi-whatsapp mdi-20px"></i></button>'+
+          '<button class="btn btn-sm btn-icon delete-record" data-id="' + full['id'] + '"><i class="mdi mdi-delete-outline mdi-20px"></i></button>'+
+          '</div>';
         }
       }],
       order: [[2, 'asc']],
@@ -156,7 +159,22 @@ $(function () {
       // Buttons with Dropdown
     });
   }
+  $(document).on('click', '.kirim-wa', function () {
+    var id = $(this).data('id'),
+      dtrModal = $('.dtr-bs-modal.show');
 
+    // hide responsive modal in small screen
+    if (dtrModal.length) {
+      dtrModal.modal('hide');
+    }
+
+    // get data
+    $.get(''.concat(baseUrl).concat(page, '/').concat(id, '/edit_wa'), function (data) {
+      $("#id").val(data[0].id);
+      $("#no_telp").val(data[1]['no_telp']);
+      $("#pesan").val(data['pesan']);
+    });
+  });
   $(document).on('click', '.delete-record', function () {
     var id = $(this).data('id'),
       dtrModal = $('.dtr-bs-modal.show');

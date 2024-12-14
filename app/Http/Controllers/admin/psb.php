@@ -139,8 +139,7 @@ class psb extends Controller
           $nestedData['status'] = $row->status ?? '';
           $nestedData['status_ujian'] = $row->status_ujian ?? '';
           $nestedData['status_diterima'] = $row->status_diterima ?? '';
-          $nestedData['tanggal_daftar'] = date('d-m-Y', strtotime($row->created_at));
-
+          $nestedData['tanggal_daftar'] = date('d-m-Y H:i:s', strtotime($row->created_at));
           $nestedData['file_photo'] = $psbBerkas->file_photo ?? '';
           $nestedData['file_kk'] = $psbBerkas->file_kk ?? '';
           $nestedData['file_ktp'] = $psbBerkas->file_ktp ?? '';
@@ -1158,5 +1157,44 @@ Terimakasih.";
   public function exportData()
   {
     return Excel::download(new PsbExport(), 'DataPSB.xlsx');
+  }
+  public function no_wa(String $id){
+    $peserta[] = PsbPesertaOnline::where('id',$id)->first();
+    $peserta[] = PsbWaliPesertum::where('psb_peserta_id', $id)->first();
+    $user = UserPsb::where('no_pendaftaran',$peserta[0]->no_pendaftaran)->first();
+    $peserta['pesan'] = "*Pesan ini dikirim dari sistem PSB PPATQ-RF*
+
+Selamat
+nama : " . $peserta[0]->nama . "
+no pendaftaran : " . $peserta[0]->no_pendaftaran . "
+
+telah terdaftar pada web sebagai peserta test seleksi  Peserta Didik Baru PPATQ Radlatul Falah Pati
+
+Silahkan catat username dan password di bawah ini untuk dapat mengubah dan melengkapi data
+
+username : " . $user->username . "
+password : " . $user->password_ori . "
+
+Selanjutnya silahkan login di sistem dan melaporkan pembayaran Uang pendaftaran di rekening
+
+BSI. 7141299818 a/n
+PONPES ANAK TAHFIDZUL QUR'AN RF
+melalui psb.ppatq-rf.id menu Pembayaran dan juga dapat melakukan pengkinian data - dokumen pelengkap.
+
+terimakasih
+
+
+#simpanWA_ini";
+    return $peserta;
+  }
+  public function resend_wa(Request $request){
+    $data['no_wa'] = $request->no_telp;
+    $data['pesan'] = $request->pesan;
+
+    if (Helpers_wa::send_wa($data)) {
+      echo 'Berhasil';
+    } else {
+      echo 'gagal Kirim File';
+    }
   }
 }

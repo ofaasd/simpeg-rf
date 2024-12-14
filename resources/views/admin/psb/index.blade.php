@@ -2,8 +2,13 @@
 
 @section('title', $title . ' Management - Crud App')
 
+@section('vendor-style')
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/animate-css/animate.css')}}">
+@endsection
+
 @section('page-script')
 <script src="{{asset('js/laravel-psb-management.js')}}"></script>
+<script src="{{asset('assets/js/ui-modals.js')}}"></script>
 @endsection
 
 @section('content')
@@ -62,6 +67,40 @@
         </tr>
       </thead>
     </table>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form action="{{url('psb/resend_wa')}}" method="POST" id="formWa">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <input type="hidden" name="id" value="" id="id">
+              <div class="row g-3">
+                <div class="col-md-12 mt-2">
+                  <div class="form-floating form-floating-outline">
+                    <input type="text" id="no_telp" class="form-control" placeholder="No. Telp / WA" id="no_telp">
+                    <label for="nameBasic">No. Telp</label>
+                  </div>
+                </div>
+                <div class="col-md-12 mt-2">
+                  <div class="form-floating form-floating-outline">
+                    <textarea class="form-control" id="pesan" placeholder="Pesan WA" rows="30" id="pesan"></textarea>
+                    <label for="nameBasic">Pesan WA</label>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" type="submit">Send WA</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 @endsection
