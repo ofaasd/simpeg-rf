@@ -30,12 +30,6 @@
           <label for="pekerjaan_ayah">Pekerjaan Ayah</label>
         </div>
       </div>
-      <div class="col-md-12">
-        <div class="form-floating form-floating-outline col-md-12">
-          <textarea name="alamat_ayah" class="form-control" id="alamat_ayah"></textarea>
-          <label for="alamat_ayah">Alamat Lengkap</label>
-        </div>
-      </div>
     </div>
   </div>
   <div class="col-sm-6">
@@ -63,12 +57,6 @@
         <div class="form-floating form-floating-outline col-md-12">
           <input type="text" name="pekerjaan_ibu" value="" class="form-control" id="pekerjaan_ibu">
           <label for="pekerjaan_ibu">Pekerjaan ibu</label>
-        </div>
-      </div>
-      <div class="col-md-12">
-        <div class="form-floating form-floating-outline col-md-12">
-          <textarea name="alamat_ibu" class="form-control" id="alamat_ibu"></textarea>
-          <label for="alamat_ibu">Alamat Lengkap</label>
         </div>
       </div>
       <div class="col-md-12">

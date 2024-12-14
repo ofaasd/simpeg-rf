@@ -80,13 +80,13 @@
               <div class="row g-3">
                 <div class="col-md-12 mt-2">
                   <div class="form-floating form-floating-outline">
-                    <input type="text" id="no_telp" class="form-control" placeholder="No. Telp / WA" id="no_telp">
+                    <input type="text" name="no_telp" id="no_telp" class="form-control" placeholder="No. Telp / WA" id="no_telp">
                     <label for="nameBasic">No. Telp</label>
                   </div>
                 </div>
                 <div class="col-md-12 mt-2">
                   <div class="form-floating form-floating-outline">
-                    <textarea class="form-control" id="pesan" placeholder="Pesan WA" rows="30" id="pesan"></textarea>
+                    <textarea class="form-control" name="pesan" id="pesan" placeholder="Pesan WA" rows="30" id="pesan"></textarea>
                     <label for="nameBasic">Pesan WA</label>
                   </div>
                 </div>
@@ -95,7 +95,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" type="submit">Send WA</button>
+              <button type="submit" class="btn btn-primary">Send WA</button>
             </div>
           </form>
         </div>

@@ -37,13 +37,6 @@
                 <div class="col-md-12">
                   <div class="form-floating form-floating-outline col-md-12">
 
-                      <textarea name="alamat_ayah" class="form-control" id="alamat_ayah">{{$psb_wali->alamat_ayah??''}}</textarea>
-                      <label for="alamat_ayah">Alamat Lengkap</label>
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="form-floating form-floating-outline col-md-12">
-
                       <input type="text" name="no_telp" class="form-control" value="{{$psb_wali->no_telp??''}}" id="no_telp" />
                       <label for="no_telp">No. Telpon</label>
                   </div>
@@ -83,13 +76,6 @@
 
                       <input type="text" name="pekerjaan_ibu" value="{{$psb_wali->pekerjaan_ibu??''}}" class="form-control" id="pekerjaan_ibu">
                       <label for="pekerjaan_ibu">Pekerjaan ibu</label>
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="form-floating form-floating-outline col-md-12">
-
-                      <textarea name="alamat_ibu" class="form-control" id="alamat_ibu">{{$psb_wali->alamat_ibu??''}}</textarea>
-                      <label for="alamat_ibu">Alamat Lengkap</label>
                   </div>
                 </div>
               </div>

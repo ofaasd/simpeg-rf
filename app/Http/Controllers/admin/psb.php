@@ -87,7 +87,7 @@ class psb extends Controller
       if (empty($request->input('search.value'))) {
         $PsbPesertaOnline = PsbPesertaOnline::where('gelombang_id',$id_gelombang)->offset($start)
           ->limit($limit)
-          ->orderBy($order, $dir)
+          ->orderBy('created_at', 'desc')
           ->get();
       } else {
         $search = $request->input('search.value');
@@ -447,6 +447,7 @@ class psb extends Controller
     //
     $gelombang = PsbGelombang::where('pmb_online', 1)->first();
     $user = new UserPsb();
+    $tahunAjaran = TahunAjaran::where('id',$gelombang->tahun)->first();
     $user->nik = $request->nik;
     $user->nama = $request->nama_lengkap;
     $user->tanggal_lahir = strtotime($request->tanggal_lahir);
@@ -459,43 +460,59 @@ class psb extends Controller
     $user->no_hp = $request->no_hp;
     $username = '';
     if ($user->save()) {
-      $nama = $request->nama_panggilan;
+      $nama = $request->nama_lengkap;
       $tgl_lahir = $request->tanggal_lahir;
       $id = $user->id;
+      $get_id_pendaftar = (PsbPesertaOnline::where('gelombang_id',$gelombang->id)->orderBy('id_pendaftar','desc')->limit(1)->first()->id_pendaftar) + 1;
       $new_user = UserPsb::find($id);
-      $str_id = '';
-      if (strlen($id) == 1) {
-        $str_id = '00' . $id;
-      } elseif (strlen($id) == 2) {
-        $str_id = '0' . $id;
-      } else {
-        $str_id = str($id);
+      $str_id = "";
+      if(strlen($get_id_pendaftar) == 1){
+          $str_id = "00" . $get_id_pendaftar;
+      }elseif(strlen($get_id_pendaftar) == 2){
+          $str_id = "0" . $get_id_pendaftar;
+      }else{
+          $str_id = (string)$get_id_pendaftar;
       }
       $tahun_lahir = date('Y', strtotime($tgl_lahir));
-      $new_nama = substr($nama, 0, 3);
-      $tanggal = date('dm', strtotime($tgl_lahir));
+      $new_nama = substr($nama,0,3);
+      $nama_panggilan = explode(" ",$nama);
+      $tanggal = date('dm',strtotime($tgl_lahir));
+      $new_tanggal = date('d-m-Y',strtotime($tgl_lahir));
 
       //create username and password
-      $username = 'RF.ppatq.' . $str_id . '.' . date('y');
-      $password = $tahun_lahir . $new_nama . $tanggal;
+      $username = $nama_panggilan[0] . "_" . $str_id;
+      $password = $new_tanggal;
+      $no_pendaftaran = "RF.ppatq." . $str_id . "." . substr($tahunAjaran->akhir, -2);
 
       $user->username = $username;
       $user->password = md5($password);
       $user->password_ori = $password;
+      $user->no_pendaftaran = $no_pendaftaran;
       if ($user->save()) {
         //kirim pesan wa disini
-        $pesan ='*Pesan dari sistem Manajemen PSB PPATQ-RF*
+        $pesan = "*Pesan ini dikirim dari sistem PSB PPATQ-RF*
 
-Selamat anda sudah terdaftar pada web Penerimaan Peserta Didik Baru PPATQ Radlatul Falah Pati
+Selamat
+nama : " . $nama . "
+no pendaftaran : " . $no_pendaftaran . "
+
+telah terdaftar pada web sebagai peserta test seleksi  Peserta Didik Baru PPATQ Radlatul Falah Pati
+
 Silahkan catat username dan password di bawah ini untuk dapat mengubah dan melengkapi data
-username : ' .
-          $username .
-          '
-password : ' .
-          $password .
-          '
-Selanjutnya anda dapat melakukan pengkinian data calon santri baru di menu PSB setelah login melalui sistem
-https://psb.ppatq-rf.id';
+
+username : " . $username . "
+password : " . $password . "
+
+Selanjutnya silahkan login di sistem dan melaporkan pembayaran Uang pendaftaran di rekening
+
+BSI. 7141299818 a/n
+PONPES ANAK TAHFIDZUL QUR'AN RF
+melalui psb.ppatq-rf.id menu Pembayaran dan juga dapat melakukan pengkinian data - dokumen pelengkap.
+
+terimakasih
+
+
+#simpanWA_ini";
         $data['no_wa'] = $request->no_hp;
         $data['pesan'] = $pesan;
 
@@ -520,7 +537,8 @@ https://psb.ppatq-rf.id';
       $data->kelurahan = $request->kelurahan;
       $data->kode_pos = $request->kode_pos;
       $data->gelombang_id = $gelombang->id;
-      $data->no_pendaftaran = $username;
+      $data->no_pendaftaran = $no_pendaftaran;
+      $data->id_pendaftar = $get_id_pendaftar;
       $data->input_by = 2;
       $data->user_id = $id;
       if ($data->save()) {
@@ -1236,9 +1254,11 @@ terimakasih
     $data['pesan'] = $request->pesan;
 
     if (Helpers_wa::send_wa($data)) {
-      echo 'Berhasil';
+      return redirect()->back();
+      //echo 'Berhasil';
+
     } else {
-      echo 'gagal Kirim File';
+      return redirect()->back();
     }
   }
 }

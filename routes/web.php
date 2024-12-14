@@ -111,7 +111,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::get('psb/berkas_pendukung/{id}', [psb::class, 'berkas_pendukung']);
   Route::get('psb/generate_password', [psb::class, 'generate_password']);
   Route::get('psb/{id}/edit_wa', [psb::class, 'no_wa']);
-  Route::get('psb/resend_wa', [psb::class, 'resend_wa']);
+  Route::post('psb/resend_wa', [psb::class, 'resend_wa']);
 
   Route::get('psb_new/validasi', [psb::class, 'validasi']);
   Route::get('psb_new/validasi_filter/{id}', [psb::class, 'validasi']);
