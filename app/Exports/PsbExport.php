@@ -13,6 +13,7 @@ use App\Models\KelurahanTbl;
 use App\Models\PsbSeragam;
 use App\Models\UserPsb;
 use App\Models\PsbGelombang;
+use App\Models\PsbBuktiPembayaran;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use DateTime;
