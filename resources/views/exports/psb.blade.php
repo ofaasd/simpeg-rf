@@ -44,7 +44,7 @@
   @endphp
       <tr>
           <td>{{ $i }}</td>
-          <td>RF-{{(strlen($i == 1))?"0".$i:$i}}</td>
+          <td>RF-{{(strlen($i) == 1)?"0".$i:$i}}</td>
           <!-- <td>{{ $no_tes[2] }}</td> -->
           <td>{{ $row->no_pendaftaran }}</td>
           <td>{{ $row->nama }}</td>
