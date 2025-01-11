@@ -2,8 +2,8 @@
   <thead>
   <tr>
     <th>No. </th>
-    <th>No. Urut</th>
     <th>No. Tes</th>
+    <!-- <th>No. Tes</th> -->
     <th>No. Pendaftaran/Username</th>
     <th>Nama</th>
     <th>NISN</th>
@@ -44,8 +44,8 @@
   @endphp
       <tr>
           <td>{{ $i }}</td>
-          <td>RF-{{(strlen($i == 1)?"0".$i:$i}}</td>
-          <td>{{ $no_tes[2] }}</td>
+          <td>RF-{{(strlen($i == 1))?"0".$i:$i}}</td>
+          <!-- <td>{{ $no_tes[2] }}</td> -->
           <td>{{ $row->no_pendaftaran }}</td>
           <td>{{ $row->nama }}</td>
           <td>{{ $psb_asal[$row->id]->nisn }}</td>
