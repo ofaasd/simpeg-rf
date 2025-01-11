@@ -31,6 +31,8 @@
     <th>Lingkar Dada</th>
     <th>Lingkar Pinggul</th>
     <th>Password</th>
+    <th>Status Pembayaran</th>
+    <th>Tanggal Pembayaran</th>
   </tr>
   </thead>
   <tbody>
@@ -73,6 +75,8 @@
           <td>{{ $psb_seragam[$row->id]->lingkar_dada }}</td>
           <td>{{ $psb_seragam[$row->id]->lingkar_pinggul }}</td>
           <td>{{ $psb_user[$row->id]->password_ori }}</td>
+          <td>{{ $status_bayar[$bukti_bayar[$row->id]]}}</td>
+          <td>{{ date('d-m-Y', strtotime($tanggal_bayar[$row->id]))}}</td>
       </tr>
   @php
   $i++;

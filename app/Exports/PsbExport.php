@@ -32,6 +32,8 @@ class PsbExport implements FromView
     $psb_seragam = [];
     $tahun = [];
     $psb_user = [];
+    $bukti_bayar = [];
+    $tanggal_bayar = [];
     foreach ($psb as $row) {
       $tanggal_lahir = $row->tanggal_lahir;
       $dob = new DateTime(date('Y-m-d', $tanggal_lahir));
@@ -45,7 +47,16 @@ class PsbExport implements FromView
       $psb_asal[$row->id] = PsbSekolahAsal::where('psb_peserta_id', $row->id)->first();
       $psb_seragam[$row->id] = PsbSeragam::where('psb_peserta_id', $row->id)->first();
       $psb_user[$row->id] = UserPsb::where('no_pendaftaran', $row->no_pendaftaran)->first();
+      $bukti_bayar[$row->id] = 0;
+      $bukti = PsbBuktiPembayaran::where('psb_peserta_id', $row->id);
+      $tanggal_bayar[$row->id] = '';
+      if ($bukti->count() > 0) {
+        $bukti_row = $bukti->first();
+        $bukti_bayar[$row->id] = $bukti_row->status;
+        $tanggal_bayar[$row->id] = date('d-m-Y', strtotime($bukti_row->created_at));
+      }
     }
+    $status_bayar = ['Belum Bayar','Belum di Validasi','Pembayaran Tervalidasi'];
 
     return view('exports.psb', [
       'psb' => $psb,
@@ -55,6 +66,9 @@ class PsbExport implements FromView
       'psb_seragam' => $psb_seragam,
       'psb_user' => $psb_user,
       'tahun' => $tahun,
+      'bukti_bayar' => $bukti_bayar,
+      'tanggal_bayar' => $tanggal_bayar,
+      'status_bayar' => $status_bayar,
     ]);
   }
 }
