@@ -25,7 +25,7 @@ class PsbExport implements FromView
   public function view(): View
   {
     $gelombang = PsbGelombang::orderBy('id','desc')->limit(1)->first();
-    $psb = PsbPesertaOnline::where('gelombang_id',$gelombang->id)->get();
+    $psb = PsbPesertaOnline::where('gelombang_id',$gelombang->id)->orderBy('id','desc')->get();
     $psb_wali = [];
     $psb_berkas = [];
     $psb_asal = [];

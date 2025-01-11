@@ -2,6 +2,7 @@
   <thead>
   <tr>
     <th>No. </th>
+    <th>No. Urut</th>
     <th>No. Tes</th>
     <th>No. Pendaftaran/Username</th>
     <th>Nama</th>
@@ -43,6 +44,7 @@
   @endphp
       <tr>
           <td>{{ $i }}</td>
+          <td>RF-{{$i}}</td>
           <td>{{ $no_tes[2] }}</td>
           <td>{{ $row->no_pendaftaran }}</td>
           <td>{{ $row->nama }}</td>
