@@ -19,23 +19,21 @@ class BeritaController extends Controller
    * Display a listing of the resource.
    */
 
-  public function index()
-  {
-    $title = 'Berita';
-    $berita = Berita::latest()->get();
-    $kategori = Kategori::all();
-
-    $response = Http::accept('application/json')->get('https://newapi.ppatq-rf.sch.id/public/index.php/post');
-    $beritaSch = count($response->json());
-
-    if ($beritaSch > $berita->count()) {
-      Session::put('isNotif', true);
-    } else {
-      Session::put('isNotif', false);
-    }
-
-    return view('admin.berita.index', compact('berita', 'title', 'kategori'));
-  }
+   public function index()
+   {
+       $title = 'Berita';
+       $berita = Berita::latest()->get();
+       $kategori = Kategori::all();
+   
+       $beritaSch = Http::accept('application/json')
+           ->get('https://newapi.ppatq-rf.sch.id/public/index.php/post')
+           ->json();
+       $isNotif = count($beritaSch) > $berita->count();
+   
+       Session::put('isNotif', $isNotif);
+   
+       return view('admin.berita.index', compact('berita', 'title', 'kategori'));
+   }
 
   public function sinkronisasi()
   {

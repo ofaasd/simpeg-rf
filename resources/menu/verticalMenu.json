@@ -367,7 +367,19 @@
       "url": "/user-list",
       "icon": "menu-icon tf-icons mdi mdi-account-outline",
       "name": "User",
-      "slug": "User Management"
+      "slug": "user-list"
+    },
+    {
+      "url": "/fasilitas",
+      "icon": "menu-icon tf-icons mdi mdi-home-assistant",
+      "name": "Fasilitas",
+      "slug": "fasilitas"
+    },
+    {
+      "url": "/galeri",
+      "icon": "menu-icon tf-icons mdi mdi-image",
+      "name": "Galeri",
+      "slug": "galeri"
     }
   ]
 }
