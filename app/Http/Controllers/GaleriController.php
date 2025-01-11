@@ -40,6 +40,14 @@ class GaleriController extends Controller
                 $file = $request->file('foto');
                 $cutter = time() . '-' . $file->getClientOriginalName();
                 $fileName = str_replace(' ', '-', $cutter);
+
+
+                $deleteFoto = Galeri::where('id', $id)->first();
+                $destinationDelete = public_path('assets/img/upload/foto_galeri/' . $deleteFoto->foto);
+
+                if (file_exists($destinationDelete)) {
+                    unlink($destinationDelete);
+                }
                 
                 $galeri = Galeri::updateOrCreate(
                     ['id' => $id],

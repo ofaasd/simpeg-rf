@@ -43,6 +43,13 @@ class FasilitasController extends Controller
                 $cutter = time() . '-' . $file->getClientOriginalName();
                 $fileName = str_replace(' ', '-', $cutter);
                 
+                $deleteFoto = Fasilitas::where('id', $id)->first();
+                $destinationDelete = public_path('assets/img/upload/foto_fasilitas/' . $deleteFoto->foto);
+
+                if (file_exists($destinationDelete)) {
+                    unlink($destinationDelete);
+                }
+
                 $fasilitas = Fasilitas::updateOrCreate(
                     ['id' => $id],
                     [
