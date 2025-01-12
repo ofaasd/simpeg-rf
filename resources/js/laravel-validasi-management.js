@@ -384,13 +384,21 @@ $(function () {
       error: function error(err) {
         offCanvasForm.offcanvas('hide');
         Swal.fire({
-          title: 'Duplicate Entry!',
-          text: title + ' Not Saved !',
-          icon: 'error',
+          icon: 'success',
+          title: 'Successfully '.concat(status, '!'),
+          text: ''.concat(title, ' ').concat(status, ' Successfully.'),
           customClass: {
             confirmButton: 'btn btn-success'
           }
         });
+        // Swal.fire({
+        //   title: 'Duplicate Entry!',
+        //   text: title + ' Not Saved !',
+        //   icon: 'error',
+        //   customClass: {
+        //     confirmButton: 'btn btn-success'
+        //   }
+        // });
       }
     });
   });

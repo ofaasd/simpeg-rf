@@ -54,7 +54,7 @@ class PsbExport implements FromView
       if ($bukti->count() > 0) {
         $bukti_row = $bukti->first();
         $bukti_bayar[$row->id] = $bukti_row->status;
-        $tanggal_bayar[$row->id] = date('d-m-Y', strtotime($bukti_row->created_at));
+        $tanggal_bayar[$row->id] = (!empty($bukti_row->created_at)) ? date('d-m-Y', strtotime($bukti_row->created_at)) : "";
       }
     }
     $status_bayar = ['Belum Bayar','Belum di Validasi','Pembayaran Tervalidasi'];
