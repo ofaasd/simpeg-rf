@@ -76,7 +76,7 @@
           <td>{{ $psb_seragam[$row->id]->lingkar_pinggul }}</td>
           <td>{{ $psb_user[$row->id]->password_ori }}</td>
           <td>{{ $status_bayar[$bukti_bayar[$row->id]]}}</td>
-          <td>{{ date('d-m-Y', strtotime($tanggal_bayar[$row->id]))}}</td>
+          <td>{{ $tanggal_bayar[$row->id]}}</td>
       </tr>
   @php
   $i++;
