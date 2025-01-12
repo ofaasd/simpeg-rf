@@ -171,7 +171,7 @@ $(function () {
     // get data
     $.get(''.concat(baseUrl).concat(page, '/').concat(id, '/edit_wa'), function (data) {
       $("#id").val(data[0].id);
-      $("#no_telp").val(data[1]['no_telp']);
+      $("#no_telp").val(data[1]['no_hp']);
       $("#pesan").val(data['pesan']);
     });
   });
