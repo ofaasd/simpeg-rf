@@ -98,7 +98,7 @@ class AbsensiController extends Controller
         foreach ($absensi as $row) {
           $nestedData['id'] = $row->id;
           $nestedData['fake_id'] = ++$ids;
-          $nestedData['user_id'] = $row->user->pegawai->nama;
+          $nestedData['user_id'] = $row->user->pegawai->nama ?? '';
           $nestedData['day'] = $row->day;
           $nestedData['masuk'] = !empty($row->start) ? date('H:i:s', $row->start) : '';
           $nestedData['keluar'] = !empty($row->end) ? date('H:i:s', $row->end) : '';
