@@ -15,14 +15,10 @@ $(function () {
   var my_data = [];
   console.log(my_data);
   pecah.forEach(function (item, index) {
-    var temp = item.replace(/ /g, '');
-    if (temp != '') {
-      var data_obj = {
-        data: temp
-      };
-      //alert(data_obj.data);
-      my_data.push(data_obj);
-    }
+    let temp = item.replace(/ /g, '');
+    let data_obj = { data: temp };
+    //alert(data_obj.data);
+    my_data.push(data_obj);
   });
 
   console.log(my_data);
