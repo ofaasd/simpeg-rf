@@ -307,7 +307,7 @@ class PembayaranController extends Controller
             );
             $update_saku_masuk = SakuMasuk::create($data);
             $data2 = array(
-              'jumlah' => $uang_saku->jumlah + $nominal
+              'jumlah' => ($uang_saku->jumlah ?? 0) + $nominal
             );
             $update_tb_uang_saku = UangSaku::where('no_induk',$request->nama_santri)->update($data2);
           }
