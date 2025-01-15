@@ -159,8 +159,7 @@ class PembayaranController extends Controller
     //
 
     $jumlah = str_replace(".", "", $request->jumlah);
-    echo $jumlah;
-    exit;
+    
     $tipe = $request->tipe;
     $bank_pengirim = 0;
     if($tipe == "Bank")
