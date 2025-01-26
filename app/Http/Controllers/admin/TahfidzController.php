@@ -9,6 +9,7 @@ use App\Models\TahunAjaran;
 use App\Models\StructuralPosition;
 use App\Models\Grades;
 use App\Models\Santri;
+use App\Models\KodeJuz;
 use App\Models\Loggin_mk1 as log;
 use Illuminate\Http\Request;
 use Session;
@@ -346,16 +347,10 @@ class TahfidzController extends Controller
     $var['EmployeeNew'] = EmployeeNew::where($where)->first();
     $title = 'Pegawai';
     $tahfidz = Tahfidz::where('employee_id', $id)->first();
-    if($tahfidz){
-      Session::put('tahfidz_id', $tahfidz->id);
-      $var['list_santri'] = Santri::where('tahfidz_id', $tahfidz->id)->get();
-    }else{
-      Session::put('tahfidz_id', 0);
-    }
-    Session::put('employee_id', $id);
 
-
-    return view('ustadz.tahfidz.index', compact('title', 'var', 'id'));
+    //exit;
+    $var['list_santri'] = Santri::where('tahfidz_id', $tahfidz->id)->get();
+    return view('ustadz.tahfidz.index', compact('title', 'var','tahfidz','id'));
   }
   public function generate_emp_tahfidz()
   {
@@ -379,18 +374,10 @@ class TahfidzController extends Controller
   public function grafik(String $id){
     $where = ['id' => $id];
     $var['EmployeeNew'] = EmployeeNew::where($where)->first();
-    $title = 'Pegawai';
     $tahfidz = Tahfidz::where('employee_id', $id)->first();
-    if($tahfidz){
-      Session::put('tahfidz_id', $tahfidz->id);
-      $var['list_santri'] = Santri::where('tahfidz_id', $tahfidz->id)->get();
-    }else{
-      Session::put('tahfidz_id', 0);
-    }
-    Session::put('employee_id', $id);
-
-
-    return view('ustadz.tahfidz.grafik', compact('title', 'var', 'id'));
-
+    $var['list_santri'] = Santri::where('tahfidz_id', $tahfidz->id)->get();
+    $var['kode_juz'] = KodeJuz::all();
+    $title = "Grafik Santri";
+    return view('ustadz.tahfidz.grafik', compact('title', 'var','tahfidz','id'));
   }
 }

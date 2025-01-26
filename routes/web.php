@@ -206,6 +206,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::get('/gelombang_detail/{id}', [$controller_path . '\admin\GelombangDetailController', 'index']);
 
   Route::get('/psb_filter/{id}',  [psb::class, 'index']);
+  Route::get('/ustadz/grafik_tahfidz',  [UstTahfidzController::class, 'grafik']);
+  Route::post('/ustadz/get_grafik',  [UstTahfidzController::class, 'get_grafik']);
 
   Route::resource('/users', UserController::class);
   Route::resource('/user-list', UserManagement::class);
@@ -256,7 +258,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/ustadz/murroby', MurrobyController::class);
   Route::resource('/ustadz/tahfidz', UstTahfidzController::class);
   Route::resource('/ustadz/uang-saku', UangSakuController::class);
-  Route::resource('/ustadz/detail_tahfidz', DetailTahfidzController::class);
   Route::resource('/ustadz/detail_tahfidz', DetailTahfidzController::class);
   Route::resource('/detail_ketahfidzan', AdminDetailTahfidzController::class);
   Route::resource('/ustadz/saku_masuk', SakuMasukController::class);

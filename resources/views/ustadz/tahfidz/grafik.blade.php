@@ -21,12 +21,14 @@
 <script src="{{asset('assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/jquery-repeater/jquery-repeater.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/block-ui/block-ui.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/chartjs/chartjs.js')}}"></script>
 @endsection
 
 @section('page-script')
 <script src="{{asset('assets/js/pages-profile.js')}}"></script>
 <script src="{{asset('assets/js/forms-selects.js')}}"></script>
 <script src="{{asset('assets/js/forms-extras-custom.js')}}"></script>
+<script src="{{asset('assets/js/charts-chartjs.js')}}"></script>
 @endsection
 
 @section('content')
@@ -40,21 +42,47 @@
   <div class="card mb-4" id="card-block">
       <div class="card-header">
         <h4>Grafik Perkembangan Santri</h4>
-        @if(Session::get('tahfidz_id') != 0)
+        @if(!empty($tahfidz))
         <div class="card-action-element ms-auto py-0">
           <select name="santri" id="santri" class="form-control">
+            <option value="0">--Pilih Santri--</option>
             @foreach($var['list_santri'] as $row)
-            <option value="{{$row->id}}">{{$row->nama}}</option>
+            <option value="{{$row->no_induk}}">{{$row->nama}}</option>
             @endforeach
           </select>
         </div>
         @endif
       </div>
       <div class="card-body">
-        @if(Session::get('tahfidz_id') == 0)
+        @if(empty($tahfidz))
           <div class="alert alert-danger">Maaf anda belum terdaftar sebagai guru tahfidz. harap daftarkan terlebih dahulu melalui menu master data tahfdiz</div>
         @else
-          <canvas id="barChart2" class="chartjs" ></canvas>
+          <div style="margin: 0.5em;">
+            <canvas id="barChart2" class="chartjs" ></canvas>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Legend</h4>
+              <table class="table table-stripped dataTable">
+                <thead>
+                  <tr>
+                    <th style="width:10px">id</th>
+                    <th>Juz/Surat</th>
+                    <th>Nilai</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($var['kode_juz'] as $kode_juz)
+                  <tr>
+                    <td>{{$kode_juz->id}}</td>
+                    <td>{{$kode_juz->nama}}</td>
+                    <td>{{$kode_juz->id}}</td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          </div>
         @endif
       </div>
     </div>
@@ -64,15 +92,31 @@
 
 @endsection
 <script>
+const purpleColor = '#836AF9',
+  yellowColor = '#ffe800',
+  cyanColor = '#28dac6',
+  orangeColor = '#FF8132',
+  orangeLightColor = '#ffcf5c',
+  oceanBlueColor = '#299AFF',
+  greyColor = '#4F5D70',
+  greyLightColor = '#EDF1F4',
+  blueColor = '#2B9AFF',
+  blueLightColor = '#84D0FF';
+let cardColor, headingColor, labelColor, borderColor, legendColor;
 document.addEventListener("DOMContentLoaded", function(event) {
   $('.dataTable').dataTable();
-  get_jumlah_psb();
+  //get_jumlah_psb();
+  $("#santri").on("change",function(){
+    get_jumlah_psb();
+  });
 });
+
 const get_jumlah_psb = () => {
     $.ajax({
-      url: ''.concat(baseUrl).concat('get_jumlah_psb'),
+      //url: ''.concat(baseUrl).concat('get_jumlah_psb'),
+      url: ''.concat(baseUrl).concat('ustadz/get_grafik'),
       method: 'POST',
-      data: { tahun: $('#tahun_psb').val() },
+      data: { no_induk: $('#santri').val() },
       success: function (data) {
         const chartStatus = Chart.getChart("barChart2");
         if (chartStatus != undefined) {

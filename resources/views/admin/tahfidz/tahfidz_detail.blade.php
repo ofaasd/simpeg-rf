@@ -25,7 +25,7 @@
 <script src="{{asset('assets/js/pages-profile.js')}}"></script>
 <script src="{{asset('assets/js/forms-selects.js')}}"></script>
 <script src="{{asset('assets/js/forms-extras-custom.js')}}"></script>
-<script src="{{asset('js/laravel-detail-santri.js')}}"></script>
+<script src="{{asset('js/laravel-detail-santri-admin.js')}}"></script>
 @endsection
 
 @section('content')
@@ -40,6 +40,7 @@
   </div>
   <div class="card-datatable table-responsive">
 <textarea name='column' id='my_column' style="display:none">@foreach($indexed as $value) {{$value . "\n"}} @endforeach</textarea>
+<input type="hidden" id="new_id_pegawai" name="new_id_pegawai" value="{{$id}}">
 <input type="hidden" name="page" id='page' value='detail_ketahfidzan'>
 <input type="hidden" name="title" id='title' value='{{strtolower($page)}}'>
     <table class="datatables-{{strtolower($page)}} table">
@@ -75,7 +76,7 @@
           <label for="add-{{strtolower($title)}}-no_induk">Santri</label>
         </div>
         <div class="form-floating form-floating-outline mb-4">
-          <input type="date" class="form-control" id="add-{{strtolower($page)}}-tanggal"> 
+          <input type="date" name="tanggal" class="form-control" id="add-{{strtolower($page)}}-tanggal">
           <label for="add-{{strtolower($title)}}-tanggal">Tanggal</label>
         </div>
         <!-- <div class="form-floating form-floating-outline mb-4">
