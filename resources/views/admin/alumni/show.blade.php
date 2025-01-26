@@ -380,11 +380,10 @@
 
             $('#btn-submit').prop('disabled', true); // Menonaktifkan tombol submit
 
-            console.log(formData);
             insert_update(formData)
                 .done(function() {
                     $('#btn-submit').prop('disabled', false); // Mengaktifkan tombol submit kembali
-                })x
+                })
                 .fail(function() {
                     $('#btn-submit').prop('disabled', false); // Mengaktifkan tombol submit kembali
                 });
