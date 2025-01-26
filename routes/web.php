@@ -46,6 +46,7 @@ use App\Http\Controllers\admin\master\aset\MasterLantaiController;
 use App\Http\Controllers\admin\master\aset\MasterRuangController;
 use App\Http\Controllers\admin\RuangController;
 use App\Http\Controllers\admin\SaranController;
+use App\Http\Controllers\admin\ControlPembayaranController;
 use App\Http\Controllers\BangunanController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\admin\BeritaController;
@@ -198,6 +199,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('/pembayaran/update_status', [PembayaranController::class, 'update_status']);
   Route::post('/pembayaran/get_pesan_warning', [PembayaranController::class, 'get_pesan_warning']);
   Route::post('/pembayaran/send_warning', [PembayaranController::class, 'send_warning']);
+
+  Route::get('/admin/pembayaran/bukatutup', [ControlPembayaranController::class, 'index']);
+  Route::get('/admin/bukatutup/insert', [ControlPembayaranController::class, 'store']);
 
   Route::get('/gelombang_detail/{id}', [$controller_path . '\admin\GelombangDetailController', 'index']);
 

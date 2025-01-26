@@ -264,10 +264,22 @@
       "slug": "agenda"
     },
     {
-      "url": "/pembayaran",
+      "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-cash",
       "name": "Pembayaran",
-      "slug": "pembayaran"
+      "slug": "pembayaran",
+      "submenu": [
+        {
+          "url": "/pembayaran",
+          "name": "Daftar Pembayaran",
+          "slug": "daftar-pembayaran"
+        },
+        {
+          "url": "/admin/pembayaran/bukatutup",
+          "name": "Buka Tutup Pelaporan",
+          "slug": "buka-tutup-pembayaran"
+        }
+      ]
     },
     {
       "url": "/alumni",
@@ -277,7 +289,7 @@
     },
     {
       "url": "/media_saran",
-      "icon": "menu-icon tf-icons mdi mdi-email-open-heart-outline",
+      "icon": "menu-icon tf-icons mdi mdi-view-list-outline",
       "name": "Media Saran",
       "slug": "media_saran"
     },
