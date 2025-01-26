@@ -236,6 +236,11 @@
           "url": "/laporan/pembayaran",
           "name": "Laporan Pembayaran",
           "slug": "laporan-pembayaran"
+        },
+        {
+          "url": "/laporan/laporan-pondok",
+          "name": "Laporan Pondok",
+          "slug": "laporan-pondok"
         }
       ]
     },

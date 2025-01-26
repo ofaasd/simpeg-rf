@@ -17,6 +17,7 @@
     "laravel/tinker": "^2.8",
     "livewire/livewire": "^2.11",
     "maatwebsite/excel": "^3.1",
+    "mpdf/mpdf": "^8.2",
     "nesbot/carbon": "^2.72",
     "reliese/laravel": "^1.2",
     "spatie/laravel-permission": "^5.10",

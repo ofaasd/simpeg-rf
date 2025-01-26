@@ -51,6 +51,7 @@ use App\Http\Controllers\BangunanController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\admin\BeritaController;
 use App\Http\Controllers\admin\KategoriController;
+use App\Http\Controllers\admin\LaporanPondokController;
 use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\NewMenuController;
@@ -179,6 +180,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::get('ustadz/hapus_saku_masuk/{id}', [UangSakuController::class, 'destroy']);
   Route::get('laporan/pembayaran', [LaporanController::class, 'pembayaran']);
   Route::post('laporan/pembayaran', [LaporanController::class, 'pembayaran']);
+
+  Route::get('laporan/laporan-pondok', [LaporanPondokController::class, 'index']);
+  Route::post('laporan/laporan-pondok', [LaporanPondokController::class, 'index']);
+
   Route::get('/tbd', function () {
     return view('content.pages.tbd');
   });
