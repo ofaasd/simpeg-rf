@@ -32,7 +32,7 @@ class LaporanPondokController extends Controller
             $pilihanLaporan = $request->input('pilih-laporan');
             $periode = $request->input('pilih-periode');
 
-            ini_set('pcre.backtrack_limit', '200000000');
+            ini_set('pcre.backtrack_limit', '2000000');
 
             switch($pilihanLaporan){
                 case 0:
