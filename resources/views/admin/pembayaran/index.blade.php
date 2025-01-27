@@ -26,6 +26,7 @@
             <li><a href="{{URL::to('pembayaran/create')}}" id="add" class="dropdown-item"><i class="mdi mdi-plus"></i>  Create</a></li>
             <li><a href="#" id="filter_btn" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#filter"><i class="mdi mdi-sort"></i> Filter</a></li>
             <li><a href="#" id="export_btn" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#filter"><i class="mdi mdi-export"></i> Export</a></li>
+            <li><a href="#" id="import_btn" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#import"><i class="mdi mdi-export"></i> Import</a></li>
           </ul>
         </div>
       </div>
