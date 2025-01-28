@@ -27,15 +27,9 @@ h2 {
     margin-bottom: 10px;
 }
 
-.table-container {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
 }
 
 table th, table td {
@@ -376,7 +370,6 @@ thead th {
             </div>
         </section>
     @endif
-
 
     @if (isset($keuanganValidasi))
         <section style="page-break-before: always; margin: 0;">
