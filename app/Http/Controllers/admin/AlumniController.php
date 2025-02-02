@@ -48,9 +48,12 @@ class AlumniController extends Controller
         // Jika ada file inputProfile
         if ($request->hasFile('inputProfile')) {
 
-            // Hapus foto lama jika ada
             if (!empty($dataAlumni->photo)) {
-                unlink(public_path('assets/img/upload/photo_alumni/' . $dataAlumni->photo));
+                $photoPath = public_path('assets/img/upload/photo_alumni/' . $dataAlumni->photo);
+
+                if (file_exists($photoPath)) {
+                    unlink($photoPath);
+                }
             }
 
             // Proses unggah file baru
