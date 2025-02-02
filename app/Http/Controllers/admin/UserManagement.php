@@ -153,7 +153,7 @@ class UserManagement extends Controller
 
       // user updated
       $role = $request->role;
-      $users->assignRole($role);
+      $users->syncRoles($role);
       return response()->json('Updated');
     } else {
       // create new one if email is unique
