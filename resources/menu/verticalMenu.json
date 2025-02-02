@@ -387,6 +387,12 @@
       "slug": "user-list"
     },
     {
+      "url": "/prestasi",
+      "icon": "menu-icon tf-icons mdi mdi-account-star",
+      "name": "Prestasi",
+      "slug": "prestasi"
+    },
+    {
       "url": "/fasilitas",
       "icon": "menu-icon tf-icons mdi mdi-home-assistant",
       "name": "Fasilitas",
