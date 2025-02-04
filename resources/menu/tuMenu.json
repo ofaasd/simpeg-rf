@@ -1,0 +1,62 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Home",
+      "icon": "menu-icon tf-icons mdi mdi-home-outline",
+      "slug": "pages-home"
+    },
+    {
+      "url": "/profile",
+      "name": "Profile",
+      "icon": "menu-icon tf-icons mdi mdi-account-outline",
+      "slug": "profile"
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-clipboard-list",
+      "name": "Absen & Izin",
+      "slug": "absen-izin",
+      "submenu": [
+        {
+          "url": "/absensi",
+          "name": "Absensi",
+          "slug": "absensi-absensi"
+        },
+        {
+          "url": "/tbd",
+          "name": "Penyesuaian Absensi",
+          "slug": "absensi-penyesuaian"
+        },
+        {
+          "url": "/tbd",
+          "name": "Pengajuan Izin / Cuti",
+          "slug": "absensi-izin-cuti"
+        },
+        {
+          "url": "/tbd",
+          "name": "Laporan Pekerjaan",
+          "slug": "absensi-laporan"
+        }
+      ]
+    },
+    {
+      "url": "/santri",
+      "name": "Santri",
+      "icon": "menu-icon tf-icons mdi mdi-account",
+      "slug": "santri"
+    },
+    {
+      "url": "/alumni",
+      "icon": "menu-icon tf-icons mdi mdi-account-outline",
+      "name": "Alumni",
+      "slug": "alumni"
+    },
+    {
+      "url": "/prestasi",
+      "icon": "menu-icon tf-icons mdi mdi-account-star",
+      "name": "Prestasi",
+      "slug": "prestasi"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Home",
+      "icon": "menu-icon tf-icons mdi mdi-home-outline",
+      "slug": "pages-home"
+    },
+    {
+      "url": "/profile",
+      "name": "Profile",
+      "icon": "menu-icon tf-icons mdi mdi-account-outline",
+      "slug": "profile"
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-clipboard-list",
+      "name": "Absen & Izin",
+      "slug": "absen-izin",
+      "submenu": [
+        {
+          "url": "/absensi",
+          "name": "Absensi",
+          "slug": "absensi-absensi"
+        },
+        {
+          "url": "/tbd",
+          "name": "Penyesuaian Absensi",
+          "slug": "absensi-penyesuaian"
+        },
+        {
+          "url": "/tbd",
+          "name": "Pengajuan Izin / Cuti",
+          "slug": "absensi-izin-cuti"
+        },
+        {
+          "url": "/tbd",
+          "name": "Laporan Pekerjaan",
+          "slug": "absensi-laporan"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-bottle-tonic-plus",
+      "name": "Kesehatan",
+      "slug": "kesehatan",
+      "submenu": [
+        {
+          "url": "/kesehatan",
+          "name": "Kesehatan Santri",
+          "slug": "kesehatan-index"
+        },
+        {
+          "url": "/kesehatan/santri",
+          "name": "Pemeriksaan Santri",
+          "slug": "kesehatan-santri"
+        }
+      ]
+    }
+  ]
+}

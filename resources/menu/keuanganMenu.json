@@ -1,0 +1,86 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Home",
+      "icon": "menu-icon tf-icons mdi mdi-home-outline",
+      "slug": "pages-home"
+    },
+    {
+      "url": "/profile",
+      "name": "Profile",
+      "icon": "menu-icon tf-icons mdi mdi-account-outline",
+      "slug": "profile"
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-clipboard-list",
+      "name": "Absen & Izin",
+      "slug": "absen-izin",
+      "submenu": [
+        {
+          "url": "/absensi",
+          "name": "Absensi",
+          "slug": "absensi-absensi"
+        },
+        {
+          "url": "/tbd",
+          "name": "Penyesuaian Absensi",
+          "slug": "absensi-penyesuaian"
+        },
+        {
+          "url": "/tbd",
+          "name": "Pengajuan Izin / Cuti",
+          "slug": "absensi-izin-cuti"
+        },
+        {
+          "url": "/tbd",
+          "name": "Laporan Pekerjaan",
+          "slug": "absensi-laporan"
+        }
+      ]
+    },
+    {
+      "url": "/admin/akuntansi",
+      "icon": "menu-icon tf-icons mdi mdi-cash",
+      "name": "keuangan",
+      "slug": "akuntansi"
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-chart-line",
+      "name": "Laporan",
+      "slug": "laporan",
+      "submenu": [
+        {
+          "url": "/laporan/pembayaran",
+          "name": "Laporan Pembayaran",
+          "slug": "laporan-pembayaran"
+        },
+        {
+          "url": "/laporan/laporan-pondok",
+          "name": "Laporan Pondok",
+          "slug": "laporan-pondok"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-cash",
+      "name": "Pembayaran",
+      "slug": "pembayaran",
+      "submenu": [
+        {
+          "url": "/pembayaran",
+          "name": "Daftar Pembayaran",
+          "slug": "daftar-pembayaran"
+        },
+        {
+          "url": "/admin/pembayaran/bukatutup",
+          "name": "Buka Tutup Pelaporan",
+          "slug": "buka-tutup-pembayaran"
+        }
+      ]
+    }
+  ]
+}

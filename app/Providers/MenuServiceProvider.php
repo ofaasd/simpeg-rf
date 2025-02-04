@@ -25,8 +25,25 @@ class MenuServiceProvider extends ServiceProvider
     $horizontalMenuData = json_decode($horizontalMenuJson);
     $ustadzMenuJson = file_get_contents(base_path('resources/menu/ustadzMenu.json'));
     $ustadzMenuData = json_decode($ustadzMenuJson);
+    $keuanganMenuJson = file_get_contents(base_path('resources/menu/keuanganMenu.json'));
+    $keuanganMenuData = json_decode($keuanganMenuJson);
+    $tuMenuJson = file_get_contents(base_path('resources/menu/tuMenu.json'));
+    $tuMenuData = json_decode($tuMenuJson);
+    $umumMenuJson = file_get_contents(base_path('resources/menu/umumMenu.json'));
+    $umumMenuData = json_decode($umumMenuJson);
+    $kesehatanMenuJson = file_get_contents(base_path('resources/menu/kesehatanMenu.json'));
+    $kesehatanMenuData = json_decode($kesehatanMenuJson);
 
     // Share all menuData to all the views
-    \View::share('menuData', [$verticalMenuData, $horizontalMenuData, $ustadzMenuData]);
+    \View::share('menuData',
+    [
+      $verticalMenuData,
+      $horizontalMenuData,
+      $ustadzMenuData,
+      $keuanganMenuData,
+      $tuMenuData,
+      $umumMenuData,
+      $kesehatanMenuData
+    ]);
   }
 }
