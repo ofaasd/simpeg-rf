@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutPondokController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\UserManagement;
@@ -246,6 +247,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/fasilitas', FasilitasController::class);
   Route::resource('/galeri', GaleriController::class);
   Route::resource('/prestasi', PrestasiController::class);
+  Route::resource('/about-ppatq', AboutPondokController::class);
 
   Route::resource('/aset/ruang', RuangController::class);
   Route::resource('/aset/barang', BarangController::class);
