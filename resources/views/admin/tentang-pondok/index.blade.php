@@ -4,13 +4,11 @@
 
 @section('vendor-style')
   <link rel="stylesheet" href="{{asset('assets/vendor/libs/spinkit/spinkit.css')}}" />
-  <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
 @endsection
 
 @section('vendor-script')
   <script src="{{asset('assets/vendor/libs/block-ui/block-ui.js')}}"></script>
-  <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 
 @endsection
@@ -74,7 +72,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-sm btn-primary" id="btn-submit" type="submit">Save changes</button>
+                    <button class="btn btn-sm btn-primary d-none" id="btn-submit" type="submit">Save changes</button>
                 </form>
             </div>
         </div>
@@ -123,6 +121,14 @@
     }
 
     document.addEventListener("DOMContentLoaded", function(event) {
+        $('input').on('input', function() {
+            $('#btn-submit').removeClass('d-none');
+        });
+
+        $('trix-editor').on('trix-change', function() {
+            $('#btn-submit').removeClass('d-none');
+        });
+        
         $('#form-tentang-pondok').submit(function(e) {
             e.preventDefault(); // Mencegah reload halaman
 
