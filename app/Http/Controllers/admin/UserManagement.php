@@ -100,7 +100,7 @@ class UserManagement extends Controller
           $nestedData['fake_id'] = ++$ids;
           $nestedData['name'] = $user->name;
           $nestedData['email'] = $user->email;
-          $nestedData['email_verified_at'] = $user->email_verified_at;
+          $nestedData['email_verified_at'] = $user->getRoleNames();
 
           $data[] = $nestedData;
         }
