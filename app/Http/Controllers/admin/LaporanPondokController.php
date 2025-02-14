@@ -463,6 +463,7 @@ class LaporanPondokController extends Controller
         'margin_right' => 15,
         'margin_bottom' => 15,
         'margin_left' => 15,
+        'simpleTables' => true,
       ]);
 
       // Render HTML dari view
