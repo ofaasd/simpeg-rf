@@ -33,6 +33,18 @@ class Berita extends Model
 
   protected $table = 'berita';
 
+  protected $fillable = [
+    'kategori_id',
+    'slug',
+    'judul',
+    'slug',
+    'thumbnail',
+    'gambar_dalam',
+    'isi_berita',
+    'status',
+    'user_id',
+  ];
+
   public function kategori()
   {
     return $this->belongsTo(Kategori::class);
