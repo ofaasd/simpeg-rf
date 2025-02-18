@@ -20,6 +20,7 @@ class UangMasukController extends Controller
           'bulan' => date('m', strtotime($request->tanggal)),
           'tahun' => date('Y', strtotime($request->tanggal)),
           'tanggal_transaksi' => strtotime($request->tanggal),
+          'nama_kegiatan' => $request->nama_kegiatan,
           'sumber' => $request->sumber,
           'jumlah' => $request->jumlah,
         ]
@@ -37,6 +38,7 @@ class UangMasukController extends Controller
           'bulan' => date('m', strtotime($request->tanggal)),
           'tahun' => date('Y', strtotime($request->tanggal)),
           'tanggal_transaksi' => strtotime($request->tanggal),
+          'nama_kegiatan' => $request->nama_kegiatan,
           'sumber' => $request->sumber,
           'jumlah' => $request->jumlah,
         ]
