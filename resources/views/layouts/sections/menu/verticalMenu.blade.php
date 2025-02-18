@@ -62,6 +62,11 @@ $user = Helper_user::appClasses();
         $menuDatas = $menuData[6];
       @endphp
     @endhasrole
+    @hasrole('admin-input')
+      @php
+        $menuDatas = $menuData[7];
+      @endphp
+    @endhasrole
 
     @foreach ($menuDatas->menu as $menu)
 
