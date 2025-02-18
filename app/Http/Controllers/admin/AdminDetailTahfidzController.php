@@ -32,22 +32,23 @@ class AdminDetailTahfidzController extends Controller
     'November',
     'Desember',
   ];
-  public function index(Request $request)
+  public function show(Request $request, String $id)
   {
+    $bulan = 0;
+    $tahun = 0;
+    $where = ['id' => $id];
+    $var['EmployeeNew'] = EmployeeNew::where($where)->first();
+    $tahfidz = Tahfidz::where('employee_id', $id)->first();
     if (empty($request->input('length'))) {
-      $id = Session::get('employee_id');
-      $where = ['id' => $id];
-      $var['EmployeeNew'] = EmployeeNew::where($where)->first();
-      $tahfidz = Tahfidz::find(Session::get('tahfidz_id'));
       $var['list_santri'] = Santri::where('tahfidz_id', $tahfidz->id)->get();
       $var['bulan'] = $this->bulan;
       $ta = TahunAjaran::where(['is_aktif' => 1])->first();
       $var['id_tahfidz'] = $tahfidz->id;
       $title = 'Tahfidz Santri';
-      $page = 'DetailKetahfidzan';
-      $var['kode_juz'] = KodeJuz::orderBy('kode','asc')->get();
+      $page = 'detail_ketahfidzan';
+      $var['kode_juz'] = KodeJuz::all();
       $indexed = $this->indexed;
-      return view('admin.tahfidz.tahfidz_detail', compact('title', 'page', 'indexed', 'var', 'ta', 'id'));
+      return view('admin.tahfidz.tahfidz_detail', compact('title', 'page', 'indexed', 'var', 'ta','id'));
     } else {
       $columns = [
         1 => 'id',
@@ -66,16 +67,24 @@ class AdminDetailTahfidzController extends Controller
       $start = $request->input('start');
       $order = $columns[$request->input('order.0.column')];
       $dir = $request->input('order.0.dir');
-      $santri = Santri::where('tahfidz_id', Session::get('tahfidz_id'))->get();
-      $arr_santri = [];
-      foreach ($santri as $row) {
-        $arr_santri[] = $row->no_induk;
+
+      if($bulan == 0){
+        $bulan = date('m');
       }
 
+      if($tahun == 0){
+        $tahun = date('Y');
+      }
+
+
       if (empty($request->input('search.value'))) {
-        $detail = DetailSantriTahfidz::where('bulan', date('m'))
-          ->where('tahun', date('Y'))
-          ->whereIn('no_induk', $arr_santri)
+        // $detail = DetailSantriTahfidz::where('bulan', $bulan)
+        //   ->where('tahun', $tahun)
+        //   ->offset($start)
+        //   ->limit($limit)
+        //   ->orderBy($order, $dir)
+        //   ->get();
+        $detail = DetailSantriTahfidz::where('id_tahfidz', $tahfidz->id)
           ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
@@ -83,9 +92,19 @@ class AdminDetailTahfidzController extends Controller
       } else {
         $search = $request->input('search.value');
 
-        $detail = DetailSantriTahfidz::where('bulan', date('m'))
-          ->where('tahun', date('Y'))
-          ->whereIn('no_induk', $arr_santri)
+        // $detail = DetailSantriTahfidz::where('bulan', $bulan)
+        //   ->where('tahun', $tahun)
+        //   ->where(function ($query) use ($search) {
+        //     $query
+        //       ->where('id', 'LIKE', "%{$search}%")
+        //       ->orWhereRelation('santri', 'nama', 'like', "%{$search}%")
+        //       ->orWhereRelation('kode_juz', 'nama', 'like', "%{$search}%");
+        //   })
+        //   ->offset($start)
+        //   ->limit($limit)
+        //   ->orderBy($order, $dir)
+        //   ->get();
+        $detail = DetailSantriTahfidz::where('id_tahfidz', $tahfidz->id)
           ->where(function ($query) use ($search) {
             $query
               ->where('id', 'LIKE', "%{$search}%")
@@ -97,10 +116,17 @@ class AdminDetailTahfidzController extends Controller
           ->orderBy($order, $dir)
           ->get();
 
-        $totalFiltered = DetailSantriTahfidz::where('bulan', date('m'))
-          ->where('tahun', date('Y'))
-          ->whereIn('no_induk', $arr_santri)
-          ->where(function ($query) use ($search) {
+        // $totalFiltered = DetailSantriTahfidz::where('bulan', $bulan)
+        //   ->where('tahun', $tahun)
+        //   ->where(function ($query) use ($search) {
+        //     $query
+        //       ->where('id', 'LIKE', "%{$search}%")
+        //       ->orWhereRelation('santri', 'nama', 'like', "%{$search}%")
+        //       ->orWhereRelation('kode_juz', 'nama', 'like', "%{$search}%");
+        //   })
+        //   ->count();
+        $totalFiltered = DetailSantriTahfidz::where('id_tahfidz', $tahfidz->id)
+            ->where(function ($query) use ($search) {
             $query
               ->where('id', 'LIKE', "%{$search}%")
               ->orWhereRelation('santri', 'nama', 'like', "%{$search}%")
@@ -147,12 +173,12 @@ class AdminDetailTahfidzController extends Controller
   {
     //
     $id = $request->id;
-
+    $tanggal = $request->tanggal;
 
     if ($id) {
       // update the value
-      $bulan = date('m', strtotime($request->tanggal));
-      $tahun = date('Y', strtotime($request->tanggal));
+      $bulan = date('m', strtotime($tanggal));
+      $tahun = date('Y', strtotime($tanggal));
       $detail = DetailSantriTahfidz::updateOrCreate(
         ['id' => $id],
         [
@@ -170,8 +196,8 @@ class AdminDetailTahfidzController extends Controller
       return response()->json('Updated');
     } else {
       // create new one if email is unique
-      $bulan = date('m', strtotime($request->tanggal));
-      $tahun = date('Y', strtotime($request->tanggal));
+      $bulan = date('m', strtotime($tanggal));
+      $tahun = date('Y', strtotime($tanggal));
       $cek_data = DetailSantriTahfidz::where('id_tahfidz', $request->id_tahfidz)
         ->where('no_induk', $request->no_induk)
         ->where('bulan', $bulan)
@@ -201,4 +227,35 @@ class AdminDetailTahfidzController extends Controller
       }
     }
   }
+
+  /**
+   * Show the form for editing the specified resource.
+   */
+  public function edit(string $id)
+  {
+    //
+    $where = ['id' => $id];
+
+    $detail = DetailSantriTahfidz::where($where)->first();
+
+    return response()->json($detail);
+  }
+
+  /**
+   * Update the specified resource in storage.
+   */
+  public function update(Request $request, string $id)
+  {
+    //
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   */
+  public function destroy(string $id)
+  {
+    //
+    $detail = DetailSantriTahfidz::where('id', $id)->delete();
+  }
+
 }

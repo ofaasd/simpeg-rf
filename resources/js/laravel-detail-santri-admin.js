@@ -31,7 +31,7 @@ $(function () {
     select25 = $('#add-sakumasuk-no_induk'),
     select26 = $('#add-sakukeluar-no_induk'),
     select2 = $('.select2'),
-    view = baseUrl + 'ustadz/' + page,
+    view = baseUrl + page,
     offCanvasForm = $('#offcanvasAdd' + title),
     offCanvasFilter = $('#offcanvasFilter' + title);
   if (select2.length) {
@@ -74,7 +74,7 @@ $(function () {
       processing: true,
       serverSide: true,
       ajax: {
-        url: baseUrl + 'ustadz/' + page
+        url: baseUrl + page + '/' + $("#new_id_pegawai").val()
       },
       columns: my_data,
       columnDefs: [{
@@ -204,7 +204,7 @@ $(function () {
         // delete the data
         $.ajax({
           type: 'DELETE',
-          url: ''.concat(baseUrl, 'ustadz/').concat(page, '/').concat(id),
+          url: ''.concat(baseUrl).concat(page, '/').concat(id),
           success: function success() {
             dt.draw();
           },
@@ -249,7 +249,7 @@ $(function () {
     $('#offcanvasAdd' + title + 'Label').html('Edit ' + title);
 
     // get data
-    $.get(''.concat(baseUrl, 'ustadz/').concat(page, '/').concat(id, '/edit'), function (data) {
+    $.get(''.concat(baseUrl).concat(page, '/').concat(id, '/edit'), function (data) {
       Object.keys(data).forEach(function (key) {
         //console.log(key);
         if (key == 'id') $('#' + title + '_' + key).val(data[key]);else $('#add-' + title + '-' + key).val(data[key]).trigger('change');
@@ -265,39 +265,6 @@ $(function () {
   $('.add-new').on('click', function () {
     $('#' + page + '_id').val(''); //reseting input field
     $('#offcanvasAdd' + title + 'Label').html('Add ' + title);
-  });
-  $('#updateBulanForm').on('submit', function (e) {
-    e.preventDefault;
-    $.ajax({
-      data: $(this).serialize(),
-      url: ''.concat(baseUrl).concat('ustadz/saku_masuk/update_bulan'),
-      type: 'POST',
-      success: function success(status) {
-        dt.draw();
-        offCanvasForm.offcanvas('hide');
-
-        // sweetalert
-        Swal.fire({
-          icon: 'success',
-          title: 'Successfully '.concat(status, '!'),
-          text: ''.concat(title, ' ').concat(status, ' Successfully.'),
-          customClass: {
-            confirmButton: 'btn btn-success'
-          }
-        });
-      },
-      error: function error(err) {
-        offCanvasForm.offcanvas('hide');
-        Swal.fire({
-          title: 'Duplicate Entry!',
-          text: title + ' Not Saved !',
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-success'
-          }
-        });
-      }
-    });
   });
 
   // validating form and updating data
@@ -333,7 +300,7 @@ $(function () {
     // adding or updating user when form successfully validate
     $.ajax({
       data: $('#addNew' + title + 'Form').serialize(),
-      url: ''.concat(baseUrl).concat('ustadz/').concat(page),
+      url: ''.concat(baseUrl).concat(page),
       type: 'POST',
       success: function success(status) {
         dt.draw();

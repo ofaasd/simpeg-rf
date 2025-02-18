@@ -51,7 +51,11 @@
                 <tr>
                   <td>{{$loop->iteration}}</td>
                   <td>{{ $row->no_induk }}</td>
-                  <td>{{ $row->nama }}</td>
+                  <td>
+                    <a href="{{ route('alumni.show', $row->no_induk) }}">
+                        {{ $row->nama }}
+                    </a>
+                  </td>
                   <td>{{ $row->kelas }}</td>
                   <td>2024</td>
                 </tr>

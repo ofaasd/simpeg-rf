@@ -136,6 +136,7 @@ mix.js('resources/js/laravel-absensi-management.js', 'public/js/');
 mix.js('resources/js/laravel-santri-management.js', 'public/js/');
 mix.js('resources/js/laravel-murroby-management.js', 'public/js/');
 mix.js('resources/js/laravel-detail-santri.js', 'public/js/');
+mix.js('resources/js/laravel-detail-santri-admin.js', 'public/js/');
 mix.js('resources/js/laravel-saku-masuk.js', 'public/js/');
 mix.js('resources/js/laravel-psb-management.js', 'public/js/');
 mix.js('resources/js/laravel-validasi-management.js', 'public/js/');

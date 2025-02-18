@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutPondokController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\UserManagement;
@@ -46,13 +47,16 @@ use App\Http\Controllers\admin\master\aset\MasterLantaiController;
 use App\Http\Controllers\admin\master\aset\MasterRuangController;
 use App\Http\Controllers\admin\RuangController;
 use App\Http\Controllers\admin\SaranController;
+use App\Http\Controllers\admin\ControlPembayaranController;
 use App\Http\Controllers\BangunanController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\admin\BeritaController;
 use App\Http\Controllers\admin\KategoriController;
+use App\Http\Controllers\admin\LaporanPondokController;
 use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\NewMenuController;
+use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\TanahController;
 
 /*
@@ -178,6 +182,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::get('ustadz/hapus_saku_masuk/{id}', [UangSakuController::class, 'destroy']);
   Route::get('laporan/pembayaran', [LaporanController::class, 'pembayaran']);
   Route::post('laporan/pembayaran', [LaporanController::class, 'pembayaran']);
+
+  Route::get('laporan/laporan-pondok', [LaporanPondokController::class, 'index']);
+  Route::post('laporan/laporan-pondok', [LaporanPondokController::class, 'index']);
+
   Route::get('/tbd', function () {
     return view('content.pages.tbd');
   });
@@ -199,9 +207,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('/pembayaran/get_pesan_warning', [PembayaranController::class, 'get_pesan_warning']);
   Route::post('/pembayaran/send_warning', [PembayaranController::class, 'send_warning']);
 
+  Route::get('/admin/pembayaran/bukatutup', [ControlPembayaranController::class, 'index']);
+  Route::get('/admin/bukatutup/insert', [ControlPembayaranController::class, 'store']);
+
   Route::get('/gelombang_detail/{id}', [$controller_path . '\admin\GelombangDetailController', 'index']);
 
   Route::get('/psb_filter/{id}',  [psb::class, 'index']);
+  Route::get('/ustadz/grafik_tahfidz',  [UstTahfidzController::class, 'grafik']);
+  Route::post('/ustadz/get_grafik',  [UstTahfidzController::class, 'get_grafik']);
 
   Route::resource('/users', UserController::class);
   Route::resource('/user-list', UserManagement::class);
@@ -233,6 +246,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/master/aset/jenis-barang', MasterJenisBarangController::class);
   Route::resource('/fasilitas', FasilitasController::class);
   Route::resource('/galeri', GaleriController::class);
+  Route::resource('/prestasi', PrestasiController::class);
+  Route::resource('/about-ppatq', AboutPondokController::class);
 
   Route::resource('/aset/ruang', RuangController::class);
   Route::resource('/aset/barang', BarangController::class);
@@ -252,7 +267,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/ustadz/murroby', MurrobyController::class);
   Route::resource('/ustadz/tahfidz', UstTahfidzController::class);
   Route::resource('/ustadz/uang-saku', UangSakuController::class);
-  Route::resource('/ustadz/detail_tahfidz', DetailTahfidzController::class);
   Route::resource('/ustadz/detail_tahfidz', DetailTahfidzController::class);
   Route::resource('/detail_ketahfidzan', AdminDetailTahfidzController::class);
   Route::resource('/ustadz/saku_masuk', SakuMasukController::class);

@@ -42,7 +42,7 @@
                 <button type="submit" id="btn-sinkronisasi" class="btn btn-secondary btn-sm">
                     Sinkronkan Berita
                     @if(session()->has('isNotif') && session('isNotif')) 
-                        <span class="badge bg-danger rounded-pill ms-2 p-2"></span> 
+                        <span class="bg-danger rounded-pill ms-2 p-2"></span> 
                     @endif
                 </button>
                 <small>*Membutuhkan waktu yang cukup lama</small>
@@ -163,13 +163,68 @@
 <script>
 document.addEventListener('trix-file-accept', function(e){
   e.preventDefault();
-})
+});
   
 function zeroPadded(val) {
   if (val >= 10)
     return val;
   else
     return '0' + val;
+};
+
+function insert_update(formData)
+{
+  $('.loader-container').show();
+  $.ajax({
+      data: formData,
+      url: ''.concat(baseUrl).concat('post-berita'),
+      type: 'POST',
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function success(message) {
+        console.log(message);
+        $('#modal_berita').modal('hide');
+        $('.loader-container').hide();
+        $('#btn-submit').prop('disabled', false);
+        Swal.fire({
+          icon: 'success',
+          title: 'Successfully!!',
+          text: ''.concat('Data ', ' ') + message,
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+        reload_table();
+      },
+      error: function error(err) {
+          $('#modal_berita').modal('hide');
+          $('#btn-submit').prop('disabled', false);
+          $('.loader-container').hide();
+
+          let errorMessage = "Terjadi kesalahan!";
+          
+          if (err.responseJSON && err.responseJSON.message) {
+              errorMessage = err.responseJSON.message;
+          } else if (err.responseText) {
+              try {
+                  let parsedError = JSON.parse(err.responseText);
+                  errorMessage = parsedError.message || "Terjadi kesalahan!";
+              } catch (e) {
+                  console.error("Error parsing responseText:", e);
+              }
+          }
+
+          Swal.fire({
+              title: 'Gagal Menyimpan Data!',
+              text: errorMessage,
+              icon: 'error',
+              customClass: {
+                  confirmButton: 'btn btn-success'
+              }
+          });
+      }
+    });
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -186,6 +241,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   $('#btnTambahBerita').on('click', function(){
     $('#id_berita').val('');
+    $('#judul').val('');
+    $('#kategori_id').val('');
+    $('#status_id').val('');
+    $('#isi_berita').val('');
+    $('#trix_id').val('');
+    $('#thumbnail').val('');
+    $('#foto_isi').val('');
   });
 
   $('.dataTable').dataTable();
@@ -220,9 +282,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
           data: $(this).serialize(),
           success: function(response) {
             $('.loader-container').hide();
-              Swal.fire('Success', 'Sinkronisasi berhasil!', 'success');
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: 'Data Berita berhasil di sinkronkan',
+                customClass: {
+                    confirmButton: 'btn btn-success'
+                }
+            });
 
-              $btn.prop('disabled', false);
+            $btn.prop('disabled', false);
           },
           error: function(xhr) {
               console.error('Error occurred:', xhr);
@@ -329,49 +398,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 });
 
-function insert_update(formData){
-  $('.loader-container').show();
-  $.ajax({
-      data: formData,
-      url: ''.concat(baseUrl).concat('post-berita'),
-      type: 'POST',
-      cache: false,
-      contentType: false,
-      processData: false,
-      success: function success(status) {
-        // sweetalert unblock data
-        //showUnblock();
-        //hilangkan modal
-        $('#modal_berita').modal('hide');
-        $('.loader-container').hide();
-        //reset form
-        //refresh table
-        reload_table();
-        Swal.fire({
-          icon: 'success',
-          title: 'Successfully '.concat(' Updated !'),
-          text: ''.concat('Data ', ' ').concat(' Berhasil Ditambahkan'),
-          customClass: {
-            confirmButton: 'btn btn-success'
-          }
-        });
-      },
-      error: function error(err) {
-        //showUnblock();
-        $('#modal_berita').modal('hide');
-        $('.loader-container').hide();
-        console.log(err.responseText);
-        Swal.fire({
-          title: 'Cant Save Data !',
-          text:  'Data Not Saved !',
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-success'
-          }
-        });
-      }
-    });
-}
 function reload_table(){
   showBlock();
   $.ajax({
@@ -379,7 +405,6 @@ function reload_table(){
     type: 'GET',
     success: function success(data) {
       $("#table_berita").html(data);
-      showUnblock();
     },
   });
 }

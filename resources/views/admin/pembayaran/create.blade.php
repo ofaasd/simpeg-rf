@@ -103,7 +103,7 @@
                   </select>
                   <label class="form-label">Periode Bayar</label>
                 </div>
-                <input type="hidden" name="tahun" value="{{(!empty($pembayaran))?$pembayaran->tahun:''}}">
+                <input type="hidden" name="tahun" value="{{(!empty($pembayaran))?$pembayaran->tahun:date('Y')}}">
                 <div class="form-floating form-floating-outline mb-4 col-md-12">
 
                     <select name="bank_pengirim"  class="form-control col-md-6">

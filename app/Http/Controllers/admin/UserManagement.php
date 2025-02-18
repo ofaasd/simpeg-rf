@@ -100,7 +100,7 @@ class UserManagement extends Controller
           $nestedData['fake_id'] = ++$ids;
           $nestedData['name'] = $user->name;
           $nestedData['email'] = $user->email;
-          $nestedData['email_verified_at'] = $user->email_verified_at;
+          $nestedData['email_verified_at'] = $user->getRoleNames();
 
           $data[] = $nestedData;
         }
@@ -153,7 +153,7 @@ class UserManagement extends Controller
 
       // user updated
       $role = $request->role;
-      $users->assignRole($role);
+      $users->syncRoles($role);
       return response()->json('Updated');
     } else {
       // create new one if email is unique

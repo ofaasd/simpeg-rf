@@ -1,0 +1,116 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Home",
+      "icon": "menu-icon tf-icons mdi mdi-home-outline",
+      "slug": "pages-home"
+    },
+    {
+      "url": "/profile",
+      "name": "Profile",
+      "icon": "menu-icon tf-icons mdi mdi-account-outline",
+      "slug": "profile"
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-clipboard-list",
+      "name": "Absen & Izin",
+      "slug": "absen-izin",
+      "submenu": [
+        {
+          "url": "/absensi",
+          "name": "Absensi",
+          "slug": "absensi-absensi"
+        },
+        {
+          "url": "/tbd",
+          "name": "Penyesuaian Absensi",
+          "slug": "absensi-penyesuaian"
+        },
+        {
+          "url": "/tbd",
+          "name": "Pengajuan Izin / Cuti",
+          "slug": "absensi-izin-cuti"
+        },
+        {
+          "url": "/tbd",
+          "name": "Laporan Pekerjaan",
+          "slug": "absensi-laporan"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-view-list-outline",
+      "name": "Master Data",
+      "slug": "master-data",
+      "submenu": [
+        {
+          "url": "#",
+          "icon": "menu-icon tf-icons mdi mdi-folder-move",
+          "name": "Aset",
+          "slug": "aset",
+          "submenu": [
+            {
+              "url": "master/aset/gedung",
+              "name": "Gedung",
+              "slug": "master-gedung"
+            },
+            {
+              "url": "master/aset/lantai",
+              "name": "Lantai",
+              "slug": "master-lantai"
+            },
+            {
+              "url": "master/aset/jenis-ruang",
+              "name": "Jenis Ruang",
+              "slug": "master-jenis-ruang"
+            },
+            {
+              "url": "master/aset/jenis-barang",
+              "name": "Jenis Barang",
+              "slug": "master-jenis-barang"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-access-point",
+      "name": "Berita",
+      "slug": "berita",
+      "submenu": [
+        {
+          "url": "/post-berita",
+          "name": "Post Berita",
+          "slug": "post-berita"
+        },
+        {
+          "url": "/kategori-berita",
+          "name": "Kategori Berita",
+          "slug": "kategori-berita"
+        }
+      ]
+    },
+    {
+      "url": "/agenda",
+      "icon": "menu-icon tf-icons mdi mdi-ticket",
+      "name": "Agenda",
+      "slug": "agenda"
+    },
+    {
+      "url": "/fasilitas",
+      "icon": "menu-icon tf-icons mdi mdi-home-assistant",
+      "name": "Fasilitas",
+      "slug": "fasilitas"
+    },
+    {
+      "url": "/galeri",
+      "icon": "menu-icon tf-icons mdi mdi-image",
+      "name": "Galeri",
+      "slug": "galeri"
+    }
+  ]
+}

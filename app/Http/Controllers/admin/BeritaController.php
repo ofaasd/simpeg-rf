@@ -21,80 +21,101 @@ class BeritaController extends Controller
 
    public function index()
    {
-       $title = 'Berita';
-       $berita = Berita::latest()->get();
-       $kategori = Kategori::all();
+      $title = 'Berita';
+      $berita = Berita::with(['kategori', 'user'])->latest()->get();
+      $kategori = Kategori::select(
+        'id',
+        'nama_kategori'
+        )
+        ->get();
+        
+      $cekBerita = Berita::where('user_id', 5)->latest()->first();
+      $cekBeritaSch = collect(Http::accept('application/json')
+      ->get('https://newapi.ppatq-rf.sch.id/public/index.php/post')
+      ->json())
+      ->sortByDesc('post_date')
+      ->first();
+
+      $isNotif = $cekBerita->created_at != $cekBeritaSch['post_date'];
+
+      Session::put('isNotif', $isNotif);
+
+      return view('admin.berita.index', compact('berita', 'title', 'kategori'));
+    }
+
+   public function sinkronisasi()
+   {
+       $response = Http::accept('application/json')->get('https://newapi.ppatq-rf.sch.id/public/index.php/post');
    
-       $beritaSch = Http::accept('application/json')
-           ->get('https://newapi.ppatq-rf.sch.id/public/index.php/post')
-           ->json();
-       $isNotif = count($beritaSch) > $berita->count();
+       if ($response->successful()) {
+           $json = $response->json();
+           $jumlah = 0;
+           $existingCount = 0;
    
-       Session::put('isNotif', $isNotif);
+           foreach ($json as $berita) {
+               $exists = Berita::where('id', $berita['ID'] ?? null)->exists();
    
-       return view('admin.berita.index', compact('berita', 'title', 'kategori'));
+               if ($exists) {
+                   $existingCount++;
+                   if ($existingCount >= 100) {
+                      return back()->with('error', 'Tidak ada data yang baru');
+                      break; 
+                   }
+                   continue;
+               }
+   
+               $this->insertBerita(
+                   $berita['ID'] ?? null,
+                   $berita['post_author'] ?? null,
+                   $berita['post_content'] ?? null,
+                   $berita['post_title'] ?? null,
+                   $berita['post_status'] ?? null,
+                   $berita['post_name'] ?? null,
+                   $berita['post_date'] ?? null
+               );
+   
+               $jumlah++;
+           }
+   
+           return back()->with('success', 'Berhasil menambah ' . $jumlah . ' data berita');
+       }
+   
+       return back()->with('error', 'Gagal menyinkronkan data berita');
    }
-
-  public function sinkronisasi()
-  {
-      $response = Http::accept('application/json')->get('https://newapi.ppatq-rf.sch.id/public/index.php/post');
-      
-      if ($response->successful()) {
-          $json = $response->json();
-          $jumlah = 0;
-
-          foreach ($json as $berita) {
-              $this->insertBerita(
-                  $berita['ID'] ?? null,
-                  $berita['post_author'] ?? null,
-                  $berita['post_content'] ?? null,
-                  $berita['post_title'] ?? null,
-                  $berita['post_status'] ?? null,
-                  $berita['post_name'] ?? null,
-                  $berita['post_date'] ?? null
-              );
-              $jumlah++;
-          }
-
-          return back()->with('success', 'Berhasil menambah ' . $jumlah . ' data berita');
-      }
-
-      return back()->with('error', 'Gagal menyinkronkan data berita');
-  }
     
     private function insertBerita(
-      $id,
-      $postAuthor,
-      $isi_berita,
-      $judulBerita,
-      $postStatus,
-      $slug,
-      $createdAt
-      ) 
-      {
-        $berita = Berita::where('id', $id)->first();
-        $response = Http::get('https://newapi.ppatq-rf.sch.id/public/index.php/post_image/' . $id);
+    $id,
+    $postAuthor,
+    $isi_berita,
+    $judulBerita,
+    $postStatus,
+    $slug,
+    $createdAt
+    ) 
+    {
+      $berita = Berita::where('id', $id)->first();
+      $response = Http::get('https://newapi.ppatq-rf.sch.id/public/index.php/post_image/' . $id);
 
-        $thumbnail = $response->failed() ? '' : str_replace(['"', '\\'], '', $response->body());
+      $thumbnail = $response->failed() ? '' : str_replace(['"', '\\'], '', $response->body());
 
-        $isi_berita = str_replace("\r\n", '</p><p>', $isi_berita);
-        $siIsi = '<p>' . $isi_berita . '</p>';
-        if (!$berita) {
-            return Berita::insertGetId([
-                  'id' => $id,
-                  'judul' => $judulBerita,
-                  'user_id' => $postAuthor,
-                  'kategori_id' => 2,
-                  'slug' => $slug,
-                  'thumbnail' => $thumbnail,
-                  'isi_berita' => $siIsi,
-                  'status' => $postStatus,
-                  'created_at' => $createdAt,
-              ]);
-        } else {
-            return $berita->id;
-        }
+      $isi_berita = str_replace("\r\n", '</p><p>', $isi_berita);
+      $siIsi = '<p>' . $isi_berita . '</p>';
+      if (!$berita) {
+          return Berita::insertGetId([
+                'id' => $id,
+                'judul' => $judulBerita,
+                'user_id' => $postAuthor,
+                'kategori_id' => 2,
+                'slug' => $slug,
+                'thumbnail' => $thumbnail,
+                'isi_berita' => $siIsi,
+                'status' => $postStatus,
+                'created_at' => $createdAt,
+            ]);
+      } else {
+          return $berita->id;
       }
+    }
 
   /**
    * Show the form for creating a new resource.
@@ -145,12 +166,14 @@ class BeritaController extends Controller
    */
   public function store(Request $request)
   {
-    $id = $request->id;
     $id_user = Auth::user()->id;
+    
+    $id = $request->id;
 
-    if ($id) {
+    if (!empty($id)) {
       $slug = Str::slug($request->judul);
-      if ($request->file('gambar')) {
+      if ($request->file('thumbnail')) 
+      {
         $thumbnail = $request->file('thumbnail');
         $foto_isi = $request->file('foto_isi');
         $fileNameThumbnail = date('YmdHis') . $thumbnail->getClientOriginalName();
@@ -175,11 +198,13 @@ class BeritaController extends Controller
             'slug' => $slug,
             'judul' => $request->judul,
             'isi_berita' => $request->isi_berita,
-            'kategori_id' => $request->kategori,
-            'user_id' => $id_user,
+            'kategori_id' => $request->kategori
           ]
         );
-      } else {
+
+        $messageResponse = "Edit Bersama Gambar";
+      } else 
+      {
         $berita = Berita::updateOrCreate(
           ['id' => $id],
           [
@@ -187,11 +212,20 @@ class BeritaController extends Controller
             'judul' => $request->judul,
             'isi_berita' => $request->isi_berita,
             'kategori_id' => $request->kategori,
-            'user_id' => $id_user,
           ]
         );
+        $messageResponse = "Edit Tanpa Gambar";
       }
     } else {
+
+      if (!$request->hasFile('thumbnail')) {
+        return response()->json(['message' => 'Thumbnail tidak boleh kosong'], 422);
+      }
+
+      if (!$request->hasFile('foto_isi')) {
+        return response()->json(['message' => 'Foto Isi tidak boleh kosong'], 422);
+      }
+
       $thumbnail = $request->file('thumbnail');
       $foto_isi = $request->file('foto_isi');
       $fileNameThumbnail = date('YmdHis') . $thumbnail->getClientOriginalName();
@@ -222,10 +256,12 @@ class BeritaController extends Controller
           'user_id' => $id_user,
         ]
       );
+      $messageResponse = "Membuat Berita";
     }
+
     if ($berita) {
       // user created
-      return response()->json('Created');
+      return response()->json($messageResponse);
     } else {
       return response()->json('Failed Create');
     }
@@ -266,13 +302,19 @@ class BeritaController extends Controller
   {
     $berita = Berita::where('id', $id)->first();
 
-    // if (!empty($berita->thumbnail)) {
-    //   unlink(public_path('assets/img/upload/berita/thumbnail/' . $berita->thumbnail));
-    // }
-
-    // if (!empty($berita->gambar_dalam)) {
-    //   unlink(public_path('assets/img/upload/berita/foto_isi/' . $berita->gambar_dalam));
-    // }
+    if (!empty($berita->thumbnail)) {
+        $thumbnailPath = public_path('assets/img/upload/berita/thumbnail/' . $berita->thumbnail);
+        if (file_exists($thumbnailPath)) {
+            unlink($thumbnailPath);
+        }
+    }
+    
+    if (!empty($berita->gambar_dalam)) {
+        $gambarDalamPath = public_path('assets/img/upload/berita/foto_isi/' . $berita->gambar_dalam);
+        if (file_exists($gambarDalamPath)) {
+            unlink($gambarDalamPath);
+        }
+    }
 
     $berita->delete();
   }

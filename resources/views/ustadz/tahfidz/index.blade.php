@@ -42,7 +42,7 @@
         <h4>List Santri</h4>
       </div>
       <div class="card-body">
-        @if(Session::get('tahfidz_id') == 0)
+        @if(empty($tahfidz))
           <div class="alert alert-danger">Maaf anda belum terdaftar sebagai guru tahfidz. harap daftarkan terlebih dahulu melalui menu master data tahfdiz</div>
         @else
           <table class="dataTable table">

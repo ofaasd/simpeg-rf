@@ -33,7 +33,7 @@ class DetailTahfidzController extends Controller
     'November',
     'Desember',
   ];
-  public function index(Request $request)
+  public function index(Request $request, Int $bulan=0, Int $tahun=0)
   {
     //
     // $bulan = (int) date('m');
@@ -51,14 +51,13 @@ class DetailTahfidzController extends Controller
     //   ->where('tahun', $tahun)
     //   ->get();
     // return view('ustadz.tahfidz.tahfidz', compact('title', 'var'));
-
+    $id_user = Auth::user()->id;
+    $user = User::find($id_user);
+    $id = $user->pegawai_id;
+    $where = ['id' => $id];
+    $var['EmployeeNew'] = EmployeeNew::where($where)->first();
+    $tahfidz = Tahfidz::where('employee_id', $id)->first();
     if (empty($request->input('length'))) {
-      $id_user = Auth::user()->id;
-      $user = User::find($id_user);
-      $id = $user->pegawai_id;
-      $where = ['id' => $id];
-      $var['EmployeeNew'] = EmployeeNew::where($where)->first();
-      $tahfidz = Tahfidz::where('employee_id', $id)->first();
       $var['list_santri'] = Santri::where('tahfidz_id', $tahfidz->id)->get();
       $var['bulan'] = $this->bulan;
       $ta = TahunAjaran::where(['is_aktif' => 1])->first();
@@ -87,9 +86,23 @@ class DetailTahfidzController extends Controller
       $order = $columns[$request->input('order.0.column')];
       $dir = $request->input('order.0.dir');
 
+      if($bulan == 0){
+        $bulan = date('m');
+      }
+
+      if($tahun == 0){
+        $tahun = date('Y');
+      }
+
+
       if (empty($request->input('search.value'))) {
-        $detail = DetailSantriTahfidz::where('bulan', date('m'))
-          ->where('tahun', date('Y'))
+        // $detail = DetailSantriTahfidz::where('bulan', $bulan)
+        //   ->where('tahun', $tahun)
+        //   ->offset($start)
+        //   ->limit($limit)
+        //   ->orderBy($order, $dir)
+        //   ->get();
+        $detail = DetailSantriTahfidz::where('id_tahfidz', $tahfidz->id)
           ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
@@ -97,8 +110,19 @@ class DetailTahfidzController extends Controller
       } else {
         $search = $request->input('search.value');
 
-        $detail = DetailSantriTahfidz::where('bulan', date('m'))
-          ->where('tahun', date('Y'))
+        // $detail = DetailSantriTahfidz::where('bulan', $bulan)
+        //   ->where('tahun', $tahun)
+        //   ->where(function ($query) use ($search) {
+        //     $query
+        //       ->where('id', 'LIKE', "%{$search}%")
+        //       ->orWhereRelation('santri', 'nama', 'like', "%{$search}%")
+        //       ->orWhereRelation('kode_juz', 'nama', 'like', "%{$search}%");
+        //   })
+        //   ->offset($start)
+        //   ->limit($limit)
+        //   ->orderBy($order, $dir)
+        //   ->get();
+        $detail = DetailSantriTahfidz::where('id_tahfidz', $tahfidz->id)
           ->where(function ($query) use ($search) {
             $query
               ->where('id', 'LIKE', "%{$search}%")
@@ -110,9 +134,17 @@ class DetailTahfidzController extends Controller
           ->orderBy($order, $dir)
           ->get();
 
-        $totalFiltered = DetailSantriTahfidz::where('bulan', date('m'))
-          ->where('tahun', date('Y'))
-          ->where(function ($query) use ($search) {
+        // $totalFiltered = DetailSantriTahfidz::where('bulan', $bulan)
+        //   ->where('tahun', $tahun)
+        //   ->where(function ($query) use ($search) {
+        //     $query
+        //       ->where('id', 'LIKE', "%{$search}%")
+        //       ->orWhereRelation('santri', 'nama', 'like', "%{$search}%")
+        //       ->orWhereRelation('kode_juz', 'nama', 'like', "%{$search}%");
+        //   })
+        //   ->count();
+        $totalFiltered = DetailSantriTahfidz::where('id_tahfidz', $tahfidz->id)
+            ->where(function ($query) use ($search) {
             $query
               ->where('id', 'LIKE', "%{$search}%")
               ->orWhereRelation('santri', 'nama', 'like', "%{$search}%")
@@ -170,12 +202,12 @@ class DetailTahfidzController extends Controller
   {
     //
     $id = $request->id;
-
+    $tanggal = $request->tanggal;
 
     if ($id) {
       // update the value
-      $bulan = date('m', strtotime($request->tanggal));
-      $tahun = date('Y', strtotime($request->tanggal));
+      $bulan = date('m', strtotime($tanggal));
+      $tahun = date('Y', strtotime($tanggal));
       $detail = DetailSantriTahfidz::updateOrCreate(
         ['id' => $id],
         [
@@ -193,8 +225,8 @@ class DetailTahfidzController extends Controller
       return response()->json('Updated');
     } else {
       // create new one if email is unique
-      $bulan = date('m', strtotime($request->tanggal));
-      $tahun = date('Y', strtotime($request->tanggal));
+      $bulan = date('m', strtotime($tanggal));
+      $tahun = date('Y', strtotime($tanggal));
       $cek_data = DetailSantriTahfidz::where('id_tahfidz', $request->id_tahfidz)
         ->where('no_induk', $request->no_induk)
         ->where('bulan', $bulan)

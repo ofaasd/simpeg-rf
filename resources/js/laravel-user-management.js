@@ -115,11 +115,7 @@ $(function () {
           className: 'text-center',
           render: function (data, type, full, meta) {
             var $verified = full['email_verified_at'];
-            return `${
-              $verified
-                ? '<i class="mdi mdi-shield-check-outline mdi-20px text-success"></i>'
-                : '<i class="mdi mdi-shield-off-outline mdi-20px text-danger" ></i>'
-            }`;
+            return '<span class="user-verified">' + $verified + '</span>';
           }
         },
         {

@@ -52,6 +52,13 @@
     <label for="add-{{strtolower($title)}}-pengangkatan">Tanggal Pengangkatan</label>
   </div>
   <div class="form-floating form-floating-outline mb-4">
+    <select class="form-control" id="add-{{strtolower($title)}}-alhafidz" name="alhafidz">
+        <option value='0' {{($var['EmployeeNew']->alhafidz==0)?"selected":""}}>Belum Alhafidz</option>
+        <option value='1' {{($var['EmployeeNew']->alhafidz==1)?"selected":""}}>Sudah Alhafidz</option>
+    </select>
+    <label for="add-{{strtolower($title)}}-alhafidz">AlHafidz</label>
+  </div>
+  <div class="form-floating form-floating-outline mb-4">
     <input type="text" class="form-control" id="add-{{strtolower($title)}}-lembaga_induk" value='{{$var['EmployeeNew']->lembaga_induk}}' placeholder="lembaga induk" name="lembaga_induk" />
     <label for="add-{{strtolower($title)}}-lembaga_induk">Lembaga Induk</label>
   </div>

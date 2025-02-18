@@ -57,27 +57,6 @@
       <div class="card-body">
         <div class="d-flex align-items-start justify-content-between">
           <div class="content-left">
-            <span>Verified Users</span>
-            <div class="d-flex align-items-end mt-2">
-              <h3 class="mb-0 me-2">{{$verified}}</h3>
-              <small class="text-success">(+95%)</small>
-            </div>
-            <small>Recent analytics </small>
-          </div>
-          <span class="avatar">
-            <span class="avatar-initial bg-label-success rounded">
-              <i class="mdi mdi-account-check-outline mdi-24px"></i>
-            </span>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6 col-xl-3">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-start justify-content-between">
-          <div class="content-left">
             <span>Duplicate Users</span>
             <div class="d-flex align-items-end mt-2">
               <h3 class="mb-0 me-2">{{$userDuplicates}}</h3>
@@ -88,27 +67,6 @@
           <span class="avatar">
             <span class="avatar-initial bg-label-danger rounded">
               <i class="mdi mdi-account-multiple-outline mdi-24px"></i>
-            </span>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6 col-xl-3">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-start justify-content-between">
-          <div class="content-left">
-            <span>Verification Pending</span>
-            <div class="d-flex align-items-end mt-2">
-              <h3 class="mb-0 me-2">{{$notVerified}}</h3>
-              <small class="text-danger">(+6%)</small>
-            </div>
-            <small>Recent analytics</small>
-          </div>
-          <span class="avatar">
-            <span class="avatar-initial bg-label-warning rounded">
-              <i class="mdi mdi-account-circle-outline mdi-24px"></i>
             </span>
           </span>
         </div>
@@ -129,7 +87,7 @@
           <th>Id</th>
           <th>User</th>
           <th>Email</th>
-          <th>Verified</th>
+          <th>Role</th>
           <th>Actions</th>
         </tr>
       </thead>

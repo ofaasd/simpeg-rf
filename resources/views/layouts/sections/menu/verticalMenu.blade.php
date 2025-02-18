@@ -31,7 +31,7 @@ $user = Helper_user::appClasses();
       $menuDatas = $menuData[1];
     @endphp
 
-    @hasrole('admin')
+    @hasrole('admin|admin_pondok')
       @php
         $menuDatas = $menuData[0];
       @endphp
@@ -40,6 +40,26 @@ $user = Helper_user::appClasses();
     @hasrole('ustadz')
       @php
         $menuDatas = $menuData[2];
+      @endphp
+    @endhasrole
+    @hasrole('keuangan')
+      @php
+        $menuDatas = $menuData[3];
+      @endphp
+    @endhasrole
+    @hasrole('tu')
+      @php
+        $menuDatas = $menuData[4];
+      @endphp
+    @endhasrole
+    @hasrole('umum')
+      @php
+        $menuDatas = $menuData[5];
+      @endphp
+    @endhasrole
+    @hasrole('kesehatan')
+      @php
+        $menuDatas = $menuData[6];
       @endphp
     @endhasrole
 

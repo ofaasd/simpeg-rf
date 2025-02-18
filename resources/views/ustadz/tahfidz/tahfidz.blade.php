@@ -75,7 +75,7 @@
           <label for="add-{{strtolower($title)}}-no_induk">Santri</label>
         </div>
         <div class="form-floating form-floating-outline mb-4">
-          <input type="date" class="form-control" id="add-{{strtolower($page)}}-tanggal"> 
+          <input type="date" name="tanggal" class="form-control" id="add-{{strtolower($page)}}-tanggal">
           <label for="add-{{strtolower($title)}}-tanggal">Tanggal</label>
         </div>
         <!-- <div class="form-floating form-floating-outline mb-4">
