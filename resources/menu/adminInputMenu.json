@@ -1,0 +1,22 @@
+{
+    "menu": [
+      {
+        "url": "#",
+        "icon": "menu-icon tf-icons mdi mdi-bottle-tonic-plus",
+        "name": "Kesehatan",
+        "slug": "kesehatan",
+        "submenu": [
+          {
+            "url": "/kesehatan",
+            "name": "Kesehatan Santri",
+            "slug": "kesehatan-index"
+          },
+          {
+            "url": "/kesehatan/santri",
+            "name": "Pemeriksaan Santri",
+            "slug": "kesehatan-santri"
+          }
+        ]
+      }
+    ]
+  }

@@ -33,6 +33,8 @@ class MenuServiceProvider extends ServiceProvider
     $umumMenuData = json_decode($umumMenuJson);
     $kesehatanMenuJson = file_get_contents(base_path('resources/menu/kesehatanMenu.json'));
     $kesehatanMenuData = json_decode($kesehatanMenuJson);
+    $adminInputMenuJson = file_get_contents(base_path('resources/menu/adminInputMenu.json'));
+    $adminInputMenuData = json_decode($adminInputMenuJson);
 
     // Share all menuData to all the views
     \View::share('menuData',
@@ -43,7 +45,8 @@ class MenuServiceProvider extends ServiceProvider
       $keuanganMenuData,
       $tuMenuData,
       $umumMenuData,
-      $kesehatanMenuData
+      $kesehatanMenuData,
+      $adminInputMenuData
     ]);
   }
 }
