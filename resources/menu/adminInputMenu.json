@@ -17,6 +17,12 @@
             "slug": "kesehatan-santri"
           }
         ]
+      },
+      {
+        "url": "/admin/akuntansi",
+        "icon": "menu-icon tf-icons mdi mdi-cash",
+        "name": "keuangan",
+        "slug": "akuntansi"
       }
     ]
   }
