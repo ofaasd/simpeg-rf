@@ -31,7 +31,6 @@
     "mockery/mockery": "^1.4.4",
     "nunomaduro/collision": "^7.0",
     "phpunit/phpunit": "^10.0",
-    "pixinvent/materialize-laravel-bootstrap-jetstream": "dev-main",
     "spatie/laravel-ignition": "^2.0",
     "intervention/image": "^2.7"
   },
