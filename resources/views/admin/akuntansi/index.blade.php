@@ -166,7 +166,19 @@
           <div class="col-12 col-md-12">
             <div class="form-floating form-floating-outline">
               <input type="text" id='sumber_uang_masuk' name="sumber" class="form-control">
-              <label for="modalEditUserSumber">Sumber Dana</label>
+              <label for="modalEditUserSumber">Deskripsi Uang Masuk</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <select name="nama_keg" id="nama_keg_in" class="form-control">
+                <option value="RUTIN BULANAN">RUTIN BULANAN</option>
+                <option value="RUTIN TAHUNAN">RUTIN TAHUNAN</option>
+                <option value="HAFLAH">HAFLAH</option>
+                <option value="0">Lainnya</option>
+              </select>
+              <input type="text" class="form-control mt-2 mb-2" name="nama_kegiatan" placeholder="Masukan Kegiatan Lainnya" id="nama_kegiatan_in"> 
+              <label for="modalEditUserSumber">Nama Kegiatan</label>
             </div>
           </div>
           <div class="col-12 col-md-6">
@@ -205,7 +217,19 @@
           <div class="col-12 col-md-12">
             <div class="form-floating form-floating-outline">
               <input type="text" id='keterangan_uang_keluar' name="keterangan" class="form-control">
-              <label for="modalEditUsernote">Keterangan</label>
+              <label for="modalEditUsernote">Deskripsi Uang Keluar</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <select name="nama_keg" id="nama_keg_out" class="form-control">
+                <option value="RUTIN BULANAN">RUTIN BULANAN</option>
+                <option value="RUTIN TAHUNAN">RUTIN TAHUNAN</option>
+                <option value="HAFLAH">HAFLAH</option>
+                <option value="0">Lainnya</option>
+              </select>
+              <input type="text" class="form-control mt-2 mb-2" name="nama_kegiatan" placeholder="Masukan Kegiatan Lainnya" id="nama_kegiatan_out"> 
+              <label for="modalEditUserSumber">Nama Kegiatan</label>
             </div>
           </div>
           <div id="list-detail">
@@ -257,72 +281,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
         '<"col-sm-12 col-md-6"i>' +
         '<"col-sm-12 col-md-6"p>' +
         '>',
-      buttons: [
-        {
-          extend: 'collection',
-          className: 'btn btn-label-primary dropdown-toggle mx-3',
-          text: '<i class="mdi mdi-export-variant me-sm-1"></i>Export',
-          buttons: [
-            {
-              extend: 'print',
-              title: title,
-              text: '<i class="mdi mdi-printer-outline me-1" ></i>Print',
-              className: 'dropdown-item',
-              exportOptions: {
-                columns: [0, 1, 2, 3, 4],
-              },
-              customize: function customize(win) {
-                //customize print view for dark
-                $(win.document.body)
-                  .css('color', config.colors.headingColor)
-                  .css('border-color', config.colors.borderColor)
-                  .css('background-color', config.colors.body);
-                $(win.document.body)
-                  .find('table')
-                  .addClass('compact')
-                  .css('color', 'inherit')
-                  .css('border-color', 'inherit')
-                  .css('background-color', 'inherit');
-              }
-            },
-            {
-              extend: 'csv',
-              title: title,
-              text: '<i class="mdi mdi-file-document-outline me-1" ></i>Csv',
-              className: 'dropdown-item',
-              exportOptions: {
-                columns: [0, 1, 2, 3, 4],
-              },
-            },
-            {
-              extend: 'excel',
-              title: title,
-              text: '<i class="mdi mdi-file-excel-outline me-1" ></i>Excel',
-              className: 'dropdown-item',
-              exportOptions: {
-                columns: [0, 1, 2, 3, 4],
-              },
-            },
-            {
-              extend: 'pdf',
-              title: title,
-              text: '<i class="mdi mdi-file-pdf-box me-1"></i>Pdf',
-              className: 'dropdown-item',
-              exportOptions: {
-                columns: [0, 1, 2, 3, 4],
-              },
-            },
-            {
-              extend: 'copy',
-              title: title,
-              text: '<i class="mdi mdi-content-copy me-1" ></i>Copy',
-              className: 'dropdown-item',
-
-            }
-          ]
-        }
-      ]
     });
+  $("#nama_kegiatan_in").hide();
+  $("#nama_kegiatan_out").hide();
   $("#tambah").on("click",function(){
     $("#list-detail").append(`<div class='detail'  style="margin:10px 0;">
               <div class="row">
@@ -533,6 +494,27 @@ document.addEventListener("DOMContentLoaded", function(event) {
       });
     }else{
       return false;
+    }
+  });
+  
+  $("#nama_keg_in").change(function(){
+    const isi = $(this).val();
+    if(isi == 0){
+      $("#nama_kegiatan_in").show();
+      $("#nama_kegiatan_in").val('');
+    }else{
+      $("#nama_kegiatan_in").hide();
+      $("#nama_kegiatan_in").val(isi);
+    }
+  });
+  $("#nama_keg_out").change(function(){
+    const isi = $(this).val();
+    if(isi == 0){
+      $("#nama_kegiatan_out").show();
+      $("#nama_kegiatan_out").val('');
+    }else{
+      $("#nama_kegiatan_out").hide();
+      $("#nama_kegiatan_out").val(isi);
     }
   });
 
