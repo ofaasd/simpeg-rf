@@ -178,7 +178,7 @@
                 <option value="0">Lainnya</option>
               </select>
               <input type="text" class="form-control mt-2 mb-2" name="nama_kegiatan" placeholder="Masukan Kegiatan Lainnya" id="nama_kegiatan_in"> 
-              <label for="modalEditUserSumber">Nama Kegiatan</label>
+              <label for="modalEditUserSumber">Jenis Kegiatan</label>
             </div>
           </div>
           <div class="col-12 col-md-6">
@@ -229,7 +229,7 @@
                 <option value="0">Lainnya</option>
               </select>
               <input type="text" class="form-control mt-2 mb-2" name="nama_kegiatan" placeholder="Masukan Kegiatan Lainnya" id="nama_kegiatan_out"> 
-              <label for="modalEditUserSumber">Nama Kegiatan</label>
+              <label for="modalEditUserSumber">Jenis Kegiatan</label>
             </div>
           </div>
           <div id="list-detail">
