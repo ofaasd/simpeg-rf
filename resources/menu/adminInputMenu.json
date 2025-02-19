@@ -19,10 +19,101 @@
         ]
       },
       {
+        "url": "/santri",
+        "name": "Santri",
+        "icon": "menu-icon tf-icons mdi mdi-account",
+        "slug": "santri"
+      },
+      {
+        "url": "/alumni",
+        "icon": "menu-icon tf-icons mdi mdi-account-outline",
+        "name": "Alumni",
+        "slug": "alumni"
+      },
+      {
+        "url": "#",
+        "icon": "menu-icon tf-icons mdi mdi-account-tie-outline",
+        "name": "Pegawai",
+        "slug": "pegawai",
+        "submenu": [
+          {
+            "url": "/pegawai",
+            "name": "Data Pegawai",
+            "slug": "pegawai-data"
+          },
+          {
+            "url": "/tbd",
+            "name": "Monitoring Kenaikan Pangkat",
+            "slug": "pegawai-monitoring-pangkat"
+          },
+          {
+            "url": "/murroby",
+            "name": "Ke-Murrobyan",
+            "slug": "pegawai-murroby"
+          },
+          {
+            "url": "/ketahfidzan",
+            "name": "Ketahfidzan",
+            "slug": "pegawai-ketahfidzan"
+          }
+        ]
+      },
+      {
         "url": "/admin/akuntansi",
         "icon": "menu-icon tf-icons mdi mdi-cash",
         "name": "keuangan",
         "slug": "akuntansi"
+      },
+      {
+        "url": "#",
+        "icon": "menu-icon tf-icons mdi mdi-earth",
+        "name": "Website",
+        "slug": "website",
+        "submenu": [
+          {
+            "url": "/about-ppatq",
+            "name": "Tentang PPATQ",
+            "slug": "tentang-ppatq"
+          },
+          {
+            "url": "/galeri",
+            "name": "Galeri",
+            "slug": "galeri"
+          },
+          {
+            "url": "/fasilitas",
+            "name": "Fasilitas",
+            "slug": "fasilitas"
+          },
+          {
+            "url": "/prestasi",
+            "name": "Prestasi",
+            "slug": "prestasi"
+          },
+          {
+            "url": "/agenda",
+            "name": "Agenda",
+            "slug": "agenda"
+          },
+          {
+            "url": "#",
+            "icon": "menu-icon tf-icons mdi mdi-access-point",
+            "name": "Berita",
+            "slug": "berita",
+            "submenu": [
+              {
+                "url": "/post-berita",
+                "name": "Post Berita",
+                "slug": "post-berita"
+              },
+              {
+                "url": "/kategori-berita",
+                "name": "Kategori Berita",
+                "slug": "kategori-berita"
+              }
+            ]
+          }
+        ]
       }
     ]
   }
