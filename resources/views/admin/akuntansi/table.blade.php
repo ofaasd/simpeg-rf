@@ -172,7 +172,110 @@
           }
         ]
       });
+    $("#tambah").click(function(){
+      $("#list-detail").append(`<div class='detail'  style="margin:10px 0;">
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="form-floating form-floating-outline">
+                      <input type="text" id='modalEditUsernote' name="note[]" class="form-control">
+                      <label for="modalEditUsernote">Note</label>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-floating form-floating-outline">
+                      <input type="number" id='modalEditUserjumlah' name="jumlah[]" class="form-control">
+                      <label for="modalEditUserjumlah">Jumlah (Rp.)</label>
+                    </div>
+                  </div>
+                </div>
+              </div>`);
+    });
+    $("#remove").click(function(){
+      $("#list-detail > .detail:last").remove();
+    });
     
+    $(".edit_uang_masuk").on("click",function(){
+    const id = $(this).attr("data-id");
+    $.ajax({
+      data : {"id" : id},
+      url: ''.concat(baseUrl).concat('admin/uang_masuk/get_id'),
+      type:'post',
+      success : function success(data) {
+        data = JSON.parse(data);
+        console.log(data);
+        $("#id_uang_masuk").val(data.data.id)
+        $("#sumber_uang_masuk").val(data.data.sumber);
+        $("#jumlah_uang_masuk").val(data.data.jumlah);
+        const tanggal_transaksi = data.tanggal;
+        $("#tanggal_uang_masuk").val(tanggal_transaksi);
+      }
+    });
+  });
+  $(".delete_uang_masuk").on("click",function(){
+    let text = "Apakah yakin ingin menghapus ? ";
+    if (confirm(text) == true) {
+      const id = $(this).attr("data-id");
+      $.ajax({
+        data : {"id" : id},
+        url: ''.concat(baseUrl).concat('admin/uang_masuk/hapus'),
+        type:'post',
+        success : function success(data) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Successfully '.concat(' Deleted !'),
+            text: ''.concat('Pemasukan ', ' ').concat(' berhasil Dihapus'),
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
+          reload_table();
+        }
+      });
+    }else{
+      return false;
+    }
+  });
+  $(".edit_uang_keluar").on("click",function(){
+    const id = $(this).attr("data-id");
+    $.ajax({
+      data : {"id" : id},
+      url: ''.concat(baseUrl).concat('admin/uang_keluar/get_id'),
+      type:'post',
+      success : function success(data) {
+        data = JSON.parse(data);
+        console.log(data);
+        $("#id_uang_keluar").val(data.data.id)
+        $("#keterangan_uang_keluar").val(data.data.keterangan);
+        $("#jumlah_uang_keluar").val(data.data.jumlah);
+        const tanggal_transaksi = data.tanggal;
+        $("#tanggal_uang_keluar").val(tanggal_transaksi);
+      }
+    });
+  });
+  $(".delete_uang_keluar").on("click",function(){
+    let text = "Apakah yakin ingin menghapus ? ";
+    if (confirm(text) == true) {
+      const id = $(this).attr("data-id");
+      $.ajax({
+        data : {"id" : id},
+        url: ''.concat(baseUrl).concat('admin/uang_keluar/hapus'),
+        type:'post',
+        success : function success(data) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Successfully '.concat(' Updated !'),
+            text: ''.concat('Pengeluaran ', ' ').concat(' berhasil Dihapus'),
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
+          reload_table();
+        }
+      });
+    }else{
+      return false;
+    }
+  });
 
 
   </script>
