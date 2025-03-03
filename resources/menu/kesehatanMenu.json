@@ -55,6 +55,11 @@
           "url": "/kesehatan/santri",
           "name": "Pemeriksaan Santri",
           "slug": "kesehatan-santri"
+        },
+        {
+          "url": "/rawat-inap",
+          "name": "Rawat Inap",
+          "slug": "rawat-inap"
         }
       ]
     }
