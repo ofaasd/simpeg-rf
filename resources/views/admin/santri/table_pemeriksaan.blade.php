@@ -42,7 +42,7 @@
 
     var formData = new FormData(this);
     //showBlock();
-    insert_update(formData);
+    // insert_update(formData);
   });
   $(document).on('click', '.edit_pemeriksaan', function () {
     const id = $(this).data('id');
