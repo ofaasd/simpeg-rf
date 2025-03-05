@@ -181,13 +181,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       $(".sembuh_area").hide();
   });
   $('.dataTable').dataTable();
-  $('#formSakit').submit(function(e) {
-    e.preventDefault();
 
-    var formData = new FormData(this);
-    //showBlock();
-    insert_update(formData);
-  });
   $("#bulan").change(function(){
     const bulan = $(this).val();
     const tahun = $("#tahun").val();
@@ -293,47 +287,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
   });
 });
-function insert_update(formData){
-  const bulan = $("#bulan").val();
-  const tahun = $("#tahun").val();
-  $.ajax({
-      data: formData,
-      url: ''.concat(baseUrl).concat('kesehatan'),
-      type: 'POST',
-      cache: false,
-      contentType: false,
-      processData: false,
-      success: function success(status) {
-        // sweetalert unblock data
-        //showUnblock();
-        //hilangkan modal
-        $('#modal_sakit').modal('hide');
-        //reset form
-        reload_table(bulan,tahun);
-        resetFormSakit();
-        //refresh table
-        Swal.fire({
-          icon: 'success',
-          title: 'Successfully '.concat(' Updated !'),
-          text: ''.concat('Data ', ' ').concat(' Berhasil Ditambahkan'),
-          customClass: {
-            confirmButton: 'btn btn-success'
-          }
-        });
-      },
-      error: function error(err) {
-        //showUnblock();
-        Swal.fire({
-          title: 'Duplicate Entry!',
-          text:  'Data Not Saved !',
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-success'
-          }
-        });
-      }
-    });
-}
+
 function reload_table(bulan, tahun){
   showBlock();
   $.ajax({
