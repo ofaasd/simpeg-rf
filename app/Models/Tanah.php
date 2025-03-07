@@ -12,5 +12,5 @@ class Tanah extends Model
     protected $dateFormat = 'U';
     protected $table = 'aset_tanah';
 
-    protected $fillable = ['alamat', 'luas', 'tanggal_perolehan', 'nama', 'no_sertifikat', 'status_tanah', 'keterangan', 'bukti_fisik'];
+    protected $fillable = ['kode', 'alamat', 'luas', 'tanggal_perolehan', 'nama', 'no_sertifikat', 'status_tanah', 'keterangan', 'bukti_fisik'];
 }

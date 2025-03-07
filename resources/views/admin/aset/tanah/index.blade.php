@@ -41,6 +41,7 @@
             <thead>
               <tr>
                 <td>No.</td>
+                <td>Kode</td>
                 <td>Nama</td>
                 <td>Alamat</td>
                 <td>Luas</td>
@@ -52,6 +53,7 @@
               @foreach($tanah as $row)
                 <tr>
                   <td>{{$loop->iteration}}</td>
+                  <td>{{ $row->kode }}</td>
                   <td>{{ $row->nama }}</td>
                   <td>{{ $row->alamat }}</td>
                   <td>{{ $row->luas }}</td>
@@ -83,6 +85,12 @@
             <h3 class="mb-2">Detail</h3>
           </div>
           <div class="row g-4">
+
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+                <p>Kode : <span id='view-kode'></span></p>
+            </div>
+          </div>
 
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
@@ -150,6 +158,13 @@
           <div class="row g-4">
           <input type="hidden" name="id" id="id_tanah">
           {{-- <input type="hidden" name="oldImage" id="bukti_fisik"> --}}
+
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <input type="text" id='kode' name="kode" class="form-control">
+              <label for="kode">Kode</label>
+            </div>
+          </div>
 
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
@@ -261,6 +276,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   $('#btnTambahTanah').on('click', function(){
     $('#id_tanah').val('');
+    $('#kode').val('');
     $('#nama').val('');
     $('#alamat').val('');
     $('#no_sertifikat').val('');
@@ -298,6 +314,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   $(document).on('click', '.edit-tanah', function () {
     const id = $(this).data('id');
+    $('#kode').val('');
     $('#nama').val('');
     $('#alamat').val('');
     $('#no_sertifikat').val('');

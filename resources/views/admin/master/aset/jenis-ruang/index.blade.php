@@ -42,6 +42,7 @@
             <thead>
               <tr>
                 <td>No.</td>
+                <td>Kode</td>
                 <td>Jenis Ruang</td>
                 <td>Aksi</td>
               </tr>
@@ -50,6 +51,7 @@
               @foreach($jenisRuang as $row)
                 <tr>
                   <td>{{$loop->iteration}}</td>
+                  <td>{{ $row->kode }}</td>
                   <td>{{ $row->nama }}</td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="First group">
@@ -80,6 +82,12 @@
           <div class="row g-4">
           <input type="hidden" name="id" id="id_jenis_ruang">
 
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <input type="text" id='kode' name="kode" class="form-control" placeholder="cth: H.1">
+              <label for="kode">Kode</label>
+            </div>
+          </div>
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
               <input type="text" id='nama' name="nama" class="form-control" placeholder="cth: laboratorium">
@@ -127,11 +135,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   $('#btnTambahJenisRuang').on('click', function(){
     $('#id_jenis_ruang').val('');
+    $('#kode').val('');
     $('#nama').val('');
   })
 
   $(document).on('click', '.edit-jenis-ruang', function () {
     const id = $(this).data('id');
+    $('#kode').val('');
     $('#nama').val('');
 
     $('.loader-container').show();

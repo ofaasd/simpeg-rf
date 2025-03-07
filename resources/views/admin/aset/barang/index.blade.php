@@ -161,7 +161,7 @@
               <div class="form-floating form-floating-outline">
                 <select name="ruang" class="form-control" id="id_ruang">
                   @foreach($ruang as $row)
-                    <option value="{{$row->id}}">{{$row->nama}}</option>
+                    <option value="{{$row->kode}}">{{$row->nama}}</option>
                   @endforeach
                 </select>
                 <label for="id_ruang">Lokasi Barang</label> <!-- Mengubah for agar sesuai dengan id input -->
@@ -172,7 +172,7 @@
               <div class="form-floating form-floating-outline">
                 <select name="jenisBarang" class="form-control" id="id_jenis_barang">
                   @foreach($refJenisBarang as $row)
-                    <option value="{{$row->id}}">{{$row->nama}}</option>
+                    <option value="{{$row->kode}}">{{$row->nama}}</option>
                   @endforeach
                 </select>
                 <label for="id_jenis_barang">Jenis Barang</label>

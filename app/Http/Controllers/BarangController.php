@@ -16,16 +16,16 @@ class BarangController extends Controller
     public function index()
     {
         $title = 'Aset Barang';
-        $barang = Barang::select('aset_barang.*', 'ref_jenis_barang.nama as jenisBarang', 'aset_ruang.kode_ruang as ruang')
-        ->leftJoin('ref_jenis_barang', 'ref_jenis_barang.id', '=', 'aset_barang.id_jenis_barang')
-        ->leftJoin('aset_ruang', 'aset_ruang.id', '=', 'aset_barang.id_ruang')
+        $barang = Barang::select('aset_barang.*', 'ref_jenis_barang.nama as jenisBarang', 'aset_ruang.kode as ruang')
+        ->leftJoin('ref_jenis_barang', 'ref_jenis_barang.kode', '=', 'aset_barang.id_jenis_barang')
+        ->leftJoin('aset_ruang', 'aset_ruang.kode', '=', 'aset_barang.id_ruang')
         ->get();
 
         $refJenisBarang = RefJenisBarang::all();
         $ruang = Ruang::all();
 
-        $asetElektronik = Elektronik::select('aset_elektronik.*', 'aset_ruang.kode_ruang as ruang')
-        ->leftJoin('aset_ruang', 'aset_ruang.id', '=', 'aset_elektronik.id_ruang')
+        $asetElektronik = Elektronik::select('aset_elektronik.*', 'aset_ruang.kode as ruang')
+        ->leftJoin('aset_ruang', 'aset_ruang.kode', '=', 'aset_elektronik.id_ruang')
         ->get();
     
         return view('admin.aset.barang.index', compact('barang', 'refJenisBarang', 'asetElektronik', 'ruang', 'title'));

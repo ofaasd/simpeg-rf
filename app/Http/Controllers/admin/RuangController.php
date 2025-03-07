@@ -15,9 +15,9 @@ class RuangController extends Controller
     {
         $title = 'Ruang';
         $ruang = Ruang::select('aset_ruang.*', 'ref_gedung.nama as gedung', 'ref_lantai.nama as lantai', 'ref_jenis_ruang.nama as jenisRuang')
-        ->leftJoin('ref_gedung', 'ref_gedung.id', '=', 'aset_ruang.id_gedung')
+        ->leftJoin('ref_gedung', 'ref_gedung.kode', '=', 'aset_ruang.id_gedung')
         ->leftJoin('ref_lantai', 'ref_lantai.id', '=', 'aset_ruang.id_lantai')
-        ->leftJoin('ref_jenis_ruang', 'ref_jenis_ruang.id', '=', 'aset_ruang.id_jenis_ruang')
+        ->leftJoin('ref_jenis_ruang', 'ref_jenis_ruang.kode', '=', 'aset_ruang.id_jenis_ruang')
         ->get();
 
         $refGedung = RefGedung::all();
@@ -40,7 +40,7 @@ class RuangController extends Controller
                 'id_gedung' => $request->gedung,
                 'id_lantai' => $request->lantai,
                 'id_jenis_ruang' => $request->jenisRuang,
-                'kode_ruang' => $request->kodeRuang,
+                'kode' => $request->kodeRuang,
                 'nama' => $request->nama,
                 'kapasitas' => $request->kapasitas,
                 'status' => $request->status,
@@ -56,7 +56,7 @@ class RuangController extends Controller
               'id_gedung' => $request->gedung,
               'id_lantai' => $request->lantai,
               'id_jenis_ruang' => $request->jenisRuang,
-              'kode_ruang' => $request->kodeRuang,
+              'kode' => $request->kodeRuang,
               'nama' => $request->nama,
               'kapasitas' => $request->kapasitas,
               'status' => $request->status,
