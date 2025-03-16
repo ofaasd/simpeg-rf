@@ -30,13 +30,19 @@ class BeritaController extends Controller
         ->get();
         
       $cekBerita = Berita::where('user_id', 5)->latest()->first();
-      $cekBeritaSch = collect(Http::accept('application/json')
-      ->get('https://newapi.ppatq-rf.sch.id/public/index.php/post')
-      ->json())
+      $cekBeritaSch = collect(
+        Http::accept('application/json')
+            ->get('https://newapi.ppatq-rf.sch.id/public/index.php/post')
+            ->json()
+      )
       ->sortByDesc('post_date')
       ->first();
-
-      $isNotif = $cekBerita->created_at != $cekBeritaSch['post_date'];
+      
+      if ($cekBeritaSch) {
+          $isNotif = $cekBerita->created_at != $cekBeritaSch['post_date'];
+      } else {
+          $isNotif = false;
+      }
 
       Session::put('isNotif', $isNotif);
 

@@ -26,6 +26,7 @@ class MasterJenisRuangController extends Controller
             $jenisRuang = RefJenisRuang::updateOrCreate(
               ['id' => $id],
               [
+                'kode' => $request->kode,
                 'nama' => $request->nama,
               ]
             );
@@ -34,6 +35,7 @@ class MasterJenisRuangController extends Controller
           $jenisRuang = RefJenisRuang::updateOrCreate(
             ['id' => $id],
             [
+                'kode' => $request->kode,
                 'nama' => $request->nama,
               ]
           );

@@ -12,5 +12,5 @@ class RefJenisBarang extends Model
     protected $dateFormat = 'U';
     protected $table = 'ref_jenis_barang';
 
-    protected $fillable = ['nama'];
+    protected $fillable = ['kode', 'nama'];
 }

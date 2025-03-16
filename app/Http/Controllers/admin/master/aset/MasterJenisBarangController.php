@@ -29,6 +29,7 @@ class MasterJenisBarangController extends Controller
             $jenisBarang = RefJenisBarang::updateOrCreate(
               ['id' => $id],
               [
+                'kode' => $request->kode,
                 'nama' => $request->nama,
               ]
             );
@@ -37,6 +38,7 @@ class MasterJenisBarangController extends Controller
           $jenisBarang = RefJenisBarang::updateOrCreate(
             ['id' => $id],
             [
+                'kode' => $request->kode,
                 'nama' => $request->nama,
               ]
           );

@@ -25,10 +25,10 @@
   <div class="col-xl-12">
   <div class="card mb-4" id="card-block">
       <div class="card-header">
-        <h4>Catatan Kesehatan Santri</h4>
+        <h4>Absen Kesehatan Rawat Inap</h4>
       </div>
       <div class="card-body" style="overflow-x:scroll">
-        <div class="row">
+        <div class="row py-3">
           <div class="col-md-6">
             <div class="row">
               <div class="col-md-4">
@@ -48,7 +48,7 @@
             </div>
           </div>
           <div class="col-md-6 text-right">
-            <button type="button" id="btnTambahSantriSakit" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal_sakit" style="float:right">+ Tambah</button>
+            <button type="button" id="btnTambahSantriInap" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal_rawat_inap" style="float:right">+ Tambah</button>
           </div>
         </div>
         <div id="table_kesehatan">
@@ -58,41 +58,30 @@
                 <td>Nama</td>
                 <td>Kelas</td>
                 <td>Murroby</td>
-                <td>Tgl Sakit</td>
-                <td>Gangguan Kesehatan</td>
-                <td>Keterangan</td>
-                <td>Tindakan</td>
-                <td>Deskripsi</td>
-                <td>Keterangan</td>
+                <td>Tanggal Masuk</td>
+                <td>Keluhan</td>
+                <td>Terapi</td>
+                <td>Tanggal Keluar</td>
                 <td>Aksi</td>
               </tr>
             </thead>
-            <tbody id="table_uang_saku">
-              @php
-              $i = 1;
-              @endphp
-              @foreach($kesehatan as $row)
+            <tbody>
+              @foreach($rawatInap as $row)
                 <tr>
-                  <td>{{$list_santri[$row->santri_id]->nama}}</td>
-                  <td>{{$list_santri[$row->santri_id]->kelas}}</td>
-                  <td>{{$list_santri[$row->santri_id]->kamar_id}}</td>
-                  <td>{{date('d-m-Y', $row->tanggal_sakit)}}</td>
-                  <td>{{$row->sakit}}</td>
-                  <td>{{$row->keterangan_sakit}}</td>
-                  <td>{{$row->tindakan}}</td>
-                  <td>{{$row->keterangan_sembuh}}</td>
-                  <td>{{$row->keterangan_sembuh}}</td>
+                  <td>{{$row->namaSantri}}</td>
+                  <td>{{$row->kelas}}</td>
+                  <td>{{$row->namaMurroby}}</td>
+                  <td>{{date('d-m-Y', $row->tanggal_masuk)}}</td>
+                  <td>{{$row->keluhan}}</td>
+                  <td>{{$row->terapi}}</td>
+                  <td>{{ $row->tanggal_keluar == 0 ? '-' : date('d-m-Y', $row->tanggal_keluar) }}</td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="First group">
-                      {{-- <button type="button" id="btnSakit" data-id="{{$row->id}}" class="btn btn-primary edit_sakit waves-effect" data-bs-toggle="modal" data-bs-target="#modal_sakit" data-status="sakit"><i class="mdi mdi-pencil me-1"></i></button> --}}
-                      <button type="button" id="btnSembuh" data-id="{{$row->id}}" class="btn btn-success edit_sakit waves-effect" data-bs-toggle="modal" data-bs-target="#modal_sakit" data-status="sembuh"><i class="mdi mdi-shield-edit me-1"></i></button>
+                      <button type="button" id="btnSembuh" data-id="{{$row->id}}" class="btn btn-success edit_sakit waves-effect" data-bs-toggle="modal" data-bs-target="#modal_rawat_inap" data-status="sembuh"><i class="mdi mdi-shield-edit me-1"></i></button>
                       <button type="button" id="btnDelete" data-id="{{$row->id}}" class="btn btn-danger waves-effect delete-record" data-bs-toggle="modal" data-bs-target="#hapus"><i class="mdi mdi-trash-can me-1"></i></button>
                     </div>
                   </td>
                 </tr>
-              @php
-              $i++;
-              @endphp
               @endforeach
             </tbody>
 
@@ -103,14 +92,14 @@
   </div>
 </div>
 <!-- uang Saku Masuk -->
-<div class="modal fade" id="modal_sakit"  aria-hidden="true">
+<div class="modal fade" id="modal_rawat_inap"  aria-hidden="true">
   <div class="modal-dialog modal-lg modal-simple modal-edit-user">
     <div class="modal-content p-3 p-md-5">
       <div class="modal-body py-3 py-md-0">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         <div class="text-center mb-4">
           <h3 class="mb-2">Santri Sakit</h3>
-          <p class="pt-1">Tambah santri yang sedang sakit</p>
+          <p class="pt-1">Tambah santri yang sedang dirawat inap</p>
         </div>
         <form id="formSakit" class="row g-4" onsubmit="return false">
           <input type="hidden" name="id" id="id_sakit">
@@ -118,40 +107,54 @@
             <div class="form-floating form-floating-outline">
               <select name="santri_id" id="santri_id" class="form-control select2">
                 @foreach($santri as $row)
-                <option value="{{$row->no_induk}}" >{{$row->nama}} - {{$row->kelas}}</option>
+                <option value="{{$row->no_induk}}" >{{$row->nama}}</option>
                 @endforeach
               </select>
               <label for="santri_id">Nama Santri</label>
             </div>
           </div>
-          <div class="col-12 col-md-6">
+          <div class="col-6 col-md-6">
             <div class="form-floating form-floating-outline">
-              <input type="date" id='tanggal_sakit' name="tanggal_sakit" class="form-control" value="{{date('Y-m-d')}}" placeholder="tanggal_sakit">
-              <label for="tanggal_sakit">Tanggal Sakit</label>
+              <select name="kelas_id" id="kelas_id" class="form-control select2">
+                @foreach($kelas as $row)
+                <option value="{{$row->code}}">{{$row->name}}</option>
+                @endforeach
+              </select>
+              <label for="kelas">Kelas Santri</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <select name="murroby_id" id="murroby_id" class="form-control select2">
+                @foreach($murroby as $row)
+                <option value="{{$row->employee_id}}">{{$row->namaMurroby}}</option>
+                @endforeach
+              </select>
+              <label for="kelas">Murroby</label>
             </div>
           </div>
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <input type="text" id='sakit' name="sakit" class="form-control" placeholder="memar, flu, demam, typus, DB, cacar, gatal kulit, infeksi dll">
-              <label for="sakit">Item Gangguan Kesehatan</label>
+              <input type="date" id='tanggal_masuk' name="tanggal_masuk" class="form-control" value="{{date('Y-m-d')}}" placeholder="Tanggal Masuk">
+              <label for="tanggal_masuk">Tanggal Masuk</label>
             </div>
           </div>
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <input type="text" id='keterangan_sakit' name="keterangan_sakit" class="form-control">
-              <label for="keterangan_sakit">Keterangan Sakit</label>
+              <input type="text" id='keluhan' name="keluhan" class="form-control">
+              <label for="keluhan">Keluhan</label>
             </div>
           </div>
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <input type="text" id='tindakan' name="tindakan" class="form-control">
-              <label for="tindakan">Tindakan</label>
+              <input type="text" id='terapi' name="terapi" class="form-control">
+              <label for="terapi">Terapi</label>
             </div>
           </div>
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <input type="text" id='keterangan_sembuh' name="keterangan_sembuh" class="form-control">
-              <label for="keterangan_sembuh">Deskripsi</label>
+              <input type="date" id='tanggal_keluar' name="tanggal_keluar" class="form-control" placeholder="Tanggal Keluar">
+              <label for="tanggal_keluar">Tanggal Keluar</label>
             </div>
           </div>
           <div class="col-12 text-center">
@@ -170,18 +173,23 @@
 <script>
 document.addEventListener("DOMContentLoaded", function(event) {
   $(".select2").select2({
-    dropdownParent: $("#modal_sakit")
+    dropdownParent: $("#modal_rawat_inap")
   });
   $(".select2-sembuh").select2({
     disabled : true,
     dropdownParent: $("#modal_sembuh")
   });
-  $('#modal_sakit').on('hidden.bs.modal', function () {
+  $('#modal_rawat_inap').on('hidden.bs.modal', function () {
       $('#formSakit').trigger("reset");
       $(".sembuh_area").hide();
   });
   $('.dataTable').dataTable();
+  $('#formSakit').submit(function(e) {
+    e.preventDefault();
 
+    var formData = new FormData(this);
+    insert_update(formData);
+  });
   $("#bulan").change(function(){
     const bulan = $(this).val();
     const tahun = $("#tahun").val();
@@ -194,42 +202,38 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
   $(document).on('click', '.edit_sakit', function () {
     const id = $(this).data('id');
-    const status = $(this).data('status');
-    if(status == "sembuh"){
-      $(".sembuh_area").show();
-    }else{
-      $(".sembuh_area").hide();
-    }
     // get data
-    $.get(''.concat(baseUrl).concat('kesehatan/').concat(id, '/edit'), function (data) {
+    $.get(''.concat(baseUrl).concat('rawat-inap/').concat(id, '/edit'), function (data) {
     let date = '';
     Object.keys(data).forEach(key => {
-        //console.log(key);
+        console.log(data[key]);
 
         if(key == 'id'){
           $('#id_sakit')
             .val(data[key])
             .trigger('change');
-        }else if(key == 'tanggal_sakit'){
+        }else if(key == 'santri_no_induk'){
+          $('#santri_id')
+            .val(data[key])
+            .trigger('change');
+        }else if(key == 'tanggal_masuk'){
           tanggal = parseInt(data[key]) * 1000;
           date = new Date(tanggal).toLocaleString("sv-SE", {timeZone: "Asia/Jakarta"}).slice(0, 10);
           $('#' + key)
             .val(date)
             .trigger('change');
-            //alert(date);
-        }else if(key == 'tanggal_sembuh'){
+        }else if(key == 'tanggal_keluar'){
           if(parseInt(data[key]) > 0){
             tanggal = parseInt(data[key]) * 1000;
             date = new Date(tanggal).toLocaleString("sv-SE", {timeZone: "Asia/Jakarta"}).slice(0, 10);
             $('#' + key)
-              .val(date)
-              .trigger('change');
-              //alert(date);
+                .val(date)
+                .trigger('change');
           }
         }else{
           $('#' + key)
-              .val(data[key])
-              .trigger('change');
+            .val(data[key])
+            .trigger('change');
         }
     });
     });
@@ -256,7 +260,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         // delete the data
         $.ajax({
           type: 'DELETE',
-          url: ''.concat(baseUrl).concat('kesehatan/').concat(id),
+          url: ''.concat(baseUrl).concat('rawat-inap/').concat(id),
           success: function success() {
             reload_table(bulan,tahun);
           },
@@ -288,24 +292,69 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 });
 
+function insert_update(formData)
+{
+  const bulan = $("#bulan").val();
+  const tahun = $("#tahun").val();
+  $.ajax({
+      data: formData,
+      url: ''.concat(baseUrl).concat('rawat-inap'),
+      type: 'POST',
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function success(status) {
+        $('#modal_rawat_inap').modal('hide');
+        reload_table(bulan,tahun);
+        resetFormSakit();
+        location.reload();
+        Swal.fire({
+          icon: 'success',
+          title: 'Successfully '.concat(' Updated !'),
+          text: ''.concat('Data ', ' ').concat(' Berhasil Ditambahkan'),
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      },
+      error: function error(err) {
+            let error = err.responseJSON;
+            let errorMessage = error.errors.keluhan ? error.errors.keluhan.join(', ') : 'Terjadi kesalahan';
+
+            Swal.fire({
+                title: 'Data Not Saved!',
+                text: errorMessage,
+                icon: 'error',
+                customClass: {
+                    confirmButton: 'btn btn-success'
+                }
+            });
+        }
+    });
+}
+
 function reload_table(bulan, tahun){
   showBlock();
   $.ajax({
     data: {'bulan' : bulan, "tahun" : tahun},
-    url: ''.concat(baseUrl).concat('kesehatan/reload'),
+    url: ''.concat(baseUrl).concat('rawat-inap/reload'),
     type: 'POST',
     success: function success(data) {
-      $("#table_kesehatan").html(data);
-      showUnblock();
+        $("#table_kesehatan").html(data);
+        showUnblock();
     },
   });
 }
-function resetFormSakit(){
+
+function resetFormSakit()
+{
   $("#id_sakit").val("");
   $("#santri_id").val(0).trigger('change');
-  $("#sakit").val("");''
-  $("#tanggal_sakit").val("");
-  $("#keterangan_sakit").val("");
+  $("#sakit").val("");
+  $("#kelas_id").val("");
+  $("#murroby_id").val("");
+  $("#tanggal_masuk").val("");
+  $("#tanggal_keluar").val("");
 }
 
 </script>

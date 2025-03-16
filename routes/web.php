@@ -57,6 +57,7 @@ use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\NewMenuController;
 use App\Http\Controllers\PrestasiController;
+use App\Http\Controllers\RawatInapController;
 use App\Http\Controllers\TanahController;
 
 /*
@@ -131,6 +132,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::get('psb_new/kirim_file_warning/{id}', [psb::class, 'kirim_file_warning']);
   Route::get('psb_new/export', [psb::class, 'exportData']);
   Route::get('psb_new/cetak_form/{id}', [psb::class, 'cetak_form']);
+
+  Route::post('rawat-inap/reload', [RawatInapController::class, 'reload']);
 
   Route::post('kesehatan/reload', [KesehatanController::class, 'reload']);
   Route::get('kesehatan/santri', [KesehatanController::class, 'santri']);
@@ -236,6 +239,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/profile', ProfileController::class);
   Route::resource('/murroby', AdminMurrobyController::class);
   Route::resource('/kesehatan', KesehatanController::class);
+  Route::resource('/rawat-inap', RawatInapController::class);
   Route::resource('/pembayaran', PembayaranController::class);
   Route::resource('/agenda', AgendaController::class);
   Route::resource('/ustadz/kesehatan', UstKesehatanController::class);

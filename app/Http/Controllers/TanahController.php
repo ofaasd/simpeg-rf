@@ -35,6 +35,7 @@ class TanahController extends Controller
                 $barang = Tanah::updateOrCreate(
                     ['id' => $id],
                     [
+                        'kode' => $request->kode,
                         'nama' => $request->nama,
                         'alamat' => $request->alamat,
                         'luas' => $request->luas,
@@ -50,6 +51,7 @@ class TanahController extends Controller
                 $barang = Tanah::updateOrCreate(
                     ['id' => $id],
                     [
+                        'kode' => $request->kode,
                         'nama' => $request->nama,
                         'alamat' => $request->alamat,
                         'luas' => $request->luas,
@@ -69,6 +71,7 @@ class TanahController extends Controller
                 $barang = Tanah::updateOrCreate(
                     ['id' => $id],
                     [
+                        'kode' => $request->kode,
                         'nama' => $request->nama,
                         'alamat' => $request->alamat,
                         'luas' => $request->luas,
@@ -84,6 +87,7 @@ class TanahController extends Controller
                 $barang = Tanah::updateOrCreate(
                     ['id' => $id],
                     [
+                        'kode' => $request->kode,
                         'nama' => $request->nama,
                         'alamat' => $request->alamat,
                         'luas' => $request->luas,

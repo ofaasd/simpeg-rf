@@ -42,7 +42,7 @@
 
     var formData = new FormData(this);
     //showBlock();
-    insert_update(formData);
+    // insert_update(formData);
   });
   $(document).on('click', '.edit_pemeriksaan', function () {
     const id = $(this).data('id');
@@ -133,56 +133,4 @@
       }
     });
   });
-  function insert_update(formData){
-    const bulan = $("#bulan").val();
-    const tahun = $("#tahun").val();
-    $.ajax({
-        data: formData,
-        url: ''.concat(baseUrl).concat('santri/pemeriksaan'),
-        type: 'POST',
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function success(status) {
-          // sweetalert unblock data
-          //showUnblock();
-          //hilangkan modal
-          $('#modal_pemeriksaan').modal('hide');
-          //reset form
-          reload_table();
-          //refresh table
-          Swal.fire({
-            icon: 'success',
-            title: 'Successfully '.concat(' Updated !'),
-            text: ''.concat('Data ', ' ').concat(' Berhasil Ditambahkan'),
-            customClass: {
-              confirmButton: 'btn btn-success'
-            }
-          });
-        },
-        error: function error(err) {
-          //showUnblock();
-          Swal.fire({
-            title: 'Duplicate Entry!',
-            text:  'Data Not Saved !',
-            icon: 'error',
-            customClass: {
-              confirmButton: 'btn btn-success'
-            }
-          });
-        }
-      });
-  }
-  function reload_table(){
-    const id = {{$var['santri']->id}};
-    showBlock();
-    $.ajax({
-      url: ''.concat(baseUrl).concat('santri/reload_pemeriksaan/',id),
-      type: 'GET',
-      success: function success(data) {
-        $("#table_pemeriksaan").html(data);
-        showUnblock();
-      },
-    });
-  }
 </script>
