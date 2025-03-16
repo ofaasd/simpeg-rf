@@ -19,7 +19,7 @@
         <h5 class="card-title mb-0"> Generate Pembayaran Bulan {{$list_bulan[(int)date('m')]}}</h5>
       </div>
       <div class="col-md-6">
-        <div class="row g-3 align-items-right">
+        <div class="row g-3 align-items-end">
           <div class="col-auto">
             <select id="bulan_now" class="form-control">
               <option value="0">Ubah Bulan</option>
@@ -67,7 +67,7 @@
                 <td>{{$no}}</td>
                 <td>{{$row->nama}}</td>
                 <td>{{strtoupper($row->kelas)}}</td>
-                <td>{{$total[$row->no_induk] ?? 0}}</td>
+                <td>{{(!empty($total[$row->no_induk])) ? number_format($total[$row->no_induk],0,",",".") : 0}}</td>
                 <td>{!!($row->status == 0)?"<span class='btn btn-danger'>Belum</span>":"<span class='btn btn-success'>Sudah</span>"!!}</td>
                 <td><a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tunggakanModal"><i class="fa fa-pencil"></i></a></td>
               </tr>

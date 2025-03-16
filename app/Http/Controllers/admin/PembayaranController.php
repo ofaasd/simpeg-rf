@@ -504,6 +504,10 @@ Semoga pekerjaan dan usahanya diberikan kelancaran dan menghasilkan Rizqi yang b
     $kelas = Kelas::all();
     $ref_bank = Bank::all();
     $jenis_pembayaran = RefJenisPembayaran::all();
+    $total = [];
+    foreach($santri as $row){
+      $total[$row->no_induk] = GeneratePembayaran::where('no_induk',$row->no_induk)->first()->total_bayar ?? 0;
+    }
     return view('admin.pembayaran.generate', compact('title','kelas', 'santri','list_bulan','ref_bank','jenis_pembayaran'));
   }
   public function set_pembayaran(Request $request){
@@ -524,11 +528,13 @@ Semoga pekerjaan dan usahanya diberikan kelancaran dan menghasilkan Rizqi yang b
         $generate_new->save();
         foreach($request->id_jenis_pembayaran as $key=>$value){
           $jumlah = (int)str_replace(".","",$request->jenis_pembayaran[$key]);
-          $detail_new = new GenerateDetailPembayaran;
-          $detail_new->id_generate_pembayaran = $generate_new->id;
-          $detail_new->id_jenis = $value;
-          $detail_new->jumlah = $jumlah;
-          $detail_new->save();
+          if($jumlah != 0){
+            $detail_new = new GenerateDetailPembayaran;
+            $detail_new->id_generate_pembayaran = $generate_new->id;
+            $detail_new->id_jenis = $value;
+            $detail_new->jumlah = $jumlah;
+            $detail_new->save();
+          }
         }
       }
     }else{
@@ -545,13 +551,16 @@ Semoga pekerjaan dan usahanya diberikan kelancaran dan menghasilkan Rizqi yang b
         $generate_new->save();
         foreach($request->id_jenis_pembayaran as $key=>$value){
           $jumlah = (int)str_replace(".","",$request->jenis_pembayaran[$key]);
-          $detail_new = new GenerateDetailPembayaran;
-          $detail_new->id_generate_pembayaran = $generate_new->id;
-          $detail_new->id_jenis = $value;
-          $detail_new->jumlah = $jumlah;
-          $detail_new->save();
+          if($jumlah != 0){
+            $detail_new = new GenerateDetailPembayaran;
+            $detail_new->id_generate_pembayaran = $generate_new->id;
+            $detail_new->id_jenis = $value;
+            $detail_new->jumlah = $jumlah;
+            $detail_new->save();
+          }
         }
       }
     }
+    return redirect('pembayaran/generate');
   }
 }
