@@ -508,6 +508,7 @@ Semoga pekerjaan dan usahanya diberikan kelancaran dan menghasilkan Rizqi yang b
     foreach($santri as $row){
       $total[$row->no_induk] = GeneratePembayaran::where('no_induk',$row->no_induk)->first()->total_bayar ?? 0;
     }
+    //var_dump($total);
     return view('admin.pembayaran.generate', compact('total','title','kelas', 'santri','list_bulan','ref_bank','jenis_pembayaran'));
   }
   public function set_pembayaran(Request $request){

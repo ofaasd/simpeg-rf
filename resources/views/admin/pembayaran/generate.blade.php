@@ -54,6 +54,7 @@
             <tr>
               <th>No.</th>
               <th>Nama</th>
+              <th>No. Induk</th>
               <th>Kelas</th>
               <th>Total Pembayaran</th>
               <th>Status Bayar</th>
@@ -66,6 +67,7 @@
               <tr>
                 <td>{{$no}}</td>
                 <td>{{$row->nama}}</td>
+                <td>{{$row->no_induk}}</td>
                 <td>{{strtoupper($row->kelas)}}</td>
                 <td>{{(!empty($total[$row->no_induk])) ? number_format($total[$row->no_induk],0,",",".") : 0}}</td>
                 <td>{!!($row->status == 0)?"<span class='btn btn-danger'>Belum</span>":"<span class='btn btn-success'>Sudah</span>"!!}</td>
