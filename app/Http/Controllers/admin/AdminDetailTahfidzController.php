@@ -40,7 +40,7 @@ class AdminDetailTahfidzController extends Controller
     $var['EmployeeNew'] = EmployeeNew::where($where)->first();
     $tahfidz = Tahfidz::where('employee_id', $id)->first();
     if (empty($request->input('length'))) {
-      $var['list_santri'] = Santri::select("santri_detail.*","employee_new.nama as nama_murroby")->where('tahfidz_id', $tahfidz->id)->join("ref_kamar","ref_kamar.id","=","santri_detail.kamar_id")->join("employee_new","employee_new.id","=","ref_kamar.employee_id")->get();
+      $var['list_santri'] = Santri::select("santri_detail.*","employee_new.nama as nama_murroby")->where('tahfidz_id', $tahfidz->id)->leftJoin("ref_kamar","ref_kamar.id","=","santri_detail.kamar_id")->leftJoin("employee_new","employee_new.id","=","ref_kamar.employee_id")->get();
       $var['bulan'] = $this->bulan;
       $ta = TahunAjaran::where(['is_aktif' => 1])->first();
       $var['id_tahfidz'] = $tahfidz->id;
