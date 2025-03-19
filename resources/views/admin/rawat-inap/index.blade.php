@@ -107,30 +107,10 @@
             <div class="form-floating form-floating-outline">
               <select name="santri_id" id="santri_id" class="form-control select2">
                 @foreach($santri as $row)
-                <option value="{{$row->no_induk}}" >{{$row->nama}}</option>
+                <option value="{{$row->no_induk}}" >{{ $row->no_induk }} - {{$row->nama}}</option>
                 @endforeach
               </select>
-              <label for="santri_id">Nama Santri</label>
-            </div>
-          </div>
-          <div class="col-6 col-md-6">
-            <div class="form-floating form-floating-outline">
-              <select name="kelas_id" id="kelas_id" class="form-control select2">
-                @foreach($kelas as $row)
-                <option value="{{$row->code}}">{{$row->name}}</option>
-                @endforeach
-              </select>
-              <label for="kelas">Kelas Santri</label>
-            </div>
-          </div>
-          <div class="col-6 col-md-6">
-            <div class="form-floating form-floating-outline">
-              <select name="murroby_id" id="murroby_id" class="form-control select2">
-                @foreach($murroby as $row)
-                <option value="{{$row->employee_id}}">{{$row->namaMurroby}}</option>
-                @endforeach
-              </select>
-              <label for="kelas">Murroby</label>
+              <label for="santri_id">No Induk - Nama Santri</label>
             </div>
           </div>
           <div class="col-12 col-md-6">

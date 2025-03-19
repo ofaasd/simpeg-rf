@@ -37,6 +37,19 @@
       },
       {
         "url": "#",
+        "icon": "menu-icon tf-icons mdi mdi-book-play-outline",
+        "name": "Ketahfidzan",
+        "slug": "ketahfidzan",
+        "submenu": [
+          {
+            "url": "/show-ketahfidzan",
+            "name": "Show Ketahfidzan",
+            "slug": "show-ketahfidzan"
+          }
+        ]
+      },
+      {
+        "url": "#",
         "icon": "menu-icon tf-icons mdi mdi-account-tie-outline",
         "name": "Pegawai",
         "slug": "pegawai",

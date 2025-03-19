@@ -58,6 +58,7 @@ use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\NewMenuController;
 use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\RawatInapController;
+use App\Http\Controllers\ShowKetahfidzanController;
 use App\Http\Controllers\TanahController;
 
 /*
@@ -261,6 +262,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/aset/bangunan', BangunanController::class);
   Route::resource('/aset/elektronik', AsetElektronikController::class);
   // Route::resource('/aset/non-elektronik', AsetNonElektronikController::class);
+
+  Route::get('/show-ketahfidzan', [ShowKetahfidzanController::class, 'index']);
+  Route::post('/show-ketahfidzan', [ShowKetahfidzanController::class, 'index']);
 
   Route::resource('/psb', psb::class);
   Route::resource('/psb_slide', PsbSlideController::class);
