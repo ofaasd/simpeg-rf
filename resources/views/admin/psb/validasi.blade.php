@@ -24,7 +24,6 @@
       </div>
     </div>
 
-
   </div>
   <div class="card-datatable table-responsive">
 <textarea name='column' id='my_column' style="display:none">@foreach($indexed as $value) {{$value . "\n"}} @endforeach</textarea>
@@ -32,7 +31,7 @@
 <input type="hidden" name="url" id='url' value='psb_new/validasi'>
 <input type="hidden" name="title" id='title' value='Validasi'>
 <input type="hidden" name="id_gelombang" id="id_gelombang" value="{{$id}}">
-  <div class="row">
+  <div class="row p-3">
     <div class="col-md-12 text-start">
       <a href="javascript:void(0)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#templatePesan">Template Pesan</a>
     </div>

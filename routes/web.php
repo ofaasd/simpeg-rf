@@ -265,6 +265,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
   Route::get('/show-ketahfidzan', [ShowKetahfidzanController::class, 'index']);
   Route::post('/show-ketahfidzan', [ShowKetahfidzanController::class, 'index']);
+  Route::post('/show-ketahfidzan/cetak-ketahfidzan', [ShowKetahfidzanController::class, 'cetakKetahfidzan'])->name("cetak-ketahfidzan");
 
   Route::resource('/psb', psb::class);
   Route::resource('/psb_slide', PsbSlideController::class);
