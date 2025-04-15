@@ -211,6 +211,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('/pembayaran/get_pesan_warning', [PembayaranController::class, 'get_pesan_warning']);
   Route::post('/pembayaran/send_warning', [PembayaranController::class, 'send_warning']);
   Route::get('/pembayaran/generate', [PembayaranController::class, 'generate_pembayaran']);
+  Route::post('/pembayaran/get_generate', [PembayaranController::class, 'get_generate']);
   Route::post('/pembayaran/generate_tunggakan', [PembayaranController::class, 'set_pembayaran']);
 
   Route::get('/admin/pembayaran/bukatutup', [ControlPembayaranController::class, 'index']);

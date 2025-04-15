@@ -511,6 +511,21 @@ Semoga pekerjaan dan usahanya diberikan kelancaran dan menghasilkan Rizqi yang b
     //var_dump($total);
     return view('admin.pembayaran.generate', compact('total','title','kelas', 'santri','list_bulan','ref_bank','jenis_pembayaran'));
   }
+  public function get_generate(Request $request){
+    $no_induk = $request->no_induk;
+    $bulan = $request->bulan;
+    $tahun = $request->tahun; 
+    $generate = GeneratePembayaran::where('no_induk',$no_induk)->where('bulan',$bulan)->where('tahun',$tahun)->first() ?? [];
+    $detail_generate = [];
+    if($generate){
+      $detail_generate = GenerateDetailPembayaran::where('id_generate_pembayaran',$generate->id);
+    }
+    $json = [
+      0 => $generate,
+      1 => $detail_generate,
+    ];
+    return response()->json($json);
+  }
   public function set_pembayaran(Request $request){
     $kelas = $request->kelas;
     $bulan = $request->bulan;
