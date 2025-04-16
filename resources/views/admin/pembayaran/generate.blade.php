@@ -19,7 +19,7 @@
         <h5 class="card-title mb-0"> Generate Pembayaran Bulan {{$list_bulan[(int)date('m')]}}</h5>
       </div>
       <div class="col-md-6">
-        <div class="row g-3 align-items-end">
+        <div class="row g-3 justify-content-end">
           <div class="col-auto">
             <select id="bulan_now" class="form-control">
               <option value="0">Ubah Bulan</option>
@@ -96,10 +96,9 @@
             <tr>
               <td>Kelas</td>
               <td>
-                <select name="kelas" class="form-control">
-                  <option value="0">Semua</option>
+                <select name="kelas[]" class="form-control kelas_select2" multiple>
                   @foreach($kelas as $row)
-                  <option value="{{$row->code}}">{{$row->name}}</option>
+                  <option value="{{$row->code}}" {{(in_array($row->code, $kelas_already))?"class='bg-danger'":"class='bg-primary'"}}>{{$row->name}}</option>
                   @endforeach
                 </select>
               </td>
@@ -172,6 +171,9 @@
       $(".datatable").dataTable()
       $('#nama_santri').select2({
           minimumInputLength: 3,
+      });
+      $('.kelas_select2').select2({
+          dropdownParent: $('.kelas_select2').parent()
       });
       $("#formPembayaran").submit(function(e){
         e.preventDefault();

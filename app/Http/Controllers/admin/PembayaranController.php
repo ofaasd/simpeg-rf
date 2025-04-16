@@ -504,45 +504,35 @@ Semoga pekerjaan dan usahanya diberikan kelancaran dan menghasilkan Rizqi yang b
     $kelas = Kelas::all();
     $ref_bank = Bank::all();
     $jenis_pembayaran = RefJenisPembayaran::all();
+    $new_kelas_already = GeneratePembayaran::select('kelas')->join("santri_detail","santri_detail.no_induk","generate_pembayaran.no_induk")->distinct()->get();
+    $kelas_already = [];
+    $i = 0;
+    foreach($new_kelas_already as $row){
+      $kelas_already[$i] = $row->kelas;
+      $i++;
+    }
+    //var_dump($kelas_already);
     $total = [];
+    $bulan = date('m');
+    $pembayaran = GeneratePembayaran::where('bulan',$bulan)->get();
     foreach($santri as $row){
-      $total[$row->no_induk] = GeneratePembayaran::where('no_induk',$row->no_induk)->first()->total_bayar ?? 0;
+      $total[$row->no_induk] = 0;
+    }
+    foreach($pembayaran as $row){
+      $total[$row->no_induk] = $row->total_bayar;
     }
     //var_dump($total);
-    return view('admin.pembayaran.generate', compact('total','title','kelas', 'santri','list_bulan','ref_bank','jenis_pembayaran'));
+    return view('admin.pembayaran.generate', compact('kelas_already','total','title','kelas', 'santri','list_bulan','ref_bank','jenis_pembayaran'));
   }
   public function set_pembayaran(Request $request){
-    $kelas = $request->kelas;
+    $arr_kelas = $request->kelas;
     $bulan = $request->bulan;
     $tahun = date('Y');
     $total_bayar = (int)str_replace(".","",$request->total_bayar);
-    if($kelas == 0){
+    if(!empty($arr_kelas)){
       $generate = GeneratePembayaran::delete();
       $santri = Santri::all();
       foreach($santri as $row){
-        $generate_new = new GeneratePembayaran;
-        $generate_new->no_induk = $row->no_induk;
-        $generate_new->total_bayar = $total_bayar;
-        $generate_new->bulan = $bulan;
-        $generate_new->tahun = $tahun;
-        $generate_new->status = '0';
-        $generate_new->save();
-        foreach($request->id_jenis_pembayaran as $key=>$value){
-          $jumlah = (int)str_replace(".","",$request->jenis_pembayaran[$key]);
-          if($jumlah != 0){
-            $detail_new = new GenerateDetailPembayaran;
-            $detail_new->id_generate_pembayaran = $generate_new->id;
-            $detail_new->id_jenis = $value;
-            $detail_new->jumlah = $jumlah;
-            $detail_new->save();
-          }
-        }
-      }
-    }else{
-
-      $santri = Santri::where('kelas',$kelas)->get();
-      foreach($santri as $row){
-        $generate = GeneratePembayaran::where('no_induk',$row->no_induk)->delete();
         $generate_new = new GeneratePembayaran;
         $generate_new->no_induk = $row->no_induk;
         $generate_new->total_bayar = $total_bayar;
