@@ -24,12 +24,12 @@
             <select id="bulan_now" class="form-control">
               <option value="0">Ubah Bulan</option>
               @foreach($list_bulan as $key=>$value)
-              <option value="{{$key}}">{{$value}}</option>
+              <option value="{{$key}}" {{$value == date('m') ? "selected" : ""}}>{{$value}}</option>
               @endforeach
             </select>
           </div>
           <div class="col-auto">
-            <select name="tahun" class="form-control">
+            <select name="tahun" id="tahun_now" class="form-control">
               @for($i=date('Y'); $i >= (date('Y')-5); $i--)
                 <option value="{{$i}}">{{$i}}</option>
               @endfor
@@ -71,7 +71,7 @@
                 <td>{{strtoupper($row->kelas)}}</td>
                 <td>{{(!empty($total[$row->no_induk])) ? number_format($total[$row->no_induk],0,",",".") : 0}}</td>
                 <td>{!!($row->status == 0)?"<span class='btn btn-danger'>Belum</span>":"<span class='btn btn-success'>Sudah</span>"!!}</td>
-                <td><a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tunggakanModal"><i class="fa fa-pencil"></i></a></td>
+                <td><a href="#" class="btn btn-primary editGenerate" data-id="{{$row->no_induk}}" data-bs-toggle="modal" data-bs-target="#editGenerateModal"><i class="fa fa-pencil"></i></a></td>
               </tr>
               @php $no++; @endphp
             @endforeach
@@ -91,7 +91,9 @@
         </button>
       </div>
       <div class="modal-body" id="target_tunggakan">
+        <div class="pesan"></div>
         <form method="POST" action="{{url('pembayaran/generate_tunggakan')}}">
+          <input type="hidden" name="id" id="id_pembayaran">
           <table class="table">
             <tr>
               <td>Kelas</td>
@@ -106,7 +108,7 @@
             <tr>
               <td>Bulan</td>
               <td>
-                <select name="bulan" class="form-control">
+                <select name="bulan" id="bulan_input" class="form-control">
                   @foreach($list_bulan as $key=>$value)
                   <option value="{{$key}}" {{($key == date('m')) ? "selected":""}}>{{$value}}</option>
                   @endforeach
@@ -146,7 +148,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="tunggakanModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editGenerateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -156,8 +158,56 @@
         <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" id="target_tunggakan">
+      <div class="modal-body" id="target_edit">
+        <form method="POST" action="{{url('pembayaran/generate_tunggakan_single')}}">
+          <table class="table">
+            <tr>
+              <td>No. Induk</td>
+              <td>
+                <input type="text" name="no_induk" id="no_induk" class="form-control" value="">
+              </td>
+            </tr>
+            <tr>
+              <td>Bulan</td>
+              <td>
+                <select name="bulan_input2" class="form-control">
+                  @foreach($list_bulan as $key=>$value)
+                  <option value="{{$key}}" {{($key == ($pembayaran->bulan ?? date('m'))) ? "selected":""}}>{{$value}}</option>
+                  @endforeach
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Tahun</td>
+              <td>
+                  <input type="text" name="tahun" id="tahun_new" class="form-control" value="{{$pembayaran->tahun ?? date('Y')}}">
+              </td>
+            </tr>
+            {{-- <tr>
+              <td>Total Bayar (per santri)</td>
+              <td>
+                <input type="text" name="total_bayar" class="form-control" placeholder="0" onkeyup="splitInDots(this)">
+              </td>
+            </tr> --}}
+            @php $total = 0; @endphp
+            @foreach($jenis_pembayaran as $jenis_pembayaran)
+              <tr>
+                  <td>{{$jenis_pembayaran->jenis}}<input type="hidden" name="id_jenis_pembayaran[]" value='{{ $jenis_pembayaran->id }}'></td>
+                  <td><input type="text" onkeyup="splitInDots2(this)" id="jenis_{{$jenis_pembayaran->id}}" placeholder="0" name="jenis_pembayaran[]" class="form-control" ></td>
+              </tr>
+            @endforeach
+            <tr>
+              <td>Total Pembayaran</td>
+              <td>
+                <input type="text" class="form-control" name="total_bayar" id="total" readonly>
+              </td>
+            </tr>
+            <tr>
+              <td colspan=2><button type="submit" class="btn btn-primary" value="Generate">Simpan</button</td>
+            </tr>
+          </table>
 
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -168,6 +218,9 @@
 @endsection
 <script>
   document.addEventListener("DOMContentLoaded", function(event) {
+      $("#generateModal").on("hidden.bs.modal", function () {
+          $(".pesan").html("");
+      });
       $(".datatable").dataTable()
       $('#nama_santri').select2({
           minimumInputLength: 3,
@@ -175,6 +228,30 @@
       $('.kelas_select2').select2({
           dropdownParent: $('.kelas_select2').parent()
       });
+      const url_get = "{{URL::to('pembayaran/get_generate')}}";
+      $(".editGenerate").click(function(){
+        const data2 = {
+          no_induk : $(this).data('id'),
+          bulan : $("#bulan_now").val(),
+          tahun : $("#tahun_now").val(),
+        }
+        console.log(data2)
+        $.ajax({
+          method:"POST",
+          url: url_get,
+          data : data2,
+          type:"json",
+          success : function(data){
+            if(data[0]){
+              alert("Ada isi")
+            }else{
+              alert("kosong")
+            }
+            console.log(data)
+            //$("#target_edit").html(data)
+          }
+        });
+      })
       $("#formPembayaran").submit(function(e){
         e.preventDefault();
         $('#btnSave').block({

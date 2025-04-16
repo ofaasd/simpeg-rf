@@ -70,7 +70,7 @@
         <div class="form-floating form-floating-outline mb-4">
           <select class="form-control" id="add-{{strtolower($page)}}-no_induk" name="no_induk" >
             @foreach($var['list_santri'] as $row)
-              <option value='{{$row->no_induk}}'>{{$row->nama}}</option>
+              <option value='{{$row->no_induk}}'>{{$row->nama}} - {{$row->kelas ?? ''}} - {{$row->nama_murroby ?? ''}}</option>
             @endforeach
           </select>
           <label for="add-{{strtolower($title)}}-no_induk">Santri</label>

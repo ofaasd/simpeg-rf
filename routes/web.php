@@ -58,6 +58,7 @@ use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\NewMenuController;
 use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\RawatInapController;
+use App\Http\Controllers\ShowKetahfidzanController;
 use App\Http\Controllers\TanahController;
 
 /*
@@ -210,6 +211,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('/pembayaran/get_pesan_warning', [PembayaranController::class, 'get_pesan_warning']);
   Route::post('/pembayaran/send_warning', [PembayaranController::class, 'send_warning']);
   Route::get('/pembayaran/generate', [PembayaranController::class, 'generate_pembayaran']);
+  Route::post('/pembayaran/get_generate', [PembayaranController::class, 'get_generate']);
   Route::post('/pembayaran/generate_tunggakan', [PembayaranController::class, 'set_pembayaran']);
 
   Route::get('/admin/pembayaran/bukatutup', [ControlPembayaranController::class, 'index']);
@@ -261,6 +263,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/aset/bangunan', BangunanController::class);
   Route::resource('/aset/elektronik', AsetElektronikController::class);
   // Route::resource('/aset/non-elektronik', AsetNonElektronikController::class);
+
+  Route::get('/show-ketahfidzan', [ShowKetahfidzanController::class, 'index']);
+  Route::post('/show-ketahfidzan', [ShowKetahfidzanController::class, 'index']);
+  Route::post('/show-ketahfidzan/cetak-ketahfidzan', [ShowKetahfidzanController::class, 'cetakKetahfidzan'])->name("cetak-ketahfidzan");
 
   Route::resource('/psb', psb::class);
   Route::resource('/psb_slide', PsbSlideController::class);
