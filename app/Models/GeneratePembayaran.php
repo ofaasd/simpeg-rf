@@ -37,6 +37,7 @@ class GeneratePembayaran extends Model
 		'no_induk',
 		'total_bayar',
 		'status',
+    'publish',
     'bulan',
     'tahun'
 	];
