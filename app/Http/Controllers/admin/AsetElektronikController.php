@@ -38,7 +38,7 @@ class AsetElektronikController extends Controller
             $elektronik = Elektronik::updateOrCreate(
               ['id' => $id],
               [
-                'id_ruang' => $request->ruang,
+                'kode_ruang' => $request->ruang,
                 'nama' => $request->nama, 
                 'kondisi_penerimaan' => $request->kondisiPenerimaan, 
                 'tanggal_perolehan' => $request->tglPerolehan, 
@@ -55,7 +55,7 @@ class AsetElektronikController extends Controller
           $elektronik = Elektronik::updateOrCreate(
             ['id' => $id],
             [
-                'id_ruang' => $request->ruang,
+                'kode_ruang' => $request->ruang,
                 'nama' => $request->nama, 
                 'kondisi_penerimaan' => $request->kondisiPenerimaan, 
                 'tanggal_perolehan' => $request->tglPerolehan, 
@@ -80,8 +80,8 @@ class AsetElektronikController extends Controller
      */
     public function show(string $id)
     {
-      $elektronik = Elektronik::select('aset_elektronik.*', 'aset_ruang.kode_ruang as ruang')
-      ->leftJoin('aset_ruang', 'aset_ruang.id', '=', 'aset_elektronik.id_ruang')
+      $elektronik = Elektronik::select('aset_elektronik.*', 'aset_ruang.kode as ruang')
+      ->leftJoin('aset_ruang', 'aset_ruang.kode', '=', 'aset_elektronik.kode_ruang')
       ->where('aset_elektronik.id', $id)
       ->first();
 

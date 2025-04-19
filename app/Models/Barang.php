@@ -12,5 +12,12 @@ class Barang extends Model
     protected $dateFormat = 'U';
     protected $table = 'aset_barang';
 
-    protected $fillable = ['id_jenis_barang', 'id_ruang', 'nama', 'kondisi_penerimaan', 'tanggal_perolehan', 'status', 'catatan'];
+    protected $fillable = [
+        'kode_jenis_barang', 
+        'kode_ruang', 'nama', 
+        'kondisi_penerimaan', 
+        'tanggal_perolehan', 
+        'status', 
+        'catatan'
+    ];
 }
