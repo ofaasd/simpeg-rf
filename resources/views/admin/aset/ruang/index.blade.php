@@ -44,6 +44,7 @@
                 <td>Gedung</td>
                 <td>Jenis Ruang</td>
                 <td>Lantai</td>
+                <td>Kode Ruang</td>
                 <td>Ruang</td>
                 <td>Kapasitas</td>
                 <td>Status</td>
@@ -55,9 +56,10 @@
               @foreach($ruang as $row)
                 <tr>
                   <td>{{$loop->iteration}}</td>
-                  <td>{{ $row->gedung }}</td>
-                  <td>{{ $row->jenisRuang }}</td>
+                  <td>{{ $row->kodeGedung }} - {{ $row->gedung }}</td>
+                  <td>{{ $row->kodeJenisRuang }} - {{ $row->jenisRuang }}</td>
                   <td>{{ $row->lantai }}</td>
+                  <td>{{ $row->kode }}</td>
                   <td>{{ $row->nama }}</td>
                   <td>{{ $row->kapasitas }}</td>
                   <td>{{ ucwords($row->status) }}</td>
@@ -93,23 +95,23 @@
 
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <select name="gedung" class="form-control" id="id_gedung">
+              <select name="gedung" class="form-control" id="kode_gedung">
                 @foreach($refGedung as $row)
-                  <option value="{{$row->kode}}">{{$row->nama}}</option>
+                  <option value="{{$row->kode}}">{{ $row->kode }} - {{$row->nama}}</option>
                 @endforeach
               </select>
-              <label for="id_gedung">Gedung</label>
+              <label for="kode_gedung">Gedung</label>
             </div>
           </div>
 
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <select name="jenisRuang" class="form-control" id="id_jenis_ruang">
+              <select name="jenisRuang" class="form-control" id="kode_jenis_ruang">
                 @foreach($refJenisRuang as $row)
-                  <option value="{{$row->kode}}">{{$row->nama}}</option>
+                  <option value="{{$row->kode}}">{{ $row->kode }} - {{$row->nama}}</option>
                 @endforeach
               </select>
-              <label for="id_jenis_ruang">Jenis Ruang</label>
+              <label for="kode_jenis_ruang">Jenis Ruang</label>
             </div>
           </div>
 
@@ -126,8 +128,8 @@
 
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <input type="text" id='kode_ruang' name="kodeRuang" class="form-control">
-              <label for="kode_ruang">Kode Ruang</label>
+              <input type="text" id='kode' name="kodeRuang" class="form-control">
+              <label for="kode">Kode Ruang</label>
             </div>
           </div>
           
@@ -199,7 +201,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
       e.preventDefault();
 
       var formData = new FormData(this);
-      
+  
+      console.log('====================================');
+      console.log(formData);
+      console.log('====================================');
       $('#btn-submit').prop('disabled', true);
 
       insert_update(formData).done(function() {
@@ -212,19 +217,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
   $('#btnTambahRuang').on('click', function(){
     $('#id').val('');
     $('#nama').val('');
-    $('#kode_ruang').val('');
+    $('#kode').val('');
     $('#kapasitas').val('');
     $('#status').val('');
     $('#catatan').val('');
+    $('#last_checking').val('');
   })
 
   $(document).on('click', '.edit-ruang', function () {
     const id = $(this).data('id');
     $('#nama').val('');
-    $('#kode_ruang').val('');
+    $('#kode').val('');
     $('#kapasitas').val('');
     $('#status').val('');
     $('#catatan').val('');
+    $('#last_checking').val('');
     $('.loader-container').show();
     // get data
     $.get(''.concat(baseUrl).concat('aset/ruang/').concat(id, '/edit'), function (data) {

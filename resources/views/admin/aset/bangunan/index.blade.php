@@ -161,12 +161,12 @@
 
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-                <select name="gedung" class="form-control" id="id_gedung">
+                <select name="gedung" class="form-control" id="kode_gedung">
                     @foreach($gedung as $row)
-                      <option value="{{$row->id}}">{{$row->nama}}</option>
+                      <option value="{{$row->kode}}">{{$row->kode}} - {{$row->nama}}</option>
                     @endforeach
                   </select>
-              <label for="id_gedung">Gedung</label>
+              <label for="kode_gedung">Gedung</label>
             </div>
           </div>
 
@@ -183,12 +183,12 @@
 
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-                <select name="tanah" class="form-control" id="id_tanah">
+                <select name="tanah" class="form-control" id="kode_tanah">
                     @foreach($tanah as $row)
-                      <option value="{{$row->id}}">{{$row->nama}}</option>
+                      <option value="{{$row->kode}}">{{$row->kode}} - {{$row->nama}}</option>
                     @endforeach
                   </select>
-              <label for="id_tanah">Tanah</label>
+              <label for="kode_tanah">Tanah</label>
             </div>
           </div>
 

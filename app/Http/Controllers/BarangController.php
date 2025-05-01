@@ -16,16 +16,16 @@ class BarangController extends Controller
     public function index()
     {
         $title = 'Aset Barang';
-        $barang = Barang::select('aset_barang.*', 'ref_jenis_barang.nama as jenisBarang', 'aset_ruang.kode as ruang')
-        ->leftJoin('ref_jenis_barang', 'ref_jenis_barang.kode', '=', 'aset_barang.id_jenis_barang')
-        ->leftJoin('aset_ruang', 'aset_ruang.kode', '=', 'aset_barang.id_ruang')
+        $barang = Barang::select('aset_barang.*', 'ref_jenis_barang.nama as jenisBarang','ref_jenis_barang.kode as kodeJenisBarang', 'aset_ruang.nama as ruang', 'aset_ruang.kode as kodeRuang')
+        ->leftJoin('ref_jenis_barang', 'ref_jenis_barang.kode', '=', 'aset_barang.kode_jenis_barang')
+        ->leftJoin('aset_ruang', 'aset_ruang.kode', '=', 'aset_barang.kode_ruang')
         ->get();
 
         $refJenisBarang = RefJenisBarang::all();
         $ruang = Ruang::all();
 
-        $asetElektronik = Elektronik::select('aset_elektronik.*', 'aset_ruang.kode as ruang')
-        ->leftJoin('aset_ruang', 'aset_ruang.kode', '=', 'aset_elektronik.id_ruang')
+        $asetElektronik = Elektronik::select('aset_elektronik.*', 'aset_ruang.nama as ruang', 'aset_ruang.kode as kodeRuang')
+        ->leftJoin('aset_ruang', 'aset_ruang.kode', '=', 'aset_elektronik.kode_ruang')
         ->get();
     
         return view('admin.aset.barang.index', compact('barang', 'refJenisBarang', 'asetElektronik', 'ruang', 'title'));
@@ -41,8 +41,8 @@ class BarangController extends Controller
             $barang = Barang::updateOrCreate(
               ['id' => $id],
               [
-                'id_ruang' => $request->ruang,
-                'id_jenis_barang' => $request->jenisBarang,
+                'kode_ruang' => $request->ruang,
+                'kode_jenis_barang' => $request->jenisBarang,
                 'nama' => $request->nama,
                 'kondisi_penerimaan' => $request->kondisiPenerimaan,
                 'tanggal_perolehan' => $request->tglPerolehan,
@@ -55,8 +55,8 @@ class BarangController extends Controller
           $barang = Barang::updateOrCreate(
             ['id' => $id],
             [
-                'id_ruang' => $request->ruang,
-                'id_jenis_barang' => $request->jenisBarang,
+                'kode_ruang' => $request->ruang,
+                'kode_jenis_barang' => $request->jenisBarang,
                 'nama' => $request->nama,
                 'kondisi_penerimaan' => $request->kondisiPenerimaan,
                 'tanggal_perolehan' => $request->tglPerolehan,

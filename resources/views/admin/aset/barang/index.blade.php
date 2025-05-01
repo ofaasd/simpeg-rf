@@ -69,8 +69,8 @@
                   @foreach($barang as $row)
                     <tr>
                       <td>{{$loop->iteration}}</td>
-                      <td>{{ $row->ruang }}</td>
-                      <td>{{ $row->jenisBarang }}</td>
+                      <td>{{ $row->kodeRuang }} - {{ $row->ruang }}</td>
+                      <td>{{ $row->kodeJenisBarang }} - {{ $row->jenisBarang }}</td>
                       <td>{{ $row->nama }}</td>
                       <td>{{ ucwords(str_replace('-', ' ', $row->kondisi_penerimaan)) }}</td>
                       <td>{{ \Carbon\Carbon::parse($row->tanggal_perolehan)->locale('id')->translatedFormat('d F Y') }}</td>
@@ -117,7 +117,7 @@
                   @foreach($asetElektronik as $row)
                     <tr>
                       <td>{{$loop->iteration}}</td>
-                      <td>{{ $row->ruang }}</td>
+                      <td>{{ $row->kodeRuang }} - {{ $row->ruang }}</td>
                       <td>{{ $row->nama }}</td>
                       <td>{{ ucwords($row->status) }}</td>
                       <td>
@@ -151,31 +151,31 @@
         <div class="modal-body py-3 py-md-0">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           <div class="text-center mb-4">
-            <h3 class="mb-2">Barang</h3>
-            <p class="pt-1">Tambah barang baru</p>
+            <h3 class="mb-2">Non Elektronik</h3>
+            <p class="pt-1">Tambah non elektronik</p>
           </div>
           <div class="row g-4">
             <input type="hidden" name="id" id="id_barang">
 
             <div class="col-12 col-md-6">
               <div class="form-floating form-floating-outline">
-                <select name="ruang" class="form-control" id="id_ruang">
+                <select name="ruang" class="form-control" id="kode_ruang">
                   @foreach($ruang as $row)
-                    <option value="{{$row->kode}}">{{$row->nama}}</option>
+                    <option value="{{$row->kode}}">{{$row->kode}} - {{$row->nama}}</option>
                   @endforeach
                 </select>
-                <label for="id_ruang">Lokasi Barang</label> <!-- Mengubah for agar sesuai dengan id input -->
+                <label for="kode_ruang">Lokasi Barang</label> <!-- Mengubah for agar sesuai dengan id input -->
               </div>
             </div>
 
             <div class="col-12 col-md-6">
               <div class="form-floating form-floating-outline">
-                <select name="jenisBarang" class="form-control" id="id_jenis_barang">
+                <select name="jenisBarang" class="form-control" id="kode_jenis_barang">
                   @foreach($refJenisBarang as $row)
-                    <option value="{{$row->kode}}">{{$row->nama}}</option>
+                    <option value="{{$row->kode}}">{{$row->kode}} - {{$row->nama}}</option>
                   @endforeach
                 </select>
-                <label for="id_jenis_barang">Jenis Barang</label>
+                <label for="kode_jenis_barang">Jenis Barang</label>
               </div>
             </div>
 
@@ -252,12 +252,12 @@
 
             <div class="col-12 col-md-6">
               <div class="form-floating form-floating-outline">
-                <select name="ruang" class="form-control" id="id_ruang_elektronik">
+                <select name="ruang" class="form-control" id="kode_ruang_elektronik">
                   @foreach($ruang as $row)
-                    <option value="{{$row->id}}">{{$row->nama}}</option>
+                    <option value="{{$row->kode}}">{{$row->kode}} - {{$row->nama}}</option>
                   @endforeach
                 </select>
-                <label for="id_ruang_elektronik">Lokasi Barang</label>
+                <label for="kode_ruang_elektronik">Lokasi Barang</label>
               </div>
             </div>
 
@@ -362,7 +362,7 @@
 
         <div class="col-12 col-md-6">
           <div class="form-floating form-floating-outline">
-              <p>Ruang : <span id='view-elektronik-ruang'></span></p>
+              <p>Kode Ruang : <span id='view-elektronik-ruang'></span></p>
           </div>
         </div>
 
@@ -449,7 +449,6 @@ function toElektronik()
       .attr('style', 'border-color: var(--bs-nav-tabs-link-active-border-color);');
   let tab = new bootstrap.Tab(document.querySelector('#elektronik-tab'));
   tab.show();
-  console.log('tab hidup')
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -556,9 +555,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
               $('#modal_view_elektronik').modal('show');
               $('.loader-container').hide();
           })
-          .fail(function (jqXHR, textStatus, errorThrown) {
+          .fail(function (xhr, textStatus, errorThrown) {
               $('.loader-container').hide();
-              console.error('Error fetching data:', textStatus, errorThrown);
+              // console.error(xhr);
           });
   });
 
@@ -635,7 +634,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                       location.href = "barang";
                   },
                   error: function (_error) {
-                      console.log(_error);
+                      // console.log(_error);
                       $('.loader-container').hide();
                       // Error SweetAlert in case of failure
                       Swal.fire({
@@ -697,7 +696,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                       location.href = "?tab=elektronik";
                   },
                   error: function (_error) {
-                      console.log(_error);
+                      // console.log(_error);
                       $('.loader-container').hide();
                       // Error SweetAlert in case of failure
                       Swal.fire({
@@ -755,7 +754,7 @@ function insert_update(formData){
         //showUnblock();
         $('#modal_barang').modal('hide');
         $('.loader-container').hide();
-        console.log(err.responseText);
+        // console.log(err.responseText);
         Swal.fire({
           title: 'Cant Save Data !',
           text:  'Data Not Saved !',
@@ -799,7 +798,7 @@ function insert_update_elektronik(formData)
         //showUnblock();
         $('#modal_elektronik').modal('hide');
         $('.loader-container').hide();
-        console.log(err.responseText);
+        // console.log(err.responseText);
         Swal.fire({
           title: 'Cant Save Data !',
           text:  'Data Not Saved !',

@@ -18,8 +18,8 @@ class BangunanController extends Controller
     {
         $title = 'Aset Bangunan';
         $bangunan = Bangunan::select('aset_bangunan.*', 'ref_gedung.nama as gedung', 'aset_tanah.nama as tanah', 'ref_lantai.nama as lantai')
-        ->leftJoin('aset_tanah', 'aset_tanah.id', '=', 'aset_bangunan.id_tanah')
-        ->leftJoin('ref_gedung', 'ref_gedung.id', '=', 'aset_bangunan.id_gedung')
+        ->leftJoin('aset_tanah', 'aset_tanah.kode', '=', 'aset_bangunan.kode_tanah')
+        ->leftJoin('ref_gedung', 'ref_gedung.kode', '=', 'aset_bangunan.kode_gedung')
         ->leftJoin('ref_lantai', 'ref_lantai.id', '=', 'aset_bangunan.id_lantai')
         ->get();
 
@@ -41,9 +41,9 @@ class BangunanController extends Controller
               ['id' => $id],
               [
                 'nama' => $request->nama,
-                'id_gedung' => $request->gedung,
+                'kode_gedung' => $request->gedung,
                 'id_lantai' => $request->lantai,
-                'id_tanah' => $request->tanah,
+                'kode_tanah' => $request->tanah,
                 'luas' => $request->luas,
                 'status' => $request->status,
                 'kondisi' => $request->kondisi,
@@ -57,9 +57,9 @@ class BangunanController extends Controller
             ['id' => $id],
             [
                 'nama' => $request->nama,
-                'id_gedung' => $request->gedung,
+                'kode_gedung' => $request->gedung,
                 'id_lantai' => $request->lantai,
-                'id_tanah' => $request->tanah,
+                'kode_tanah' => $request->tanah,
                 'luas' => $request->luas,
                 'status' => $request->status,
                 'kondisi' => $request->kondisi,
@@ -78,9 +78,9 @@ class BangunanController extends Controller
     public function show(string $id)
     {
         $bangunan = Bangunan::select('aset_bangunan.*', 'ref_gedung.nama as gedung', 'ref_lantai.nama as lantai', 'aset_tanah.nama as tanah')
-        ->leftJoin('ref_gedung', 'ref_gedung.id', '=', 'aset_bangunan.id_gedung')
+        ->leftJoin('ref_gedung', 'ref_gedung.id', '=', 'aset_bangunan.kode_gedung')
         ->leftJoin('ref_lantai', 'ref_lantai.id', '=', 'aset_bangunan.id_lantai')
-        ->leftJoin('aset_tanah', 'aset_tanah.id', '=', 'aset_bangunan.id_tanah')
+        ->leftJoin('aset_tanah', 'aset_tanah.id', '=', 'aset_bangunan.kode_tanah')
         ->where('aset_bangunan.id', $id)
         ->first();
 
