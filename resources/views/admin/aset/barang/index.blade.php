@@ -270,6 +270,17 @@
 
             <div class="col-12 col-md-6">
               <div class="form-floating form-floating-outline">
+                <select name="jenisBarang" class="form-control" id="kode_jenis_barang_elektronik">
+                  @foreach($refJenisBarang as $row)
+                    <option value="{{$row->kode}}">{{$row->kode}} - {{$row->nama}}</option>
+                  @endforeach
+                </select>
+                <label for="kode_jenis_barang_elektronik">Jenis Barang</label>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="form-floating form-floating-outline">
                 <select name="kondisiPenerimaan" class="form-control" id="kondisi_penerimaan_elektronik">
                   <option value="sangat-bagus">Sangat Bagus</option>
                   <option value="bagus">Bagus</option>
@@ -363,6 +374,12 @@
         <div class="col-12 col-md-6">
           <div class="form-floating form-floating-outline">
               <p>Kode Ruang : <span id='view-elektronik-ruang'></span></p>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div class="form-floating form-floating-outline">
+              <p>Jenis Barang : <span id='view-elektronik-jenis_barang'></span></p>
           </div>
         </div>
 

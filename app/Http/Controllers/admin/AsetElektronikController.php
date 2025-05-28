@@ -40,6 +40,7 @@ class AsetElektronikController extends Controller
               [
                 'kode_ruang' => $request->ruang,
                 'nama' => $request->nama, 
+                'kode_jenis_barang' => $request->jenisBarang, 
                 'kondisi_penerimaan' => $request->kondisiPenerimaan, 
                 'tanggal_perolehan' => $request->tglPerolehan, 
                 'garansi' => $request->garansi, 
@@ -56,7 +57,8 @@ class AsetElektronikController extends Controller
             ['id' => $id],
             [
                 'kode_ruang' => $request->ruang,
-                'nama' => $request->nama, 
+                'nama' => $request->nama,
+                'kode_jenis_barang' => $request->jenisBarang, 
                 'kondisi_penerimaan' => $request->kondisiPenerimaan, 
                 'tanggal_perolehan' => $request->tglPerolehan, 
                 'garansi' => $request->garansi, 
@@ -80,8 +82,13 @@ class AsetElektronikController extends Controller
      */
     public function show(string $id)
     {
-      $elektronik = Elektronik::select('aset_elektronik.*', 'aset_ruang.kode as ruang')
-      ->leftJoin('aset_ruang', 'aset_ruang.kode', '=', 'aset_elektronik.kode_ruang')
+      $elektronik = Elektronik::select(
+        'aset_elektronik.*', 
+        'aset_ruang.nama AS namaRuang',
+        'ref_jenis_barang.nama AS jenis_barang'
+      )
+      ->leftJoin('aset_ruang', 'aset_ruang.kode', 'aset_elektronik.kode_ruang')
+      ->leftJoin('ref_jenis_barang', 'ref_jenis_barang.kode', 'aset_barang.kode_jenis_barang')
       ->where('aset_elektronik.id', $id)
       ->first();
 

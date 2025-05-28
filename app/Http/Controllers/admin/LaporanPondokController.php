@@ -80,22 +80,27 @@ class LaporanPondokController extends Controller
             'ref_lantai.nama AS nomorLantai',
             'aset_tanah.nama AS tanah'
           )
-            ->leftJoin('ref_gedung', 'ref_gedung.id', 'aset_bangunan.id_gedung')
+            ->leftJoin('ref_gedung', 'ref_gedung.kode', 'aset_bangunan.kode_gedung')
             ->leftJoin('ref_lantai', 'ref_lantai.id', 'aset_bangunan.id_lantai')
-            ->leftJoin('aset_tanah', 'aset_tanah.id', 'aset_bangunan.id_tanah')
+            ->leftJoin('aset_tanah', 'aset_tanah.kode', 'aset_bangunan.kode_tanah')
             ->get();
 
           $barang = Barang::select(
             'aset_barang.*',
-            'ref_ruang.nama AS namaRuang',
+            'aset_ruang.nama AS namaRuang',
             'ref_jenis_barang.nama AS jenisBarang'
           )
-            ->leftJoin('ref_ruang', 'ref_ruang.id', 'aset_barang.id_ruang')
-            ->leftJoin('ref_jenis_barang', 'ref_jenis_barang.id', 'aset_barang.id_jenis_barang')
+            ->leftJoin('aset_ruang', 'aset_ruang.kode', 'aset_barang.kode_ruang')
+            ->leftJoin('ref_jenis_barang', 'ref_jenis_barang.kode', 'aset_barang.kode_jenis_barang')
             ->get();
 
-          $elektronik = Elektronik::select('aset_elektronik.*', 'ref_ruang.nama AS namaRuang')
-            ->leftJoin('ref_ruang', 'ref_ruang.id', 'aset_elektronik.id_ruang')
+          $elektronik = Elektronik::select(
+              'aset_elektronik.*', 
+              'aset_ruang.nama AS namaRuang',
+              'ref_jenis_barang.nama AS jenisBarang'
+              )
+            ->leftJoin('aset_ruang', 'aset_ruang.kode', 'aset_elektronik.kode_ruang')
+            ->leftJoin('ref_jenis_barang', 'ref_jenis_barang.kode', 'aset_elektronik.kode_jenis_barang')
             ->get();
 
           $ruang = Ruang::select(
@@ -104,9 +109,9 @@ class LaporanPondokController extends Controller
             'ref_lantai.nama AS nomorLantai',
             'ref_jenis_ruang.nama AS jenisRuang'
           )
-            ->leftJoin('ref_gedung', 'ref_gedung.id', 'aset_ruang.id_gedung')
+            ->leftJoin('ref_gedung', 'ref_gedung.kode', 'aset_ruang.kode_gedung')
             ->leftJoin('ref_lantai', 'ref_lantai.id', 'aset_ruang.id_lantai')
-            ->leftJoin('ref_jenis_ruang', 'ref_jenis_ruang.id', 'aset_ruang.id_jenis_ruang')
+            ->leftJoin('ref_jenis_ruang', 'ref_jenis_ruang.kode', 'aset_ruang.kode_jenis_ruang')
             ->get();
 
           $tanah = Tanah::all();
@@ -294,22 +299,27 @@ class LaporanPondokController extends Controller
             'ref_lantai.nama AS nomorLantai',
             'aset_tanah.nama AS tanah'
           )
-            ->leftJoin('ref_gedung', 'ref_gedung.id', 'aset_bangunan.id_gedung')
+            ->leftJoin('ref_gedung', 'ref_gedung.kode', 'aset_bangunan.kode_gedung')
             ->leftJoin('ref_lantai', 'ref_lantai.id', 'aset_bangunan.id_lantai')
-            ->leftJoin('aset_tanah', 'aset_tanah.id', 'aset_bangunan.id_tanah')
+            ->leftJoin('aset_tanah', 'aset_tanah.kode', 'aset_bangunan.kode_tanah')
             ->get();
 
-          $barang = Barang::select(
+            $barang = Barang::select(
             'aset_barang.*',
-            'ref_ruang.nama AS namaRuang',
+            'aset_ruang.nama AS namaRuang',
             'ref_jenis_barang.nama AS jenisBarang'
           )
-            ->leftJoin('ref_ruang', 'ref_ruang.id', 'aset_barang.id_ruang')
-            ->leftJoin('ref_jenis_barang', 'ref_jenis_barang.id', 'aset_barang.id_jenis_barang')
+            ->leftJoin('aset_ruang', 'aset_ruang.kode', 'aset_barang.kode_ruang')
+            ->leftJoin('ref_jenis_barang', 'ref_jenis_barang.kode', 'aset_barang.kode_jenis_barang')
             ->get();
 
-          $elektronik = Elektronik::select('aset_elektronik.*', 'ref_ruang.nama AS namaRuang')
-            ->leftJoin('ref_ruang', 'ref_ruang.id', 'aset_elektronik.id_ruang')
+            $elektronik = Elektronik::select(
+              'aset_elektronik.*', 
+              'aset_ruang.nama AS namaRuang',
+              'ref_jenis_barang.nama AS jenisBarang'
+              )
+            ->leftJoin('aset_ruang', 'aset_ruang.kode', 'aset_elektronik.kode_ruang')
+            ->leftJoin('ref_jenis_barang', 'ref_jenis_barang.kode', 'aset_elektronik.kode_jenis_barang')
             ->get();
 
           $ruang = Ruang::select(
@@ -318,10 +328,10 @@ class LaporanPondokController extends Controller
             'ref_lantai.nama AS nomorLantai',
             'ref_jenis_ruang.nama AS jenisRuang'
           )
-            ->leftJoin('ref_gedung', 'ref_gedung.id', 'aset_ruang.id_gedung')
-            ->leftJoin('ref_lantai', 'ref_lantai.id', 'aset_ruang.id_lantai')
-            ->leftJoin('ref_jenis_ruang', 'ref_jenis_ruang.id', 'aset_ruang.id_jenis_ruang')
-            ->get();
+          ->leftJoin('ref_gedung', 'ref_gedung.kode', 'aset_ruang.kode_gedung')
+          ->leftJoin('ref_lantai', 'ref_lantai.id', 'aset_ruang.id_lantai')
+          ->leftJoin('ref_jenis_ruang', 'ref_jenis_ruang.kode', 'aset_ruang.kode_jenis_ruang')
+          ->get();
 
           $tanah = Tanah::all();
 
