@@ -259,6 +259,11 @@
           "url": "/laporan/laporan-pondok",
           "name": "Laporan Pondok",
           "slug": "laporan-pondok"
+        },
+        {
+          "url": "/admin/laporan/uang_saku",
+          "name": "Uang Saku Santri",
+          "slug": "laporan-uang-saku"
         }
       ]
     },
