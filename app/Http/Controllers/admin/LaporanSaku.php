@@ -13,8 +13,8 @@ class LaporanSaku extends Controller
     //
     public function index(){
         $santri = Santri::all();
-        $tgl_mulai = strtotime('2023-09-22');
-        $tgl_selesai = strtotime(date('Y-m-d'));
+        $tgl_mulai = '2023-09-22';
+        $tgl_selesai = date('Y-m-d');
         $list_santri = [];
         $list_saku = [];
         $i = 1;

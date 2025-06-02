@@ -11,7 +11,7 @@
   </div>
   <div class="card-datatable table-responsive" style="overflow-x:scroll">
     <div class="col-md-12">
-        <h2 style='text-align:center'>Data Uang Masuk Keluar</h2>
+        <h2 style='text-align:center'>Table Uang Masuk Keluar Santri</h2>
         <table class="table" id="table-laporan">
             <thead>
                 <tr>
