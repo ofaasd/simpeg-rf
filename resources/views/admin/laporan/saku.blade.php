@@ -47,19 +47,6 @@
   document.addEventListener("DOMContentLoaded", function(event) {
     const title = 'Syahriyah';
     $("#table-laporan").DataTable({
-      columnDefs: [
-        {
-          // For Responsive
-          className: 'control',
-          searchable: false,
-          orderable: false,
-          responsivePriority: 2,
-          targets: 0,
-          render: function render(data, type, full, meta) {
-            return '';
-          }
-        },
-      ],
       dom:
         '<"row mx-2"' +
         '<"col-md-2"<"me-3"l>>' +
