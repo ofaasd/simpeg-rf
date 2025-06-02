@@ -9,10 +9,10 @@
   <div class="card-header">
     <h5 class="card-title mb-0">Search Filter</h5>
   </div>
-  <div class="card" style="overflow-x:scroll">
+  <div class="card-datatable table-responsive" style="overflow-x:scroll">
     <div class="col-md-12">
         <h2 style='text-align:center'>Data Uang Masuk Keluar</h2>
-        <table class="" id="table-laporan">
+        <table class="table" id="table-laporan">
             <thead>
                 <tr>
                     <th>No.</th>
@@ -47,6 +47,19 @@
   document.addEventListener("DOMContentLoaded", function(event) {
     const title = 'Syahriyah';
     $("#table-laporan").DataTable({
+      columnDefs: [
+        {
+          // For Responsive
+          className: 'control',
+          searchable: false,
+          orderable: false,
+          responsivePriority: 2,
+          targets: 0,
+          render: function render(data, type, full, meta) {
+            return '';
+          }
+        },
+      ],
       dom:
         '<"row mx-2"' +
         '<"col-md-2"<"me-3"l>>' +
@@ -56,6 +69,7 @@
         '<"col-sm-12 col-md-6"i>' +
         '<"col-sm-12 col-md-6"p>' +
         '>',
+      
       buttons: [
       {
         extend: 'collection',
