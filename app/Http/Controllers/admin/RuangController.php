@@ -14,10 +14,10 @@ class RuangController extends Controller
     public function index()
     {
         $title = 'Ruang';
-        $ruang = Ruang::select('aset_ruang.*', 'ref_gedung.nama as gedung', 'ref_lantai.nama as lantai', 'ref_jenis_ruang.nama as jenisRuang')
-        ->leftJoin('ref_gedung', 'ref_gedung.kode', '=', 'aset_ruang.id_gedung')
+        $ruang = Ruang::select('aset_ruang.*', 'ref_gedung.nama as gedung', 'ref_gedung.kode as kodeGedung', 'ref_lantai.nama as lantai', 'ref_jenis_ruang.nama as jenisRuang', 'ref_jenis_ruang.kode as kodeJenisRuang')
+        ->leftJoin('ref_gedung', 'ref_gedung.kode', '=', 'aset_ruang.kode_gedung')
         ->leftJoin('ref_lantai', 'ref_lantai.id', '=', 'aset_ruang.id_lantai')
-        ->leftJoin('ref_jenis_ruang', 'ref_jenis_ruang.kode', '=', 'aset_ruang.id_jenis_ruang')
+        ->leftJoin('ref_jenis_ruang', 'ref_jenis_ruang.kode', '=', 'aset_ruang.kode_jenis_ruang')
         ->get();
 
         $refGedung = RefGedung::all();
@@ -37,9 +37,9 @@ class RuangController extends Controller
             $ruang = Ruang::updateOrCreate(
               ['id' => $id],
               [
-                'id_gedung' => $request->gedung,
+                'kode_gedung' => $request->gedung,
                 'id_lantai' => $request->lantai,
-                'id_jenis_ruang' => $request->jenisRuang,
+                'kode_jenis_ruang' => $request->jenisRuang,
                 'kode' => $request->kodeRuang,
                 'nama' => $request->nama,
                 'kapasitas' => $request->kapasitas,
@@ -53,9 +53,9 @@ class RuangController extends Controller
           $ruang = Ruang::updateOrCreate(
             ['id' => $id],
             [
-              'id_gedung' => $request->gedung,
+              'kode_gedung' => $request->gedung,
               'id_lantai' => $request->lantai,
-              'id_jenis_ruang' => $request->jenisRuang,
+              'kode_jenis_ruang' => $request->jenisRuang,
               'kode' => $request->kodeRuang,
               'nama' => $request->nama,
               'kapasitas' => $request->kapasitas,

@@ -19,12 +19,12 @@
         <h5 class="card-title mb-0"> Generate Pembayaran Bulan {{$list_bulan[(int)date('m')]}}</h5>
       </div>
       <div class="col-md-6">
-        <div class="row g-3 align-items-end">
+        <div class="row g-3 justify-content-end">
           <div class="col-auto">
             <select id="bulan_now" class="form-control">
               <option value="0">Ubah Bulan</option>
               @foreach($list_bulan as $key=>$value)
-              <option value="{{$key}}" {{$value == date('m') ? "selected" : ""}}>{{$value}}</option>
+              <option value="{{$key}}" {{$key == date('m') ? "selected" : ""}}>{{$value}}</option>
               @endforeach
             </select>
           </div>
@@ -49,6 +49,8 @@
         @endif
         <br />
         <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#generateModal">+ Generate Pembayaran</a>
+        <a href="#" class="btn btn-success" id="publish_pembayaran">Publish Pembayaran</a>
+
         <table class="datatable table table-hover">
           <thead>
             <tr>
@@ -57,7 +59,8 @@
               <th>No. Induk</th>
               <th>Kelas</th>
               <th>Total Pembayaran</th>
-              <th>Status Bayar</th>
+              <th>Publish</th>
+              <th>Status Pembayaran</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -69,8 +72,9 @@
                 <td>{{$row->nama}}</td>
                 <td>{{$row->no_induk}}</td>
                 <td>{{strtoupper($row->kelas)}}</td>
-                <td>{{(!empty($total[$row->no_induk])) ? number_format($total[$row->no_induk],0,",",".") : 0}}</td>
-                <td>{!!($row->status == 0)?"<span class='btn btn-danger'>Belum</span>":"<span class='btn btn-success'>Sudah</span>"!!}</td>
+                <td>{{(!empty($generate[$row->no_induk]->total_bayar)) ? number_format($generate[$row->no_induk]->total_bayar,0,",",".") : 0}}</td>
+                <td>{!!(!empty($generate[$row->no_induk]->publish) && $generate[$row->no_induk]->publish == 1)?"<span class='btn btn-success btn-sm'>Sudah</span>":"<span class='btn btn-danger btn-sm'>Belum</span>"!!}</td>
+                <td>{!!(!empty($generate[$row->no_induk]->publish) && $generate[$row->no_induk]->status == 1)?"<span class='btn btn-success btn-sm'>Sudah</span>":"<span class='btn btn-danger btn-sm'>Belum</span>"!!}</td>
                 <td><a href="#" class="btn btn-primary editGenerate" data-id="{{$row->no_induk}}" data-bs-toggle="modal" data-bs-target="#editGenerateModal"><i class="fa fa-pencil"></i></a></td>
               </tr>
               @php $no++; @endphp
@@ -98,10 +102,9 @@
             <tr>
               <td>Kelas</td>
               <td>
-                <select name="kelas" id="" class="form-control">
-                  <option value="0">Semua</option>
+                <select name="kelas[]" class="form-control kelas_select2" multiple>
                   @foreach($kelas as $row)
-                  <option value="{{$row->code}}">{{$row->name}}</option>
+                  <option value="{{$row->code}}" {{(in_array($row->code, $kelas_already))?"class='bg-danger'":"class='bg-primary'"}}>{{$row->name}}</option>
                   @endforeach
                 </select>
               </td>
@@ -123,11 +126,11 @@
               </td>
             </tr> --}}
             @php $total = 0; @endphp
-            @foreach($jenis_pembayaran as $jenis_pembayaran)
-            @php $total += $jenis_pembayaran->harga @endphp
+            @foreach($jenis_pembayaran as $jen)
+            @php $total += $jen->harga @endphp
               <tr>
-                  <td>{{$jenis_pembayaran->jenis}}<input type="hidden" name="id_jenis_pembayaran[]" value='{{ $jenis_pembayaran->id }}'></td>
-                  <td><input type="text" onkeyup="splitInDots2(this)" id="jenis_{{$jenis_pembayaran->id}}" placeholder="0" name="jenis_pembayaran[]" class="form-control" value="{{(!empty($jenis_pembayaran->harga)) ? number_format($jenis_pembayaran->harga,0,",",".") : '0'}}"></td>
+                  <td>{{$jen->jenis}}<input type="hidden" name="id_jenis_pembayaran[]" value='{{ $jen->id }}'></td>
+                  <td><input type="text" onkeyup="splitInDots2(this)" id="jenis_{{$jen->id}}" placeholder="0" name="jenis_pembayaran[]" class="form-control" value="{{(!empty($jen->harga)) ? number_format($jen->harga,0,",",".") : '0'}}"></td>
               </tr>
             @endforeach
             <tr>
@@ -160,18 +163,19 @@
         </button>
       </div>
       <div class="modal-body" id="target_edit">
-        <form method="POST" action="{{url('pembayaran/generate_tunggakan_single')}}">
+        <div class="pemberitahuan"></div>
+        <form method="POST" action="{{url('pembayaran/generate_pembayaran_single')}}">
           <table class="table">
             <tr>
               <td>No. Induk</td>
               <td>
-                <input type="text" name="no_induk" id="no_induk" class="form-control" value="">
+                <input type="text" name="no_induk" id="no_induk_edit" class="form-control" value="" readonly>
               </td>
             </tr>
             <tr>
               <td>Bulan</td>
               <td>
-                <select name="bulan_input2" class="form-control">
+                <select name="bulan_input2" class="form-control" id="bulan_edit" readonly>
                   @foreach($list_bulan as $key=>$value)
                   <option value="{{$key}}" {{($key == ($pembayaran->bulan ?? date('m'))) ? "selected":""}}>{{$value}}</option>
                   @endforeach
@@ -181,7 +185,7 @@
             <tr>
               <td>Tahun</td>
               <td>
-                  <input type="text" name="tahun" id="tahun_new" class="form-control" value="{{$pembayaran->tahun ?? date('Y')}}">
+                  <input type="text" name="tahun" id="tahun_edit" class="form-control" value="{{$pembayaran->tahun ?? date('Y')}}" readonly>
               </td>
             </tr>
             {{-- <tr>
@@ -191,24 +195,24 @@
               </td>
             </tr> --}}
             @php $total = 0; @endphp
-            @foreach($jenis_pembayaran as $jenis_pembayaran)
+            @foreach($jenis_pembayaran as $jen)
               <tr>
-                  <td>{{$jenis_pembayaran->jenis}}<input type="hidden" name="id_jenis_pembayaran[]" value='{{ $jenis_pembayaran->id }}'></td>
-                  <td><input type="text" onkeyup="splitInDots2(this)" id="jenis_{{$jenis_pembayaran->id}}" placeholder="0" name="jenis_pembayaran[]" class="form-control" ></td>
+                  <td>{{$jen->jenis}}<input type="hidden" name="id_jenis_pembayaran[]" value='{{ $jen->id }}'></td>
+                  <td><input type="text" onkeyup="splitInDots3(this)" id="jenis2_{{$jen->id}}" placeholder="0" value="0" name="jenis_pembayaran[]" class="form-control" ></td>
               </tr>
             @endforeach
             <tr>
               <td>Total Pembayaran</td>
               <td>
-                <input type="text" class="form-control" name="total_bayar" id="total" readonly>
+                <input type="text" class="form-control" name="total_bayar" id="total_edit" readonly>
               </td>
             </tr>
             <tr>
               <td colspan=2><button type="submit" class="btn btn-primary" value="Generate">Simpan</button</td>
             </tr>
           </table>
-      
-        </form>  
+
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -222,28 +226,87 @@
       $("#generateModal").on("hidden.bs.modal", function () {
           $(".pesan").html("");
       });
+      const url_publish = "{{URL::to('pembayaran/publish')}}";
+      $("#publish_pembayaran").click(() => {
+        const r = confirm("Data Pembayaran akan terpublish. apakah anda yakin ? ")
+        const bulan = $("#bulan_now").val()
+        const tahun = $("#tahun_now").val()
+        const data3 = {
+          bulan : bulan,
+          tahun : tahun,
+        }
+        if(r){
+          $('.loader-container').show();
+          $.ajax({
+            method:"POST",
+            url: url_publish,
+            data : data3,
+            success : function(data){
+              Swal.fire({
+                  title: 'Success!',
+                  text: 'Data Berhasil Disimpan',
+                  icon: 'success',
+                  timer : 3000,
+                  customClass: {
+                    confirmButton: 'btn btn-success'
+                  }
+              })
+              //$("#target_edit").html(data)
+              $('.loader-container').hide();
+              location.reload()
+            },
+            error: function (request, status, error) {
+              Swal.fire({
+                  title: 'Gagal!',
+                  text: 'Data Gagal Disimpan',
+                  icon: 'error',
+                  timer : 2000,
+                  customClass: {
+                    confirmButton: 'btn btn-success'
+                  }
+              })
+              $('.loader-container').hide();
+            }
+          });
+
+        }else{
+          return false;
+        }
+      })
       $(".datatable").dataTable()
       $('#nama_santri').select2({
           minimumInputLength: 3,
       });
+      $('.kelas_select2').select2({
+          dropdownParent: $('.kelas_select2').parent()
+      });
       const url_get = "{{URL::to('pembayaran/get_generate')}}";
       $(".editGenerate").click(function(){
+        const no_induk = $(this).data('id')
+        const bulan = $("#bulan_now").val()
+        const tahun = $("#tahun_now").val()
+        $("#no_induk_edit").val(no_induk)
         const data2 = {
-          no_induk : $(this).data('id'),
-          bulan : $("#bulan_now").val(),
-          tahun : $("#tahun_now").val(),
+          no_induk : no_induk,
+          bulan : bulan,
+          tahun : tahun,
         }
-        console.log(data2)
         $.ajax({
           method:"POST",
           url: url_get,
           data : data2,
           type:"json",
           success : function(data){
-            if(data[0]){
-              alert("Ada isi")
+            if(data[0].length != 0){
+              $("#bulan_edit").val(data[0].bulan)
+              $("#tahun_edit").val(data[0].tahun)
+              $("#no_induk_edit").val(data[0].no_induk)
+              $("#total_edit").val(data[0].total_bayar)
+              data[1].forEach(element => {
+                $("#jenis2_" + element.id_jenis).val(element.jumlah)
+              });
             }else{
-              alert("kosong")
+              $(".pemberitahuan").html("<div class='alert alert-warning'>Data tidak ditemukan silahkan</div>")
             }
             console.log(data)
             //$("#target_edit").html(data)
@@ -362,6 +425,7 @@ function update_riwayat(){
           normal = reverseNumber(reversedWithDots);
 
       input.value = normal;
+
       let jumlah = 0;
 					jumlah += parseInt(plainNumber2($("#jenis_17").val())) || 0;
 					jumlah += parseInt(plainNumber2($("#jenis_18").val())) || 0;
@@ -380,7 +444,38 @@ function update_riwayat(){
           normalJumlah = reverseNumber(reversedWithDotsJumlah);
 
           $("#total").val(normalJumlah);
+
+
   }
+  function splitInDots3(input) {
+
+    var value = input.value,
+        plain = plainNumber(value),
+        reversed = reverseNumber(plain),
+        reversedWithDots = reversed.match(/.{1,3}/g).join('.'),
+        normal = reverseNumber(reversedWithDots);
+
+    input.value = normal;
+
+      let jumlah2 = 0;
+        jumlah2 += parseInt(plainNumber2($("#jenis2_17").val())) || 0;
+        jumlah2 += parseInt(plainNumber2($("#jenis2_18").val())) || 0;
+        jumlah2 += parseInt(plainNumber2($("#jenis2_1").val())) || 0;
+        jumlah2 += parseInt(plainNumber2($("#jenis2_16").val())) || 0;
+        jumlah2 += parseInt(plainNumber2($("#jenis2_3").val())) || 0;
+        jumlah2 = jumlah2 + parseInt(plainNumber2($("#jenis2_4").val())) || 0;
+        jumlah2 = jumlah2 + parseInt(plainNumber2($("#jenis2_5").val())) || 0;
+        jumlah2 = jumlah2 + parseInt(plainNumber2($("#jenis2_6").val())) || 0;
+        jumlah2 = jumlah2 + parseInt(plainNumber2($("#jenis2_15").val())) || 0;
+        jumlah2 = jumlah2 + parseInt(plainNumber2($("#jenis2_12").val())) || 0;
+        jumlah2 = jumlah2 + parseInt(plainNumber2($("#jenis2_12").val())) || 0;
+        plainJumlah2 = plainNumber2(jumlah2.toString());
+        reversedJumlah2 = reverseNumber(plainJumlah2),
+        reversedWithDotsJumlah2 = reversedJumlah2.match(/.{1,3}/g).join('.'),
+        normalJumlah2 = reverseNumber(reversedWithDotsJumlah2);
+        //console.log(normalJumlah2)
+        $("#total_edit").val(normalJumlah2);
+    }
 
   function oneDot(input) {
       var value = input.value,

@@ -13,9 +13,10 @@ class Elektronik extends Model
     protected $table = 'aset_elektronik';
 
     protected $fillable = [
-        'id_ruang', 
+        'kode_ruang', 
         'nama', 
-        'kondisi_penerimaan', 'tanggal_perolehan', 
+        'kondisi_penerimaan', 
+        'tanggal_perolehan', 
         'garansi', 
         'spesifikasi', 
         'serial_number', 

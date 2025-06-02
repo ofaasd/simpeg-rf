@@ -277,6 +277,11 @@
           "url": "/admin/pembayaran/bukatutup",
           "name": "Buka Tutup Pelaporan",
           "slug": "buka-tutup-pembayaran"
+        },
+        {
+          "url": "/pembayaran/generate",
+          "name": "Generate Pembayaran",
+          "slug": "generate-pembayaran"
         }
       ]
     },

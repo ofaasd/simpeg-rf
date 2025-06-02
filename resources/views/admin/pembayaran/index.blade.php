@@ -5,6 +5,11 @@
 
 @section('vendor-style')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/spinkit/spinkit.css')}}" />
+<style>
+  table.dataTable td {
+    font-size: 10pt !important;
+  }
+</style>
 @endsection
 
 @section('vendor-script')
@@ -132,6 +137,7 @@
                           <td>Kode Kelas</td>
                           <td>Kode Murroby</td>
                           <td>Tanggal Bayar</td>
+                          <td>Pengirim</td>
                           <td>Status</td>
                           <td>Total</td>
                           <td></td>
@@ -155,6 +161,7 @@
                                 <td>{{$s->kamar_id}} ({{ ($s->kamar_id==0)?"":$data['nama_murroby'][$s->kamar_id]}})</td>
 
                                 <td>{{$s->tanggal_bayar}}</td>
+                                <td>{{$s->atas_nama ?? ''}}</td>
                                 <td>@if($s->validasi == 0)
                                       <button class='btn btn-secondary btn-xs btn-status' data-bs-toggle="modal" data-bs-target="#status" data-id="{{$s->id}}" style="padding-top:10px;padding-bottom:10px;">Belum Valid</button>
                                     @elseif($s->validasi == 1)
@@ -185,7 +192,7 @@
                                 <td>{{$s->nama}}</td>
                                 <td>{{$s->kelas}}</td>
                                 <td>{{$s->kamar_id}} ({{ ($s->kamar_id==0)?"":$data['nama_murroby'][$s->kamar_id]}})</td>
-
+                                <td>-</td>
                                 <td>-</td>
                                 <td>
                                   <button class='btn btn-danger btn-xs btn-status' data-bs-toggle="modal" data-bs-target="#kirim_wa" data-id="{{$s->id}}" style="padding-top:10px;padding-bottom:10px;">Belum Lapor</button>
@@ -337,7 +344,72 @@
       $("#footer-filter").html(`<a href="javascript:void(0)" class="btn btn-success waves-effect waves-light" id="export" onclick="eskpor()">Export</a>`);
     });
     const title = 'Syahriyah';
-    const dt = $("#table-laporan").DataTable();
+    const dt = $("#table-laporan").DataTable({
+      dom:
+        '<"row mx-2"' +
+        '<"col-md-2"<"me-3"l>>' +
+        '<"col-md-10"<"dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0"fB>>' +
+        '>t' +
+        '<"row mx-2"' +
+        '<"col-sm-12 col-md-6"i>' +
+        '<"col-sm-12 col-md-6"p>' +
+        '>',
+      buttons: [
+      {
+        extend: 'collection',
+        className: 'btn btn-label-primary dropdown-toggle mx-3',
+        text: '<i class="mdi mdi-export-variant me-sm-1"></i>Export',
+        buttons: [
+          {
+            extend: 'print',
+            title: title,
+            text: '<i class="mdi mdi-printer-outline me-1" ></i>Print',
+            className: 'dropdown-item',
+            customize: function customize(win) {
+              //customize print view for dark
+              $(win.document.body)
+                .css('color', config.colors.headingColor)
+                .css('border-color', config.colors.borderColor)
+                .css('background-color', config.colors.body);
+              $(win.document.body)
+                .find('table')
+                .addClass('compact')
+                .css('color', 'inherit')
+                .css('border-color', 'inherit')
+                .css('background-color', 'inherit');
+            }
+          },
+          {
+            extend: 'csv',
+            title: title,
+            text: '<i class="mdi mdi-file-document-outline me-1" ></i>Csv',
+            className: 'dropdown-item',
+          },
+          {
+            extend: 'excel',
+            title: title,
+            text: '<i class="mdi mdi-file-excel-outline me-1" ></i>Excel',
+            className: 'dropdown-item',
+
+          },
+          {
+            extend: 'pdf',
+            title: title,
+            text: '<i class="mdi mdi-file-pdf-box me-1"></i>Pdf',
+            className: 'dropdown-item',
+
+          },
+          {
+            extend: 'copy',
+            title: title,
+            text: '<i class="mdi mdi-content-copy me-1" ></i>Copy',
+            className: 'dropdown-item',
+
+          }
+        ]
+      },
+    ]
+    });
     $("#table-laporan").on("click", ".btn-status", function(){
       $('#block_status_modal').block({
         message:

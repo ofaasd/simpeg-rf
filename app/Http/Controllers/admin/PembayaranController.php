@@ -504,79 +504,144 @@ Semoga pekerjaan dan usahanya diberikan kelancaran dan menghasilkan Rizqi yang b
     $kelas = Kelas::all();
     $ref_bank = Bank::all();
     $jenis_pembayaran = RefJenisPembayaran::all();
-    $total = [];
+    $new_kelas_already = GeneratePembayaran::select('kelas')->join("santri_detail","santri_detail.no_induk","generate_pembayaran.no_induk")->distinct()->get();
+    $kelas_already = [];
+    $i = 0;
+    foreach($new_kelas_already as $row){
+      $kelas_already[$i] = $row->kelas;
+      $i++;
+    }
+    //var_dump($kelas_already);
+    $generate = [];
+    $bulan = date('m');
+    $pembayaran = GeneratePembayaran::where('bulan',$bulan)->get();
     foreach($santri as $row){
-      $total[$row->no_induk] = GeneratePembayaran::where('no_induk',$row->no_induk)->first()->total_bayar ?? 0;
+      $generate[$row->no_induk] = [];
+    }
+    foreach($pembayaran as $row){
+      $generate[$row->no_induk] = $row;
     }
     //var_dump($total);
-    return view('admin.pembayaran.generate', compact('total','title','kelas', 'santri','list_bulan','ref_bank','jenis_pembayaran'));
+    return view('admin.pembayaran.generate', compact('kelas_already','generate','title','kelas', 'santri','list_bulan','ref_bank','jenis_pembayaran'));
   }
-  public function get_generate(Request $request){
+  public function generate_pembayaran_single(Request $request){
     $no_induk = $request->no_induk;
-    $bulan = $request->bulan;
-    $tahun = $request->tahun; 
-    $generate = GeneratePembayaran::where('no_induk',$no_induk)->where('bulan',$bulan)->where('tahun',$tahun)->first() ?? [];
-    $detail_generate = [];
-    if($generate){
-      $detail_generate = GenerateDetailPembayaran::where('id_generate_pembayaran',$generate->id);
-    }
-    $json = [
-      0 => $generate,
-      1 => $detail_generate,
-    ];
-    return response()->json($json);
-  }
-  public function set_pembayaran(Request $request){
-    $kelas = $request->kelas;
-    $bulan = $request->bulan;
-    $tahun = date('Y');
+    $tahun = $request->tahun;
+    $bulan = $request->bulan_input2;
     $total_bayar = (int)str_replace(".","",$request->total_bayar);
-    if($kelas == 0){
-      $generate = GeneratePembayaran::delete();
-      $santri = Santri::all();
-      foreach($santri as $row){
-        $generate_new = new GeneratePembayaran;
-        $generate_new->no_induk = $row->no_induk;
-        $generate_new->total_bayar = $total_bayar;
-        $generate_new->bulan = $bulan;
-        $generate_new->tahun = $tahun;
-        $generate_new->status = '0';
-        $generate_new->save();
-        foreach($request->id_jenis_pembayaran as $key=>$value){
-          $jumlah = (int)str_replace(".","",$request->jenis_pembayaran[$key]);
-          if($jumlah != 0){
-            $detail_new = new GenerateDetailPembayaran;
-            $detail_new->id_generate_pembayaran = $generate_new->id;
-            $detail_new->id_jenis = $value;
-            $detail_new->jumlah = $jumlah;
-            $detail_new->save();
-          }
+
+    $cek = GeneratePembayaran::where('no_induk',$no_induk)->where('tahun',$tahun)->where("bulan",$bulan);
+    if($cek->count() > 0){
+      $generate = $cek->first();
+      $new_generate = GeneratePembayaran::find($generate->id);
+      $new_generate->total_bayar = $total_bayar;
+      $new_generate->save();
+      $detail_generate = GenerateDetailPembayaran::where('id_generate_pembayaran',$generate->id)->delete();
+      foreach($request->id_jenis_pembayaran as $key=>$value){
+        $jumlah = (int)str_replace(".","",$request->jenis_pembayaran[$key]);
+        if($jumlah != 0){
+          $detail_new = new GenerateDetailPembayaran;
+          $detail_new->id_generate_pembayaran = $generate->id;
+          $detail_new->id_jenis = $value;
+          $detail_new->jumlah = $jumlah;
+          $detail_new->save();
         }
       }
     }else{
+      $new_generate = new GeneratePembayaran;
+      $new_generate->total_bayar = $total_bayar;
+      $new_generate->bulan = $bulan;
+      $new_generate->tahun = $tahun;
+      $new_generate->status = '0';
+      $new_generate->no_induk = $no_induk;
+      $new_generate->save();
 
-      $santri = Santri::where('kelas',$kelas)->get();
-      foreach($santri as $row){
-        $generate = GeneratePembayaran::where('no_induk',$row->no_induk)->delete();
-        $generate_new = new GeneratePembayaran;
-        $generate_new->no_induk = $row->no_induk;
-        $generate_new->total_bayar = $total_bayar;
-        $generate_new->bulan = $bulan;
-        $generate_new->tahun = $tahun;
-        $generate_new->status = '0';
-        $generate_new->save();
-        foreach($request->id_jenis_pembayaran as $key=>$value){
-          $jumlah = (int)str_replace(".","",$request->jenis_pembayaran[$key]);
-          if($jumlah != 0){
-            $detail_new = new GenerateDetailPembayaran;
-            $detail_new->id_generate_pembayaran = $generate_new->id;
-            $detail_new->id_jenis = $value;
-            $detail_new->jumlah = $jumlah;
-            $detail_new->save();
-          }
+      foreach($request->id_jenis_pembayaran as $key=>$value){
+        $jumlah = (int)str_replace(".","",$request->jenis_pembayaran[$key]);
+        if($jumlah != 0){
+          $detail_new = new GenerateDetailPembayaran;
+          $detail_new->id_generate_pembayaran = $new_generate->id;
+          $detail_new->id_jenis = $value;
+          $detail_new->jumlah = $jumlah;
+          $detail_new->save();
         }
       }
     }
     return redirect('pembayaran/generate');
+  }
+  public function get_generate(Request $request){
+    $bulan = $request->bulan;
+    $tahun = $request->tahun;
+    $no_induk = $request->no_induk;
+    $generate = [];
+    $generate_pembayaran = GeneratePembayaran::where(['bulan'=>$bulan,'tahun'=>$tahun,'no_induk'=>$no_induk])->first();
+    if($generate_pembayaran){
+      $detail_generate = GenerateDetailPembayaran::where('id_generate_pembayaran',$generate_pembayaran->id)->get();
+      $generate = $generate_pembayaran;
+    }
+    $all_data[0] = $generate;
+    $all_data[1] = $detail_generate;
+    return response()->json($all_data);
+  }
+  public function set_pembayaran(Request $request){
+    $arr_kelas = $request->kelas;
+    $bulan = $request->bulan;
+    $tahun = date('Y');
+    $total_bayar = (int)str_replace(".","",$request->total_bayar);
+    if(!empty($arr_kelas)){
+      foreach($arr_kelas as $value){
+        $santri = Santri::where("kelas",$value)->get();
+        foreach($santri as $row){
+          $generate = GeneratePembayaran::where('no_induk',$row->no_induk)->delete();
+          $generate_new = new GeneratePembayaran;
+          $generate_new->no_induk = $row->no_induk;
+          $generate_new->total_bayar = (int)str_replace(".","",$total_bayar);
+          $generate_new->bulan = $bulan;
+          $generate_new->tahun = $tahun;
+          $generate_new->status = '0';
+          $generate_new->save();
+          foreach($request->id_jenis_pembayaran as $key=>$value){
+            $jumlah = (int)str_replace(".","",$request->jenis_pembayaran[$key]);
+            if($jumlah != 0){
+              $detail_new = new GenerateDetailPembayaran;
+              $detail_new->id_generate_pembayaran = $generate_new->id;
+              $detail_new->id_jenis = $value;
+              $detail_new->jumlah = $jumlah;
+              $detail_new->save();
+            }
+          }
+        }
+      }
+    }else{
+      $santri = Santri::all();
+      foreach($santri as $row){
+        $generate = GeneratePembayaran::where('no_induk',$row->no_induk)->delete();
+        $generate_new = new GeneratePembayaran;
+        $generate_new->no_induk = $row->no_induk;
+        $generate_new->total_bayar = (int)str_replace(".","",$total_bayar);
+        $generate_new->bulan = $bulan;
+        $generate_new->tahun = $tahun;
+        $generate_new->status = '0';
+        $generate_new->save();
+        foreach($request->id_jenis_pembayaran as $key=>$value){
+          $jumlah = (int)str_replace(".","",$request->jenis_pembayaran[$key]);
+          if($jumlah != 0){
+            $detail_new = new GenerateDetailPembayaran;
+            $detail_new->id_generate_pembayaran = $generate_new->id;
+            $detail_new->id_jenis = $value;
+            $detail_new->jumlah = $jumlah;
+            $detail_new->save();
+          }
+        }
+      }
+    }
+
+    return redirect('pembayaran/generate');
+  }
+  public function publish(Request $request){
+    $bulan = $request->bulan;
+    $tahun = $request->tahun;
+    $generate = GeneratePembayaran::where("bulan",$bulan)->where("tahun",$tahun)->update(['publish'=>1]);
+    return response()->json($generate);
   }
 }
