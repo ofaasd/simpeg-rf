@@ -30,6 +30,7 @@ use App\Http\Controllers\ustadz\SakuMasukController;
 use App\Http\Controllers\ustadz\SakuKeluarController;
 use App\Http\Controllers\ustadz\KesehatanController as UstKesehatanController;
 use App\Http\Controllers\admin\LaporanController;
+use App\Http\Controllers\admin\LaporanSaku;
 use App\Http\Controllers\admin\AkuntansiController;
 use App\Http\Controllers\admin\UangMasukController;
 use App\Http\Controllers\admin\UangKeluarController;
@@ -186,6 +187,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::get('ustadz/hapus_saku_masuk/{id}', [UangSakuController::class, 'destroy']);
   Route::get('laporan/pembayaran', [LaporanController::class, 'pembayaran']);
   Route::post('laporan/pembayaran', [LaporanController::class, 'pembayaran']);
+  Route::get('admin/laporan/uang_saku', [LaporanSaku::class, 'index']);
 
   Route::get('laporan/laporan-pondok', [LaporanPondokController::class, 'index']);
   Route::post('laporan/laporan-pondok', [LaporanPondokController::class, 'index']);
