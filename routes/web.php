@@ -192,9 +192,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::get('laporan/laporan-pondok', [LaporanPondokController::class, 'index']);
   Route::post('laporan/laporan-pondok', [LaporanPondokController::class, 'index']);
 
+  Route::fallback(function () {
+    return redirect()->route('tbd');
+});
+
   Route::get('/tbd', function () {
     return view('content.pages.tbd');
-  });
+  })->name('tbd');
 
   Route::get('/admin/akuntansi', [AkuntansiController::class, 'index']);
   Route::post('/admin/uang_masuk/store', [UangMasukController::class, 'store']);
