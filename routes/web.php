@@ -193,7 +193,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('laporan/laporan-pondok', [LaporanPondokController::class, 'index']);
 
   Route::fallback(function () {
-    return redirect()->route('tbd');
+    return view('content.pages.tbd');
 });
 
   Route::get('/tbd', function () {
