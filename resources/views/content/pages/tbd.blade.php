@@ -34,7 +34,7 @@ $configData = Helper::appClasses();
             <h4 class="card-title pb-xl-2">I'm  <strong> Sorry</strong>🎉</h4>
             <p class="mb-0">This Page is still under Development</p>
             <p>We Will back soon</p>
-            <a href="{{ url()->previous() }}" class="btn btn-primary">Back To Home</a>
+            <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
           </div>
         </div>
         <div class="col-md-6 text-center text-md-end order-1 order-md-2">
