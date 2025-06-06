@@ -98,4 +98,8 @@ class Santri extends Model
   {
     return $this->belongsTo(Kamar::class, 'kamar_id', 'id');
   }
+  public function kurbans()
+  {
+    return $this->hasMany(Kurban::class, 'id_santri', 'id');
+  }
 }
