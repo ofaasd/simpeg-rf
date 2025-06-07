@@ -440,6 +440,19 @@
           ]
         }
       ]
+    },
+     {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-cow",
+      "name": "Qurban",
+      "slug": "Qurban",
+      "submenu": [
+        {
+          "url": "/kurban",
+          "name": "Laporan Qurban",
+          "slug": "laporan-qurban"
+        }
+      ]
     }
   ]
 }

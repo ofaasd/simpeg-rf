@@ -99,6 +99,17 @@
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
     ),
   ),
+  'pixinvent/materialize-laravel-bootstrap-jetstream' => 
+  array (
+    'aliases' => 
+    array (
+      'Jetstrap' => 'Pixinvent\\Jetstrap\\JetstrapFacade',
+    ),
+    'providers' => 
+    array (
+      0 => 'Pixinvent\\Jetstrap\\JetstrapServiceProvider',
+    ),
+  ),
   'reliese/laravel' => 
   array (
     'providers' => 
