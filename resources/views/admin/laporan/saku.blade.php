@@ -18,6 +18,9 @@
                     <th>No.</th>
                     <th>No. Induk</th>
                     <th>Nama</th>
+                    <th>Kelas</th>
+                    <th>Murroby</th>
+                    <th>Total Uang Masuk TGL 1-31 Mei</th>
                     <th>Total Belanja TGL 1-31 Mei</th>
                     <th>Saldo</th>
                 </tr>
@@ -32,6 +35,9 @@
                         <td>{{$i}}</td>
                         <td>{{$s->no_induk}}</td>
                         <td>{{$s->nama}}</td>
+                        <td>{{$s->kelas}}</td>
+                        <td>{{$murroby[$s->no_induk]}}</td>
+                        <td>Rp.  {{number_format($list_santri_masuk[$s->no_induk], 0, ',', '.')}}</td>
                         <td>Rp.  {{number_format($list_santri[$s->no_induk], 0, ',', '.')}}</td>
                         <td>Rp.  {{number_format($list_saku[$s->no_induk], 0, ',', '.')}}</td>
                     </tr>
@@ -90,14 +96,16 @@
           },
           {
             extend: 'excel',
-            title: title,
+            title: 'syahriah',
+            // title: title,
             text: '<i class="mdi mdi-file-excel-outline me-1" ></i>Excel',
             className: 'dropdown-item',
 
           },
           {
             extend: 'pdf',
-            title: title,
+            title: 'syahriah',
+            // title: title,
             text: '<i class="mdi mdi-file-pdf-box me-1"></i>Pdf',
             className: 'dropdown-item',
 

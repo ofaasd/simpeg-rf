@@ -41,10 +41,37 @@
       ]
     },
     {
-      "url": "/ustadz/murroby",
+      "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-account-outline",
       "name": "Ke-Murobbyan",
-      "slug": "murroby"
+      "slug": "murroby",
+      "submenu": [
+        {
+          "url": "/ustadz/murroby",
+          "name": "Santri",
+          "slug": "murroby-santri"
+        },
+        {
+          "url": "/ustadz/uang-saku",
+          "name": "Uang Saku",
+          "slug": "murroby-uang-saku"
+        },
+        {
+          "url": "/ustadz/saku_masuk",
+          "name": "Saku Masuk",
+          "slug": "murroby-saku-masuk"
+        },
+        {
+          "url": "/ustadz/saku_keluar",
+          "name": "Saku Keluar",
+          "slug": "murroby-saku-keluar"
+        },
+        {
+          "url": "/ustadz/inventory",
+          "name": "Inventory Kamar",
+          "slug": "murroby-inventory"
+        }
+      ]
     },
     {
       "url": "/ustadz/tahfidz",
