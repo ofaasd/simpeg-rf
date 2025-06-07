@@ -76,10 +76,34 @@
           <input type="text" class="form-control" id="add-{{ strtolower($title) }}-atas_nama" name="atas_nama" placeholder="Atas Nama">
           <label for="add-{{ strtolower($title) }}-atas_nama">Atas Nama</label>
         </div>
+         <!-- Input Upload Gambar -->
+        <div class="mb-4">
+          <label for="add-{{ strtolower($title) }}-foto" class="form-label">Upload Foto</label>
+          <input class="form-control" type="file" id="add-{{ strtolower($title) }}-foto" name="foto" accept="image/*" onchange="previewImage(event)">
+          <img id="preview-{{ strtolower($title) }}-foto" src="#" alt="Preview Foto" style="display:none; margin-top:10px; max-height:150px; object-fit:contain;" />
+        </div>
         <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
         <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
       </form>
     </div>
   </div>
 </div>
+<script>
+function previewImage(event) {
+  const input = event.target;
+  const preview = document.getElementById('preview-{{ strtolower($title) }}-foto');
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+    }
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    preview.src = '#';
+    preview.style.display = 'none';
+  }
+}
+</script>
+
 @endsection

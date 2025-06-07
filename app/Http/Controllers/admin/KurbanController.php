@@ -152,7 +152,7 @@ class KurbanController extends Controller
                 // Kompres dan simpan
                 $image = Image::make($photo)
                     ->resize(400, 400)
-                    ->save(public_path('assets/img/upload/photo/' . $filename));
+                    ->save(public_path('assets/img/upload/kurban/' . $filename));
 
                 if ($image) {
                     $kurban->foto = $filename;
