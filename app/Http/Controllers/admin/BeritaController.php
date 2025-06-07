@@ -19,109 +19,109 @@ class BeritaController extends Controller
    * Display a listing of the resource.
    */
 
-   public function index()
-   {
-      $title = 'Berita';
-      $berita = Berita::with(['kategori', 'user'])->latest()->get();
-      $kategori = Kategori::select(
-        'id',
-        'nama_kategori'
-        )
-        ->get();
-        
-      $cekBerita = Berita::where('user_id', 5)->latest()->first();
-      $cekBeritaSch = collect(
-        Http::accept('application/json')
-            ->get('https://newapi.ppatq-rf.sch.id/public/index.php/post')
-            ->json()
+  public function index()
+  {
+    $title = 'Berita';
+    $berita = Berita::with(['kategori', 'user'])->latest()->get();
+    $kategori = Kategori::select(
+      'id',
+      'nama_kategori'
       )
-      ->sortByDesc('post_date')
-      ->first();
+      ->get();
       
-      if ($cekBeritaSch) {
-          $isNotif = $cekBerita->created_at != $cekBeritaSch['post_date'];
-      } else {
-          $isNotif = false;
-      }
-
-      Session::put('isNotif', $isNotif);
-
-      return view('admin.berita.index', compact('berita', 'title', 'kategori'));
-    }
-
-   public function sinkronisasi()
-   {
-       $response = Http::accept('application/json')->get('https://newapi.ppatq-rf.sch.id/public/index.php/post');
-   
-       if ($response->successful()) {
-           $json = $response->json();
-           $jumlah = 0;
-           $existingCount = 0;
-   
-           foreach ($json as $berita) {
-               $exists = Berita::where('id', $berita['ID'] ?? null)->exists();
-   
-               if ($exists) {
-                   $existingCount++;
-                   if ($existingCount >= 100) {
-                      return back()->with('error', 'Tidak ada data yang baru');
-                      break; 
-                   }
-                   continue;
-               }
-   
-               $this->insertBerita(
-                   $berita['ID'] ?? null,
-                   $berita['post_author'] ?? null,
-                   $berita['post_content'] ?? null,
-                   $berita['post_title'] ?? null,
-                   $berita['post_status'] ?? null,
-                   $berita['post_name'] ?? null,
-                   $berita['post_date'] ?? null
-               );
-   
-               $jumlah++;
-           }
-   
-           return back()->with('success', 'Berhasil menambah ' . $jumlah . ' data berita');
-       }
-   
-       return back()->with('error', 'Gagal menyinkronkan data berita');
-   }
+    $cekBerita = Berita::where('user_id', 5)->latest()->first();
+    $cekBeritaSch = collect(
+      Http::accept('application/json')
+          ->get('https://newapi.ppatq-rf.sch.id/public/index.php/post')
+          ->json()
+    )
+    ->sortByDesc('post_date')
+    ->first();
     
-    private function insertBerita(
-    $id,
-    $postAuthor,
-    $isi_berita,
-    $judulBerita,
-    $postStatus,
-    $slug,
-    $createdAt
-    ) 
-    {
-      $berita = Berita::where('id', $id)->first();
-      $response = Http::get('https://newapi.ppatq-rf.sch.id/public/index.php/post_image/' . $id);
-
-      $thumbnail = $response->failed() ? '' : str_replace(['"', '\\'], '', $response->body());
-
-      $isi_berita = str_replace("\r\n", '</p><p>', $isi_berita);
-      $siIsi = '<p>' . $isi_berita . '</p>';
-      if (!$berita) {
-          return Berita::insertGetId([
-                'id' => $id,
-                'judul' => $judulBerita,
-                'user_id' => $postAuthor,
-                'kategori_id' => 2,
-                'slug' => $slug,
-                'thumbnail' => $thumbnail,
-                'isi_berita' => $siIsi,
-                'status' => $postStatus,
-                'created_at' => $createdAt,
-            ]);
-      } else {
-          return $berita->id;
-      }
+    if ($cekBeritaSch) {
+        $isNotif = $cekBerita->created_at != $cekBeritaSch['post_date'];
+    } else {
+        $isNotif = false;
     }
+
+    Session::put('isNotif', $isNotif);
+
+    return view('admin.berita.index', compact('berita', 'title', 'kategori'));
+  }
+
+  public function sinkronisasi()
+  {
+      $response = Http::accept('application/json')->get('https://newapi.ppatq-rf.sch.id/public/index.php/post');
+  
+      if ($response->successful()) {
+          $json = $response->json();
+          $jumlah = 0;
+          $existingCount = 0;
+  
+          foreach ($json as $berita) {
+              $exists = Berita::where('id', $berita['ID'] ?? null)->exists();
+  
+              if ($exists) {
+                  $existingCount++;
+                  if ($existingCount >= 100) {
+                    return back()->with('error', 'Tidak ada data yang baru');
+                    break; 
+                  }
+                  continue;
+              }
+  
+              $this->insertBerita(
+                  $berita['ID'] ?? null,
+                  $berita['post_author'] ?? null,
+                  $berita['post_content'] ?? null,
+                  $berita['post_title'] ?? null,
+                  $berita['post_status'] ?? null,
+                  $berita['post_name'] ?? null,
+                  $berita['post_date'] ?? null
+              );
+  
+              $jumlah++;
+          }
+  
+          return back()->with('success', 'Berhasil menambah ' . $jumlah . ' data berita');
+      }
+  
+      return back()->with('error', 'Gagal menyinkronkan data berita');
+  }
+    
+  private function insertBerita(
+  $id,
+  $postAuthor,
+  $isi_berita,
+  $judulBerita,
+  $postStatus,
+  $slug,
+  $createdAt
+  ) 
+  {
+    $berita = Berita::where('id', $id)->first();
+    $response = Http::get('https://newapi.ppatq-rf.sch.id/public/index.php/post_image/' . $id);
+
+    $thumbnail = $response->failed() ? '' : str_replace(['"', '\\'], '', $response->body());
+
+    $isi_berita = str_replace("\r\n", '</p><p>', $isi_berita);
+    $siIsi = '<p>' . $isi_berita . '</p>';
+    if (!$berita) {
+        return Berita::insertGetId([
+              'id' => $id,
+              'judul' => $judulBerita,
+              'user_id' => $postAuthor,
+              'kategori_id' => 2,
+              'slug' => $slug,
+              'thumbnail' => $thumbnail,
+              'isi_berita' => $siIsi,
+              'status' => $postStatus,
+              'created_at' => $createdAt,
+          ]);
+    } else {
+        return $berita->id;
+    }
+  }
 
   /**
    * Show the form for creating a new resource.

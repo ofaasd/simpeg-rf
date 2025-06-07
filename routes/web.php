@@ -52,8 +52,10 @@ use App\Http\Controllers\admin\ControlPembayaranController;
 use App\Http\Controllers\BangunanController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\admin\BeritaController;
+use App\Http\Controllers\admin\DakwahController;
 use App\Http\Controllers\admin\KategoriController;
 use App\Http\Controllers\admin\LaporanPondokController;
+use App\Http\Controllers\admin\RekeningController;
 use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\NewMenuController;
@@ -252,6 +254,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/rawat-inap', RawatInapController::class);
   Route::resource('/pembayaran', PembayaranController::class);
   Route::resource('/agenda', AgendaController::class);
+  Route::resource('/dakwah', DakwahController::class);
   Route::resource('/ustadz/kesehatan', UstKesehatanController::class);
   Route::resource('/kategori-berita', KategoriController::class);
   Route::resource('/post-berita', BeritaController::class);
@@ -262,6 +265,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/master/aset/jenis-barang', MasterJenisBarangController::class);
   Route::resource('/fasilitas', FasilitasController::class);
   Route::resource('/galeri', GaleriController::class);
+  Route::resource('/rekening', RekeningController::class);
   Route::resource('/prestasi', PrestasiController::class);
   Route::resource('/about-ppatq', AboutPondokController::class);
 

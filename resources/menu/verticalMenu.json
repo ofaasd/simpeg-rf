@@ -222,6 +222,12 @@
       "slug": "akuntansi"
     },
     {
+      "url": "/rekening",
+      "name": "Rekening",
+      "icon": "menu-icon tf-icons mdi mdi-card",
+      "slug": "rekening"
+    },
+    {
       "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-bottle-tonic-plus",
       "name": "Kesehatan",
@@ -420,6 +426,11 @@
           "url": "/agenda",
           "name": "Agenda",
           "slug": "agenda"
+        },
+        {
+          "url": "/dakwah",
+          "name": "Dakwah",
+          "slug": "dakwah"
         },
         {
           "url": "#",

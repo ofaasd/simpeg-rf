@@ -66,6 +66,10 @@
           <input type="text" class="form-control" id="add-{{strtolower($title)}}-website" placeholder="website; Ex : https://ppatq-rf.sch.id" name="website" aria-label="website" />
           <label for="add-{{strtolower($title)}}-website">Website</label>
         </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <input type="text" class="form-control" id="add-{{strtolower($title)}}-latitude" placeholder="" name="latitude" aria-label="latitude" />
+          <label for="add-{{strtolower($title)}}-website">Latitude</label>
+        </div>
         <!-- <div class="form-floating form-floating-outline mb-4"> -->
           <input type="hidden" class="form-control" id="add-{{strtolower($title)}}-employee_id" placeholder="" name="employee_id" aria-label="employee_id" value=0 />
           <!-- <label for="add-{{strtolower($title)}}-website">Employee</label> -->

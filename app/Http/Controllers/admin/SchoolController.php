@@ -121,6 +121,7 @@ class SchoolController extends Controller
           'phone' => $request->phone,
           'fax' => $request->fax,
           'email' => $request->email,
+          'latitude' => $request->latitude,
           'website' => $request->website,
           'employee_id' => $request->employee_id,
         ]
@@ -141,6 +142,7 @@ class SchoolController extends Controller
           'phone' => $request->phone,
           'fax' => $request->fax,
           'email' => $request->email,
+          'latitude' => $request->latitude,
           'website' => $request->website,
           'employee_id' => $request->employee_id,
         ]
