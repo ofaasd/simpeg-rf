@@ -12,6 +12,7 @@ use App\Models\Santri;
 use App\Models\KodeJuz;
 use App\Models\Loggin_mk1 as log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL as FacadesURL;
 use Session;
 use URL;
 
@@ -304,10 +305,10 @@ class TahfidzController extends Controller
         $ids = $start;
 
         foreach ($EmployeeNew as $row) {
-          $ref_tahfidz = Tahfidz::where('employee_id',$row->id)->first();
+          $ref_tahfidz = Tahfidz::where('employee_id', $row->id)->first();
           $jumlah_santri = 0;
-          if($ref_tahfidz){
-            $jumlah_santri = Santri::where('tahfidz_id',$ref_tahfidz->id)->count() ?? 0;
+          if ($ref_tahfidz) {
+            $jumlah_santri = Santri::where('tahfidz_id', $ref_tahfidz->id)->count() ?? 0;
           }
           $nestedData['id'] = $row->id;
           $nestedData['fake_id'] = ++$ids;
@@ -350,7 +351,7 @@ class TahfidzController extends Controller
 
     //exit;
     $var['list_santri'] = Santri::where('tahfidz_id', $tahfidz->id)->get();
-    return view('ustadz.tahfidz.index', compact('title', 'var','tahfidz','id'));
+    return view('ustadz.tahfidz.index', compact('title', 'var', 'tahfidz', 'id'));
   }
   public function generate_emp_tahfidz()
   {
@@ -371,13 +372,14 @@ class TahfidzController extends Controller
       echo '<br />';
     }
   }
-  public function grafik(String $id){
+  public function grafik(String $id)
+  {
     $where = ['id' => $id];
     $var['EmployeeNew'] = EmployeeNew::where($where)->first();
     $tahfidz = Tahfidz::where('employee_id', $id)->first();
     $var['list_santri'] = Santri::where('tahfidz_id', $tahfidz->id)->get();
     $var['kode_juz'] = KodeJuz::all();
     $title = "Grafik Santri";
-    return view('ustadz.tahfidz.grafik', compact('title', 'var','tahfidz','id'));
+    return view('ustadz.tahfidz.grafik', compact('title', 'var', 'tahfidz', 'id'));
   }
 }

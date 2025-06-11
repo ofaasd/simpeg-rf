@@ -18,7 +18,7 @@ use App\Models\Province;
 use App\Models\TbPemeriksaan;
 use App\Models\TbBerkasPendukung;
 use Illuminate\Support\Facades\DB;
-use Image;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class SantriController extends Controller
 {
@@ -441,7 +441,7 @@ class SantriController extends Controller
 
     $var['pemeriksaan'] = TbPemeriksaan::where('no_induk', $var['santri']->no_induk)->get();
 
-    $var['berkas'] = TbBerkasPendukung::where('no_induk',$var['santri']->no_induk)->first();
+    $var['berkas'] = TbBerkasPendukung::where('no_induk', $var['santri']->no_induk)->first();
     return view('admin.santri.show', compact('status', 'title', 'var'));
   }
 

@@ -56,6 +56,7 @@ use App\Http\Controllers\admin\DakwahController;
 use App\Http\Controllers\admin\KategoriController;
 use App\Http\Controllers\admin\LaporanPondokController;
 use App\Http\Controllers\admin\RekeningController;
+use App\Http\Controllers\admin\KurbanController;
 use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\NewMenuController;
@@ -268,6 +269,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/rekening', RekeningController::class);
   Route::resource('/prestasi', PrestasiController::class);
   Route::resource('/about-ppatq', AboutPondokController::class);
+  Route::resource('/kurban', KurbanController::class);
 
   Route::resource('/aset/ruang', RuangController::class);
   Route::resource('/aset/barang', BarangController::class);
