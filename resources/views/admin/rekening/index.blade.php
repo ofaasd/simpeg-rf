@@ -30,7 +30,30 @@
 <!--/ Navbar pills -->
 <div class="row">
   <div class="col-xl-12">
-  <div class="card mb-4" id="card-block">
+    <div class="card mb-3" id="card-block">
+      <div class="card-header">
+        <h4>Mekanisme pembayaran</h4>
+      </div>
+      <div class="card-body" style="overflow-x:scroll">
+        <div class="row">
+          <div class="col-12 col-md-12">
+            <form id="formMekanisme"  onsubmit="return false">
+              <input type="hidden" name="idJenisTutorial" value="{{ $tutorial->id }}">
+              <label for="teks">Teks mekanisme</label>
+              <input id="teks" type="hidden" name="teks" value="{{ $tutorial->teks }}">
+              <trix-editor id="trix_id" input="teks" placeholder="ketik disini..."></trix-editor>
+              <button type="submit" id="btnSimpanMekanisme" class="btn btn-primary btn-sm mt-3" style="float:right">Update</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card mb-4" id="card-block">
       <div class="card-header">
         <h4>Rekening</h4>
       </div>
@@ -146,7 +169,7 @@ function insert_update(formData)
       contentType: false,
       processData: false,
       success: function success(message) {
-        console.log(message);
+        // console.log(message);
         $('#modal_rekening').modal('hide');
         $('.loader-container').hide();
         $('#btn-submit').prop('disabled', false);
@@ -219,6 +242,64 @@ document.addEventListener("DOMContentLoaded", function(event) {
           $('#btn-submit').prop('disabled', false);
       }).fail(function() {
           $('#btn-submit').prop('disabled', false);
+      });
+  });
+
+  $('#formMekanisme').submit(function(e) {
+      e.preventDefault();
+
+      var formData = new FormData(this);
+      
+      $('#btnSimpanMekanisme').prop('disabled', true);
+
+      $('.loader-container').show();
+
+      $.ajax({
+        data: formData,
+        url: ''.concat(baseUrl).concat('tutorial'),
+        type: 'POST',
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function success(message) {
+          $('#btnSimpanMekanisme').prop('disabled', false);
+          Swal.fire({
+            icon: 'success',
+            title: 'Successfully!!',
+            text: ''.concat('Data ', ' ') + message,
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
+          // reload_table();
+          $('.loader-container').hide();
+        },
+        error: function error(err) {
+            $('#btnSimpanMekanisme').prop('disabled', false);
+            $('.loader-container').hide();
+
+            let errorMessage = "Terjadi kesalahan!";
+            
+            if (err.responseJSON && err.responseJSON.message) {
+                errorMessage = err.responseJSON.message;
+            } else if (err.responseText) {
+                try {
+                    let parsedError = JSON.parse(err.responseText);
+                    errorMessage = parsedError.message || "Terjadi kesalahan!";
+                } catch (e) {
+                    console.error("Error parsing responseText:", e);
+                }
+            }
+
+            Swal.fire({
+                title: 'Gagal Menyimpan Data!',
+                text: errorMessage,
+                icon: 'error',
+                customClass: {
+                    confirmButton: 'btn btn-success'
+                }
+            });
+        }
       });
   });
 

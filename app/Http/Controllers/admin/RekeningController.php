@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\RefBank;
 use App\Models\Rekening;
+use App\Models\Tutorial;
 use Illuminate\Http\Request;
 
 class RekeningController extends Controller
@@ -25,8 +26,9 @@ class RekeningController extends Controller
             ->latest()
             ->get();
         $refBank = RefBank::all();
+        $tutorial = Tutorial::where('jenis', 'pembayaran')->first();
         
-        return view('admin.rekening.index', compact('data', 'title', 'refBank'));
+        return view('admin.rekening.index', compact('data', 'title', 'refBank', 'tutorial'));
     }
 
     /**
@@ -71,6 +73,20 @@ class RekeningController extends Controller
             return response()->json($messageResponse);
         } else {
             return response()->json('Failed Create');
+        }
+    }
+
+    public function storeTutorial(Request $request)
+    {
+        $data = Tutorial::where('id', $request->idJenisTutorial)->first();
+        $data->update([
+            'teks'  => $request->teks
+        ]);
+
+        if ($data) {
+            return response()->json('Berhasil mengupdate data.');
+        } else {
+            return response()->json('Gagal mengupdate data.');
         }
     }
 

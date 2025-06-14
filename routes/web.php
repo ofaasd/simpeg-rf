@@ -267,6 +267,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/fasilitas', FasilitasController::class);
   Route::resource('/galeri', GaleriController::class);
   Route::resource('/rekening', RekeningController::class);
+  Route::post('/tutorial', [RekeningController::class, 'storeTutorial'])->name("store-tutorial");
   Route::resource('/prestasi', PrestasiController::class);
   Route::resource('/about-ppatq', AboutPondokController::class);
   Route::resource('/kurban', KurbanController::class);
