@@ -16,11 +16,16 @@ class AlumniController extends Controller
      */
     public function index()
     {
-      //
-      $santri = TbAlumniSantriDetail::all();
-      $title = 'Alumni';
-      return view('admin.alumni.index', compact('title', 'santri'));
+        //
+        $santri = TbAlumniSantriDetail::select(
+            'tb_alumni_santri_detail.*',
+            'tb_alumni.angkatan'
+        )
+            ->leftJoin('tb_alumni', 'tb_alumni.no_induk', '=', 'tb_alumni_santri_detail.no_induk')
+            ->get();
 
+        $title = 'Alumni';
+        return view('admin.alumni.index', compact('title', 'santri'));
     }
 
     /**
@@ -103,7 +108,7 @@ class AlumniController extends Controller
                 'bidang_profesi'   => $request->bidangProfesi,
                 'posisi_profesi'   => $request->posisiProfesi,
             ]);
-            
+
             // Menampilkan pesan sukses
             return response()->json(['message' => 'Berhasil mengubah data dan memperbarui foto profile.'], 200);
         } else {
@@ -160,10 +165,10 @@ class AlumniController extends Controller
         $dataAlumni = TbAlumniSantriDetail::select(
             'tb_alumni_santri_detail.*',
             'tb_alumni.angkatan'
-            )
-        ->where('tb_alumni_santri_detail.no_induk', $noInduk)
-        ->leftJoin('tb_alumni', 'tb_alumni.no_induk', '=', 'tb_alumni_santri_detail.no_induk')
-        ->first();
+        )
+            ->where('tb_alumni_santri_detail.no_induk', $noInduk)
+            ->leftJoin('tb_alumni', 'tb_alumni.no_induk', '=', 'tb_alumni_santri_detail.no_induk')
+            ->first();
         $title = 'Alumni | ' . $dataAlumni->nama;
 
         $kabupatenKota = KotaKabTbl::all();

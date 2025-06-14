@@ -8,7 +8,7 @@
 /vendor
 
 .env
--git-ku
+git-ku
 .env.backup
 .env.production
 .phpunit.result.cache
@@ -30,6 +30,7 @@ package-lock.log
 /public/css
 /public/js
 /public/mix-manifest.json
+
 # But not these files...
 !/public/assets/*
 /public/assets/js

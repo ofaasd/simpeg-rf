@@ -57,7 +57,7 @@
                     </a>
                   </td>
                   <td>{{ $row->kelas }}</td>
-                  <td>2024</td>
+                  <td>{{ $row->tahun_lulus}}</td>
                 </tr>
               @endforeach
             </tbody>

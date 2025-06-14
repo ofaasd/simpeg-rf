@@ -53,15 +53,15 @@ class RawatInapController extends Controller
             'ref_kamar.id AS idRefKamar',
             'employee_new.id AS idEmployee',
         )
-        ->leftJoin('santri_detail', function($join) {
-            $join->on(DB::raw('CAST(santri_detail.no_induk AS CHAR)'), '=', DB::raw('CAST(rawat_inap.santri_no_induk AS CHAR)'));
-        })
-        ->leftJoin('santri_kamar', 'santri_kamar.id', '=', 'santri_detail.kamar_id')
-        ->leftJoin('ref_kamar', 'ref_kamar.id', '=', 'santri_kamar.kamar_id')
-        ->leftJoin('employee_new', 'employee_new.id', '=', 'ref_kamar.employee_id')
-        ->whereRaw('MONTH(FROM_UNIXTIME(tanggal_masuk)) = ' . $bulan)
-        ->whereRaw('YEAR(FROM_UNIXTIME(tanggal_masuk)) = ' . $tahun)
-        ->get();
+            ->leftJoin('santri_detail', function ($join) {
+                $join->on(DB::raw('CAST(santri_detail.no_induk AS CHAR)'), '=', DB::raw('CAST(rawat_inap.santri_no_induk AS CHAR)'));
+            })
+            ->leftJoin('santri_kamar', 'santri_kamar.id', '=', 'santri_detail.kamar_id')
+            ->leftJoin('ref_kamar', 'ref_kamar.id', '=', 'santri_kamar.kamar_id')
+            ->leftJoin('employee_new', 'employee_new.id', '=', 'ref_kamar.employee_id')
+            ->whereRaw('MONTH(FROM_UNIXTIME(tanggal_masuk)) = ' . $bulan)
+            ->whereRaw('YEAR(FROM_UNIXTIME(tanggal_masuk)) = ' . $tahun)
+            ->get();
 
         return view('admin.rawat-inap.index', compact('santri', 'title', 'rawatInap', 'var'));
     }
@@ -84,7 +84,7 @@ class RawatInapController extends Controller
         $validator = Validator::make($request->all(), [
             'keluhan' => 'required'
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Validasi gagal',
@@ -94,18 +94,18 @@ class RawatInapController extends Controller
 
         if ($id) {
 
-        $rawatInap = RawatInap::updateOrCreate(
-            ['id' => $id],
-            [
-                'santri_no_induk' => $request->santri_id,
-                // 'murroby_id' => $request->murroby_id,
-                'tanggal_masuk' => strtotime($request->tanggal_masuk),
-                // 'kelas_id' => $request->kelas_id,
-                'keluhan' => $request->keluhan,
-                'terapi' => $request->terapi,
-                'tanggal_keluar' => strtotime($request->tanggal_keluar),
-            ]
-        );
+            $rawatInap = RawatInap::updateOrCreate(
+                ['id' => $id],
+                [
+                    'santri_no_induk' => $request->santri_id,
+                    // 'murroby_id' => $request->murroby_id,
+                    'tanggal_masuk' => strtotime($request->tanggal_masuk),
+                    // 'kelas_id' => $request->kelas_id,
+                    'keluhan' => $request->keluhan,
+                    'terapi' => $request->terapi,
+                    'tanggal_keluar' => strtotime($request->tanggal_keluar),
+                ]
+            );
 
             return response()->json('Updated');
         } else {
@@ -168,15 +168,15 @@ class RawatInapController extends Controller
             'ref_kamar.id AS idRefKamar',
             'employee_new.id AS idEmployee',
         )
-        ->leftJoin('santri_detail', function($join) {
-            $join->on(DB::raw('CAST(santri_detail.no_induk AS CHAR)'), '=', DB::raw('CAST(rawat_inap.santri_no_induk AS CHAR)'));
-        })
-        ->leftJoin('santri_kamar', 'santri_kamar.id', '=', 'santri_detail.kamar_id')
-        ->leftJoin('ref_kamar', 'ref_kamar.id', '=', 'santri_kamar.kamar_id')
-        ->leftJoin('employee_new', 'employee_new.id', '=', 'ref_kamar.employee_id')
-        ->whereRaw('MONTH(FROM_UNIXTIME(tanggal_masuk)) = ' . $bulan)
-        ->whereRaw('YEAR(FROM_UNIXTIME(tanggal_masuk)) = ' . $tahun)
-        ->get();
+            ->leftJoin('santri_detail', function ($join) {
+                $join->on(DB::raw('CAST(santri_detail.no_induk AS CHAR)'), '=', DB::raw('CAST(rawat_inap.santri_no_induk AS CHAR)'));
+            })
+            ->leftJoin('santri_kamar', 'santri_kamar.id', '=', 'santri_detail.kamar_id')
+            ->leftJoin('ref_kamar', 'ref_kamar.id', '=', 'santri_kamar.kamar_id')
+            ->leftJoin('employee_new', 'employee_new.id', '=', 'ref_kamar.employee_id')
+            ->whereRaw('MONTH(FROM_UNIXTIME(tanggal_masuk)) = ' . $bulan)
+            ->whereRaw('YEAR(FROM_UNIXTIME(tanggal_masuk)) = ' . $tahun)
+            ->get();
 
         return view('admin.rawat-inap.table', compact('santri', 'title', 'rawatInap', 'var'));
     }
@@ -207,14 +207,14 @@ class RawatInapController extends Controller
     {
         $rawatInap = RawatInap::where('id', $id)->delete();
 
-        if($rawatInap){
+        if ($rawatInap) {
             return response()->json([
                 'message'   => "Data berhasil dihapus",
-            ], 200); 
-        }else{
+            ], 200);
+        } else {
             return response()->json([
                 'message'   => "Terjadi kesalahan pada saat menghapus",
-            ], 500); 
+            ], 500);
         }
     }
 }
