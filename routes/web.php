@@ -197,7 +197,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
   Route::fallback(function () {
     return view('content.pages.tbd');
-});
+  });
 
   Route::get('/tbd', function () {
     return view('content.pages.tbd');

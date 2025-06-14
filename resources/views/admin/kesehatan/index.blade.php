@@ -86,7 +86,9 @@
                     <div class="btn-group btn-group-sm" role="group" aria-label="First group">
                       {{-- <button type="button" id="btnSakit" data-id="{{$row->id}}" class="btn btn-primary edit_sakit waves-effect" data-bs-toggle="modal" data-bs-target="#modal_sakit" data-status="sakit"><i class="mdi mdi-pencil me-1"></i></button> --}}
                       <button type="button" id="btnSembuh" data-id="{{$row->id}}" class="btn btn-success edit_sakit waves-effect" data-bs-toggle="modal" data-bs-target="#modal_sakit" data-status="sembuh"><i class="mdi mdi-shield-edit me-1"></i></button>
-                      <button type="button" id="btnDelete" data-id="{{$row->id}}" class="btn btn-danger waves-effect delete-record" data-bs-toggle="modal" data-bs-target="#hapus"><i class="mdi mdi-trash-can me-1"></i></button>
+                      <button type="button" id="btnDelete" data-id="{{$row->id}}" class="btn btn-danger waves-effect delete-record">
+                        <i class="mdi mdi-trash-can me-1"></i>
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -164,8 +166,6 @@
   </div>
 </div>
 
-
-
 @endsection
 <script>
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -181,7 +181,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
       $(".sembuh_area").hide();
   });
   $('.dataTable').dataTable();
+  $('#formSakit').submit(function(e) {
+    e.preventDefault();
 
+    var formData = new FormData(this);
+    insert_update(formData);
+  });
   $("#bulan").change(function(){
     const bulan = $(this).val();
     const tahun = $("#tahun").val();
@@ -287,6 +292,47 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
   });
 });
+
+function insert_update(formData)
+{
+  const bulan = $("#bulan").val();
+  const tahun = $("#tahun").val();
+  $.ajax({
+      data: formData,
+      url: ''.concat(baseUrl).concat('kesehatan'),
+      type: 'POST',
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function success(status) {
+        $('#modal_rawat_inap').modal('hide');
+        reload_table(bulan,tahun);
+        resetFormSakit();
+        location.reload();
+        Swal.fire({
+          icon: 'success',
+          title: 'Successfully '.concat(' Updated !'),
+          text: ''.concat('Data ', ' ').concat(' Berhasil Ditambahkan'),
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      },
+      error: function error(err) {
+            let error = err.responseJSON;
+            let errorMessage = error.errors.keluhan ? error.errors.keluhan.join(', ') : 'Terjadi kesalahan';
+
+            Swal.fire({
+                title: 'Data Not Saved!',
+                text: errorMessage,
+                icon: 'error',
+                customClass: {
+                    confirmButton: 'btn btn-success'
+                }
+            });
+        }
+    });
+}
 
 function reload_table(bulan, tahun){
   showBlock();

@@ -30,6 +30,7 @@
 
 <!-- Bootstrap 5 JS Bundle (Popper + Bootstrap) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
 
 <!-- DataTables JS + Buttons + Bootstrap 5 styling + extensions (all-in-one) -->
 <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.3.1/b-3.2.3/b-html5-3.2.3/b-print-3.2.3/r-3.0.4/datatables.min.js"></script>

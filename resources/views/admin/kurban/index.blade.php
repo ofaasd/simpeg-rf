@@ -84,6 +84,7 @@
         <div class="mb-4">
           <label for="add-{{ strtolower($title) }}-foto" class="form-label">Upload Foto</label>
           <input class="form-control" type="file" id="add-{{ strtolower($title) }}-foto" name="foto" accept="image/*" onchange="previewImage(event)">
+           <input type="hidden" name="old_foto" id="old_foto">
           <img id="preview-{{ strtolower($title) }}-foto" src="#" alt="Preview Foto" style="display:none; margin-top:10px; max-height:150px; object-fit:contain;" />
         </div>
         <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>

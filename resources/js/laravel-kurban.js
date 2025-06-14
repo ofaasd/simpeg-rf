@@ -333,13 +333,23 @@ $(function () {
     // get data
     $.get(''.concat(baseUrl).concat(page, '/').concat(id, '/edit'), function (data) {
       Object.keys(data).forEach(key => {
-        //console.log(key);
         if (key == 'id') $('#' + page + '_' + key).val(data[key]);
         else
           $('#add-' + page + '-' + key)
             .val(data[key])
             .trigger('change');
       });
+
+      // Cek foto
+      if (data.foto) {
+        $('#preview-' + page + '-foto')
+          .attr('src', baseUrl + 'storage/kurban/' + data.foto)
+          .show();
+        $('#old_foto').val(data.foto);
+      } else {
+        $('#preview-' + page + '-foto').hide();
+        $('#old_foto').val('');
+      }
     });
   });
 
@@ -355,17 +365,42 @@ $(function () {
   // user form validation
   var fv = FormValidation.formValidation(addNewForm, {
     fields: {
-      name: {
+      id_santri: {
         validators: {
           notEmpty: {
-            message: 'Please enter Name'
+            message: 'Santri harus dipilih'
           }
         }
       },
-      description: {
+      jenis: {
         validators: {
           notEmpty: {
-            message: 'Please enter your description'
+            message: 'Jenis kurban harus dipilih'
+          }
+        }
+      },
+      jumlah: {
+        validators: {
+          notEmpty: {
+            message: 'Jumlah harus diisi'
+          },
+          greaterThan: {
+            value: 0,
+            message: 'Jumlah harus lebih dari 0'
+          }
+        }
+      },
+      tanggal: {
+        validators: {
+          notEmpty: {
+            message: 'Tanggal harus diisi'
+          }
+        }
+      },
+      atas_nama: {
+        validators: {
+          notEmpty: {
+            message: 'Atas nama harus diisi'
           }
         }
       }
