@@ -151,14 +151,6 @@
                         margin: [10, 5, 10, 0],
                        
                     },
-                    // Right column (info)
-                    {
-                        text: [
-                            {text: '', fontSize: 9},
-                        ],
-                        alignment: 'right',
-                        margin: [0, 5, 0, 0]
-                    }
                   ],
                   margin: [0, 0, 0, 15] // bottom margin  
               }); 
