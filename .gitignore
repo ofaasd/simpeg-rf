@@ -8,7 +8,7 @@
 /vendor
 
 .env
-git-ku
+-git-ku
 .env.backup
 .env.production
 .phpunit.result.cache

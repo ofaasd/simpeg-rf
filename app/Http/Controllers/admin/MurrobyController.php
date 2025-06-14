@@ -250,7 +250,7 @@ class MurrobyController extends Controller
     $title = 'Pegawai';
     $kamar = Kamar::where('employee_id', $id_pegawai)->first();
 
-    $dari = [1 => 'Pembayaran Wali Santri', 2 => 'Kunjungan Walsan', 3 => 'Sisa Bulan Kemarin'];
+    $dari = [1 => 'Uang Saku', 2 => 'Kunjungan Walsan', 3 => 'Sisa Bulan Kemarin'];
     $bulan = (int) date('m');
     $tahun = date('Y');
     $array_bulan = [
