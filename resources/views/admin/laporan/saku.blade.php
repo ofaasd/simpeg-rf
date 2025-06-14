@@ -141,14 +141,21 @@
                     // Center column (title)
                     {
                         text: [
-                            {text: 'PONDOK PESANTREN ANAK TAHFIDZUL QUR\'AN RAUDLATUL FALAH \n'},
+                            {text: 'PONDOK PESANTREN ANAK TAHFIDZUL QUR\'AN RAUDLATUL FALAH \n',
+                              alignment: 'center',
+                              fontSize: 14,
+                              bold: true,
+                              margin: [10, 5, 10, 0],
+                            },
                             
-                            {text: 'Jl. KH. Abdullah Km. 2 Bermi-Gembong -Pati 59162 \n www.ppatq-rf.sch.id || www.ppatq-rf.id'}
+                            {text: 'Jl. KH. Abdullah Km. 2 Bermi-Gembong -Pati 59162 \n www.ppatq-rf.sch.id || www.ppatq-rf.id',
+                              alignment: 'center',
+                              fontSize: 13,
+                              bold: false,
+                              margin: [10, 5, 10, 0],
+                            }
                         ],
-                        alignment: 'center',
-                        fontSize: 14,
-                        bold: true,
-                        margin: [10, 5, 10, 0],
+                        
                        
                     },
                   ],
