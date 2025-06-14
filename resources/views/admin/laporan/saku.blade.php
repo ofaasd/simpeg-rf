@@ -128,15 +128,6 @@
             text: '<i clas s="mdi mdi-file-pdf-box me-1"></i>Pdf',
             className: 'dropdown-item',
             customize: function (doc) {
-                // You need to convert URL to base64 first (see note below)
-                doc.content[1].text = 'SALDO UANG SAKU'; // Title is usually at index 1
-                doc.content[1].style = {
-                    fontSize: 18,
-                    bold: true,
-                    alignment: 'center',
-                    color: '#2c3e50',
-                    margin: [0, 0, 0, 15] // [left, top, right, bottom]
-                };
                 doc.content.splice(0, 0, {
                   columns: [
                     // Left column (logo)
@@ -169,6 +160,11 @@
                   ],
                   margin: [0, 0, 0, 15] // bottom margin  
               }); 
+              doc.content[0].style = {
+                border: [false, false, false, true], // [left, top, right, bottom]
+                borderColor: '#000000',
+                borderWidth: 1
+            };
             }
             
           },
