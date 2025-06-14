@@ -141,7 +141,7 @@
                     // Center column (title)
                     {
                         text: [
-                            {text: 'PONDOK PESANTREN ANAK TAHFIDZUL QUR\'AN RAUDLATUL FALAH \n',
+                            {text: '\nPONDOK PESANTREN ANAK TAHFIDZUL QUR\'AN RAUDLATUL FALAH \n',
                               alignment: 'center',
                               fontSize: 14,
                               bold: true,
