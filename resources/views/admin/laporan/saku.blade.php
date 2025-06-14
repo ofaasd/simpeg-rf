@@ -90,13 +90,13 @@
           },
           {
             extend: 'csv',
-            title: 'saldo_uang_saku',
+            title: 'Saldo Uang Saku',
             text: '<i class="mdi mdi-file-document-outline me-1" ></i>Csv',
             className: 'dropdown-item',
           },
           {
             extend: 'excel',
-            title: 'saldo_uang_saku',
+            title: 'Saldo Uang Saku',
             // title: title,
             text: '<i class="mdi mdi-file-excel-outline me-1" ></i>Excel',
             className: 'dropdown-item',
@@ -112,7 +112,7 @@
           },
           {
             extend: 'copy',
-            title: 'saldo_uang_saku',
+            title: 'Saldo Uang Saku',
             text: '<i class="mdi mdi-content-copy me-1" ></i>Copy',
             className: 'dropdown-item',
 
