@@ -145,7 +145,7 @@
                               alignment: 'center',
                               fontSize: 14,
                               bold: true,
-                              margin: [10, 5, 10, 0],
+                              margin: [20, 5, 10, 0],
                             },
                             
                             {text: 'Jl. KH. Abdullah Km. 2 Bermi-Gembong -Pati 59162 \n www.ppatq-rf.sch.id || www.ppatq-rf.id',
