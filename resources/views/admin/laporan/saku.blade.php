@@ -128,7 +128,6 @@
             text: '<i clas s="mdi mdi-file-pdf-box me-1"></i>Pdf',
             className: 'dropdown-item',
             customize: function (doc) {
-                doc.content.splice(1, 1);
                 // You need to convert URL to base64 first (see note below)
                 doc.content.splice(0, 0, {
                   columns: [
@@ -161,11 +160,9 @@
                         margin: [0, 5, 0, 0]
                     }
                   ],
-                  
-              });
+                  margin: [0, 0, 0, 15] // bottom margin  
+              }); 
             }
-
-            // Helper function to convert image URL to base64
             
           },
           {
