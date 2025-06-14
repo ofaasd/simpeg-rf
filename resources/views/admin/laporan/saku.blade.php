@@ -104,7 +104,7 @@
           },
           {
             extend: 'pdf',
-            title: 'saldo_uang_saku',
+            title: 'Saldo Uang Saku',
             // title: title,
             text: '<i class="mdi mdi-file-pdf-box me-1"></i>Pdf',
             className: 'dropdown-item',
