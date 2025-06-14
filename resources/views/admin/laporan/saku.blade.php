@@ -50,6 +50,25 @@
 </div>
 @endsection
 <script>
+  function getBase64FromImageUrl(url) {
+    return new Promise((resolve, reject) => {
+        var img = new Image();
+        img.setAttribute('crossOrigin', 'anonymous');
+        img.onload = function() {
+            var canvas = document.createElement("canvas");
+            canvas.width = this.width;
+            canvas.height = this.height;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(this, 0, 0);
+            var dataURL = canvas.toDataURL("image/png");
+            resolve(dataURL);
+        };
+        img.onerror = function() {
+            reject("Could not load image");
+        };
+        img.src = url;
+    });
+  }
   document.addEventListener("DOMContentLoaded", function(event) {
     const title = 'Syahriyah';
     $("#table-laporan").DataTable({
@@ -106,9 +125,20 @@
             extend: 'pdf',
             title: 'Saldo Uang Saku',
             // title: title,
-            text: '<i class="mdi mdi-file-pdf-box me-1"></i>Pdf',
+            text: '<i clas s="mdi mdi-file-pdf-box me-1"></i>Pdf',
             className: 'dropdown-item',
+            customize: function (doc) {
+                // You need to convert URL to base64 first (see note below)
+                getBase64FromImageUrl('https://payment.ppatq-rf.id/assets/images/logo.png').then(base64 => {
+                    doc.content.splice(0, 0, {
+                        image: base64,
+                        width: 100
+                    });
+                });
+            }
 
+            // Helper function to convert image URL to base64
+            
           },
           {
             extend: 'copy',
