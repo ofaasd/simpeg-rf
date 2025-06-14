@@ -14,7 +14,22 @@ use App\Models\Kamar;
 class LaporanSaku extends Controller
 {
     //
+
     public function index(){
+      $bulan = [
+        1 => 'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember',
+      ];
         $santri = Santri::orderBy("kelas","asc")->get();
         $tgl_mulai = '2023-09-22';
         $tgl_selesai = date('Y-m-d');
@@ -24,7 +39,7 @@ class LaporanSaku extends Controller
         $murroby = [];
         $i = 1;
         $title = "Laporan Uang Saku";
-        
+
         foreach($santri as $row){
             $list_santri[$row->no_induk] = SakuKeluar::select('jumlah')->where('tanggal','>=',$tgl_mulai)->where('tanggal','<=',$tgl_selesai)->where('no_induk',$row->no_induk)->sum('jumlah') ?? 0;
             $list_santri_masuk[$row->no_induk] = SakuMasuk::select('jumlah')->where('tanggal','>=',$tgl_mulai)->where('tanggal','<=',$tgl_selesai)->where('no_induk',$row->no_induk)->sum('jumlah') ?? 0;
@@ -35,8 +50,8 @@ class LaporanSaku extends Controller
             }else{
                 $murroby[$row->no_induk] = '';
             }
-            
+
         }
-        return view("admin/laporan/saku", compact('title','murroby','santri','list_santri','list_santri_masuk','list_saku','i'));
+        return view("admin/laporan/saku", compact('title','murroby','santri','list_santri','list_santri_masuk','list_saku','i','bulan'));
     }
 }

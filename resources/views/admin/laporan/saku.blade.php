@@ -20,9 +20,9 @@
                     <th>Nama</th>
                     <th>Kelas</th>
                     <th>Murroby</th>
-                    <th>Total Uang Masuk TGL 1-31 Mei</th>
-                    <th>Total Belanja TGL 1-31 Mei</th>
-                    <th>Saldo</th>
+                    <th>Total Uang Saku s/d {{date('d')}} {{$bulan[(int)date('m')] }}</th>
+                    <th>Total Uang Saku Keluar s/d {{date('d')}} {{$bulan[(int)date('m')] }}</th>
+                    <th>Saldo s/d {{date('d')}} {{$bulan[(int)date('m')] }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -62,7 +62,7 @@
         '<"col-sm-12 col-md-6"i>' +
         '<"col-sm-12 col-md-6"p>' +
         '>',
-      
+
       buttons: [
       {
         extend: 'collection',
@@ -71,7 +71,7 @@
         buttons: [
           {
             extend: 'print',
-            title: title,
+            title: 'saldo_uang_saku',
             text: '<i class="mdi mdi-printer-outline me-1" ></i>Print',
             className: 'dropdown-item',
             customize: function customize(win) {
@@ -90,13 +90,13 @@
           },
           {
             extend: 'csv',
-            title: title,
+            title: 'saldo_uang_saku',
             text: '<i class="mdi mdi-file-document-outline me-1" ></i>Csv',
             className: 'dropdown-item',
           },
           {
             extend: 'excel',
-            title: 'syahriah',
+            title: 'saldo_uang_saku',
             // title: title,
             text: '<i class="mdi mdi-file-excel-outline me-1" ></i>Excel',
             className: 'dropdown-item',
@@ -104,7 +104,7 @@
           },
           {
             extend: 'pdf',
-            title: 'syahriah',
+            title: 'saldo_uang_saku',
             // title: title,
             text: '<i class="mdi mdi-file-pdf-box me-1"></i>Pdf',
             className: 'dropdown-item',
@@ -112,7 +112,7 @@
           },
           {
             extend: 'copy',
-            title: title,
+            title: 'saldo_uang_saku',
             text: '<i class="mdi mdi-content-copy me-1" ></i>Copy',
             className: 'dropdown-item',
 
