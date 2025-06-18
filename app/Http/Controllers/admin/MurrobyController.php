@@ -2,24 +2,31 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\EmployeeNew;
-use App\Models\StructuralPosition;
-use App\Models\Grades;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Kamar;
-use App\Models\Santri;
 use App\Models\User;
+use App\Models\Kamar;
+use App\Models\Grades;
+use App\Models\Santri;
+use App\Models\Perilaku;
 use App\Models\UangSaku;
 use App\Models\SakuMasuk;
 use App\Models\SakuKeluar;
+use App\Models\EmployeeNew;
+use Illuminate\Http\Request;
+use App\Models\StructuralPosition;
+use App\Http\Controllers\Controller;
+use App\Models\Kelengkapan;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class MurrobyController extends Controller
 {
   /**
    * Display a listing of the resource.
    */
+  protected $labelPerilaku = ['Kurang Baik', 'Cukup', 'Baik'];
+  protected $labelKelengkapan = ['Tidak Lengkap', 'Lengkap & Kurang baik', 'lengkap & baik'];
+
+
   public $indexed = ['', 'id', 'nama', 'jenis_kelamin', 'jabatan', 'alamat', 'pendidikan'];
   public function index(Request $request)
   {
@@ -302,6 +309,253 @@ class MurrobyController extends Controller
     $id = $id_pegawai;
     return view('ustadz.murroby.detail_uang_saku', compact('title', 'var', 'id'));
   }
+
+  public function indexPerilaku(string $id)
+  {
+    $where = ['id' => $id];
+    $var['EmployeeNew'] = EmployeeNew::where($where)->first();
+    $title = 'Pegawai';
+
+    $kamar = Kamar::where('employee_id', $id)->first();
+    $var['listSantri'] = Santri::where('kamar_id', $kamar->id)
+      ->orderBy('nama', 'asc')
+      ->get();
+
+    $labelPerilaku = $this->labelPerilaku;
+    $perilaku = Perilaku::whereIn('no_induk', $var['listSantri']->pluck('no_induk'))
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->groupBy('no_induk')
+        ->map(function ($group) use ($labelPerilaku) {
+            $item = $group->first(); // Ambil data terbaru
+
+            // Konversi angka ke labelPerilaku
+            $item->tanggal = Carbon::parse($item->tanggal)->format('Y-m-d') ?? '-';
+
+            $item->ketertiban = $labelPerilaku[$item->ketertiban] ?? '-';
+            $item->kebersihan = $labelPerilaku[$item->kebersihan] ?? '-';
+            $item->kedisiplinan = $labelPerilaku[$item->kedisiplinan] ?? '-';
+            $item->kerapian = $labelPerilaku[$item->kerapian] ?? '-';
+            $item->kesopanan = $labelPerilaku[$item->kesopanan] ?? '-';
+            $item->kepekaan_lingkungan = $labelPerilaku[$item->kepekaan_lingkungan] ?? '-';
+            $item->ketaatan_peraturan = $labelPerilaku[$item->ketaatan_peraturan] ?? '-';
+
+            return $item;
+        });
+
+    $var['perilaku'] = $perilaku;
+
+    return view('ustadz.murroby.index-perilaku', compact('title', 'var', 'id'));
+  }
+
+  public function storePerilaku(Request $request)
+  {
+    $data = Perilaku::create([
+      'no_induk' => $request->noInduk,
+      'tanggal' => $request->tanggal,
+      'ketertiban' => $request->ketertiban,
+      'kebersihan' => $request->kebersihan,
+      'kedisiplinan' => $request->kedisiplinan,
+      'kerapian' => $request->kerapian,
+      'kesopanan' => $request->kesopanan,
+      'kepekaan_lingkungan' => $request->kepekaanLingkungan,
+      'ketaatan_peraturan' => $request->ketaatanPeraturan,
+    ]);
+
+    if ($data) {
+      return response()->json('Success Create', 201);
+    } else {
+      return response()->json('Failed Create', 500);
+    }
+  }
+
+  public function showPerilaku(string $noInduk)
+  {
+    $var['dataSantri'] = Santri::where('no_induk', $noInduk)->first();
+
+    $kamar = Kamar::where('id', $var['dataSantri']->kamar_id)->first();
+    $var['EmployeeNew'] = EmployeeNew::where('id', $kamar->employee_id)->first();
+
+    $title = 'Detail Perilaku' . $var['dataSantri']->nama;
+
+    $labelPerilaku = $this->labelPerilaku;
+    $var['perilaku'] = Perilaku::where('no_induk', $noInduk)
+      ->orderBy('created_at', 'desc') // jika kamu ingin data terbaru di urutan atas
+      ->get()
+      ->map(function ($item) use ($labelPerilaku) {
+          $item->tanggal = $item->tanggal ? Carbon::parse($item->tanggal)->format('Y-m-d') : '-';
+
+          $item->ketertiban = $labelPerilaku[$item->ketertiban] ?? '-';
+          $item->kebersihan = $labelPerilaku[$item->kebersihan] ?? '-';
+          $item->kedisiplinan = $labelPerilaku[$item->kedisiplinan] ?? '-';
+          $item->kerapian = $labelPerilaku[$item->kerapian] ?? '-';
+          $item->kesopanan = $labelPerilaku[$item->kesopanan] ?? '-';
+          $item->kepekaan_lingkungan = $labelPerilaku[$item->kepekaan_lingkungan] ?? '-';
+          $item->ketaatan_peraturan = $labelPerilaku[$item->ketaatan_peraturan] ?? '-';
+
+          return $item;
+      });
+
+    $id = $var['EmployeeNew']->id;
+
+    return view('ustadz.murroby.show-perilaku', compact('title', 'var', 'id'));
+  }
+
+  public function editPerilaku(int $id)
+  {
+    $where = ['id' => $id];
+
+    $data = Perilaku::where($where)->first();
+
+    return response()->json($data);
+  }
+
+  public function updatePerilaku(Request $request, $id)
+  {
+    $data = Perilaku::where('id', $id)->first();
+    $save = $data->update([
+      'no_induk' => $request->noInduk,
+      'tanggal' => $request->tanggal,
+      'ketertiban' => $request->ketertiban,
+      'kebersihan' => $request->kebersihan,
+      'kedisiplinan' => $request->kedisiplinan,
+      'kerapian' => $request->kerapian,
+      'kesopanan' => $request->kesopanan,
+      'kepekaan_lingkungan' => $request->kepekaanLingkungan,
+      'ketaatan_peraturan' => $request->ketaatanPeraturan,
+    ]);
+
+    if ($save) {
+      return response()->json('Success Update', 200);
+    } else {
+      return response()->json('Failed Update', 500);
+    }
+  }
+
+  public function deletePerilaku(int $id)
+  {
+    $data = Perilaku::where('id', $id)->first();
+    $data->delete();
+  }
+
+  public function indexKelengkapan(string $id)
+  {
+    $where = ['id' => $id];
+    $var['EmployeeNew'] = EmployeeNew::where($where)->first();
+    $title = 'Pegawai';
+
+    $kamar = Kamar::where('employee_id', $id)->first();
+    $var['listSantri'] = Santri::where('kamar_id', $kamar->id)
+      ->orderBy('nama', 'asc')
+      ->get();
+
+    $labelKelengkapan = $this->labelKelengkapan;
+    $kelengkapan = Kelengkapan::whereIn('no_induk', $var['listSantri']->pluck('no_induk'))
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->groupBy('no_induk')
+        ->map(function ($group) use ($labelKelengkapan) {
+            $item = $group->first(); // Ambil data terbaru
+
+            // Konversi angka ke labelKelengkapan
+            $item->tanggal = Carbon::parse($item->tanggal)->format('Y-m-d') ?? '-';
+
+            $item->perlengkapan_mandi = $labelKelengkapan[$item->perlengkapan_mandi] ?? '-';
+            $item->peralatan_sekolah = $labelKelengkapan[$item->peralatan_sekolah] ?? '-';
+            $item->perlengkapan_diri = $labelKelengkapan[$item->perlengkapan_diri] ?? '-';
+
+            return $item;
+        });
+
+    $var['kelengkapan'] = $kelengkapan;
+
+    return view('ustadz.murroby.index-kelengkapan', compact('title', 'var', 'id'));
+  }
+
+  public function storeKelengkapan(Request $request)
+  {
+    $data = Kelengkapan::create([
+      'no_induk' => $request->noInduk,
+      'tanggal' => $request->tanggal,
+      'perlengkapan_mandi' => $request->perlengkapanMandi,
+      'catatan_mandi' => $request->catatanMandi,
+      'peralatan_sekolah' => $request->peralatanSekolah,
+      'catatan_sekolah' => $request->catatanSekolah,
+      'perlengkapan_diri' => $request->perlengkapanDiri,
+      'catatan_diri' => $request->catatanDiri,
+    ]);
+
+    if ($data) {
+      return response()->json('Success Create', 201);
+    } else {
+      return response()->json('Failed Create', 500);
+    }
+  }
+
+  public function showKelengkapan(string $noInduk)
+  {
+    $var['dataSantri'] = Santri::where('no_induk', $noInduk)->first();
+
+    $kamar = Kamar::where('id', $var['dataSantri']->kamar_id)->first();
+    $var['EmployeeNew'] = EmployeeNew::where('id', $kamar->employee_id)->first();
+
+    $title = 'Detail Kelengkapan' . $var['dataSantri']->nama;
+
+    $labelKelengkapan = $this->labelKelengkapan;
+    $var['kelengkapan'] = Kelengkapan::where('no_induk', $noInduk)
+      ->orderBy('created_at', 'desc') // jika kamu ingin data terbaru di urutan atas
+      ->get()
+      ->map(function ($item) use ($labelKelengkapan) {
+          $item->tanggal = $item->tanggal ? Carbon::parse($item->tanggal)->format('Y-m-d') : '-';
+
+          $item->perlengkapan_mandi = $labelKelengkapan[$item->perlengkapan_mandi] ?? '-';
+          $item->peralatan_sekolah = $labelKelengkapan[$item->peralatan_sekolah] ?? '-';
+          $item->perlengkapan_diri = $labelKelengkapan[$item->perlengkapan_diri] ?? '-';
+
+          return $item;
+      });
+
+    $id = $var['EmployeeNew']->id;
+
+    return view('ustadz.murroby.show-kelengkapan', compact('title', 'var', 'id'));
+  }
+
+  public function editKelengkapan(int $id)
+  {
+    $where = ['id' => $id];
+
+    $data = Kelengkapan::where($where)->first();
+
+    return response()->json($data);
+  }
+
+  public function updateKelengkapan(Request $request, $id)
+  {
+    $data = Kelengkapan::where('id', $id)->first();
+    $save = $data->update([
+      'no_induk' => $request->noInduk,
+      'tanggal' => $request->tanggal,
+      'perlengkapan_mandi' => $request->perlengkapanMandi,
+      'catatan_mandi' => $request->catatanMandi,
+      'peralatan_sekolah' => $request->peralatanSekolah,
+      'catatan_sekolah' => $request->catatanSekolah,
+      'perlengkapan_diri' => $request->perlengkapanDiri,
+      'catatan_diri' => $request->catatanDiri,
+    ]);
+
+    if ($save) {
+      return response()->json('Success Update', 200);
+    } else {
+      return response()->json('Failed Update', 500);
+    }
+  }
+
+  public function deleteKelengkapan(int $id)
+  {
+    $data = Kelengkapan::where('id', $id)->first();
+    $data->delete();
+  }
+
   /**
    * Show the form for editing the specified resource.
    */
