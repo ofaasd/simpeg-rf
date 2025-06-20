@@ -8,7 +8,7 @@
 /vendor
 
 .env
-git-ku
+-git-ku
 .env.backup
 .env.production
 .phpunit.result.cache
@@ -36,3 +36,10 @@ package-lock.log
 /public/assets/js
 /public/assets/css
 /public/assets/vendor
+bootstrap/cache/services.php
+bootstrap/cache/packages.php
+composer.lock
+composer.lock
+composer.lock
+bootstrap/cache/services.php
+bootstrap/cache/packages.php

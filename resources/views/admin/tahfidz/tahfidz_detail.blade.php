@@ -103,6 +103,106 @@
           </select>
           <label for="add-{{strtolower($title)}}-kode_juz_surah">Kode Juz Surah</label>
         </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <select class="form-control" id="add-{{strtolower($page)}}-hafalan" name="hafalan" >
+              <option value='4'>A</option>
+              <option value='3'>B</option>
+              <option value='2'>C</option>
+              <option value='1'>D</option>
+              <option value='0'>E</option>
+          </select>
+          <label for="add-{{strtolower($title)}}-hafalan">Hafalan</label>
+        </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <select class="form-control" id="add-{{strtolower($page)}}-tilawah" name="tilawah" >
+              <option value='4'>A</option>
+              <option value='3'>B</option>
+              <option value='2'>C</option>
+              <option value='1'>D</option>
+              <option value='0'>E</option>
+          </select>
+          <label for="add-{{strtolower($title)}}-tilawah">Tilawah</label>
+        </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <select class="form-control" id="add-{{strtolower($page)}}-kefasihan" name="kefasihan" >
+              <option value='4'>A</option>
+              <option value='3'>B</option>
+              <option value='2'>C</option>
+              <option value='1'>D</option>
+              <option value='0'>E</option>
+          </select>
+          <label for="add-{{strtolower($title)}}-kefasihan">Kefasihan</label>
+        </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <select class="form-control" id="add-{{strtolower($page)}}-daya_ingat" name="daya_ingat" >
+              <option value='4'>A</option>
+              <option value='3'>B</option>
+              <option value='2'>C</option>
+              <option value='1'>D</option>
+              <option value='0'>E</option>
+          </select>
+          <label for="add-{{strtolower($title)}}-daya_ingat">Daya Ingat</label>
+        </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <select class="form-control" id="add-{{strtolower($page)}}-kelancaran" name="kelancaran" >
+              <option value='4'>A</option>
+              <option value='3'>B</option>
+              <option value='2'>C</option>
+              <option value='1'>D</option>
+              <option value='0'>E</option>
+          </select>
+          <label for="add-{{strtolower($title)}}-kelancaran">Kelancaran</label>
+        </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <select class="form-control" id="add-{{strtolower($page)}}-praktek_tajwid" name="praktek_tajwid" >
+              <option value='4'>A</option>
+              <option value='3'>B</option>
+              <option value='2'>C</option>
+              <option value='1'>D</option>
+              <option value='0'>E</option>
+          </select>
+          <label for="add-{{strtolower($title)}}-praktek_tajwid">Praktek Tajwid</label>
+        </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <select class="form-control" id="add-{{strtolower($page)}}-makhroj" name="makhroj" >
+              <option value='4'>A</option>
+              <option value='3'>B</option>
+              <option value='2'>C</option>
+              <option value='1'>D</option>
+              <option value='0'>E</option>
+          </select>
+          <label for="add-{{strtolower($title)}}-makhroj">Makhroj</label>
+        </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <select class="form-control" id="add-{{strtolower($page)}}-tanafus" name="tanafus" >
+              <option value='4'>A</option>
+              <option value='3'>B</option>
+              <option value='2'>C</option>
+              <option value='1'>D</option>
+              <option value='0'>E</option>
+          </select>
+          <label for="add-{{strtolower($title)}}-tanafus">Tanafus</label>
+        </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <select class="form-control" id="add-{{strtolower($page)}}-waqof_wasol" name="waqof_wasol" >
+              <option value='4'>A</option>
+              <option value='3'>B</option>
+              <option value='2'>C</option>
+              <option value='1'>D</option>
+              <option value='0'>E</option>
+          </select>
+          <label for="add-{{strtolower($title)}}-waqof_wasol">Waqof Wasol</label>
+        </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <select class="form-control" id="add-{{strtolower($page)}}-ghorib" name="ghorib" >
+              <option value='4'>A</option>
+              <option value='3'>B</option>
+              <option value='2'>C</option>
+              <option value='1'>D</option>
+              <option value='0'>E</option>
+          </select>
+          <label for="add-{{strtolower($title)}}-ghorib">Ghorib</label>
+        </div>
         <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
         <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
         <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
