@@ -6,10 +6,6 @@
 <script src="{{asset('js/laravel-kurban.js')}}"></script>
 @endsection
 
-@section('page-script')
-<script src="{{asset('js/laravel-academic-management.js')}}"></script>
-@endsection
-
 @section('content')
 <!-- {{strtolower($title)}} List Table -->
 <div class="card mb-4">
