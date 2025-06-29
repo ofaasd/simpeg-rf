@@ -189,6 +189,16 @@ class AdminDetailTahfidzController extends Controller
           'tanggal' => $tanggal,
           'id_tahun_ajaran' => $request->id_tahun_ajaran,
           'kode_juz_surah' => $request->kode_juz_surah,
+          'hafalan' => $request->hafalan,
+          'tilawah' => $request->tilawah,
+          'kefasihan' => $request->kefasihan,
+          'daya_ingat' => $request->daya_ingat,
+          'kelancaran' => $request->kelancaran,
+          'praktek_tajwid' => $request->praktek_tajwid,
+          'makhroj' => $request->makhroj,
+          'tanafus' => $request->tanafus,
+          'waqof_wasol' => $request->waqof_wasol,
+          'ghorib' => $request->ghorib,
         ]
       );
 
@@ -217,6 +227,16 @@ class AdminDetailTahfidzController extends Controller
           'tanggal' => $tanggal,
           'id_tahun_ajaran' => $request->id_tahun_ajaran,
           'kode_juz_surah' => $request->kode_juz_surah,
+          'hafalan' => $request->hafalan,
+          'tilawah' => $request->tilawah,
+          'kefasihan' => $request->kefasihan,
+          'daya_ingat' => $request->daya_ingat,
+          'kelancaran' => $request->kelancaran,
+          'praktek_tajwid' => $request->praktek_tajwid,
+          'makhroj' => $request->makhroj,
+          'tanafus' => $request->tanafus,
+          'waqof_wasol' => $request->waqof_wasol,
+          'ghorib' => $request->ghorib,
         ]
       );
       if ($detail) {
