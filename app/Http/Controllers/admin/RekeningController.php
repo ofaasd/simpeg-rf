@@ -10,120 +10,129 @@ use Illuminate\Http\Request;
 
 class RekeningController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $title = 'Rekening';
-        $data = Rekening::select([
-                'rekening.id',
-                'rekening.no AS noRek',
-                'rekening.atas_nama AS atasNama',
-                'ref_bank.nama AS namaBank'
-            ])
-            ->leftJoin('ref_bank', 'ref_bank.kode', '=', 'rekening.kode_bank')
-            ->latest()
-            ->get();
-        $refBank = RefBank::all();
-        $tutorial = Tutorial::where('jenis', 'pembayaran')->first();
-        
-        return view('admin.rekening.index', compact('data', 'title', 'refBank', 'tutorial'));
+  /**
+   * Display a listing of the resource.
+   */
+  public function index()
+  {
+    $title = 'Rekening';
+    $data = Rekening::select([
+      'rekening.id',
+      'rekening.no AS noRek',
+      'rekening.atas_nama AS atasNama',
+      'ref_bank.nama AS namaBank',
+    ])
+      ->leftJoin('ref_bank', 'ref_bank.kode', '=', 'rekening.kode_bank')
+      ->latest()
+      ->get();
+    $refBank = RefBank::all();
+    $tutorial = Tutorial::where('jenis', 'pembayaran')
+      ->orderBy('urutan', 'asc')
+      ->get();
+
+    return view('admin.rekening.index', compact('data', 'title', 'refBank', 'tutorial'));
+  }
+
+  /**
+   * Show the form for creating a new resource.
+   */
+  public function create()
+  {
+    //
+  }
+
+  /**
+   * Store a newly created resource in storage.
+   */
+  public function store(Request $request)
+  {
+    $id = $request->id;
+
+    if (!empty($id)) {
+      $data = Rekening::updateOrCreate(
+        ['id' => $id],
+        [
+          'kode_bank' => $request->kodeBank,
+          'no' => $request->no,
+          'atas_nama' => $request->atasNama,
+        ]
+      );
+      $messageResponse = 'Merubah Rekening';
+    } else {
+      $data = Rekening::updateOrCreate(
+        ['id' => $id],
+        [
+          'kode_bank' => $request->kodeBank,
+          'no' => $request->no,
+          'atas_nama' => $request->atasNama,
+        ]
+      );
+      $messageResponse = 'Membuat Rekening';
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    if ($data) {
+      return response()->json($messageResponse);
+    } else {
+      return response()->json('Failed Create');
     }
+  }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $id = $request->id;
+  public function storeTutorial(Request $request)
+  {
+    $jenisPembayaran = Tutorial::where('jenis', $request->jenisTutorial)->get();
+    $berhasil = false;
 
-        if (!empty($id)) {
-            $data = Rekening::updateOrCreate(
-                ['id' => $id],
-                [
-                    'kode_bank' => $request->kodeBank,
-                    'no' => $request->no,
-                    'atas_nama' => $request->atasNama,
-                ]
-            );
-            $messageResponse = "Merubah Rekening";
-        } else {
-
-            $data = Rekening::updateOrCreate(
-                ['id' => $id],
-                [
-                    'kode_bank' => $request->kodeBank,
-                    'no' => $request->no,
-                    'atas_nama' => $request->atasNama,
-                ]
-            );
-            $messageResponse = "Membuat Rekening";
-        }
-
-        if ($data) {
-            return response()->json($messageResponse);
-        } else {
-            return response()->json('Failed Create');
-        }
-    }
-
-    public function storeTutorial(Request $request)
-    {
-        $data = Tutorial::where('id', $request->idJenisTutorial)->first();
-        $data->update([
-            'teks'  => $request->teks
+    foreach ($jenisPembayaran as $row) {
+      $teksBaru = $request->input('teks-' . $row->id); // ambil berdasarkan nama input
+      if ($teksBaru !== null) {
+        $row->update([
+          'teks' => $teksBaru,
         ]);
-
-        if ($data) {
-            return response()->json('Berhasil mengupdate data.');
-        } else {
-            return response()->json('Gagal mengupdate data.');
-        }
+        $berhasil = true;
+      }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+    if ($berhasil) {
+      return response()->json('Berhasil mengupdate data.');
+    } else {
+      return response()->json('Gagal mengupdate data.');
     }
+  }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $where = ['id' => $id];
+  /**
+   * Display the specified resource.
+   */
+  public function show(string $id)
+  {
+    //
+  }
 
-        $data = Rekening::where($where)->first();
+  /**
+   * Show the form for editing the specified resource.
+   */
+  public function edit(string $id)
+  {
+    $where = ['id' => $id];
 
-        return response()->json($data);
-    }
+    $data = Rekening::where($where)->first();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    return response()->json($data);
+  }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $data = Rekening::where('id', $id)->first();
-        $data->delete();
-    }
+  /**
+   * Update the specified resource in storage.
+   */
+  public function update(Request $request, string $id)
+  {
+    //
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   */
+  public function destroy(string $id)
+  {
+    $data = Rekening::where('id', $id)->first();
+    $data->delete();
+  }
 }

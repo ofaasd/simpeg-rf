@@ -35,17 +35,22 @@
         <h4>Mekanisme pembayaran</h4>
       </div>
       <div class="card-body" style="overflow-x:scroll">
-        <div class="row">
-          <div class="col-12 col-md-12">
-            <form id="formMekanisme"  onsubmit="return false">
-              <input type="hidden" name="idJenisTutorial" value="{{ $tutorial->id }}">
-              <label for="teks">Teks mekanisme</label>
-              <input id="teks" type="hidden" name="teks" value="{{ $tutorial->teks }}">
-              <trix-editor id="trix_id" input="teks" placeholder="ketik disini..."></trix-editor>
-              <button type="submit" id="btnSimpanMekanisme" class="btn btn-primary btn-sm mt-3" style="float:right">Update</button>
-            </form>
+        <form id="formMekanisme"  onsubmit="return false">
+          <div class="row">
+            <div class="col-12 col-md-12">
+                <input type="hidden" name="jenisTutorial" value="pembayaran">
+                @foreach ( $tutorial as $row)
+                <div class="mt-2">
+                    <input type="hidden" name="id" value="{{ $row->id }}">
+                    <label for="teks-{{ $row->id }}">Teks ke {{ $row->urutan }}</label>
+                    <input id="teks-{{ $row->id }}" type="hidden" name="teks-{{ $row->id }}" value="{{ $row->teks }}">
+                    <trix-editor id="trix_id" input="teks-{{ $row->id }}" placeholder="ketik disini..."></trix-editor>
+                  </div>
+                @endforeach
+                <button type="submit" id="btnSimpanMekanisme" class="btn btn-primary btn-sm mt-3" style="float:right">Update</button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -58,11 +63,11 @@
         <h4>Rekening</h4>
       </div>
       <div class="card-body" style="overflow-x:scroll">
-        <div class="row">
+        {{-- <div class="row">
           <div class="col-md-12 text-right">
             <button type="button" id="btnTambahRekening" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal_rekening" style="float:right">+ Tambah</button>
           </div>
-        </div>
+        </div> --}}
         <div id="table_rekening">
           <table class="dataTable table">
             <thead>
