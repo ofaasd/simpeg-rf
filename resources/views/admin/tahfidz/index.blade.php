@@ -45,7 +45,7 @@
         </div>
         <div class="form-floating form-floating-outline mb-4">
           <select  class="form-control" id="add-{{strtolower($title)}}-code" name="code" >
-            @for($i=1;$i<=26;$i++)
+            @for($i=1;$i<=50;$i++)
               @foreach($code as $value)
                 <option value='{{$i}}{{$value}}'>{{$i}}{{$value}}</option>
               @endforeach
