@@ -57,6 +57,7 @@ use App\Http\Controllers\admin\KategoriController;
 use App\Http\Controllers\admin\LaporanPondokController;
 use App\Http\Controllers\admin\RekeningController;
 use App\Http\Controllers\admin\KurbanController;
+use App\Http\Controllers\admin\LogAksesMobileController;
 use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\NewMenuController;
@@ -299,6 +300,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::get('/show-ketahfidzan', [ShowKetahfidzanController::class, 'index']);
   Route::post('/show-ketahfidzan', [ShowKetahfidzanController::class, 'index']);
   Route::post('/show-ketahfidzan/cetak-ketahfidzan', [ShowKetahfidzanController::class, 'cetakKetahfidzan'])->name("cetak-ketahfidzan");
+
+  // report aplikasi
+  Route::resource('/mobile/log-akses', LogAksesMobileController::class);
 
   Route::resource('/psb', psb::class);
   Route::resource('/psb_slide', PsbSlideController::class);

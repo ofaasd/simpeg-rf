@@ -97,7 +97,7 @@
     </div>
   </div>
 </div>
-<!-- uang Saku Masuk -->
+<!-- Form Agenda -->
 <form id="formAgenda"  onsubmit="return false">
   <div class="modal fade" id="modal_agenda"  aria-hidden="true">
     <div class="modal-dialog modal-lg modal-simple modal-edit-user">

@@ -452,6 +452,19 @@
         }
       ]
     },
+    {
+      "url": "#",
+      "icon": "menu-icon tf-icons mdi mdi-cellphone-dock",
+      "name": "Mobile",
+      "slug": "mobile",
+      "submenu": [
+        {
+          "url": "/mobile/log-akses",
+          "name": "Log Akses",
+          "slug": "log-akses"
+        }
+      ]
+    },
      {
       "url": "/kurban",
       "icon": "menu-icon tf-icons mdi mdi-cow",
