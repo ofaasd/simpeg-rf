@@ -35,7 +35,7 @@
             </li>
           @empty --}}
             {{-- <li class="list-group-item text-center text-muted">Tidak ada user online</li> --}}
-            <li class="list-group-item text-center text-muted">Dalam Pengembangan</li>
+            <li class="list-group-item text-center text-muted">dalam tahap pengembangan</li>
           {{-- @endforelse --}}
         </ul>
       </div>
