@@ -63,7 +63,9 @@ class Santri extends Model
     'no_tes' => 'int',
     'kamar_id' => 'int',
     'tahfidz_id' => 'int',
+    'last_seen' => 'datetime',
   ];
+
 
   protected $fillable = [
     'no_induk',

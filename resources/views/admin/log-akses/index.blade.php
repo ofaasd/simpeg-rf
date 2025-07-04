@@ -13,7 +13,7 @@
     <div class="card mb-3">
       <div class="card-body">
         <h5 class="card-title">User Online/Baru-baru ini online</h5>
-        <p class="card-text display-6">- Orang</p>
+        <p class="card-text display-6">{{ $jmlUserOnline }} Orang</p>
       </div>
     </div>
   </div>
@@ -26,17 +26,17 @@
       </div>
       <div class="card-body p-0">
         <ul class="list-group list-group-flush">
-          {{-- @forelse($onlineUsers as $user)
+          @forelse($onlineUsers as $user)
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <div>
                 <i class="fas fa-user-circle me-2 text-success"></i> {{ $user->nama }}
               </div>
-              <small class="text-muted">Aktif {{ $user->timestamp->diffForHumans() }}</small>
+              <small class="text-muted">Aktif {{ $user->last_seen->diffForHumans() }}</small>
             </li>
-          @empty --}}
-            {{-- <li class="list-group-item text-center text-muted">Tidak ada user online</li> --}}
-            <li class="list-group-item text-center text-muted">dalam tahap pengembangan</li>
-          {{-- @endforelse --}}
+          @empty
+            <li class="list-group-item text-center text-muted">Tidak ada user online</li>
+            {{-- <li class="list-group-item text-center text-muted">dalam tahap pengembangan</li> --}}
+          @endforelse
         </ul>
       </div>
     </div>
