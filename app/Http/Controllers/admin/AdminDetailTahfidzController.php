@@ -111,6 +111,7 @@ class AdminDetailTahfidzController extends Controller
               ->orWhereRelation('santri_detail', 'nama', 'like', "%{$search}%")
               ->orWhereRelation('kode_juz', 'nama', 'like', "%{$search}%");
           })
+          ->join('santri_detail', 'detail_santri_tahfidz.no_induk', '=', 'santri_detail.no_induk')
           ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
