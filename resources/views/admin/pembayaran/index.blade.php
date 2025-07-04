@@ -158,7 +158,7 @@
                                 <td>{{$s->no_induk}}</td>
                                 <td>{{$s->nama}}</td>
                                 <td>{{$s->kelas}}</td>
-                                <td>{{$s->kamar_id}} ({{ ($s->kamar_id==0)?"":$data['nama_murroby'][$s->kamar_id]}})</td>
+                                <td>{{$s->kamar_id}} ({{ ($s->kamar_id==0 || $s->kamar_id >= 50)?"":$data['nama_murroby'][$s->kamar_id]}})</td>
 
                                 <td>{{$s->tanggal_bayar}}</td>
                                 <td>{{$s->atas_nama ?? ''}}</td>
