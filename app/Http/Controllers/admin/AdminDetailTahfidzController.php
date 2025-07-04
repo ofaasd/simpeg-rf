@@ -144,8 +144,8 @@ class AdminDetailTahfidzController extends Controller
         foreach ($detail as $row) {
           $nestedData['id'] = $row->id;
           $nestedData['fake_id'] = ++$ids;
-          $nestedData['nama'] = $row->santri->nama;
-          $nestedData['no_induk'] = $row->santri->nama;
+          $nestedData['nama'] = $row->nama;
+          $nestedData['no_induk'] = $row->nama;
           $nestedData['bulan'] = $this->bulan[$row->bulan];
           $nestedData['kode_juz_surah'] = $row->kode_juz->nama;
           $data[] = $nestedData;
