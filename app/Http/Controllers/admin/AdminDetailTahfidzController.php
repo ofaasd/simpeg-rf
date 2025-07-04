@@ -108,7 +108,7 @@ class AdminDetailTahfidzController extends Controller
           ->where(function ($query) use ($search) {
             $query
               ->where('id', 'LIKE', "%{$search}%")
-              ->orWhereRelation('santri', 'nama', 'like', "%{$search}%")
+              ->orWhereRelation('santri_detail', 'nama', 'like', "%{$search}%")
               ->orWhereRelation('kode_juz', 'nama', 'like', "%{$search}%");
           })
           ->offset($start)
@@ -129,7 +129,7 @@ class AdminDetailTahfidzController extends Controller
             ->where(function ($query) use ($search) {
             $query
               ->where('id', 'LIKE', "%{$search}%")
-              ->orWhereRelation('santri', 'nama', 'like', "%{$search}%")
+              ->orWhereRelation('santri_detail', 'nama', 'like', "%{$search}%")
               ->orWhereRelation('kode_juz', 'nama', 'like', "%{$search}%");
           })
           ->count();
