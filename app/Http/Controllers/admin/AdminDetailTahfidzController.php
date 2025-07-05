@@ -160,6 +160,7 @@ class AdminDetailTahfidzController extends Controller
           'recordsFiltered' => intval($totalFiltered),
           'code' => 200,
           'data' => $data,
+          'dump' => $detail,
         ]);
       } else {
         return response()->json([
