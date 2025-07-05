@@ -85,6 +85,7 @@ class AdminDetailTahfidzController extends Controller
         //   ->orderBy($order, $dir)
         //   ->get();
         $detail = DetailSantriTahfidz::where('id_tahfidz', $tahfidz->id)
+          ->join('santri_detail', 'detail_santri_tahfidz.no_induk', '=', 'santri_detail.no_induk')
           ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
