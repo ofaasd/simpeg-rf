@@ -84,7 +84,7 @@ class AdminDetailTahfidzController extends Controller
         //   ->limit($limit)
         //   ->orderBy($order, $dir)
         //   ->get();
-        $detail = DetailSantriTahfidz::where('id_tahfidz', $tahfidz->id)
+        $detail = DetailSantriTahfidz::select('santri_detail.nama','detail_santri_tahfidz.*','kode_juz.nama as kode_juz_surah')->where('id_tahfidz', $tahfidz->id)
           ->join('santri_detail', 'detail_santri_tahfidz.no_induk', '=', 'santri_detail.no_induk')
           ->offset($start)
           ->limit($limit)
@@ -105,7 +105,8 @@ class AdminDetailTahfidzController extends Controller
         //   ->limit($limit)
         //   ->orderBy($order, $dir)
         //   ->get();
-        $detail = DetailSantriTahfidz::where('id_tahfidz', $tahfidz->id)
+        $detail = DetailSantriTahfidz::select('santri_detail.nama','detail_santri_tahfidz.*','kode_juz.nama as kode_juz_surah')
+          ->where('id_tahfidz', $tahfidz->id)
           ->where(function ($query) use ($search) {
             $query
               ->where('id', 'LIKE', "%{$search}%")
