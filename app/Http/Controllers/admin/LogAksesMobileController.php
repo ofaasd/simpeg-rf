@@ -22,21 +22,19 @@ class LogAksesMobileController extends Controller
       'activity_log.created_at AS timestamp',
       'santri_detail.nama',
     ])
-      ->leftJoin('santri_detail', 'santri_detail.id', '=', 'activity_log.causer_id')
-      ->orderBy('activity_log.created_at', 'desc')
-      ->paginate(15);
+    ->leftJoin('santri_detail', 'santri_detail.id', '=', 'activity_log.causer_id')
+    ->orderBy('activity_log.created_at', 'desc')
+    ->whereNot('activity_log.causer_id', 958)
+    ->paginate(15);
 
     $threshold = now()->subMinutes(5); // ambil data yang online dalam 5 menit terakhir
 
     $usersOnline = User::where('last_seen', '>=', $threshold)
-    ->select([
-      'employee_new.nama',
-      'users.last_seen'
-      ])
-    ->leftJoin('employee_new', 'employee_new.id', 'users.pegawai_id')
-    ->get();
-    
-    $santriOnline = Santri::where('last_seen', '>=', $threshold)->get();
+      ->select(['employee_new.nama', 'users.last_seen'])
+      ->leftJoin('employee_new', 'employee_new.id', 'users.pegawai_id')
+      ->get();
+
+    $santriOnline = Santri::where('last_seen', '>=', $threshold)->whereNot('no_induk', 958)->get();
 
     $onlineUsers = $usersOnline->concat($santriOnline);
     $jmlUserOnline = $onlineUsers->count();

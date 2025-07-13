@@ -462,6 +462,11 @@
           "url": "/mobile/log-akses",
           "name": "Log Akses",
           "slug": "log-akses"
+        },
+        {
+          "url": "/mobile/statistik-mobile",
+          "name": "Statistik",
+          "slug": "statistik"
         }
       ]
     },

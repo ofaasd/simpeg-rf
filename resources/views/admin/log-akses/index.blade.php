@@ -54,7 +54,7 @@
                 <thead>
                     <tr>
                     <th style="width: 50px;">#</th>
-                    <th style="min-width: 250px;">Deskripsi</th>
+                    <th style="min-width: 250px;">Aksi</th>
                     <th style="min-width: 150px;">Nama</th>
                     <th style="min-width: 180px;">Terjadi pada</th>
                     </tr>
