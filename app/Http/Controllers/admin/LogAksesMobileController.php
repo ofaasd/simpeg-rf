@@ -25,7 +25,7 @@ class LogAksesMobileController extends Controller
     ->leftJoin('santri_detail', 'santri_detail.id', '=', 'activity_log.causer_id')
     ->orderBy('activity_log.created_at', 'desc')
     ->whereNot('activity_log.causer_id', 958)
-    ->paginate(15);
+    ->get();
 
     $threshold = now()->subMinutes(5); // ambil data yang online dalam 5 menit terakhir
 

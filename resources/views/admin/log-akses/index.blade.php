@@ -50,7 +50,7 @@
         </div>
         <div class="card-body" style="overflow-x:scroll">
         <div id="table_log">
-            <table class="table table-bordered table-hover table-striped table-sm">
+            <table class="table table-bordered table-hover table-striped table-sm dataTable">
                 <thead>
                     <tr>
                     <th style="width: 50px;">#</th>
@@ -85,11 +85,14 @@
                     @endforeach
                 </tbody>
             </table>
-            <div class="d-flex justify-content-end mt-3">
-                {{ $aktifitas->links() }}
-            </div>
         </div>
         </div>
     </div>
 </div>
 @endsection
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        $('.dataTable').dataTable();
+    });
+</script>

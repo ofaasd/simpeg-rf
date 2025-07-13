@@ -31,7 +31,7 @@
 </div>
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-12 col-md-6">
         <div class="p-3 border rounded bg-white" id="card-block">
             <div class="card-header">
                 <h4>User Log In</h4>
@@ -63,7 +63,7 @@
             </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-12 col-md-6">
         <div class="p-3 border rounded bg-white" id="card-block">
             <div class="card-header">
                 <h4>User Belum Log In</h4>
