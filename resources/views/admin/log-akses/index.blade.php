@@ -46,7 +46,7 @@
 <div class="row">
     <div class="card" id="card-block">
         <div class="card-header">
-        <h4>Log Akses Mobile</h4>
+        <h4>Log Akses Mobile PPATQ-RF ku</h4>
         </div>
         <div class="card-body" style="overflow-x:scroll">
         <div id="table_log">
