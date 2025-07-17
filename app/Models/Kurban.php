@@ -16,7 +16,8 @@ class Kurban extends Model
         'jenis',
         'atas_nama',
         'foto',
-        'tanggal'
+        'tanggal',
+        'tahun_hijriah'
     ];
 
     public $timestamps = true;
