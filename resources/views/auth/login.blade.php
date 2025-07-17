@@ -37,7 +37,8 @@ $customizerHidden = 'customizer-hide';
           <span class="app-brand-logo demo"><img src="https://payment.ppatq-rf.id/assets/images/logo.png" alt="" height="50"></span>
           <span class="app-brand-text demo text-heading fw-bold">{{config('variables.templateName')}}</span>
         </a><br />
-        <h4 class="mb-2 fw-semibold">Welcome to SIMPEG {{config('variables.templateName')}}! 👋</h4>
+        {{-- <h4 class="mb-2 fw-semibold">Welcome to SIMPEG {{config('variables.templateName')}}! 👋</h4> --}}
+        <h5 class="mb-2 fw-semibold">Selamat Datang di Sistem Informasi Manajemen Pengelolaan Pondok Pesantren Anak Raudlatul Falah! 👋</h5>
         <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
         @if (session('status'))
