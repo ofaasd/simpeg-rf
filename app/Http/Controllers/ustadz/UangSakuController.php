@@ -101,9 +101,9 @@ class UangSakuController extends Controller
         //   ['no_induk' => $request->no_induk],
         //   ['jumlah' => $saku->jumlah + $request->jumlah]
         // );
-        $updateSaku = UangSaku::find($saku->id);
-        $updateSaku->jumlah = $saku->jumlah + $jumlah;
-        $updateSaku->save();
+        // $updateSaku = UangSaku::find($saku->id);
+        // $updateSaku->jumlah = $saku->jumlah + $jumlah;
+        // $updateSaku->save();
         DB::commit();
         return response()->json('Created');
       } catch (\Exception $e) {
