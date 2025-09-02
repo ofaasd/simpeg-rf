@@ -90,7 +90,22 @@
               <label for="judul">Judul Dakwah</label>
             </div>
           </div>
-
+          <div class="col-12 col-md-8">
+            <div class="form-floating form-floating-outline">
+              <input type="file" id="thumbnail" name="thumbnail" class="form-control" accept="image/*">
+              <label for="thumbnail">Thumbnail Dakwah (Upload Gambar)</label>
+            </div>
+          </div>
+          <div class="col-12 col-md-8">
+            <label>Thumbnail Saat Ini</label><br>
+            <img id="preview-thumbnail" src="" style="max-height: 120px;" class="rounded mb-3 d-none">
+          </div>
+          <div class="col-12 col-md-8">
+            <div class="form-floating form-floating-outline">
+              <input type="text" id='link' name="link" class="form-control" placeholder="Link Dakwah">
+              <label for="link">Link (opsional)</label>
+            </div>
+          </div>
           <div class="col-12 col-md-12">
             <label for="isi_dakwah">Isi Dakwah</label>
             <input id="isi_dakwah" type="hidden" name="isi_dakwah">
@@ -194,9 +209,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
   $('#btnTambahDakwah').on('click', function(){
     $('#id_dakwah').val('');
     $('#judul').val('');
+    $('#thumbnail').val('');
+    $('#link').val('');
     $('#isi_dakwah').val('');
-    $('#trix_id').val('');
+    document.querySelector("trix-editor").editor.loadHTML(''); // kosongkan editor
+    $('#preview-thumbnail').attr('src', '').addClass('d-none'); 
+    $('#modal_dakwah').modal('show');
   });
+  $('#thumbnail').on('change', function () {
+  const file = this.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      $('#preview-thumbnail').attr('src', e.target.result).removeClass('d-none');
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
 
   $('.dataTable').dataTable();
 
@@ -216,33 +246,41 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
   $(document).on('click', '.edit-dakwah', function () {
-      const id = $(this).data('id');
+    const id = $(this).data('id');
 
-      $('.loader-container').show();
-      // Ambil data dengan GET request
-      $.get(''.concat(baseUrl).concat('dakwah/').concat(id, '/edit'), function (data) {
-          // Loop untuk memasukkan data ke form
-          Object.keys(data).forEach(key => {
-              if (data[key] == null) {
-                data[key] = '';
-              }
-              if (key == 'id') {
-                  $('#id_dakwah')
-                      .val(data[key])
-                      .trigger('change');
-              } else if (key == 'isi_dakwah') {
-                  $('#isi_dakwah').val(data[key]).trigger('change');
-                  document.querySelector("trix-editor").editor.loadHTML(data[key]);
-              } else {
-                  $('#' + key)
-                      .val(data[key])
-                      .trigger('change');
-              }
-          });
-          $('.loader-container').hide();
-          $('#modal_dakwah').modal('show');
-      });
-  });
+    $('.loader-container').show();
+
+    $.get(`${baseUrl}dakwah/${id}/edit`, function (data) {
+        Object.keys(data).forEach(key => {
+            let value = data[key] ?? '';
+
+            if (key === 'id') {
+                $('#id_dakwah').val(value).trigger('change');
+
+            } else if (key === 'isi_dakwah') {
+                $('#isi_dakwah').val(value).trigger('change');
+                document.querySelector("trix-editor").editor.loadHTML(value);
+
+            }  else if (key === 'foto') {
+                  if (value) {
+                      $('#preview-thumbnail')
+                          .attr('src', `${baseUrl}${value}`) // karena path kamu img/namafile.jpg
+                          .removeClass('d-none');
+                  } else {
+                      $('#preview-thumbnail').attr('src', '').addClass('d-none');
+                  }
+            } else {
+                const input = $('#' + key);
+                if (input.length) {
+                    input.val(value).trigger('change');
+                }
+            }
+        });
+
+        $('.loader-container').hide();
+        $('#modal_dakwah').modal('show');
+    });
+});
 
   $(document).on('click', '.delete-dakwah', function () {
     const id = $(this).data('id');
