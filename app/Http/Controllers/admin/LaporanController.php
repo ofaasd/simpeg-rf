@@ -82,7 +82,11 @@ class LaporanController extends Controller
           $detailPembayaran = DetailPembayaran::where('id_pembayaran', $row->id)->get();
           foreach ($detailPembayaran as $detail) {
             if(!empty($detail->id_jenis_pembayaran) && $detail->id_jenis_pembayaran != 0 && $row->nama_santri != 0){
-              $santri[$row->nama_santri][$detail->id_jenis_pembayaran] += $detail->nominal;
+              if(empty($santri[$row->nama_santri][$detail->id_jenis_pembayaran])){
+                $santri[$row->nama_santri][$detail->id_jenis_pembayaran] = $detail->nominal;
+              }else{
+                $santri[$row->nama_santri][$detail->id_jenis_pembayaran] += $detail->nominal;
+              }
             }
           }
         }
