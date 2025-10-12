@@ -53,9 +53,9 @@ class LaporanController extends Controller
       }
       if($kelas != 0){
         $where['kelas'] = $kelas;
-        $data['siswa'] = Santri::where('kelas',$kelas)->get();
+        $data['siswa'] = Santri::where('kelas',$kelas)->whereNull('deleted_at')->get();
       }else{
-        $data['siswa'] = Santri::all();
+        $data['siswa'] = Santri::whereNull('deleted_at')->get();
       }
       if($status != 0){
         if($status == 1){
