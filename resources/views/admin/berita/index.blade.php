@@ -11,7 +11,7 @@
 @section('vendor-script')
   <script src="{{asset('assets/vendor/libs/block-ui/block-ui.js')}}"></script>
   <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 
 @endsection
 @section('page-script')

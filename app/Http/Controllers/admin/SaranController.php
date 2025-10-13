@@ -13,7 +13,6 @@ class SaranController extends Controller
      */
     public function index()
     {
-        //
         $keluhan = TbKeluhan::orderBy('id','desc')->get();
         $title = 'Media Saran';
         return view('admin.saran.index', compact('title', 'keluhan'));
