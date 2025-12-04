@@ -84,7 +84,8 @@ class AdminDetailTahfidzController extends Controller
         //   ->limit($limit)
         //   ->orderBy($order, $dir)
         //   ->get();
-        $detail = DetailSantriTahfidz::where('id_tahfidz', $tahfidz->id)
+        $detail = DetailSantriTahfidz::select('santri_detail.nama','detail_santri_tahfidz.*')->where('id_tahfidz', $tahfidz->id)
+          ->join('santri_detail', 'detail_santri_tahfidz.no_induk', '=', 'santri_detail.no_induk')
           ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
@@ -104,13 +105,15 @@ class AdminDetailTahfidzController extends Controller
         //   ->limit($limit)
         //   ->orderBy($order, $dir)
         //   ->get();
-        $detail = DetailSantriTahfidz::where('id_tahfidz', $tahfidz->id)
+        $detail = DetailSantriTahfidz::select('santri_detail.nama','detail_santri_tahfidz.*')
+          ->where('id_tahfidz', $tahfidz->id)
           ->where(function ($query) use ($search) {
             $query
               ->where('id', 'LIKE', "%{$search}%")
-              ->orWhereRelation('santri', 'nama', 'like', "%{$search}%")
+              ->orWhereRelation('santri_detail', 'nama', 'like', "%{$search}%")
               ->orWhereRelation('kode_juz', 'nama', 'like', "%{$search}%");
           })
+          ->join('santri_detail', 'detail_santri_tahfidz.no_induk', '=', 'santri_detail.no_induk')
           ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
@@ -129,7 +132,7 @@ class AdminDetailTahfidzController extends Controller
             ->where(function ($query) use ($search) {
             $query
               ->where('id', 'LIKE', "%{$search}%")
-              ->orWhereRelation('santri', 'nama', 'like', "%{$search}%")
+              ->orWhereRelation('santri_detail', 'nama', 'like', "%{$search}%")
               ->orWhereRelation('kode_juz', 'nama', 'like', "%{$search}%");
           })
           ->count();
@@ -144,7 +147,8 @@ class AdminDetailTahfidzController extends Controller
         foreach ($detail as $row) {
           $nestedData['id'] = $row->id;
           $nestedData['fake_id'] = ++$ids;
-          $nestedData['no_induk'] = $row->santri->nama;
+          $nestedData['nama'] = $row->nama;
+          $nestedData['no_induk'] = $row->nama;
           $nestedData['bulan'] = $this->bulan[$row->bulan];
           $nestedData['kode_juz_surah'] = $row->kode_juz->nama;
           $data[] = $nestedData;
@@ -158,6 +162,7 @@ class AdminDetailTahfidzController extends Controller
           'recordsFiltered' => intval($totalFiltered),
           'code' => 200,
           'data' => $data,
+          'dump' => $detail,
         ]);
       } else {
         return response()->json([
@@ -189,6 +194,16 @@ class AdminDetailTahfidzController extends Controller
           'tanggal' => $tanggal,
           'id_tahun_ajaran' => $request->id_tahun_ajaran,
           'kode_juz_surah' => $request->kode_juz_surah,
+          'hafalan' => $request->hafalan,
+          'tilawah' => $request->tilawah,
+          'kefasihan' => $request->kefasihan,
+          'daya_ingat' => $request->daya_ingat,
+          'kelancaran' => $request->kelancaran,
+          'praktek_tajwid' => $request->praktek_tajwid,
+          'makhroj' => $request->makhroj,
+          'tanafus' => $request->tanafus,
+          'waqof_wasol' => $request->waqof_wasol,
+          'ghorib' => $request->ghorib,
         ]
       );
 
@@ -217,6 +232,16 @@ class AdminDetailTahfidzController extends Controller
           'tanggal' => $tanggal,
           'id_tahun_ajaran' => $request->id_tahun_ajaran,
           'kode_juz_surah' => $request->kode_juz_surah,
+          'hafalan' => $request->hafalan,
+          'tilawah' => $request->tilawah,
+          'kefasihan' => $request->kefasihan,
+          'daya_ingat' => $request->daya_ingat,
+          'kelancaran' => $request->kelancaran,
+          'praktek_tajwid' => $request->praktek_tajwid,
+          'makhroj' => $request->makhroj,
+          'tanafus' => $request->tanafus,
+          'waqof_wasol' => $request->waqof_wasol,
+          'ghorib' => $request->ghorib,
         ]
       );
       if ($detail) {

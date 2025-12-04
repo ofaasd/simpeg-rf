@@ -9,6 +9,8 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes; // Import the trait
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class SantriDetail
@@ -49,6 +51,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Santri extends Model
 {
+  use HasFactory, SoftDeletes; // Use the trait
   protected $table = 'santri_detail';
   protected $casts = [
     'no_induk' => 'int',
@@ -60,7 +63,9 @@ class Santri extends Model
     'no_tes' => 'int',
     'kamar_id' => 'int',
     'tahfidz_id' => 'int',
+    'last_seen' => 'datetime',
   ];
+
 
   protected $fillable = [
     'no_induk',

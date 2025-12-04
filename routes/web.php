@@ -57,6 +57,8 @@ use App\Http\Controllers\admin\KategoriController;
 use App\Http\Controllers\admin\LaporanPondokController;
 use App\Http\Controllers\admin\RekeningController;
 use App\Http\Controllers\admin\KurbanController;
+use App\Http\Controllers\admin\LogAksesMobileController;
+use App\Http\Controllers\admin\StatistikMobileController;
 use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\NewMenuController;
@@ -64,6 +66,8 @@ use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\RawatInapController;
 use App\Http\Controllers\ShowKetahfidzanController;
 use App\Http\Controllers\TanahController;
+use App\Http\Controllers\ustadz\KelengkapanController;
+use App\Http\Controllers\ustadz\PerilakuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -158,6 +162,21 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   );
   Route::get('/murroby/uang-saku/{id}', [AdminMurrobyController::class, 'uang_saku']);
   Route::get('/murroby/uang-saku-detail/{id}/{id_santri}', [AdminMurrobyController::class, 'uang_saku_detail']);
+
+  Route::get('/murroby/perilaku/{id}', [AdminMurrobyController::class, 'indexPerilaku']);
+  Route::post('/murroby/perilaku/store', [AdminMurrobyController::class, 'storePerilaku']);
+  Route::get('/murroby/perilaku/detail/{noInduk}', [AdminMurrobyController::class, 'showPerilaku']);
+  Route::get('/murroby/perilaku/edit/{id}', [AdminMurrobyController::class, 'editPerilaku']);
+  Route::put('/murroby/perilaku/update/{id}', [AdminMurrobyController::class, 'updatePerilaku']);
+  Route::delete('/murroby/perilaku/delete/{id}', [AdminMurrobyController::class, 'deletePerilaku']);
+
+  Route::get('/murroby/kelengkapan/{id}', [AdminMurrobyController::class, 'indexKelengkapan']);
+  Route::post('/murroby/kelengkapan/store', [AdminMurrobyController::class, 'storeKelengkapan']);
+  Route::get('/murroby/kelengkapan/detail/{noInduk}', [AdminMurrobyController::class, 'showKelengkapan']);
+  Route::get('/murroby/kelengkapan/edit/{id}', [AdminMurrobyController::class, 'editKelengkapan']);
+  Route::put('/murroby/kelengkapan/update/{id}', [AdminMurrobyController::class, 'updateKelengkapan']);
+  Route::delete('/murroby/kelengkapan/delete/{id}', [AdminMurrobyController::class, 'deleteKelengkapan']);
+
   Route::post('/pegawai/store_golru', [Pegawai::class, 'store_golru']);
   Route::post('/pegawai/del_golru', [Pegawai::class, 'del_golru']);
   Route::post('/pegawai/simpan_santri_murroby', [Pegawai::class, 'simpan_santri_murroby']);
@@ -267,6 +286,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/fasilitas', FasilitasController::class);
   Route::resource('/galeri', GaleriController::class);
   Route::resource('/rekening', RekeningController::class);
+  Route::post('/tutorial', [RekeningController::class, 'storeTutorial'])->name("store-tutorial");
   Route::resource('/prestasi', PrestasiController::class);
   Route::resource('/about-ppatq', AboutPondokController::class);
   Route::resource('/kurban', KurbanController::class);
@@ -281,6 +301,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::get('/show-ketahfidzan', [ShowKetahfidzanController::class, 'index']);
   Route::post('/show-ketahfidzan', [ShowKetahfidzanController::class, 'index']);
   Route::post('/show-ketahfidzan/cetak-ketahfidzan', [ShowKetahfidzanController::class, 'cetakKetahfidzan'])->name("cetak-ketahfidzan");
+
+  // report aplikasi
+  Route::resource('/mobile/log-akses', LogAksesMobileController::class);
+  Route::resource('/mobile/statistik-mobile', StatistikMobileController::class);
 
   Route::resource('/psb', psb::class);
   Route::resource('/psb_slide', PsbSlideController::class);
@@ -297,6 +321,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/detail_ketahfidzan', AdminDetailTahfidzController::class);
   Route::resource('/ustadz/saku_masuk', SakuMasukController::class);
   Route::resource('/ustadz/saku_keluar', SakuKeluarController::class);
+  Route::resource('/ustadz/perilaku', PerilakuController::class);
+  Route::resource('/ustadz/kelengkapan', KelengkapanController::class);
 
   Route::resource('/new-menu', NewMenuController::class);
 });

@@ -101,9 +101,9 @@ class UangSakuController extends Controller
         //   ['no_induk' => $request->no_induk],
         //   ['jumlah' => $saku->jumlah + $request->jumlah]
         // );
-        $updateSaku = UangSaku::find($saku->id);
-        $updateSaku->jumlah = $saku->jumlah + $jumlah;
-        $updateSaku->save();
+        // $updateSaku = UangSaku::find($saku->id);
+        // $updateSaku->jumlah = $saku->jumlah + $jumlah;
+        // $updateSaku->save();
         DB::commit();
         return response()->json('Created');
       } catch (\Exception $e) {
@@ -162,7 +162,7 @@ class UangSakuController extends Controller
     $title = 'Pegawai';
     $kamar = Kamar::where('employee_id', $id_pegawai)->first();
 
-    $dari = [1 => 'Pembayaran Wali Santri', 2 => 'Kunjungan Walsan', 3 => 'Sisa Bulan Kemarin'];
+    $dari = [1 => 'Uang Saku', 2 => 'Kunjungan Walsan', 3 => 'Sisa Bulan Kemarin'];
     $bulan = (int) date('m');
     $tahun = date('Y');
     $array_bulan = [

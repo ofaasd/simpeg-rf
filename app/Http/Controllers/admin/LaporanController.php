@@ -53,9 +53,9 @@ class LaporanController extends Controller
       }
       if($kelas != 0){
         $where['kelas'] = $kelas;
-        $data['siswa'] = Santri::where('kelas',$kelas)->get();
+        $data['siswa'] = Santri::where('kelas',$kelas)->whereNull('deleted_at')->get();
       }else{
-        $data['siswa'] = Santri::all();
+        $data['siswa'] = Santri::whereNull('deleted_at')->get();
       }
       if($status != 0){
         if($status == 1){
@@ -82,7 +82,11 @@ class LaporanController extends Controller
           $detailPembayaran = DetailPembayaran::where('id_pembayaran', $row->id)->get();
           foreach ($detailPembayaran as $detail) {
             if(!empty($detail->id_jenis_pembayaran) && $detail->id_jenis_pembayaran != 0 && $row->nama_santri != 0){
-              $santri[$row->nama_santri][$detail->id_jenis_pembayaran] += $detail->nominal;
+              if(empty($santri[$row->nama_santri][$detail->id_jenis_pembayaran])){
+                $santri[$row->nama_santri][$detail->id_jenis_pembayaran] = $detail->nominal;
+              }else{
+                $santri[$row->nama_santri][$detail->id_jenis_pembayaran] += $detail->nominal;
+              }
             }
           }
         }
