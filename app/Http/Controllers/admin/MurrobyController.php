@@ -245,6 +245,64 @@ class MurrobyController extends Controller
     $var['saku_keluar'] = SakuKeluar::whereIn('no_induk', $list_no_induk)->get();
     return view('ustadz.murroby.uang_saku', compact('title', 'var', 'id'));
   }
+  public function kosongkan_uang_saku(Request $request)
+  {
+    $id = $request->pegawai_id;
+    $where = ['id' => $id];
+    $var['EmployeeNew'] = EmployeeNew::where($where)->first();
+    $kamar = Kamar::where('employee_id', $id)->first();
+
+    $var['list_santri'] = Santri::where('kamar_id', $kamar->id)->get();
+    dd($var['list_santri']);
+    foreach ($var['list_santri'] as $row) {
+      $saku_keluar = new SakuKeluar();
+      $saku_keluar->no_induk = $row->no_induk;
+      $saku_keluar->pegawai_id = $id;
+      $saku_keluar->tanggal = date('Y-m-d');
+      $saku_keluar->jumlah = UangSaku::where('no_induk', $row->no_induk)->first()->jumlah ?? 0;
+      $saku_keluar->note = 'Pengosongan Uang Saku Bulan ' . date('m-Y');
+      $saku_keluar->save();
+      UangSaku::where('no_induk', $row->no_induk)->update(['jumlah' => 0]);
+    }
+    
+    return json_encode(['status' => 'success', 'message' => 'Berhasil mengosongkan uang saku semua santri.']);
+  }
+  public function reset_saku_masuk(Request $request)
+  {
+    $id = $request->pegawai_id;
+    $where = ['id' => $id];
+    $var['EmployeeNew'] = EmployeeNew::where($where)->first();
+    $kamar = Kamar::where('employee_id', $id)->first();
+
+    $var['list_santri'] = Santri::where('kamar_id', $kamar->id)->get();
+    foreach ($var['list_santri'] as $row) {
+      SakuMasuk::where('no_induk', $row->no_induk)
+        ->where('dari', 1)
+        ->whereMonth('tanggal', date('m'))
+        ->whereYear('tanggal', date('Y'))
+        ->delete();
+    }
+    
+    return json_encode(['status' => 'success', 'message' => 'Berhasil mereset saku masuk semua santri.']);
+  } 
+
+  public function reset_saku_keluar(Request $request)
+  {
+    $id = $request->pegawai_id;
+    $where = ['id' => $id];
+    $var['EmployeeNew'] = EmployeeNew::where($where)->first();
+    $kamar = Kamar::where('employee_id', $id)->first();
+
+    $var['list_santri'] = Santri::where('kamar_id', $kamar->id)->get();
+    foreach ($var['list_santri'] as $row) {
+      SakuKeluar::where('no_induk', $row->no_induk)
+        ->whereMonth('tanggal', date('m'))
+        ->whereYear('tanggal', date('Y'))
+        ->delete();
+    }
+
+    return json_encode(['status' => 'success', 'message' => 'Berhasil mereset saku keluar semua santri.']);
+  }
 
   public function uang_saku_detail(string $id, string $id_santri)
   {

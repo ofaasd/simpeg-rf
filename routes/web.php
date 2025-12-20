@@ -161,6 +161,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     $controller_path . '\admin\StrucutralPositionController@getSchool'
   );
   Route::get('/murroby/uang-saku/{id}', [AdminMurrobyController::class, 'uang_saku']);
+  Route::post('/murroby/uang-saku/kosongkan', [AdminMurrobyController::class, 'kosongkan_uang_saku']);
+  Route::post('/murroby/uang-saku/reset_saku_masuk', [AdminMurrobyController::class, 'reset_saku_masuk']);
+  Route::post('/murroby/uang-saku/reset_saku_keluar', [AdminMurrobyController::class, 'reset_saku_keluar']);
   Route::get('/murroby/uang-saku-detail/{id}/{id_santri}', [AdminMurrobyController::class, 'uang_saku_detail']);
 
   Route::get('/murroby/perilaku/{id}', [AdminMurrobyController::class, 'indexPerilaku']);

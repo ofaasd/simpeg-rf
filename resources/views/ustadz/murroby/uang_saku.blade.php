@@ -44,8 +44,11 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-12">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uangMasuk"> Tambah Uang Masuk</button>
-            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#uangKeluar"> Tambah Uang Keluar</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uangMasuk"> Uang Masuk</button>
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#uangKeluar"> Uang Keluar</button>
+            <button type="button" class="btn btn-secondary" onclick="confirmKosongkan()"> Kosongkan Uang Saku</button>
+            <button type="button" class="btn btn-danger" onclick="confirmResetSakuMasuk()"> Reset Saku Masuk</button>
+            <button type="button" class="btn btn-danger" onclick="confirmResetSakuKeluar()"> Reset Saku Keluar</button>
           </div>
         </div>
         <table class="dataTable table">
@@ -207,6 +210,145 @@
 
 @endsection
 <script>
+  function confirmKosongkan() {
+    Swal.fire({
+      title: 'Konfirmasi',
+      text: 'Apakah Anda yakin ingin mengosongkan uang saku semua santri?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, Kosongkan',
+      cancelButtonText: 'Batal',
+      customClass: {
+        confirmButton: 'btn btn-danger me-3',
+        cancelButton: 'btn btn-outline-secondary'
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        showBlock();
+        $.ajax({
+          data: { 'pegawai_id': $("#pegawai_id").val() },
+          url: ''.concat(baseUrl).concat('murroby/uang-saku/kosongkan'),
+          type: 'POST',
+          success: function(status) {
+            showUnblock();
+            reload_table();
+            Swal.fire({
+              icon: 'success',
+              title: 'Berhasil',
+              text: 'Uang saku semua santri berhasil dikosongkan',
+              customClass: {
+                confirmButton: 'btn btn-success'
+              }
+            });
+          },
+          error: function(err) {
+            showUnblock();
+            Swal.fire({
+              icon: 'error',
+              title: 'Gagal',
+              text: 'Terjadi kesalahan saat mengosongkan uang saku',
+              customClass: {
+                confirmButton: 'btn btn-success'
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+  function confirmResetSakuMasuk() {
+    Swal.fire({
+      title: 'Konfirmasi',
+      text: 'Apakah Anda yakin ingin Menghapus Saku Masuk semua santri ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, Hapus',
+      cancelButtonText: 'Batal',
+      customClass: {
+        confirmButton: 'btn btn-danger me-3',
+        cancelButton: 'btn btn-outline-secondary'
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        showBlock();
+        $.ajax({
+          data: { 'pegawai_id': $("#pegawai_id").val() },
+          url: ''.concat(baseUrl).concat('murroby/uang-saku/reset_saku_masuk'),
+          type: 'POST',
+          success: function(status) {
+            showUnblock();
+            reload_table();
+            Swal.fire({
+              icon: 'success',
+              title: 'Berhasil',
+              text: 'Uang saku semua santri berhasil dikosongkan',
+              customClass: {
+                confirmButton: 'btn btn-success'
+              }
+            });
+          },
+          error: function(err) {
+            showUnblock();
+            Swal.fire({
+              icon: 'error',
+              title: 'Gagal',
+              text: 'Terjadi kesalahan saat mengosongkan uang saku',
+              customClass: {
+                confirmButton: 'btn btn-success'
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+  function confirmResetSakuKeluar() {
+    Swal.fire({
+      title: 'Konfirmasi',
+      text: 'Apakah Anda yakin ingin Menghapus Saku Keluar semua santri ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, Hapus',
+      cancelButtonText: 'Batal',
+      customClass: {
+        confirmButton: 'btn btn-danger me-3',
+        cancelButton: 'btn btn-outline-secondary'
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        showBlock();
+        $.ajax({
+          data: { 'pegawai_id': $("#pegawai_id").val() },
+          url: ''.concat(baseUrl).concat('murroby/uang-saku/reset_saku_keluar'),
+          type: 'POST',
+          success: function(status) {
+            showUnblock();
+            reload_table();
+            Swal.fire({
+              icon: 'success',
+              title: 'Berhasil',
+              text: 'Uang saku semua santri berhasil dikosongkan',
+              customClass: {
+                confirmButton: 'btn btn-success'
+              }
+            });
+          },
+          error: function(err) {
+            showUnblock();
+            Swal.fire({
+              icon: 'error',
+              title: 'Gagal',
+              text: 'Terjadi kesalahan saat mengosongkan uang saku',
+              customClass: {
+                confirmButton: 'btn btn-success'
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+  
 document.addEventListener("DOMContentLoaded", function(event) {
   const title = 'Uang Saku Murroby : {{$var['EmployeeNew']->nama}} ({{$var['list_bulan'][(int)date("m")] . " " . date("Y")}} )';
   $('.dataTable').dataTable({
