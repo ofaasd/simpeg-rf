@@ -253,7 +253,6 @@ class MurrobyController extends Controller
     $kamar = Kamar::where('employee_id', $id)->first();
 
     $var['list_santri'] = Santri::where('kamar_id', $kamar->id)->get();
-    dd($var['list_santri']);
     foreach ($var['list_santri'] as $row) {
       $saku_keluar = new SakuKeluar();
       $saku_keluar->no_induk = $row->no_induk;
