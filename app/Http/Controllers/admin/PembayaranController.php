@@ -222,21 +222,21 @@ class PembayaranController extends Controller
 
           $saku_masuk = SakuMasuk::where('id_pembayaran',$id);
           $uang_saku = UangSaku::where('no_induk',$request->nama_santri)->first();
-          if($id_jenis_pembayaran[$key] == 3 && $request->validasi == 1 && $saku_masuk->count() > 0){
-            $old_saku_masuk = $saku_masuk->first()->jumlah;
+          // if($id_jenis_pembayaran[$key] == 3 && $request->validasi == 1 && $saku_masuk->count() > 0){
+          //   $old_saku_masuk = $saku_masuk->first()->jumlah;
 
-            $data = array(
-              'dari' => 1,
-              'jumlah' => $nominal,
-              'tanggal' => $request->tanggal_bayar,
-              'no_induk' => $request->nama_santri,
-            );
-            $update_saku_masuk = SakuMasuk::where('id_pembayaran',$id)->update($data);
-            $data2 = array(
-              'jumlah' => $uang_saku->jumlah - $old_saku_masuk + $nominal
-            );
-            $update_tb_uang_saku = UangSaku::where('no_induk',$request->nama_santri)->update($data2);
-          }
+          //   $data = array(
+          //     'dari' => 1,
+          //     'jumlah' => $nominal,
+          //     'tanggal' => $request->tanggal_bayar,
+          //     'no_induk' => $request->nama_santri,
+          //   );
+          //   $update_saku_masuk = SakuMasuk::where('id_pembayaran',$id)->update($data);
+          //   $data2 = array(
+          //     'jumlah' => $uang_saku->jumlah - $old_saku_masuk + $nominal
+          //   );
+          //   $update_tb_uang_saku = UangSaku::where('no_induk',$request->nama_santri)->update($data2);
+          // }
         }
       }
       $get_kelas = Santri::where('no_induk',$request->nama_santri)->first();
@@ -298,21 +298,21 @@ class PembayaranController extends Controller
           $detail = DetailPembayaran::create($data_detail);
 
           $uang_saku = UangSaku::where('no_induk',$request->nama_santri)->first();
-          if($id_jenis_pembayaran[$key] == 3 && $request->validasi == 1){
+          // if($id_jenis_pembayaran[$key] == 3 && $request->validasi == 1){
 
-            $data = array(
-              'dari' => 1,
-              'jumlah' => $nominal,
-              'tanggal' => $request->tanggal_bayar,
-              'no_induk' => $request->nama_santri,
-              'id_pembayaran' => $id
-            );
-            $update_saku_masuk = SakuMasuk::create($data);
-            $data2 = array(
-              'jumlah' => ($uang_saku->jumlah ?? 0) + $nominal
-            );
-            $update_tb_uang_saku = UangSaku::where('no_induk',$request->nama_santri)->update($data2);
-          }
+          //   $data = array(
+          //     'dari' => 1,
+          //     'jumlah' => $nominal,
+          //     'tanggal' => $request->tanggal_bayar,
+          //     'no_induk' => $request->nama_santri,
+          //     'id_pembayaran' => $id
+          //   );
+          //   $update_saku_masuk = SakuMasuk::create($data);
+          //   $data2 = array(
+          //     'jumlah' => ($uang_saku->jumlah ?? 0) + $nominal
+          //   );
+          //   $update_tb_uang_saku = UangSaku::where('no_induk',$request->nama_santri)->update($data2);
+          // }
         }
       }
       if($pembayaran){
