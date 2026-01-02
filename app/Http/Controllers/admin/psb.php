@@ -875,8 +875,9 @@ terimakasih
       'kk' => [File::types(['jpg', 'jpeg', 'png', 'pdf'])],
       'ktp' => [File::types(['jpg', 'jpeg', 'png', 'pdf'])],
       'rapor' => [File::types(['jpg', 'jpeg', 'png', 'pdf'])],
+      'akta' => [File::types(['jpg', 'jpeg', 'png', 'pdf'])],
     ]);
-    $nama_file = ['kk', 'ktp', 'rapor'];
+    $nama_file = ['kk', 'ktp', 'rapor', 'akta'];
     $array = [];
     foreach ($nama_file as $value) {
       if ($request->file($value)) {
@@ -903,6 +904,8 @@ terimakasih
             $psbBerkasPendukung->file_ktp = $filename;
           } elseif ($value == 'rapor') {
             $psbBerkasPendukung->file_rapor = $filename;
+          } elseif ($value == 'akta') {
+            $psbBerkasPendukung->file_akta = $filename;
           }
           $psbBerkasPendukung->save();
         } else {
@@ -913,6 +916,8 @@ terimakasih
             $psbBerkasPendukung->file_ktp = $filename;
           } elseif ($value == 'rapor') {
             $psbBerkasPendukung->file_rapor = $filename;
+          } elseif ($value == 'akta') {
+            $psbBerkasPendukung->file_akta = $filename;
           }
           $psbBerkasPendukung->psb_peserta_id = $id;
           $psbBerkasPendukung->save();

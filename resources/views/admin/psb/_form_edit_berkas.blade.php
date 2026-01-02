@@ -50,6 +50,21 @@
             </div>
             <div class="col-md-12">
                 <div class="form-group">
+                    <label for="File Akta">File Akta</label>
+                    <div id='akta_error'></div>
+                    <div class="row">
+                        <div class="col-md-6">
+                          <input type="file" name="akta" class="form-control ">
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#aktaModal">Lihat File Akta</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
                     <label for="File KK">File Rapor</label>
                     <div id='rapor_error'></div>
                     <div class="row">
@@ -155,6 +170,38 @@
                       </object>
                     @else
                         <img src="https://psb.ppatq-rf.id/assets/images/upload/file_ktp/{{$berkas->file_ktp}}" width="80%">
+                    @endif
+                @else
+                    <div class="alert alert-danger">Belum Ada File Di Upload</div>
+                @endif
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="aktaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">File Akta</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center" id='contentakta'>
+                @if(!empty($berkas->file_akta))
+                    @php
+                        $pecah = explode(".",$berkas->file_akta);
+                        $ekstensi = $pecah[1];
+                    @endphp
+                    @if($ekstensi == "pdf")
+                      <object data="https://psb.ppatq-rf.id/assets/images/upload/file_akta/{{$berkas->file_akta}}" type="application/pdf" width="100%" height="400">
+                        <p>PDF Link : <a href="https://psb.ppatq-rf.id/assets/images/upload/file_akta/{{$berkas->file_akta}}">to the PDF!</a></p>
+                      </object>
+                    @else
+                        <img src="https://psb.ppatq-rf.id/assets/images/upload/file_akta/{{$berkas->file_akta}}" width="80%">
                     @endif
                 @else
                     <div class="alert alert-danger">Belum Ada File Di Upload</div>
