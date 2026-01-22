@@ -90,6 +90,7 @@ $(function () {
           render: function (data, type, full, meta) {
             var $name = full['nama'];
             var $id = full['id'];
+            var img = full['photo'];
             // For Avatar badge
             var stateNum = Math.floor(Math.random() * 6);
             var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
@@ -98,7 +99,8 @@ $(function () {
               $initials = $name.match(/\b\w/g) || [],
               $output;
             $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-            $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';
+            //$output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';
+            $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '"><img class="avatar-initial rounded-circle" src="' + img + '" width="100%"></span>';
 
             // Creates full output for row
             var $row_output =
