@@ -1170,7 +1170,7 @@ terimakasih
     $walisan = PsbWaliPesertum::where('psb_peserta_id', $id)->first();
 
     $data['no_wa'] = $walisan->no_hp;
-    $data['file'] = 'https://manajemen.ppatq-rf.id/assets/file/pengumuman-2025.pdf';
+    $data['file'] = 'https://manajemen.ppatq-rf.id/assets/file/pengumuman-2026.pdf';
 
     if (Helpers_wa::send_wa_file($data)) {
       $update_peserta = PsbPesertaOnline::find($id);
