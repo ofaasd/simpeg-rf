@@ -25,7 +25,7 @@ class SantriController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public $indexed = ['', 'id', 'no_induk', 'nik', 'nama', 'kelas', 'kamar'];
+  public $indexed = ['', 'id', 'no_induk', 'nik', 'nama', 'kelas', 'kamar_id'];
   public function index(Request $request)
   {
     //
@@ -50,7 +50,7 @@ class SantriController extends Controller
         3 => 'nik',
         4 => 'nama',
         5 => 'kelas',
-        6 => 'kamar',
+        6 => 'kamar_id',
       ];
 
       $search = [];
@@ -65,12 +65,22 @@ class SantriController extends Controller
       $dir = $request->input('order.0.dir');
 
       if (empty($request->input('search.value'))) {
-        $Santri = Santri::where('status', 0)
+        
+        if($order == 'kamar_id'){
+          $Santri = Santri::select('santri_detail.*')->where('santri_detail.status', 0)->whereNot('santri_detail.kamar_id', 0)
+          ->join('ref_kamar', 'santri_detail.kamar_id', '=', 'ref_kamar.id')
+          ->join('employee_new', 'ref_kamar.employee_id', '=', 'employee_new.id')
+          ->orderBy('employee_new.nama', $dir)
+          ->get();
+          $totalFiltered = Santri::where('status', 0)->count();
+        }else{
+          $Santri = Santri::where('status', 0)
           ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
-        $totalFiltered = Santri::where('status', 0)->count();
+          $totalFiltered = Santri::where('status', 0)->count();
+        }
       } else {
         $search = $request->input('search.value');
 
@@ -111,7 +121,14 @@ class SantriController extends Controller
           $nestedData['nik'] = $row->nik ?? 0;
           $nestedData['nama'] = $row->nama ?? '';
           $nestedData['kelas'] = $row->kelas ?? 0;
-          $nestedData['kamar'] = $row->kamar->code ?? 0;
+          $var['santri_photo'] = asset('assets/img/avatars/1.png');
+          if (!empty($row->photo) && $row->photo_location == 2) {
+            $var['santri_photo'] = asset('assets/img/upload/photo/' . $row->photo);
+          } elseif (!empty($row->photo) && $row->photo_location == 1) {
+            $var['santri_photo'] = 'https://payment.ppatq-rf.id/assets/upload/user/' . $row->photo;
+          }
+          $nestedData['photo'] = $var['santri_photo'];
+          $nestedData['kamar_id'] = $row->kamar->pegawai->nama ?? 0;
           $data[] = $nestedData;
         }
       }
