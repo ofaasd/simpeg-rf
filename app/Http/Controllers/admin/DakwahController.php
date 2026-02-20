@@ -9,6 +9,7 @@ use App\Models\Dakwah;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Mpdf\Tag\Em;
 
 class DakwahController extends Controller
 {
@@ -16,7 +17,7 @@ class DakwahController extends Controller
     {
         $title = 'Dakwah';
         $dakwah = Dakwah::with(['user'])->latest()->get();
-            
+
         return view('admin.dakwah.index', compact('dakwah', 'title'));
     }
 
@@ -25,38 +26,35 @@ class DakwahController extends Controller
         $id_user = Auth::user()->id;
         $id = $request->id;
 
+        $slug = Str::slug($request->judul);
+
+        $data = [
+            'slug' => $slug,
+            'judul' => $request->judul,
+            'isi_dakwah' => $request->isi_dakwah,
+            'link' => $request->link
+        ];
+
+        if ($request->hasFile('thumbnail')) {
+            $file = $request->file('thumbnail');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('img'), $filename);
+            $data['foto'] = 'img/' . $filename;
+        }
+
         if (!empty($id)) {
-            $slug = Str::slug($request->judul);
-                $dakwah = Dakwah::updateOrCreate(
-                    ['id' => $id],
-                    [
-                        'slug' => $slug,
-                        'judul' => $request->judul,
-                        'isi_dakwah' => $request->isi_dakwah,
-                    ]
-                );
-                $messageResponse = "Berhasil merubah dakwah";
+            $dakwah = Dakwah::updateOrCreate(['id' => $id], $data);
+            $messageResponse = "Berhasil Merubah Dakwah";
         } else {
-            $slug = Str::slug($request->judul);
+            $data['user_id'] = $id_user;
+            $dakwah = Dakwah::updateOrCreate(['id' => $id], $data);
+            $messageResponse = "Berhasil Ditambahkan Dakwah";
+        }
 
-            $dakwah = Dakwah::updateOrCreate(
-                ['id' => $id],
-                [
-                    'slug' => $slug,
-                    'judul' => $request->judul,
-                    'isi_dakwah' => $request->isi_dakwah,
-                    'user_id' => $id_user,
-                ]
-            );
-                $messageResponse = "Berhasil menambahkan dakwah";
-            }
-
-            if ($dakwah) 
-            {
-                return response()->json($messageResponse);
-            } 
-        else {
-            return response()->json('Failed Create');
+        if ($dakwah) {
+            return response()->json($messageResponse);
+        } else {
+            return response()->json('failed created');
         }
     }
 

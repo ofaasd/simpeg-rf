@@ -16,6 +16,8 @@ class Dakwah extends Model
     protected $fillable = [
         'slug',
         'judul',
+        'foto',
+        'link',
         'slug',
         'isi_dakwah',
         'user_id',
