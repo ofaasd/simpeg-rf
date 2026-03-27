@@ -62,6 +62,16 @@
           "slug": "murroby-saku-masuk"
         },
         {
+          "url": "/ustadz/perilaku",
+          "name": "Perilaku",
+          "slug": "murroby-perilaku"
+        },
+        {
+          "url": "/ustadz/kelengkapan",
+          "name": "Kelengkapan",
+          "slug": "murroby-kelengkapan"
+        },
+        {
           "url": "/ustadz/saku_keluar",
           "name": "Saku Keluar",
           "slug": "murroby-saku-keluar"

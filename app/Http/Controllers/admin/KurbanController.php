@@ -15,7 +15,7 @@ class KurbanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public $indexed = ['', 'id', 'nama', 'jumlah', 'jenis', 'atas_nama', 'tanggal'];
+    public $indexed = ['', 'id', 'nama', 'jumlah', 'jenis', 'atas_nama', 'tanggal', 'tahun_hijriah'];
 
     public function index(Request $request)
     {
@@ -31,7 +31,8 @@ class KurbanController extends Controller
                 3 => 'jumlah',
                 4 => 'jenis',
                 5 => 'atas_nama',
-                6 => 'tanggal'
+                6 => 'tanggal',
+                7 => 'tahun_hijriah'
             ];
 
             $search = $request->input('search.value');
@@ -77,6 +78,7 @@ class KurbanController extends Controller
                 $nestedData['jenis'] = $jenisLabel[$row->jenis] ?? 'Unknown';  // pake mapping lengkap
                 $nestedData['atas_nama'] = $row->atas_nama;
                 $nestedData['tanggal'] = $row->tanggal;
+                $nestedData['tahun_hijriah'] = $row->tahun_hijriah;
                 $data[] = $nestedData;
             }
 
@@ -111,7 +113,8 @@ class KurbanController extends Controller
             'jenis' => 'required|integer|in:1,2,3,4',
             'atas_nama' => 'required|string|max:100',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'tanggal' => 'required|date'
+            'tanggal' => 'required|date',
+            'tahun_hijriah' => 'required|date'
         ]);
 
         try {
@@ -126,7 +129,8 @@ class KurbanController extends Controller
                     'jumlah' => $request->jumlah,
                     'jenis' => $request->jenis,
                     'atas_nama' => $request->atas_nama,
-                    'tanggal' => $request->tanggal
+                    'tanggal' => $request->tanggal,
+                    'tahun_hijriah' => $request->tahun_hijriah
                 ]);
 
                 Log::info("Kurban updated", ['id' => $kurban->id, 'user' => auth()->user()->id ?? 'guest']);
@@ -136,7 +140,8 @@ class KurbanController extends Controller
                     'jumlah' => $request->jumlah,
                     'jenis' => $request->jenis,
                     'atas_nama' => $request->atas_nama,
-                    'tanggal' => $request->tanggal
+                    'tanggal' => $request->tanggal,
+                    'tahun_hijriah' => $request->tahun_hijriah
                 ]);
 
                 Log::info("Kurban created", ['id' => $kurban->id, 'user' => auth()->user()->id ?? 'guest']);

@@ -17,7 +17,6 @@ class MurrobyController extends Controller
    */
   public function index()
   {
-    //
     $id_user = Auth::user()->id;
     $user = User::find($id_user);
     $id = $user->pegawai_id;

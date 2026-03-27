@@ -18,9 +18,15 @@ $customizerHidden = 'customizer-hide';
   <!-- /Logo -->
   <div class="authentication-inner row m-0">
     <!-- /Left Section -->
-    <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center justify-content-center p-5 pb-2">
-
-      <img src="{{asset('assets/img/illustrations/auth-cover-login-mask-'.$configData['style'].'.png') }}" class="authentication-image" alt="mask" data-app-light-img="illustrations/auth-cover-login-mask-light.png" data-app-dark-img="illustrations/auth-cover-login-mask-dark.png" />
+    <div class="d-none d-lg-flex col-lg-7 col-xl-8 p-0">
+      <div class="w-100 h-100">
+        <img src="{{ asset('assets/img/illustrations/auth-cover-login-mask-' . $configData['style'] . '.png') }}"
+             class="w-100 h-100"
+             style="object-fit: cover;"
+             alt="mask"
+             data-app-light-img="illustrations/auth-cover-login-mask-light.png"
+             data-app-dark-img="illustrations/auth-cover-login-mask-dark.png" />
+      </div>
     </div>
     <!-- /Left Section -->
 
@@ -31,7 +37,8 @@ $customizerHidden = 'customizer-hide';
           <span class="app-brand-logo demo"><img src="https://payment.ppatq-rf.id/assets/images/logo.png" alt="" height="50"></span>
           <span class="app-brand-text demo text-heading fw-bold">{{config('variables.templateName')}}</span>
         </a><br />
-        <h4 class="mb-2 fw-semibold">Welcome to SIMPEG {{config('variables.templateName')}}! 👋</h4>
+        {{-- <h4 class="mb-2 fw-semibold">Welcome to SIMPEG {{config('variables.templateName')}}! 👋</h4> --}}
+        <h5 class="mb-2 fw-semibold">Selamat Datang di Sistem Informasi Manajemen Pengelolaan Pondok Pesantren Anak Raudlatul Falah! 👋</h5>
         <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
         @if (session('status'))

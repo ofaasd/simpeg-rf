@@ -128,7 +128,7 @@
                           @php
                             $total = 0;
                           @endphp
-
+                          @if($s->kamar_id != 5999)
                             <tr>
                                 <td>{{$i}}</td>
                                 <td>{{$s->kelas}}</td>
@@ -146,7 +146,7 @@
                                 @endforeach
                                 <td>Rp.  {{number_format($total, 0, ',', '.')}}</td>
                             </tr>
-
+                          @endif
                           @php $i++; @endphp
                         @endforeach
                       @endif

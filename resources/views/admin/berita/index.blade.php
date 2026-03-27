@@ -11,7 +11,7 @@
 @section('vendor-script')
   <script src="{{asset('assets/vendor/libs/block-ui/block-ui.js')}}"></script>
   <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 
 @endsection
 @section('page-script')
@@ -183,7 +183,7 @@ function insert_update(formData)
       contentType: false,
       processData: false,
       success: function success(message) {
-        console.log(message);
+        // console.log(message);
         $('#modal_berita').modal('hide');
         $('.loader-container').hide();
         $('#btn-submit').prop('disabled', false);
@@ -370,7 +370,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     });
                 },
                 error: function (_error) {
-                    console.log(_error);
+                    // console.log(_error);
                     $('.loader-container').hide();
                     // Error SweetAlert in case of failure
                     Swal.fire({
@@ -395,7 +395,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             });
         }
     });
-});
+  });
 });
 
 function reload_table(){

@@ -875,8 +875,9 @@ terimakasih
       'kk' => [File::types(['jpg', 'jpeg', 'png', 'pdf'])],
       'ktp' => [File::types(['jpg', 'jpeg', 'png', 'pdf'])],
       'rapor' => [File::types(['jpg', 'jpeg', 'png', 'pdf'])],
+      'akta' => [File::types(['jpg', 'jpeg', 'png', 'pdf'])],
     ]);
-    $nama_file = ['kk', 'ktp', 'rapor'];
+    $nama_file = ['kk', 'ktp', 'rapor', 'akta'];
     $array = [];
     foreach ($nama_file as $value) {
       if ($request->file($value)) {
@@ -903,6 +904,8 @@ terimakasih
             $psbBerkasPendukung->file_ktp = $filename;
           } elseif ($value == 'rapor') {
             $psbBerkasPendukung->file_rapor = $filename;
+          } elseif ($value == 'akta') {
+            $psbBerkasPendukung->file_akta = $filename;
           }
           $psbBerkasPendukung->save();
         } else {
@@ -913,6 +916,8 @@ terimakasih
             $psbBerkasPendukung->file_ktp = $filename;
           } elseif ($value == 'rapor') {
             $psbBerkasPendukung->file_rapor = $filename;
+          } elseif ($value == 'akta') {
+            $psbBerkasPendukung->file_akta = $filename;
           }
           $psbBerkasPendukung->psb_peserta_id = $id;
           $psbBerkasPendukung->save();
@@ -1165,7 +1170,7 @@ terimakasih
     $walisan = PsbWaliPesertum::where('psb_peserta_id', $id)->first();
 
     $data['no_wa'] = $walisan->no_hp;
-    $data['file'] = 'https://manajemen.ppatq-rf.id/assets/file/pengumuman-2025.pdf';
+    $data['file'] = 'https://manajemen.ppatq-rf.id/assets/file/pengumuman-2026.pdf';
 
     if (Helpers_wa::send_wa_file($data)) {
       $update_peserta = PsbPesertaOnline::find($id);

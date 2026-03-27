@@ -30,6 +30,7 @@
           <th>Jenis Kurban</th>
           <th>Atas Nama</th>
           <th>Tanggal</th>
+          <th>Tahun Hijriah</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -77,6 +78,16 @@
         </div>
 
         <div class="form-floating form-floating-outline mb-4">
+          <input type="number" 
+                class="form-control" 
+                id="add-{{ strtolower($title) }}-tahun_hijriah" 
+                placeholder="Tahun Hijriah" 
+                name="tahun_hijriah" 
+                required />
+          <label for="add-{{ strtolower($title) }}-tahun_hijriah">Tahun Hijriah</label>
+        </div>
+
+        <div class="form-floating form-floating-outline mb-4">
           <input type="text" class="form-control" id="add-{{ strtolower($title) }}-atas_nama" name="atas_nama" placeholder="Atas Nama">
           <label for="add-{{ strtolower($title) }}-atas_nama">Atas Nama</label>
         </div>
@@ -99,11 +110,11 @@ $(function () {
       //initial variabl
       var page = $('#page').val();
       var title = $('#title').val();
-      console.log(title);
+      // console.log(title);
       var my_column = $('#my_column').val();
       var pecah = my_column.split('\n');
       var my_data = [];
-      console.log(my_data);
+      // console.log(my_data);
       pecah.forEach(function (item, index) {
         var temp = item.replace(/ /g, '');
         var data_obj = {
@@ -113,7 +124,7 @@ $(function () {
         my_data.push(data_obj);
       });
       //alert(data_obj);
-      console.log(my_data);
+      // console.log(my_data);
       //alert(JSON.stringify(my_column.split('\n')));
       // Variable declaration for table
       var dt_table = $('.datatables-' + page),
@@ -382,7 +393,7 @@ $(function () {
                 dt.draw();
               },
               error: function error(_error) {
-                console.log(_error);
+                // console.log(_error);
               }
             });
 
@@ -493,6 +504,13 @@ $(function () {
             validators: {
               notEmpty: {
                 message: 'Tanggal harus diisi'
+              }
+            }
+          },
+          tahun_hijriah: {
+            validators: {
+              notEmpty: {
+                message: 'Tahun Hijriah harus diisi'
               }
             }
           },

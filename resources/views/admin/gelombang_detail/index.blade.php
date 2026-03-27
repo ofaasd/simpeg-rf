@@ -33,7 +33,7 @@
           <label for="add-hari"><h5>Hari / Tanggal</h5></label>
           <div class="ql-container">
             <div id="full-editor">
-              {!!$detail->hari!!}
+              {!!$detail->hari ?? '' !!}
             </div>
           </div>
         </div>
@@ -41,7 +41,7 @@
           <label for="add-hari"><h5>Jam</h5></label>
           <div class="ql-container">
             <div id="full-editor2">
-              {!!$detail->jam!!}
+              {!!$detail->jam ?? '' !!}
             </div>
           </div>
         </div>
@@ -49,7 +49,7 @@
           <label for="add-hari"><h5>Syarat</h5></label>
           <div class="ql-container">
             <div id="full-editor3">
-              {!!$detail->syarat!!}
+              {!!$detail->syarat ?? '' !!}
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@
           <label for="add-hari"><h5>Prosedur Online</h5></label>
           <div class="ql-container">
             <div id="full-editor4">
-              {!!$detail->prosedur_online!!}
+              {!!$detail->prosedur_online ?? '' !!}
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@
           <label for="add-hari"><h5>Prosedur Offline</h5></label>
           <div class="ql-container">
             <div id="full-editor5">
-              {!!$detail->prosedur_offline!!}
+              {!!$detail->prosedur_offline ?? '' !!}
             </div>
           </div>
         </div>
