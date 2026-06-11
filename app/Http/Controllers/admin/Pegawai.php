@@ -21,7 +21,7 @@ class Pegawai extends Controller
   /**
    * Display a listing of the resource.
    */
-  public $indexed = ['', 'id', 'nama', 'jenis_kelamin', 'jabatan', 'alamat', 'pendidikan'];
+  public $indexed = ['', 'id', 'nama', 'jenis_kelamin', 'jabatan', 'alamat', 'pendidikan', 'status'];
   public function index(Request $request)
   {
     //
@@ -39,6 +39,7 @@ class Pegawai extends Controller
         4 => 'jabatan',
         5 => 'alamat',
         6 => 'pendidikan',
+        7 => 'status',
       ];
 
       $search = [];
@@ -88,6 +89,7 @@ class Pegawai extends Controller
           $nestedData['jabatan'] = $row->jab->name ?? '';
           $nestedData['alamat'] = $row->alamat;
           $nestedData['pendidikan'] = $row->pen->name ?? '';
+          $nestedData['status'] = $row->status;
           $data[] = $nestedData;
         }
       }
@@ -148,6 +150,7 @@ class Pegawai extends Controller
           'pengangkatan' => $request->pengangkatan,
           'lembaga_induk' => $request->lembaga_induk,
           'lembaga_diikuti' => $request->lembaga_diikuti,
+          'status' => $request->status,
         ]
       );
       //return response()->json(dd($request->all()));
@@ -190,6 +193,7 @@ class Pegawai extends Controller
           'pengangkatan' => $request->pengangkatan,
           'lembaga_induk' => $request->lembaga_induk,
           'lembaga_diikuti' => $request->lembaga_diikuti,
+          'status' => $request->status,
         ]
       );
 

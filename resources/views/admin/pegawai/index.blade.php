@@ -26,6 +26,7 @@
           <th>Jabatan</th>
           <th>Alamat</th>
           <th>Pendidikan</th>
+          <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -82,6 +83,17 @@
         <div class="form-floating form-floating-outline mb-4">
           <input type="date" class="form-control" id="add-{{strtolower($title)}}-pengangkatan" placeholder="pengangkatan" name="pengangkatan" />
           <label for="add-{{strtolower($title)}}-pengangkatan">Tanggal Pengangkatan</label>
+        </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <select class="form-control" id="add-{{strtolower($title)}}-status" name="status">
+            <option value="1">Aktif</option>
+            <option value="0">Tidak Aktif</option>
+            <option value="2">Cuti</option>
+            <option value="3">Keluar</option>
+            <option value="4">Dikeluarkan</option>
+            <option value="5">Meninggal</option>
+          </select>
+          <label for="add-{{strtolower($title)}}-status">Status</label>
         </div>
         <div class="form-floating form-floating-outline mb-4">
           <input type="text" class="form-control" id="add-{{strtolower($title)}}-lembaga_induk" placeholder="lembaga induk" name="lembaga_induk" />

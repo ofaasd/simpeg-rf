@@ -132,13 +132,14 @@ $(function () {
           render: function render(data, type, full, meta) {
             return (
               '<div class="d-inline-block text-nowrap">' +
-              '<button class="btn btn-sm btn-icon edit-record" data-id="'
-                .concat(full['id'], '" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAdd')
-                .concat(title, '"><i class="mdi mdi-pencil-outline mdi-20px"></i></button>') +
-              '<button class="btn btn-sm btn-icon delete-record" data-id="'.concat(
-                full['id'],
-                '"><i class="mdi mdi-delete-outline mdi-20px"></i></button>'
-              )
+              // Mengubah button pencil menjadi link <a> seperti target 4
+              '<a href="' + view + '/' + full['id'] + '" class="btn btn-sm btn-icon edit-record">' +
+              '<i class="mdi mdi-pencil-outline mdi-20px"></i>' +
+              '</a>' +
+              '<button class="btn btn-sm btn-icon delete-record" data-id="' + full['id'] + '">' +
+              '<i class="mdi mdi-delete-outline mdi-20px"></i>' +
+              '</button>' +
+              '</div>'
             );
           }
         }

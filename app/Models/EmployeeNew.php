@@ -25,6 +25,7 @@ class EmployeeNew extends Model
     'pengangkatan',
     'lembaga_induk',
     'lembaga_diikuti',
+    'status',
     'photo',
   ];
 
