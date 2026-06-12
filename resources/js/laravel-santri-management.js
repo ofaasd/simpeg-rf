@@ -124,6 +124,22 @@ $(function () {
           }
         },
         {
+          // Status
+          targets: 7,
+          responsivePriority: 5,
+          render: function (data, type, full, meta) {
+            var statusValue = full['status'];
+            var statusLabels = {
+              '0': { label: 'Aktif', badge: 'success' },
+              '1': { label: 'Lulus/Alumni', badge: 'primary' },
+              '2': { label: 'Boyong/Keluar', badge: 'warning' },
+              '3': { label: 'Meninggal', badge: 'danger' }
+            };
+            var status = statusLabels[statusValue] || { label: 'Tidak Diketahui', badge: 'light' };
+            return '<span class="badge bg-label-' + status.badge + '">' + status.label + '</span>';
+          }
+        },
+        {
           // Actions
           targets: -1,
           title: 'Actions',

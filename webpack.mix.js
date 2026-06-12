@@ -91,7 +91,8 @@ function mixAssetsDir(query, cb) {
  */
 
 const sassOptions = {
-  precision: 5
+  precision: 5,
+  includePaths: [path.resolve(__dirname, 'node_modules')]
 };
 
 // Core stylesheets

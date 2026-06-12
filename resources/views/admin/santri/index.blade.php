@@ -26,6 +26,7 @@
           <th>Nama</th>
           <th>Kelas</th>
           <th>Kamar</th>
+          <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>

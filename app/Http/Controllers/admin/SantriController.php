@@ -25,7 +25,7 @@ class SantriController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public $indexed = ['', 'id', 'no_induk', 'nik', 'nama', 'kelas', 'kamar_id'];
+  public $indexed = ['', 'id', 'no_induk', 'nik', 'nama', 'kelas', 'kamar_id', 'status'];
   public function index(Request $request)
   {
     //
@@ -51,6 +51,7 @@ class SantriController extends Controller
         4 => 'nama',
         5 => 'kelas',
         6 => 'kamar_id',
+        7 => 'status',
       ];
 
       $search = [];
@@ -67,25 +68,23 @@ class SantriController extends Controller
       if (empty($request->input('search.value'))) {
         
         if($order == 'kamar_id'){
-          $Santri = Santri::select('santri_detail.*')->where('santri_detail.status', 0)->whereNot('santri_detail.kamar_id', 0)
+          $Santri = Santri::select('santri_detail.*')->whereNot('santri_detail.kamar_id', 0)
           ->join('ref_kamar', 'santri_detail.kamar_id', '=', 'ref_kamar.id')
           ->join('employee_new', 'ref_kamar.employee_id', '=', 'employee_new.id')
           ->orderBy('employee_new.nama', $dir)
           ->get();
-          $totalFiltered = Santri::where('status', 0)->count();
+          $totalFiltered = Santri::count();
         }else{
-          $Santri = Santri::where('status', 0)
-          ->offset($start)
+          $Santri = Santri::offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
-          $totalFiltered = Santri::where('status', 0)->count();
+          $totalFiltered = Santri::count();
         }
       } else {
         $search = $request->input('search.value');
 
-        $Santri = Santri::where('status', 0)
-          ->where(function ($query) use ($search) {
+        $Santri = Santri::where(function ($query) use ($search) {
             $query
               ->where('id', 'LIKE', "%{$search}%")
               ->orWhere('nama', 'LIKE', "%{$search}%")
@@ -97,8 +96,7 @@ class SantriController extends Controller
           ->orderBy($order, $dir)
           ->get();
 
-        $totalFiltered = Santri::where('status', 0)
-          ->where(function ($query) use ($search) {
+        $totalFiltered = Santri::where(function ($query) use ($search) {
             $query
               ->where('id', 'LIKE', "%{$search}%")
               ->orWhere('nama', 'LIKE', "%{$search}%")
@@ -129,6 +127,7 @@ class SantriController extends Controller
           }
           $nestedData['photo'] = $var['santri_photo'];
           $nestedData['kamar_id'] = $row->kamar->pegawai->nama ?? 0;
+          $nestedData['status'] = $row->status ?? 0;
           $data[] = $nestedData;
         }
       }
