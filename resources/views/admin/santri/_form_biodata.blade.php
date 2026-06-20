@@ -154,9 +154,7 @@
                 success: function success(data) {
                 // sweetalert
                 $('#add-{{$title}}-kabkota').html('');
-                $('#add-{{$title}}-kabkota').append(
-                    '<option value=0>Pilih Kabupaten/Kota</option>')
-                    );
+                $('#add-{{$title}}-kabkota').append('<option value=0>Pilih Kabupaten/Kota</option>');
                 Object.keys(data).forEach(function (key) {
                     $('#add-{{$title}}-kabkota').append(
                     '<option value=' + data[key].city_id + ' '.concat('>' + data[key].city_name + '</option>')
