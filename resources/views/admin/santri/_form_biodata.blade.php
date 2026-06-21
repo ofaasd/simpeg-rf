@@ -145,8 +145,8 @@
 
             //alert('masuk sini');
             //alert();
-            $('#add-{{$title}}-kabkota').html('');
-            $('#add-{{$title}}-kabkota').append('<option value=0>Pilih Kabupaten/Kota</option>');
+            $('#add-{{$title}}-kabkota').empty();
+            $('#add-{{$title}}-kabkota').append('<option value="0">Pilih Kabupaten/Kota</option>');
             $.ajax({
                 data: {
                 id: my_id
@@ -157,9 +157,10 @@
                 // sweetalert
                 
                 Object.keys(data).forEach(function (key) {
-                    $('#add-{{$title}}-kabkota').append(
-                    '<option value=' + data[key].city_id + ' '.concat('>' + data[key].city_name + '</option>')
-                    );
+                    $('#add-{{$title}}-kabkota').append($('<option>', {
+                        value: data[key].city_id,
+                        text: data[key].city_name
+                    }));
                 });
 
                 if (value != 0) {
