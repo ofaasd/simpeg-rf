@@ -1,6 +1,6 @@
 <form action="javascript:void(0)" enctype="multipart/form-data" class="add-new-{{strtolower($title)}} pt-0" id="addNew{{$title}}keluarga">
     @csrf
-    <input type="hidden" id="id" name="id" id="{{strtolower($title)}}_id" value='{{$var['santri']->id}}'>
+    <input type="hidden" name="id" id="{{strtolower($title)}}_id" value="{{$var['santri']->id}}">
     <div class="form-floating form-floating-outline mb-4">
         <input type="text" class="form-control" id="add-{{strtolower($title)}}-nik_kk" placeholder="NIK KK" name="nik_kk" value='{{$var['santri']->nik_kk}}'  />
         <label for="add-{{strtolower($title)}}-no_induk">NIK KK</label>
@@ -90,23 +90,23 @@
                 type: 'POST',
                 success: function success(data) {
                 // sweetalert
-                $('#add-{{$title}}-kabkota').html('');
+                $('#add-{{$title}}-kabkota-keluarga').html('');
                 Object.keys(data).forEach(function (key) {
-                    $('#add-{{$title}}-kabkota').append(
+                    $('#add-{{$title}}-kabkota-keluarga').append(
                     '<option value=' + data[key].city_id + ' '.concat('>' + data[key].city_name + '</option>')
                     );
                 });
 
                 if (value != 0) {
-                    $('#add-{{$title}}-kabkota').val(value);
+                    $('#add-{{$title}}-kabkota-keluarga').val(value);
                 }
                 }
             });
         }
-        $("#add-{{$title}}-provinsi").change(function() {
+        $("#add-{{$title}}-provinsi-keluarga").change(function() {
             get_kota($(this).val(),'{{$title}}',0);
         });
-        get_kota($('#add-{{$title}}-provinsi').val(),'{{$title}}',{{$var['santri']->kabkota}});
+        get_kota($('#add-{{$title}}-provinsi-keluarga').val(),'{{$title}}',{{$var['santri']->kabkota}});
     });
 
   </script>

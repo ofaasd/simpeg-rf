@@ -1,6 +1,6 @@
 <form action="javascript:void(0)" enctype="multipart/form-data" class="add-new-{{strtolower($title)}} pt-0" id="addNew{{$title}}FormKeluarga">
     @csrf
-    <input type="hidden" id="id" name="id" id="{{strtolower($title)}}_id" value='{{$var['santri']->id}}'>
+    <input type="hidden" name="id" id="{{strtolower($title)}}_id" value="{{$var['santri']->id}}">
     <input type="hidden" name="kamar_id" value="{{$var['santri']->kamar_id}}">
     <input type="hidden" name="kelas" value="{{$var['santri']->kelas}}">
     <input type="hidden" name="tahfidz_id" value="{{$var['santri']->tahfidz_id}}">
@@ -154,25 +154,26 @@
                 url: ''.concat(baseUrl).concat(page).concat('/get_kota'),
                 type: 'POST',
                 success: function success(data) {
-                // sweetalert
-                
-                Object.keys(data).forEach(function (key) {
-                    $('#add-{{$title}}-kabkota').append($('<option>', {
-                        value: data[key].city_id,
-                        text: data[key].city_name
-                    }));
-                });
+                  // sweetalert
+                  
+                  Object.keys(data).forEach(function (key) {
+                      $('#add-{{$title}}-kabkota').append($('<option>', {
+                          value: data[key].city_id,
+                          text: data[key].city_name
+                      }));
+                  });
 
-                if (value != 0) {
-                    $('#add-{{$title}}-kabkota').val(value);
-                }
+                  if (value != 0) {
+                      $('#add-{{$title}}-kabkota').val(value);
+                  }
                 }
             });
         }
-        $("#add-{{$title}}-provinsi").change(function() {
+        
+        $("#add-{{strtolower($title)}}-provinsi").change(function() {
             get_kota($(this).val(),'{{$title}}',0);
         });
-        get_kota($('#add-{{$title}}-provinsi').val(),'{{$title}}',{{$var['santri']->kabkota}});
+        get_kota($('#add-{{strtolower($title)}}-provinsi').val(),'{{$title}}',{{$var['santri']->kabkota}});
     });
 
   </script>
