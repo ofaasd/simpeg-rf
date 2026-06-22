@@ -49,7 +49,7 @@
               <td>No Induk</td>
               <td>Nama</td>
               <td>Kelas</td>
-              <td>Action</td>
+              {{-- <td>Action</td> --}}
             </tr>
           </thead>
           <tbody>
@@ -62,7 +62,7 @@
                 <td>{{$santri->no_induk}}</td>
                 <td>{{$santri->nama}}</td>
                 <td>{{$santri->kelas}}</td>
-                <td><a href="{{url('ustadz/uang-saku/' . $santri->no_induk)}}"><span class="mdi mdi-information"></span></a></td>
+                {{-- <td><a href="{{url('ustadz/uang-saku/' . $santri->no_induk)}}"><span class="mdi mdi-information"></span></a></td> --}}
               </tr>
             @php
             $i++;
