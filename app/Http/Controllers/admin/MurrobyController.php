@@ -65,7 +65,9 @@ class MurrobyController extends Controller
 
       $search = [];
 
-      $totalData = EmployeeNew::where('jabatan_new', 12)->count();
+      $totalData = EmployeeNew::whereIn('id', function ($query) {
+        $query->select('employee_id')->from('ref_kamar')->whereNotNull('employee_id');
+      })->count();
 
       $totalFiltered = $totalData;
 
@@ -76,14 +78,18 @@ class MurrobyController extends Controller
 
       if (empty($request->input('search.value'))) {
         $EmployeeNew = EmployeeNew::offset($start)
-          ->where('jabatan_new', 12)
+          ->whereIn('id', function ($query) {
+            $query->select('employee_id')->from('ref_kamar')->whereNotNull('employee_id');
+          })
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
       } else {
         $search = $request->input('search.value');
 
-        $EmployeeNew = EmployeeNew::where('jabatan_new', 12)
+        $EmployeeNew = EmployeeNew::whereIn('id', function ($query) {
+            $query->select('employee_id')->from('ref_kamar')->whereNotNull('employee_id');
+          })
           ->where(function ($query) use ($search) {
             $query
               ->where('id', 'LIKE', "%{$search}%")
@@ -95,7 +101,9 @@ class MurrobyController extends Controller
           ->orderBy($order, $dir)
           ->get();
 
-        $totalFiltered = EmployeeNew::where('jabatan_new', 12)
+        $totalFiltered = EmployeeNew::whereIn('id', function ($query) {
+            $query->select('employee_id')->from('ref_kamar')->whereNotNull('employee_id');
+          })
           ->where(function ($query) use ($search) {
             $query
               ->where('id', 'LIKE', "%{$search}%")
