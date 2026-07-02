@@ -21,7 +21,7 @@
               <h4>{{$var['EmployeeNew']->nama}}</h4>
               <ul class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                 <li class="list-inline-item">
-                  <i class='mdi mdi-invert-colors me-1 mdi-20px'></i><span class="fw-semibold">{{$var['EmployeeNew']->jab->name}}</span>
+                  <i class='mdi mdi-invert-colors me-1 mdi-20px'></i><span class="fw-semibold">{{$var['EmployeeNew']->jab->name ?? '-'}}</span>
                 </li>
                 <li class="list-inline-item">
                   <i class='mdi mdi-map-marker-outline me-1 mdi-20px'></i><span class="fw-semibold">{{$var['EmployeeNew']->lembaga_induk}}</span>
