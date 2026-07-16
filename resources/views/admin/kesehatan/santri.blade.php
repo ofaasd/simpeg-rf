@@ -19,6 +19,19 @@
   table.dataTable td, table.dataTable th {
     font-size: 0.8em;
   }
+  #pills-tab::-webkit-scrollbar {
+    height: 6px;
+  }
+  #pills-tab::-webkit-scrollbar-track {
+    background: transparent; 
+  }
+  #pills-tab::-webkit-scrollbar-thumb {
+    background: #cdcdcd; 
+    border-radius: 10px;
+  }
+  #pills-tab::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8; 
+  }
 </style>
 <!--/ Navbar pills -->
 <div class="row">
