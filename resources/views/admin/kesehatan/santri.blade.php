@@ -53,13 +53,13 @@
         </div>
 
         @if($is_admin)
-          <ul class="nav nav-pills mb-3 flex-nowrap p-2" id="pills-tab" role="tablist" style="overflow-x: auto; overflow-y: hidden; white-space: nowrap;">
+          <ul class="nav nav-pills mb-3 flex-nowrap" id="pills-tab" role="tablist" style="overflow-x: auto; overflow-y: hidden; white-space: nowrap;">
             <li class="nav-item" role="presentation">
               <button class="nav-link active filter-kelas" data-kelas="" type="button" role="tab">Semua</button>
             </li>
             @foreach($kelas_list as $kls)
               <li class="nav-item" role="presentation">
-                <button class="nav-link filter-kelas" data-kelas="{{ $kls->code }}" type="button" role="tab">{{ $kls->name }}</button>
+                <button class="nav-link filter-kelas p-1" data-kelas="{{ $kls->code }}" type="button" role="tab">{{ $kls->name }}</button>
               </li>
             @endforeach
           </ul>
