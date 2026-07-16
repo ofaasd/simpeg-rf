@@ -59,7 +59,7 @@
             </li>
             @foreach($kelas_list as $kls)
               <li class="nav-item" role="presentation">
-                <button class="nav-link filter-kelas p-2" data-kelas="{{ $kls->code }}" type="button" role="tab">{{ $kls->name }}</button>
+                <button class="nav-link filter-kelas p-2" data-kelas="{{ $kls->code }}" type="button" role="tab">{{ $kls->code }}</button>
               </li>
             @endforeach
           </ul>
