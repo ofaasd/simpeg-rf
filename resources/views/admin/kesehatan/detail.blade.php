@@ -109,11 +109,21 @@
         <form id="formPemeriksaan" class="row g-4" onsubmit="return false">
           <input type="hidden" name="no_induk" id="no_induk" value="{{$var['santri']->no_induk}}">
           <input type="hidden" name="id" id="id_pemeriksaan">
+          <!-- Data Umum -->
+          <div class="col-12">
+            <h6 class="mt-2 fw-semibold mb-0">Data Umum</h6>
+            <hr class="mt-0">
+          </div>
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
               <input type="date" id='tanggal_pemeriksaan' name="tanggal_pemeriksaan" class="form-control" value="{{date('Y-m-d')}}">
               <label for="tanggal_pemeriksaan">Tanggal Periksa</label>
             </div>
+          </div>
+          <!-- Pengukuran Fisik -->
+          <div class="col-12">
+            <h6 class="mt-3 fw-semibold mb-0">Pengukuran Fisik</h6>
+            <hr class="mt-0">
           </div>
           <div class="col-12 col-md-6">
             <div class="input-group input-group-merge">
@@ -150,6 +160,11 @@
               </div>
               <span class="input-group-text">CM</span>
             </div>
+          </div>
+          <!-- Kondisi Fisik & Kebersihan -->
+          <div class="col-12">
+            <h6 class="mt-3 fw-semibold mb-0">Kondisi Fisik & Kebersihan</h6>
+            <hr class="mt-0">
           </div>
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
