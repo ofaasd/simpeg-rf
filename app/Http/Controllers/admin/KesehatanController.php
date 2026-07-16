@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Kelas;
 use App\Models\Santri;
 use App\Models\TbKesehatan;
 use App\Models\TbPemeriksaan;
+use Illuminate\Http\Request;
 
 class KesehatanController extends Controller
 {
@@ -15,7 +16,6 @@ class KesehatanController extends Controller
    */
   public function index(Request $request)
   {
-    //
     $var['list_bulan'] = [
       1 => 'Januari',
       'Februari',
@@ -214,7 +214,10 @@ class KesehatanController extends Controller
       }
     }
     $title = 'Daftar Santri';
-    return view('admin.kesehatan.santri', compact('santri', 'title', 'var'));
+    $is_admin = true;
+    $kelas_list = Kelas::all();
+    
+    return view('admin.kesehatan.santri', compact('santri', 'title', 'var', 'is_admin', 'kelas_list'));
   }
   public function get_santri(string $id)
   {
