@@ -61,7 +61,7 @@ class RawatInapController extends Controller
             ->leftJoin('employee_new', 'employee_new.id', '=', 'ref_kamar.employee_id')
             ->whereRaw('MONTH(FROM_UNIXTIME(tanggal_masuk)) = ' . $bulan)
             ->whereRaw('YEAR(FROM_UNIXTIME(tanggal_masuk)) = ' . $tahun)
-            ->get();
+            ->get(); 
 
         return view('admin.rawat-inap.index', compact('santri', 'title', 'rawatInap', 'var'));
     }
