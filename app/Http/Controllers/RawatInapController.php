@@ -56,8 +56,8 @@ class RawatInapController extends Controller
             ->leftJoin('santri_detail', function ($join) {
                 $join->on(DB::raw('CAST(santri_detail.no_induk AS CHAR)'), '=', DB::raw('CAST(rawat_inap.santri_no_induk AS CHAR)'));
             })
-            ->leftJoin('santri_kamar', 'santri_kamar.id', '=', 'santri_detail.kamar_id')
-            ->leftJoin('ref_kamar', 'ref_kamar.id', '=', 'santri_kamar.kamar_id')
+            // ->leftJoin('santri_kamar', 'santri_kamar.id', '=', 'santri_detail.kamar_id')
+            ->leftJoin('ref_kamar', 'ref_kamar.id', '=', 'santri_detail.kamar_id')
             ->leftJoin('employee_new', 'employee_new.id', '=', 'ref_kamar.employee_id')
             ->whereRaw('MONTH(FROM_UNIXTIME(tanggal_masuk)) = ' . $bulan)
             ->whereRaw('YEAR(FROM_UNIXTIME(tanggal_masuk)) = ' . $tahun)
