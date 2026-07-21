@@ -12,6 +12,10 @@
         <td>LP</td>
         <td>LD</td>
         <td>Gigi</td>
+        <td>Tubuh</td>
+        <td>Kulit</td>
+        <td>Rambut</td>
+        <td>Kuku</td>
         <td>Action</td>
       </tr>
     </thead>
@@ -25,7 +29,11 @@
         <td>{{$pemeriksaan->berat_badan}}</td>
         <td>{{$pemeriksaan->lingkar_pinggul}}</td>
         <td>{{$pemeriksaan->lingkar_dada}}</td>
-        <td>{{$pemeriksaan->kondisi_gigi}}</td>
+        <td>{{$pemeriksaan->kondisi_gigi ?? '-'}}</td>
+        <td>{{$pemeriksaan->tubuh ?? '-'}}</td>
+        <td>{{$pemeriksaan->kulit ?? '-'}}</td>
+        <td>{{$pemeriksaan->rambut ?? '-'}}</td>
+        <td>{{$pemeriksaan->kuku ?? '-'}}</td>
         <td><button class="btn btn-primary btn-xs edit_pemeriksaan" data-bs-toggle="modal" data-bs-target="#modal_pemeriksaan" data-id="{{$pemeriksaan->id}}"><span class="mdi mdi-pencil"></span></button><button class="btn btn-danger btn-xs delete-record" data-id="{{$pemeriksaan->id}}"><span class="mdi mdi-delete"></span></button></td>
       </tr>
 

@@ -104,16 +104,26 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         <div class="text-center mb-4">
           <h3 class="mb-2">Pemeriksaan Santri</h3>
-          <p class="pt-1">Tambah history pertumbuhan santri_photo</p>
+          <p class="pt-1">Tambah history pertumbuhan Santri</p>
         </div>
         <form id="formPemeriksaan" class="row g-4" onsubmit="return false">
           <input type="hidden" name="no_induk" id="no_induk" value="{{$var['santri']->no_induk}}">
           <input type="hidden" name="id" id="id_pemeriksaan">
+          <!-- Data Umum -->
+          <div class="col-12">
+            <h6 class="mt-2 fw-semibold mb-0">Data Umum</h6>
+            <hr class="mt-0">
+          </div>
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
               <input type="date" id='tanggal_pemeriksaan' name="tanggal_pemeriksaan" class="form-control" value="{{date('Y-m-d')}}">
               <label for="tanggal_pemeriksaan">Tanggal Periksa</label>
             </div>
+          </div>
+          <!-- Pengukuran Fisik -->
+          <div class="col-12">
+            <h6 class="mt-3 fw-semibold mb-0">Pengukuran Fisik</h6>
+            <hr class="mt-0">
           </div>
           <div class="col-12 col-md-6">
             <div class="input-group input-group-merge">
@@ -151,10 +161,59 @@
               <span class="input-group-text">CM</span>
             </div>
           </div>
+          <!-- Kondisi Fisik & Kebersihan -->
+          <div class="col-12">
+            <h6 class="mt-3 fw-semibold mb-0">Kondisi Fisik & Kebersihan</h6>
+            <hr class="mt-0">
+          </div>
           <div class="col-12 col-md-6">
             <div class="form-floating form-floating-outline">
-              <input type="text" id='kondisi_gigi' name="kondisi_gigi" class="form-control">
+              <select id="kuku" name="kuku" class="form-select">
+                <option value="sehat&bersih" selected>Sehat & Bersih</option>
+                <option value="kotor & panjang">Kotor & Panjang</option>
+              </select>
+              <label for="kuku">Kuku</label>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <select id="rambut" name="rambut" class="form-select">
+                <option value="rapi" selected>Rapi</option>
+                <option value="tidak rapi">Tidak Rapi</option>
+              </select>
+              <label for="rambut">Rambut</label>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <select id="kondisi_gigi" name="kondisi_gigi" class="form-select">
+                <option value="sehat&bersih" selected>Sehat & Bersih</option>
+                <option value="tanggal">Tanggal</option>
+                <option value="berlubang">Berlubang</option>
+                <option value="kurang bersih">Kurang Bersih</option>
+                <option value="berkarang">Berkarang</option>
+              </select>
               <label for="kondisi_gigi">Kondisi Gigi</label>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <select id="kulit" name="kulit" class="form-select">
+                <option value="sehat & bersih" selected>Sehat & Bersih</option>
+                <option value="ada gudig">Ada Gudig</option>
+                <option value="ada luka">Ada Luka</option>
+                <option value="lainnya">Lainnya</option>
+              </select>
+              <label for="kulit">Kulit</label>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-floating form-floating-outline">
+              <select id="tubuh" name="tubuh" class="form-select">
+                <option value="sehat" selected>Sehat</option>
+                <option value="kurang sehat">Kurang Sehat</option>
+              </select>
+              <label for="tubuh">Tubuh</label>
             </div>
           </div>
           <div class="col-12 text-center">

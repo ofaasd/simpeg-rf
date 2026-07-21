@@ -558,6 +558,10 @@ class SantriController extends Controller
           'lingkar_pinggul' => $request->lingkar_pinggul,
           'lingkar_dada' => $request->lingkar_dada,
           'kondisi_gigi' => $request->kondisi_gigi,
+          'tubuh' => $request->tubuh,
+          'kulit' => $request->kulit,
+          'rambut' => $request->rambut,
+          'kuku' => $request->kuku,
         ]
       );
 
@@ -577,6 +581,10 @@ class SantriController extends Controller
           'lingkar_pinggul' => $request->lingkar_pinggul,
           'lingkar_dada' => $request->lingkar_dada,
           'kondisi_gigi' => $request->kondisi_gigi,
+          'tubuh' => $request->tubuh,
+          'kulit' => $request->kulit,
+          'rambut' => $request->rambut,
+          'kuku' => $request->kuku
         ]
       );
       if ($pemeriksaan) {
@@ -603,7 +611,7 @@ class SantriController extends Controller
     return response()->json($pemeriksaan);
   }
   public function delete_pemeriksaan(string $id)
-  {
+  { 
     $pemeriksaan = TbPemeriksaan::where('id', $id)->delete();
     echo 'berhasil menghapus data';
   }

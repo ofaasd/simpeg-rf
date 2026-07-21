@@ -19,6 +19,19 @@
   table.dataTable td, table.dataTable th {
     font-size: 0.8em;
   }
+  #pills-tab::-webkit-scrollbar {
+    height: 6px;
+  }
+  #pills-tab::-webkit-scrollbar-track {
+    background: transparent; 
+  }
+  #pills-tab::-webkit-scrollbar-thumb {
+    background: #cdcdcd; 
+    border-radius: 10px;
+  }
+  #pills-tab::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8; 
+  }
 </style>
 <!--/ Navbar pills -->
 <div class="row">
@@ -38,7 +51,21 @@
             <button type="button" id="btnTambahSantriSakit" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal_sakit" style="float:right"> Tambah Santri Sakit</button>
           </div> --}}
         </div>
-        <div id="table_kesehatan">
+
+        @if($is_admin)
+          <ul class="nav nav-pills mb-3 flex-nowrap" id="pills-tab" role="tablist" style="overflow-x: auto; overflow-y: hidden; white-space: nowrap;">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active filter-kelas p-2" data-kelas="" type="button" role="tab">Semua</button>
+            </li>
+            @foreach($kelas_list as $kls)
+              <li class="nav-item" role="presentation">
+                <button class="nav-link filter-kelas p-2" data-kelas="{{ $kls->code }}" type="button" role="tab">{{ $kls->code }}</button>
+              </li>
+            @endforeach
+          </ul>
+        @endif
+
+        <div id="table_kesehatan" class="table-responsive">
           <table class="dataTable table">
             <thead>
               <tr>
@@ -52,7 +79,6 @@
                 <td>LD</td>
                 <td>Gigi</td>
                 <td>Tgl periksa</td>
-
               </tr>
             </thead>
             <tbody id="table_uang_saku">
@@ -62,16 +88,15 @@
                   <td><a href="{{URL::to('/kesehatan/santri/' . $row->id )}}">{{$row->nama}}</a></td>
                   <td>{{$row->kelas}}</td>
                   <td>{{$row->kamar_id}}</td>
-                  <td>{{$var['berat_badan'][$row->no_induk] }}</td>
-                  <td>{{$var['tinggi_badan'][$row->no_induk] }}</td>
-                  <td>{{$var['lingkar_pinggul'][$row->no_induk] }}</td>
-                  <td>{{$var['lingkar_dada'][$row->no_induk] }}</td>
-                  <td>{{$var['kondisi_gigi'][$row->no_induk] }}</td>
-                  <td>{{$var['tanggal_periksa'][$row->no_induk] }}</td>
+                  <td>{{$var['berat_badan'][$row->no_induk] ?? '' }}</td>
+                  <td>{{$var['tinggi_badan'][$row->no_induk] ?? '' }}</td>
+                  <td>{{$var['lingkar_pinggul'][$row->no_induk] ?? '' }}</td>
+                  <td>{{$var['lingkar_dada'][$row->no_induk] ?? '' }}</td>
+                  <td>{{$var['kondisi_gigi'][$row->no_induk] ?? '' }}</td>
+                  <td>{{$var['tanggal_periksa'][$row->no_induk] ?? '' }}</td>
                 </tr>
               @endforeach
             </tbody>
-
           </table>
         </div>
       </div>
@@ -146,7 +171,19 @@
 @endsection
 <script>
 document.addEventListener("DOMContentLoaded", function(event) {
-  $('.dataTable').dataTable();
-});
+  var table = $('.dataTable').dataTable().api();
 
+  $('.filter-kelas').on('click', function(e) {
+    e.preventDefault();
+    $('.filter-kelas').removeClass('active');
+    $(this).addClass('active');
+
+    var kelas = $(this).data('kelas');
+    if(kelas === '') {
+      table.column(2).search('').draw();
+    } else {
+      table.column(2).search('^' + kelas + '$', true, false).draw();
+    }
+  });
+});
 </script>

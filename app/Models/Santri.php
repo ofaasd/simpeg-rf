@@ -107,4 +107,16 @@ class Santri extends Model
   {
     return $this->hasMany(Kurban::class, 'id_santri', 'id');
   }
+  public function tahfidz(): BelongsTo
+  {
+    return $this->belongsTo(Tahfidz::class, 'tahfidz_id', 'id');
+  }
+  public function relasiKelas(): BelongsTo
+  {
+    return $this->belongsTo(Kelas::class, 'kelas', 'code');
+  }
+  public function relasiKabkota(): BelongsTo
+  {
+    return $this->belongsTo(City::class, 'kabkota', 'city_id');
+  }
 }

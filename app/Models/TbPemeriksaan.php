@@ -20,6 +20,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int|null $lingkar_pinggul
  * @property int|null $lingkar_dada
  * @property string|null $kondisi_gigi
+ * @property string|null $tubuh
+ * @property string|null $kulit
+ * @property string|null $rambut
+ * @property string|null $kuku
  * @property int|null $created_at
  * @property int|null $updated_at
  * @property string|null $deleted_at
@@ -38,6 +42,10 @@ class TbPemeriksaan extends Model
     'berat_badan' => 'int',
     'lingkar_pinggul' => 'int',
     'lingkar_dada' => 'int',
+    'tubuh' => 'string',
+    'kulit' => 'string',
+    'rambut' => 'string',
+    'kuku' => 'string',
   ];
 
   protected $fillable = [
@@ -48,5 +56,9 @@ class TbPemeriksaan extends Model
     'lingkar_pinggul',
     'lingkar_dada',
     'kondisi_gigi',
+    'tubuh',
+    'kulit',
+    'rambut',
+    'kuku',
   ];
 }
