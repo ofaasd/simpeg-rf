@@ -494,7 +494,7 @@ class SantriController extends Controller
   public function destroy(string $id)
   {
     //
-    $Santri = Santri::where('id', $id)->delete();
+    DB::table('santri_detail')->where('id', $id)->update(['deleted_at' => time()]);
   }
 
   public function get_kota(Request $request)
