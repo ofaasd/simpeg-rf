@@ -126,10 +126,65 @@
           </select>
           <label for="user-role">Pegawai</label>
         </div>
+        <div class="form-floating form-floating-outline mb-4">
+          <input type="password" id="add-user-password" class="form-control" placeholder="············" name="password" autocomplete="new-password" />
+          <label for="add-user-password">Password (Opsional)</label>
+          <small class="text-muted d-block mt-1" id="add-user-password-help">Kosongkan jika tidak ingin mengubah / default: password</small>
+        </div>
         <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
         <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
         <br/><br/><br/><br/><br/><br/><br/><br/><br/>
       </form>
+    </div>
+  </div>
+
+  <!-- Modal Update Password -->
+  <div class="modal fade" id="modalUpdatePassword" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalUpdatePasswordLabel"><i class="mdi mdi-key-outline me-2 text-warning"></i>Update Password User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="formUpdatePassword">
+          <div class="modal-body">
+            <input type="hidden" name="user_id" id="update_password_user_id">
+
+            <div class="mb-3">
+              <label class="form-label" for="update_password_user_info">User</label>
+              <input type="text" id="update_password_user_info" class="form-control" readonly disabled>
+            </div>
+
+            <div class="mb-3 form-password-toggle">
+              <div class="input-group input-group-merge">
+                <div class="form-floating form-floating-outline">
+                  <input type="password" id="update_password_val" class="form-control" name="password" placeholder="············" required minlength="6" />
+                  <label for="update_password_val">Password Baru</label>
+                </div>
+                <span class="input-group-text cursor-pointer"><i class="mdi mdi-eye-off-outline"></i></span>
+              </div>
+            </div>
+
+            <div class="mb-3 form-password-toggle">
+              <div class="input-group input-group-merge">
+                <div class="form-floating form-floating-outline">
+                  <input type="password" id="update_password_confirmation_val" class="form-control" name="password_confirmation" placeholder="············" required minlength="6" />
+                  <label for="update_password_confirmation_val">Konfirmasi Password Baru</label>
+                </div>
+                <span class="input-group-text cursor-pointer"><i class="mdi mdi-eye-off-outline"></i></span>
+              </div>
+            </div>
+
+            <div id="update-password-error" class="alert alert-danger d-none mb-0"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary" id="btnSubmitUpdatePassword">
+              <i class="mdi mdi-key-outline me-1"></i> Update Password
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

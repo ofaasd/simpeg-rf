@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use App\Models\EmployeeNew;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserManagement extends Controller
 {
@@ -146,9 +148,19 @@ class UserManagement extends Controller
 
     if ($userID) {
       // update the value
+      $userData = [
+        'name' => $request->name,
+        'email' => $request->email,
+        'pegawai_id' => $request->pegawai_id,
+      ];
+
+      if ($request->filled('password')) {
+        $userData['password'] = Hash::make($request->password);
+      }
+
       $users = User::updateOrCreate(
         ['id' => $userID],
-        ['name' => $request->name, 'email' => $request->email, 'pegawai_id' => $request->pegawai_id]
+        $userData
       );
 
       // user updated
@@ -160,14 +172,14 @@ class UserManagement extends Controller
       $userEmail = User::where('email', $request->email)->first();
 
       if (empty($userEmail)) {
+        $password = $request->filled('password') ? Hash::make($request->password) : Hash::make('password');
         $users = User::updateOrCreate(
           ['id' => $userID],
           [
             'name' => $request->name,
             'email' => $request->email,
             'pegawai_id' => $request->pegawai_id,
-
-            'password' => bcrypt('password'),
+            'password' => $password,
           ]
         );
         $role = $request->role;
@@ -230,5 +242,42 @@ class UserManagement extends Controller
   public function destroy($id)
   {
     $users = User::where('id', $id)->delete();
+  }
+
+  /**
+   * Update password for a specified user.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function updatePassword(Request $request)
+  {
+    $validator = Validator::make($request->all(), [
+      'user_id' => 'required|exists:users,id',
+      'password' => 'required|string|min:6|confirmed',
+    ], [
+      'user_id.required' => 'User ID tidak valid.',
+      'user_id.exists' => 'User tidak ditemukan.',
+      'password.required' => 'Password baru wajib diisi.',
+      'password.min' => 'Password minimal harus 6 karakter.',
+      'password.confirmed' => 'Konfirmasi password tidak cocok.',
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json([
+        'status' => 'error',
+        'message' => $validator->errors()->first(),
+        'errors' => $validator->errors(),
+      ], 422);
+    }
+
+    $user = User::findOrFail($request->user_id);
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    return response()->json([
+      'status' => 'success',
+      'message' => 'Password untuk user "' . $user->name . '" berhasil diperbarui!'
+    ]);
   }
 }

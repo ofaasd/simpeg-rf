@@ -257,6 +257,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::post('/ustadz/get_grafik',  [UstTahfidzController::class, 'get_grafik']);
 
   Route::resource('/users', UserController::class);
+  Route::post('/user-list/update-password', [UserManagement::class, 'updatePassword'])->name('user-list.update-password');
   Route::resource('/user-list', UserManagement::class);
   Route::resource('/pegawai', Pegawai::class);
   Route::resource('/academic', AcademicController::class);

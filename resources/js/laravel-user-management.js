@@ -125,15 +125,19 @@ $(function () {
           searchable: false,
           orderable: false,
           render: function (data, type, full, meta) {
+            var userName = full['name'] ? $('<div>').text(full['name']).html() : '';
+            var userEmail = full['email'] ? $('<div>').text(full['email']).html() : '';
             return (
               '<div class="d-inline-block text-nowrap">' +
-              `<button class="btn btn-sm btn-icon edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><i class="mdi mdi-pencil-outline mdi-20px"></i></button>` +
-              `<button class="btn btn-sm btn-icon delete-record" data-id="${full['id']}"><i class="mdi mdi-delete-outline mdi-20px"></i></button>` +
+              `<button class="btn btn-sm btn-icon edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser" title="Edit"><i class="mdi mdi-pencil-outline mdi-20px"></i></button>` +
+              `<button class="btn btn-sm btn-icon update-password text-warning" data-id="${full['id']}" data-name="${userName}" data-email="${userEmail}" data-bs-toggle="modal" data-bs-target="#modalUpdatePassword" title="Update Password"><i class="mdi mdi-key-outline mdi-20px"></i></button>` +
+              `<button class="btn btn-sm btn-icon delete-record" data-id="${full['id']}" title="Hapus"><i class="mdi mdi-delete-outline mdi-20px"></i></button>` +
               '<button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical mdi-20px"></i></button>' +
               '<div class="dropdown-menu dropdown-menu-end m-0">' +
               '<a href="' +
               userView +
               '" class="dropdown-item">View</a>' +
+              `<a href="javascript:;" class="dropdown-item update-password" data-id="${full['id']}" data-name="${userName}" data-email="${userEmail}" data-bs-toggle="modal" data-bs-target="#modalUpdatePassword"><i class="mdi mdi-key-outline me-1"></i> Update Password</a>` +
               '<a href="javascript:;" class="dropdown-item">Suspend</a>' +
               '</div>' +
               '</div>'
@@ -416,13 +420,84 @@ $(function () {
       $('#add-user-email').val(data.users.email);
       $('#add-user-pegawai').val(data.users.pegawai_id).trigger('change');
       $('#user-role').val(data.role);
+      $('#add-user-password').val('');
     });
   });
 
   // changing the title
   $('.add-new').on('click', function () {
     $('#user_id').val(''); //reseting input field
+    $('#add-user-password').val('');
     $('#offcanvasAddUserLabel').html('Add User');
+  });
+
+  // update password modal show
+  $(document).on('click', '.update-password', function () {
+    var user_id = $(this).data('id');
+    var user_name = $(this).data('name') || '';
+    var user_email = $(this).data('email') || '';
+    var dtrModal = $('.dtr-bs-modal.show');
+
+    // hide responsive modal in small screen if open
+    if (dtrModal.length) {
+      dtrModal.modal('hide');
+    }
+
+    $('#update_password_user_id').val(user_id);
+    $('#update_password_user_info').val(user_name ? `${user_name} (${user_email})` : user_email);
+    $('#update_password_val').val('');
+    $('#update_password_confirmation_val').val('');
+    $('#update-password-error').addClass('d-none').html('');
+  });
+
+  // submit update password form
+  $('#formUpdatePassword').on('submit', function (e) {
+    e.preventDefault();
+    var pass = $('#update_password_val').val();
+    var confirmPass = $('#update_password_confirmation_val').val();
+    var errorAlert = $('#update-password-error');
+
+    errorAlert.addClass('d-none').html('');
+
+    if (!pass || pass.length < 6) {
+      errorAlert.removeClass('d-none').text('Password minimal harus 6 karakter.');
+      return;
+    }
+
+    if (pass !== confirmPass) {
+      errorAlert.removeClass('d-none').text('Konfirmasi password tidak cocok.');
+      return;
+    }
+
+    var submitBtn = $('#btnSubmitUpdatePassword');
+    var originalBtnHtml = submitBtn.html();
+    submitBtn.prop('disabled', true).text('Menyimpan...');
+
+    $.ajax({
+      url: `${baseUrl}user-list/update-password`,
+      type: 'POST',
+      data: $(this).serialize(),
+      success: function (response) {
+        submitBtn.prop('disabled', false).html(originalBtnHtml);
+        $('#modalUpdatePassword').modal('hide');
+        Swal.fire({
+          icon: 'success',
+          title: 'Berhasil!',
+          text: response.message || 'Password berhasil diperbarui!',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      },
+      error: function (xhr) {
+        submitBtn.prop('disabled', false).html(originalBtnHtml);
+        var errorMsg = 'Terjadi kesalahan saat mengupdate password.';
+        if (xhr.responseJSON && xhr.responseJSON.message) {
+          errorMsg = xhr.responseJSON.message;
+        }
+        errorAlert.removeClass('d-none').text(errorMsg);
+      }
+    });
   });
 
   // validating form and updating user's data
@@ -515,6 +590,7 @@ $(function () {
   // clearing form data when offcanvas hidden
   offCanvasForm.on('hidden.bs.offcanvas', function () {
     fv.resetForm(true);
+    $('#add-user-password').val('');
   });
 
   const phoneMaskList = document.querySelectorAll('.phone-mask');
