@@ -11,6 +11,8 @@ use App\Models\Grades;
 use App\Models\Santri;
 use App\Models\KodeJuz;
 use App\Models\Loggin_mk1 as log;
+use App\Models\SantriTahfidz;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL as FacadesURL;
 use Session;
@@ -37,7 +39,8 @@ class TahfidzController extends Controller
         return view('admin.no_ta');
       } else {
         $ta = $ta->first();
-        return view('admin.tahfidz.index', compact('title', 'indexed', 'code', 'employee', 'ta'));
+        $allTahfidz = Tahfidz::with('pegawai')->orderBy('name', 'asc')->get();
+        return view('admin.tahfidz.index', compact('title', 'indexed', 'code', 'employee', 'ta', 'allTahfidz'));
       }
     } else {
       $columns = [
@@ -381,5 +384,109 @@ class TahfidzController extends Controller
     $var['kode_juz'] = KodeJuz::all();
     $title = "Grafik Santri";
     return view('ustadz.tahfidz.grafik', compact('title', 'var', 'tahfidz', 'id'));
+  }
+
+  /**
+   * Get list of santri belonging to a tahfidz group.
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function getSantriByTahfidz($id)
+  {
+    $santri = Santri::where('tahfidz_id', $id)
+      ->select('id', 'no_induk', 'nama', 'kelas', 'jenis_kelamin')
+      ->orderBy('nama', 'asc')
+      ->get();
+
+    return response()->json([
+      'status' => 'success',
+      'data'   => $santri,
+      'count'  => $santri->count()
+    ]);
+  }
+
+  /**
+   * Bulk transfer santri from one tahfidz group to another.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function transferSantri(Request $request)
+  {
+    $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+      'from_tahfidz_id' => 'required|exists:ref_tahfidz,id',
+      'to_tahfidz_id'   => 'required|exists:ref_tahfidz,id|different:from_tahfidz_id',
+      'santri_ids'      => 'required|array|min:1',
+      'santri_ids.*'    => 'exists:santri_detail,id',
+    ], [
+      'from_tahfidz_id.required' => 'Kelompok tahfidz asal wajib dipilih.',
+      'from_tahfidz_id.exists'   => 'Kelompok tahfidz asal tidak valid.',
+      'to_tahfidz_id.required'   => 'Kelompok tahfidz tujuan wajib dipilih.',
+      'to_tahfidz_id.exists'     => 'Kelompok tahfidz tujuan tidak valid.',
+      'to_tahfidz_id.different'  => 'Kelompok tahfidz tujuan tidak boleh sama dengan kelompok asal.',
+      'santri_ids.required'      => 'Pilih minimal satu santri yang ingin dipindahkan.',
+      'santri_ids.min'           => 'Pilih minimal satu santri yang ingin dipindahkan.',
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json([
+        'status'  => 'error',
+        'message' => $validator->errors()->first(),
+        'errors'  => $validator->errors()
+      ], 422);
+    }
+
+    $ta = TahunAjaran::where('is_aktif', 1)->first();
+    if (!$ta) {
+      return response()->json([
+        'status'  => 'error',
+        'message' => 'Tahun ajaran aktif tidak ditemukan.'
+      ], 422);
+    }
+
+    $fromTahfidz = Tahfidz::with('pegawai')->findOrFail($request->from_tahfidz_id);
+    $toTahfidz   = Tahfidz::with('pegawai')->findOrFail($request->to_tahfidz_id);
+    $santriIds   = $request->santri_ids;
+
+    DB::beginTransaction();
+    try {
+      // 1. Update tahfidz_id di santri_detail
+      Santri::whereIn('id', $santriIds)->update([
+        'tahfidz_id' => $toTahfidz->id
+      ]);
+
+      // 2. Nonaktifkan status riwayat santri_tahfidz sebelumnya
+      SantriTahfidz::whereIn('santri_id', $santriIds)
+        ->where('status', 1)
+        ->update(['status' => 0]);
+
+      // 3. Tambahkan riwayat mutasi baru ke santri_tahfidz
+      foreach ($santriIds as $santriId) {
+        SantriTahfidz::create([
+          'tahfidz_id'      => $toTahfidz->id,
+          'santri_id'       => $santriId,
+          'tahun_ajaran_id' => $ta->id,
+          'status'          => 1,
+        ]);
+      }
+
+      DB::commit();
+
+      $fromName = $fromTahfidz->pegawai->nama ?? $fromTahfidz->name;
+      $toName   = $toTahfidz->pegawai->nama ?? $toTahfidz->name;
+      $count    = count($santriIds);
+
+      return response()->json([
+        'status'  => 'success',
+        'message' => "Berhasil memindahkan {$count} santri dari '{$fromName}' ke '{$toName}'."
+      ]);
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return response()->json([
+        'status'  => 'error',
+        'message' => 'Gagal memproses pemindahan santri: ' . $e->getMessage()
+      ], 500);
+    }
   }
 }

@@ -80,15 +80,21 @@ $(function () {
           searchable: false,
           orderable: false,
           render: function render(data, type, full, meta) {
+            var transferBtn = '';
+            if (page === 'tahfidz') {
+              transferBtn = '<button class="btn btn-sm btn-icon btn-transfer-tahfidz text-warning" data-id="' + full['id'] + '" data-name="' + full['name'] + '" data-bs-toggle="modal" data-bs-target="#modalBulkTransferTahfidz" title="Transfer Santri Kelompok Ini"><i class="mdi mdi-account-switch mdi-20px"></i></button>';
+            }
             return (
               '<div class="d-inline-block text-nowrap">' +
+              transferBtn +
               '<button class="btn btn-sm btn-icon edit-record" data-id="'
                 .concat(full['id'], '" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAdd')
                 .concat(title, '"><i class="mdi mdi-pencil-outline mdi-20px"></i></button>') +
               '<button class="btn btn-sm btn-icon delete-record" data-id="'.concat(
                 full['id'],
                 '"><i class="mdi mdi-delete-outline mdi-20px"></i></button>'
-              )
+              ) +
+              '</div>'
             );
           }
         }

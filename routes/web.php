@@ -269,6 +269,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/absensi', AbsensiController::class);
   Route::resource('/kamar', KamarController::class);
   Route::resource('/kelas', KelasController::class);
+  Route::get('/tahfidz/get-santri/{id}', [TahfidzController::class, 'getSantriByTahfidz'])->name('tahfidz.get-santri');
+  Route::post('/tahfidz/transfer-santri', [TahfidzController::class, 'transferSantri'])->name('tahfidz.transfer-santri');
   Route::resource('/tahfidz', TahfidzController::class);
   Route::resource('/ta', TahunAjaranController::class);
   Route::resource('/santri', SantriController::class);
