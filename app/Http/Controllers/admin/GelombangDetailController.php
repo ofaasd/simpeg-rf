@@ -50,6 +50,7 @@ class GelombangDetailController extends Controller
               'syarat' => $request->syarat,
               'prosedur_online' => $request->prosedur_online,
               'prosedur_offline' => $request->prosedur_offline,
+              'materi_test' => $request->materi_test,
             ]
           );
 
@@ -68,6 +69,7 @@ class GelombangDetailController extends Controller
               'syarat' => $request->syarat,
               'prosedur_online' => $request->prosedur_online,
               'prosedur_offline' => $request->prosedur_offline,
+              'materi_test' => $request->materi_test,
             ]
           );
           if ($gelombang) {

@@ -70,6 +70,14 @@
           </div>
         </div>
         <div class="mb-4 mt-4">
+          <label for="add-materi-test"><h5>Materi Test</h5></label>
+          <div class="ql-container">
+            <div id="full-editor6">
+              {!!$detail->materi_test ?? '' !!}
+            </div>
+          </div>
+        </div>
+        <div class="mb-4 mt-4">
           <button id="simpanBtn" class="btn btn-primary">Save</button>
         </div>
     </form>
@@ -179,6 +187,15 @@
         },
         theme: 'snow'
       });
+      const fullEditor6 = new Quill('#full-editor6', {
+        bounds: '#full-editor6',
+        placeholder: 'Type Something...',
+        modules: {
+          formula: true,
+          toolbar: fullToolbar
+        },
+        theme: 'snow'
+      });
       $("#simpanBtn").click(function(){
         $(this).prop('disabled',true);
         $(this).text('Mohon Tunggu');
@@ -194,6 +211,7 @@
             'syarat' : fullEditor3.root.innerHTML,
             'prosedur_online' : fullEditor4.root.innerHTML,
             'prosedur_offline' : fullEditor5.root.innerHTML,
+            'materi_test' : fullEditor6.root.innerHTML,
           },
           success : function(status){
             Swal.fire({

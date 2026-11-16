@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('employee_new', function (Blueprint $table) {
-            $table->tinyInteger('status')->default(1)->after('lembaga_diikuti')->comment('0=tidak aktif, 1=aktif, 2=cuti, 3=keluar, 4=dikeluarkan, 5=meninggal');
-        });
+        if (!Schema::hasColumn('employee_new', 'status')) {
+            Schema::table('employee_new', function (Blueprint $table) {
+                $table->tinyInteger('status')->default(1)->after('lembaga_diikuti')->comment('0=tidak aktif, 1=aktif, 2=cuti, 3=keluar, 4=dikeluarkan, 5=meninggal');
+            });
+        }
     }
 
     /**
