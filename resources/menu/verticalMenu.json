@@ -193,6 +193,12 @@
       "slug": "santri"
     },
     {
+      "url": "/kemadrasahan",
+      "name": "Kemadrasahan",
+      "icon": "menu-icon tf-icons mdi mdi-book-open-page-variant-outline",
+      "slug": "kemadrasahan"
+    },
+    {
       "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-account-plus",
       "name": "PSB",

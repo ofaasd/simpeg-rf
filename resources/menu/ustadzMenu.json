@@ -90,6 +90,12 @@
       "slug": "tahfidz"
     },
     {
+      "url": "/kemadrasahan",
+      "icon": "menu-icon tf-icons mdi mdi-book-open-page-variant-outline",
+      "name": "Kemadrasahan",
+      "slug": "kemadrasahan"
+    },
+    {
       "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-bottle-tonic-plus",
       "name": "Kesehatan",

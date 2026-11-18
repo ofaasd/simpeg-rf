@@ -68,6 +68,7 @@ use App\Http\Controllers\ShowKetahfidzanController;
 use App\Http\Controllers\TanahController;
 use App\Http\Controllers\ustadz\KelengkapanController;
 use App\Http\Controllers\ustadz\PerilakuController;
+use App\Http\Controllers\admin\KemadrasahanWebController;
 
 /*
 |--------------------------------------------------------------------------
@@ -329,6 +330,18 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
   Route::resource('/ustadz/saku_keluar', SakuKeluarController::class);
   Route::resource('/ustadz/perilaku', PerilakuController::class);
   Route::resource('/ustadz/kelengkapan', KelengkapanController::class);
+
+  // Kemadrasahan CRUD
+  Route::prefix('kemadrasahan')->as('kemadrasahan.')->group(function () {
+    Route::get('/', [KemadrasahanWebController::class, 'index'])->name('index');
+    Route::get('/mapel', [KemadrasahanWebController::class, 'getMapel'])->name('mapel');
+    Route::get('/santri/{idUser}', [KemadrasahanWebController::class, 'getSantri'])->name('santri');
+    Route::get('/rekap/{noInduk}', [KemadrasahanWebController::class, 'getDataSantri'])->name('rekap');
+    Route::get('/detail/{idDetail}', [KemadrasahanWebController::class, 'getDetail'])->name('detail');
+    Route::post('/store', [KemadrasahanWebController::class, 'store'])->name('store');
+    Route::put('/update/{idDetail}', [KemadrasahanWebController::class, 'update'])->name('update');
+    Route::delete('/delete/{idDetail}', [KemadrasahanWebController::class, 'destroy'])->name('destroy');
+  });
 
   Route::resource('/new-menu', NewMenuController::class);
 });
