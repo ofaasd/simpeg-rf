@@ -27,8 +27,8 @@
               <i class="mdi mdi-book-check-outline mdi-24px"></i>
             </div>
             <div>
-              <h5 class="mb-0 text-primary fw-bold">Data Khotimin Santri</h5>
-              <small class="text-muted">Pencatatan data santri yang telah menyelesaikan khataman Al-Qur'an / Kitab per tahun ajaran dan kelas.</small>
+              <h5 class="mb-0 text-primary fw-bold">Data Khotimin Santri & Alumni</h5>
+              <small class="text-muted">Pencatatan data santri aktif maupun alumni yang telah menyelesaikan khataman Al-Qur'an / Kitab.</small>
             </div>
           </div>
           <div class="d-flex align-items-center gap-2">
@@ -53,7 +53,7 @@
                 <h4 class="mb-0 me-2 fw-bold" id="statTotalKhotimin">{{ $totalKhotimin }}</h4>
                 <span class="badge bg-label-primary">Santri</span>
               </div>
-              <small class="text-muted">Akumulasi seluruh angkatan</small>
+              <small class="text-muted">Akumulasi santri aktif & alumni</small>
             </div>
             <div class="avatar avatar-md">
               <span class="avatar-initial rounded bg-label-primary">
@@ -94,13 +94,12 @@
         <div class="card-body">
           <div class="d-flex align-items-center justify-content-between">
             <div class="content-left">
-              <span class="text-muted small">Tahun Ajaran Aktif</span>
+              <span class="text-muted small">Khotimin Status Alumni</span>
               <div class="d-flex align-items-center my-1">
-                <h5 class="mb-0 fw-bold">
-                  {{ $activeTa ? ($activeTa->awal . '/' . $activeTa->akhir) : '-' }}
-                </h5>
+                <h4 class="mb-0 me-2 fw-bold text-info" id="statKhotiminAlumni">{{ $totalAlumniKhotimin }}</h4>
+                <span class="badge bg-label-info">Alumni</span>
               </div>
-              <small class="badge bg-label-info">Semester {{ $activeTa->jenis ?? '-' }}</small>
+              <small class="text-muted">Arsip lulusan terdata</small>
             </div>
             <div class="avatar avatar-md">
               <span class="avatar-initial rounded bg-label-info">
@@ -120,7 +119,7 @@
     </div>
     <div class="card-body pt-3">
       <div class="row g-3">
-        <div class="col-md-5">
+        <div class="col-md-4">
           <label class="form-label small fw-semibold" for="filterTahunAjaran">Tahun Ajaran</label>
           <select id="filterTahunAjaran" class="form-select form-select-sm">
             <option value="">-- Semua Tahun Ajaran --</option>
@@ -131,7 +130,7 @@
             @endforeach
           </select>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <label class="form-label small fw-semibold" for="filterKelas">Kelas</label>
           <select id="filterKelas" class="form-select form-select-sm">
             <option value="">-- Semua Kelas --</option>
@@ -140,9 +139,17 @@
             @endforeach
           </select>
         </div>
-        <div class="col-md-3 d-flex align-items-end">
+        <div class="col-md-3">
+          <label class="form-label small fw-semibold" for="filterTipe">Status Santri</label>
+          <select id="filterTipe" class="form-select form-select-sm">
+            <option value="">-- Semua Status --</option>
+            <option value="santri">Santri Aktif</option>
+            <option value="alumni">Alumni</option>
+          </select>
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
           <button type="button" class="btn btn-outline-secondary btn-sm w-100" id="btnResetFilter">
-            <i class="mdi mdi-refresh me-1"></i> Reset Filter
+            <i class="mdi mdi-refresh me-1"></i> Reset
           </button>
         </div>
       </div>
@@ -158,11 +165,12 @@
       <table class="table table-hover table-striped datatables-khotimin w-100">
         <thead class="table-light">
           <tr>
-            <th width="5%">No</th>
+            <th width="4%">No</th>
             <th width="12%">No Induk</th>
             <th>Nama Santri</th>
-            <th width="10%">Kelas</th>
-            <th width="18%">Tahun Ajaran</th>
+            <th width="11%">Status</th>
+            <th width="8%">Kelas</th>
+            <th width="16%">Tahun Ajaran</th>
             <th width="12%">Tanggal Khatam</th>
             <th>Keterangan</th>
             <th width="10%" class="text-center">Aksi</th>
@@ -188,20 +196,29 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body py-3">
-          <!-- Pilih Santri -->
+          <!-- Pilih Santri / Alumni via No Induk -->
           <div class="mb-3">
-            <label class="form-label fw-semibold" for="modal_santri_id">
-              Santri <span class="text-danger">*</span>
+            <label class="form-label fw-semibold" for="modal_selected_santri">
+              Santri / Alumni <span class="text-danger">*</span>
             </label>
-            <select class="form-select select2-santri" id="modal_santri_id" name="santri_id" required style="width: 100%;">
-              <option value="">-- Pilih Santri --</option>
-              @foreach($santriList as $s)
-                <option value="{{ $s->id }}" data-kode="{{ $s->no_induk }}" data-kelas="{{ strtoupper($s->kelas) }}">
-                  {{ $s->no_induk }} - {{ $s->nama }} (Kelas {{ strtoupper($s->kelas ?? '-') }})
-                </option>
-              @endforeach
+            <select class="form-select select2-santri" id="modal_selected_santri" name="selected_santri" required style="width: 100%;">
+              <option value="">-- Cari No Induk atau Nama Santri / Alumni --</option>
+              <optgroup label="Santri Aktif (santri_detail)">
+                @foreach($santriList as $s)
+                  <option value="santri:{{ $s->no_induk }}" data-kode="{{ $s->no_induk }}" data-kelas="{{ strtoupper($s->kelas ?? '') }}">
+                    {{ $s->no_induk }} - {{ $s->nama }} [Santri Aktif - Kelas {{ strtoupper($s->kelas ?? '-') }}]
+                  </option>
+                @endforeach
+              </optgroup>
+              <optgroup label="Alumni (tb_alumni_santri_detail)">
+                @foreach($alumniList as $a)
+                  <option value="alumni:{{ $a->no_induk }}" data-kode="{{ $a->no_induk }}" data-kelas="{{ strtoupper($a->kelas ?? '') }}">
+                    {{ $a->no_induk }} - {{ $a->nama }} [Alumni]
+                  </option>
+                @endforeach
+              </optgroup>
             </select>
-            <div class="invalid-feedback">Silakan pilih santri.</div>
+            <div class="invalid-feedback">Silakan pilih santri atau alumni.</div>
           </div>
 
           <!-- Tahun Ajaran -->
@@ -269,15 +286,15 @@ $(document).ready(function() {
   });
 
   // Init Select2 pada Modal
-  $('#modal_santri_id').select2({
+  $('#modal_selected_santri').select2({
     dropdownParent: $('#modalKhotimin'),
-    placeholder: '-- Cari & Pilih Santri --',
+    placeholder: '-- Cari No Induk atau Nama --',
     allowClear: true,
     width: '100%'
   });
 
-  // Auto-fill kelas ketika santri dipilih jika kelas belum diisi
-  $('#modal_santri_id').on('change', function() {
+  // Auto-fill kelas ketika santri/alumni dipilih jika kelas belum diisi
+  $('#modal_selected_santri').on('change', function() {
     var selectedOption = $(this).find('option:selected');
     var kelasSantri = selectedOption.data('kelas');
     if (kelasSantri && !$('#khotimin_id').val()) {
@@ -294,17 +311,40 @@ $(document).ready(function() {
       data: function(d) {
         d.filter_tahun_ajaran = $('#filterTahunAjaran').val();
         d.filter_kelas = $('#filterKelas').val();
+        d.filter_tipe = $('#filterTipe').val();
       }
     },
     columns: [
       { data: 'no', name: 'no', orderable: false, searchable: false },
-      { data: 'kode_santri', name: 'kode_santri' },
-      { data: 'nama_santri', name: 'santri.nama' },
+      { 
+        data: 'kode_santri', 
+        name: 'kode_santri',
+        render: function(data) {
+          return '<span class="fw-semibold">' + (data || '-') + '</span>';
+        }
+      },
+      { 
+        data: 'nama_santri', 
+        name: 'nama_santri',
+        render: function(data) {
+          return '<span class="fw-bold text-dark">' + (data || '-') + '</span>';
+        }
+      },
+      { 
+        data: 'tipe_santri', 
+        name: 'tipe_santri',
+        render: function(data, type, row) {
+          if (row.tipe_santri_raw === 'alumni' || data === 'Alumni') {
+            return '<span class="badge bg-label-info"><i class="mdi mdi-school me-1"></i>Alumni</span>';
+          }
+          return '<span class="badge bg-label-success"><i class="mdi mdi-account-check me-1"></i>Santri Aktif</span>';
+        }
+      },
       { 
         data: 'kelas', 
         name: 'kelas',
         render: function(data) {
-          return '<span class="badge bg-label-info fw-bold">' + (data || '-') + '</span>';
+          return '<span class="badge bg-label-primary fw-bold">' + (data || '-') + '</span>';
         }
       },
       { data: 'tahun_ajaran', name: 'id_tahun_ajaran' },
@@ -329,10 +369,10 @@ $(document).ready(function() {
         }
       }
     ],
-    order: [[5, 'desc']], // Sort by tanggal_khatam
+    order: [[6, 'desc']], // Sort by tanggal_khatam
     language: {
       search: "",
-      searchPlaceholder: "Cari santri / kelas...",
+      searchPlaceholder: "Cari nomor induk / nama / kelas...",
       lengthMenu: "Tampil _MENU_ data",
       info: "Menampilkan _START_ s/d _END_ dari _TOTAL_ data",
       infoEmpty: "Data tidak ditemukan",
@@ -347,13 +387,14 @@ $(document).ready(function() {
   });
 
   // Filter Event
-  $('#filterTahunAjaran, #filterKelas').on('change', function() {
+  $('#filterTahunAjaran, #filterKelas, #filterTipe').on('change', function() {
     dtTable.draw();
   });
 
   $('#btnResetFilter').on('click', function() {
     $('#filterTahunAjaran').val('{{ $activeTa ? $activeTa->id : "" }}');
     $('#filterKelas').val('');
+    $('#filterTipe').val('');
     dtTable.draw();
   });
 
@@ -361,7 +402,7 @@ $(document).ready(function() {
   $('#btnOpenAddModal').on('click', function() {
     $('#formKhotimin')[0].reset();
     $('#khotimin_id').val('');
-    $('#modal_santri_id').val('').trigger('change');
+    $('#modal_selected_santri').val('').trigger('change');
     $('#modal_id_tahun_ajaran').val('{{ $activeTa ? $activeTa->id : "" }}');
     $('#modal_tanggal_khatam').val('{{ date("Y-m-d") }}');
     $('#modalKhotiminTitle').html('<i class="mdi mdi-plus-box-outline me-1"></i> Tambah Data Khotimin');
@@ -394,8 +435,6 @@ $(document).ready(function() {
             showConfirmButton: false
           });
           dtTable.draw(false);
-          // Refresh total stat
-          refreshStats();
         } else {
           Swal.fire({
             icon: 'error',
@@ -440,7 +479,7 @@ $(document).ready(function() {
         if (res.success && res.data) {
           var d = res.data;
           $('#khotimin_id').val(d.id);
-          $('#modal_santri_id').val(d.santri_id).trigger('change');
+          $('#modal_selected_santri').val(d.selected_santri).trigger('change');
           $('#modal_id_tahun_ajaran').val(d.id_tahun_ajaran);
           $('#modal_kelas').val(d.kelas);
           $('#modal_tanggal_khatam').val(d.tanggal_khatam);
@@ -489,7 +528,6 @@ $(document).ready(function() {
                 showConfirmButton: false
               });
               dtTable.draw(false);
-              refreshStats();
             } else {
               Swal.fire('Gagal!', res.message || 'Gagal menghapus data.', 'error');
             }
@@ -502,11 +540,6 @@ $(document).ready(function() {
       }
     });
   });
-
-  // Helper untuk refresh total angka statistik jika diperlukan
-  function refreshStats() {
-    // Optional: reload page stats or make background request
-  }
 });
 </script>
 @endsection

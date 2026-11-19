@@ -15,6 +15,7 @@ class Khotimin extends Model
     protected $fillable = [
         'kode_santri',
         'santri_id',
+        'tipe_santri',
         'id_tahun_ajaran',
         'tanggal_khatam',
         'kelas',
@@ -41,6 +42,30 @@ class Khotimin extends Model
     public function santriByKode(): BelongsTo
     {
         return $this->belongsTo(Santri::class, 'kode_santri', 'no_induk');
+    }
+
+    /**
+     * Relasi ke Alumni (tb_alumni_santri_detail) melalui kode_santri (no_induk)
+     */
+    public function alumni(): BelongsTo
+    {
+        return $this->belongsTo(TbAlumniSantriDetail::class, 'kode_santri', 'no_induk');
+    }
+
+    /**
+     * Accessor cerdas: mengambil profil santri aktif atau alumni
+     */
+    public function getProfilSantriAttribute()
+    {
+        return $this->santriByKode ?? $this->santri ?? $this->alumni;
+    }
+
+    /**
+     * Accessor nama santri
+     */
+    public function getNamaSantriAttribute(): string
+    {
+        return $this->profil_santri->nama ?? '-';
     }
 
     /**
