@@ -25,11 +25,6 @@
 
 
 
-<!-- JQuery (DataTables needs it) -->
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-
-<!-- Bootstrap 5 JS Bundle (Popper + Bootstrap) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
 
 <!-- DataTables JS + Buttons + Bootstrap 5 styling + extensions (all-in-one) -->
@@ -47,9 +42,19 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function(event) {
-    $('.loader-container').hide();  
-});
+function hideAppLoader() {
+    var loader = document.getElementById('loader');
+    if (loader) loader.style.display = 'none';
+    if (window.jQuery) {
+        $('.loader-container').hide();
+    }
+}
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", hideAppLoader);
+} else {
+    hideAppLoader();
+}
+window.addEventListener('load', hideAppLoader);
   function reverseNumber(input) {
         return [].map.call(input, function(x) {
             return x;
