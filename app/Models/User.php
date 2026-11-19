@@ -12,6 +12,8 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Kelas;
 
 class User extends Authenticatable
 {
@@ -66,5 +68,18 @@ class User extends Authenticatable
   public function berita()
   {
     return $this->hasMany(Berita::class);
+  }
+
+  public function kelas(): HasMany
+  {
+    return $this->hasMany(Kelas::class, 'employee_id', 'pegawai_id');
+  }
+
+  public function isWaliKelas(): bool
+  {
+    if (!$this->pegawai_id) {
+      return false;
+    }
+    return Kelas::where('employee_id', $this->pegawai_id)->exists();
   }
 }

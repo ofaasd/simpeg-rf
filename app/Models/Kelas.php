@@ -18,4 +18,9 @@ class Kelas extends Model
   {
     return $this->belongsTo(EmployeeNew::class, 'employee_id', 'id');
   }
+
+  public function user(): BelongsTo
+  {
+    return $this->belongsTo(User::class, 'employee_id', 'pegawai_id');
+  }
 }

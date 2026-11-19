@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Kamar;
 use App\Models\Tahfidz;
+use App\Models\Kelas;
 use App\Models\ProvinsiTbl;
 use App\Models\KotaKabTbl;
 use App\Models\KecamatanTbl;
@@ -16,13 +17,16 @@ class Helpers_user
 {
   public static function appClasses()
   {
-    $pegawai_id = Auth::user()->pegawai_id;
-    $is_murroby = Kamar::where('employee_id', $pegawai_id)->count();
-    $is_tahfidz = Tahfidz::where('employee_id', $pegawai_id)->count();
+    $currentUser = Auth::user();
+    $pegawai_id = $currentUser ? $currentUser->pegawai_id : null;
+    $is_murroby = $pegawai_id ? Kamar::where('employee_id', $pegawai_id)->count() : 0;
+    $is_tahfidz = $pegawai_id ? Tahfidz::where('employee_id', $pegawai_id)->count() : 0;
+    $is_wali_kelas = $pegawai_id ? Kelas::where('employee_id', $pegawai_id)->count() : 0;
     $data = [
       'pegawai_id' => $pegawai_id,
       'is_murroby' => $is_murroby,
       'is_tahfidz' => $is_tahfidz,
+      'is_wali_kelas' => $is_wali_kelas,
     ];
     return $data;
   }

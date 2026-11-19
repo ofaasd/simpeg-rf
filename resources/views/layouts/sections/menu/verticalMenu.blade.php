@@ -68,6 +68,28 @@ $user = Helper_user::appClasses();
       @endphp
     @endhasrole
 
+    @php
+      // Jika user memiliki relasi sebagai Wali Kelas namun menu rolenya belum memuat Kemadrasahan,
+      // tambahkan menu Kemadrasahan secara otomatis
+      if (isset($menuDatas->menu) && is_array($menuDatas->menu)) {
+        $hasKemadrasahan = false;
+        foreach ($menuDatas->menu as $item) {
+          if (isset($item->slug) && $item->slug === 'kemadrasahan') {
+            $hasKemadrasahan = true;
+            break;
+          }
+        }
+        if (!$hasKemadrasahan && ($user['is_wali_kelas'] ?? 0) > 0) {
+          $menuDatas->menu[] = (object) [
+            'url' => '/kemadrasahan',
+            'name' => 'Kemadrasahan',
+            'icon' => 'menu-icon tf-icons mdi mdi-book-open-page-variant-outline',
+            'slug' => 'kemadrasahan'
+          ];
+        }
+      }
+    @endphp
+
     @foreach ($menuDatas->menu as $menu)
 
     {{-- adding active and open class if child is active --}}
@@ -107,7 +129,7 @@ $user = Helper_user::appClasses();
 
     {{-- main menu --}}
 
-      <li class="menu-item {{$activeClass}}" @if($menu->slug == 'murroby' && $user['is_murroby'] < 1) style="display:none"  @endif  @if($menu->slug == 'tahfidz' && $user['is_tahfidz'] < 1) style="display:none"  @endif>
+      <li class="menu-item {{$activeClass}}" @if($menu->slug == 'murroby' && $user['is_murroby'] < 1) style="display:none"  @endif  @if($menu->slug == 'tahfidz' && $user['is_tahfidz'] < 1) style="display:none"  @endif @if($menu->slug == 'kemadrasahan' && ($user['is_wali_kelas'] ?? 0) < 1 && !(Auth::check() && Auth::user()->hasAnyRole(['admin', 'admin_pondok', 'admin-input', 'ustadz']))) style="display:none" @endif>
         <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}" class="{{ isset($menu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }}" @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
           @isset($menu->icon)
           <i class="{{ $menu->icon }}"></i>
