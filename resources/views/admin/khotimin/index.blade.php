@@ -1,0 +1,512 @@
+@extends('layouts/layoutMaster')
+
+@section('title', 'Data Khotimin - SIM Pondok')
+
+@section('vendor-style')
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/sweetalert2/sweetalert2.css')}}" />
+@endsection
+
+@section('vendor-script')
+<script src="{{asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/sweetalert2/sweetalert2.js')}}"></script>
+@endsection
+
+@section('content')
+<div class="container-xxl flex-grow-1 container-p-y">
+  <!-- Header Card -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card bg-label-primary border-0 shadow-sm">
+        <div class="card-body d-flex flex-wrap align-items-center justify-content-between gap-3 py-3">
+          <div class="d-flex align-items-center gap-3">
+            <div class="avatar avatar-md bg-primary text-white rounded p-2 d-flex align-items-center justify-content-center">
+              <i class="mdi mdi-book-check-outline mdi-24px"></i>
+            </div>
+            <div>
+              <h5 class="mb-0 text-primary fw-bold">Data Khotimin Santri</h5>
+              <small class="text-muted">Pencatatan data santri yang telah menyelesaikan khataman Al-Qur'an / Kitab per tahun ajaran dan kelas.</small>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <button type="button" class="btn btn-primary" id="btnOpenAddModal">
+              <i class="mdi mdi-plus me-1"></i> Tambah Khotimin
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistik Cards -->
+  <div class="row g-4 mb-4">
+    <div class="col-sm-6 col-xl-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="content-left">
+              <span class="text-muted small">Total Seluruh Khotimin</span>
+              <div class="d-flex align-items-center my-1">
+                <h4 class="mb-0 me-2 fw-bold" id="statTotalKhotimin">{{ $totalKhotimin }}</h4>
+                <span class="badge bg-label-primary">Santri</span>
+              </div>
+              <small class="text-muted">Akumulasi seluruh angkatan</small>
+            </div>
+            <div class="avatar avatar-md">
+              <span class="avatar-initial rounded bg-label-primary">
+                <i class="mdi mdi-account-group mdi-24px"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="content-left">
+              <span class="text-muted small">Khotimin Tahun Ajaran Aktif</span>
+              <div class="d-flex align-items-center my-1">
+                <h4 class="mb-0 me-2 fw-bold text-success" id="statKhotiminAktif">{{ $khotiminTahunIni }}</h4>
+                <span class="badge bg-label-success">Santri</span>
+              </div>
+              <small class="text-muted">
+                {{ $activeTa ? ($activeTa->awal . '/' . $activeTa->akhir . ' - Smst ' . $activeTa->jenis) : 'Tidak ada TA aktif' }}
+              </small>
+            </div>
+            <div class="avatar avatar-md">
+              <span class="avatar-initial rounded bg-label-success">
+                <i class="mdi mdi-calendar-check mdi-24px"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-xl-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="content-left">
+              <span class="text-muted small">Tahun Ajaran Aktif</span>
+              <div class="d-flex align-items-center my-1">
+                <h5 class="mb-0 fw-bold">
+                  {{ $activeTa ? ($activeTa->awal . '/' . $activeTa->akhir) : '-' }}
+                </h5>
+              </div>
+              <small class="badge bg-label-info">Semester {{ $activeTa->jenis ?? '-' }}</small>
+            </div>
+            <div class="avatar avatar-md">
+              <span class="avatar-initial rounded bg-label-info">
+                <i class="mdi mdi-school-outline mdi-24px"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Card -->
+  <div class="card mb-4 shadow-sm border-0">
+    <div class="card-header border-bottom py-3">
+      <h6 class="card-title mb-0 fw-bold"><i class="mdi mdi-filter-variant me-1 text-primary"></i> Filter Data</h6>
+    </div>
+    <div class="card-body pt-3">
+      <div class="row g-3">
+        <div class="col-md-5">
+          <label class="form-label small fw-semibold" for="filterTahunAjaran">Tahun Ajaran</label>
+          <select id="filterTahunAjaran" class="form-select form-select-sm">
+            <option value="">-- Semua Tahun Ajaran --</option>
+            @foreach($tahunAjaranList as $ta)
+              <option value="{{ $ta->id }}" {{ ($activeTa && $activeTa->id == $ta->id) ? 'selected' : '' }}>
+                {{ $ta->awal }}/{{ $ta->akhir }} (Semester {{ $ta->jenis }}) {{ $ta->is_aktif ? '★ [Aktif]' : '' }}
+              </option>
+            @endforeach
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label small fw-semibold" for="filterKelas">Kelas</label>
+          <select id="filterKelas" class="form-select form-select-sm">
+            <option value="">-- Semua Kelas --</option>
+            @foreach($kelasList as $k)
+              <option value="{{ strtoupper($k->code) }}">{{ strtoupper($k->code) }} - {{ $k->name }}</option>
+            @endforeach
+          </select>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+          <button type="button" class="btn btn-outline-secondary btn-sm w-100" id="btnResetFilter">
+            <i class="mdi mdi-refresh me-1"></i> Reset Filter
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Card -->
+  <div class="card shadow-sm border-0">
+    <div class="card-header border-bottom py-3 d-flex align-items-center justify-content-between">
+      <h6 class="card-title mb-0 fw-bold"><i class="mdi mdi-table me-1 text-primary"></i> Daftar Khotimin</h6>
+    </div>
+    <div class="card-datatable table-responsive">
+      <table class="table table-hover table-striped datatables-khotimin w-100">
+        <thead class="table-light">
+          <tr>
+            <th width="5%">No</th>
+            <th width="12%">No Induk</th>
+            <th>Nama Santri</th>
+            <th width="10%">Kelas</th>
+            <th width="18%">Tahun Ajaran</th>
+            <th width="12%">Tanggal Khatam</th>
+            <th>Keterangan</th>
+            <th width="10%" class="text-center">Aksi</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Form Tambah / Edit Khotimin -->
+<div class="modal fade" id="modalKhotimin" tabindex="-1" aria-labelledby="modalKhotiminTitle" aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="formKhotimin">
+        @csrf
+        <input type="hidden" name="id" id="khotimin_id">
+        <div class="modal-header bg-label-primary py-3">
+          <h5 class="modal-title fw-bold" id="modalKhotiminTitle">
+            <i class="mdi mdi-plus-box-outline me-1"></i> Tambah Data Khotimin
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-3">
+          <!-- Pilih Santri -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="modal_santri_id">
+              Santri <span class="text-danger">*</span>
+            </label>
+            <select class="form-select select2-santri" id="modal_santri_id" name="santri_id" required style="width: 100%;">
+              <option value="">-- Pilih Santri --</option>
+              @foreach($santriList as $s)
+                <option value="{{ $s->id }}" data-kode="{{ $s->no_induk }}" data-kelas="{{ strtoupper($s->kelas) }}">
+                  {{ $s->no_induk }} - {{ $s->nama }} (Kelas {{ strtoupper($s->kelas ?? '-') }})
+                </option>
+              @endforeach
+            </select>
+            <div class="invalid-feedback">Silakan pilih santri.</div>
+          </div>
+
+          <!-- Tahun Ajaran -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="modal_id_tahun_ajaran">
+              Tahun Ajaran <span class="text-danger">*</span>
+            </label>
+            <select class="form-select" id="modal_id_tahun_ajaran" name="id_tahun_ajaran" required>
+              <option value="">-- Pilih Tahun Ajaran --</option>
+              @foreach($tahunAjaranList as $ta)
+                <option value="{{ $ta->id }}" {{ ($activeTa && $activeTa->id == $ta->id) ? 'selected' : '' }}>
+                  {{ $ta->awal }}/{{ $ta->akhir }} (Semester {{ $ta->jenis }}) {{ $ta->is_aktif ? '★ [Aktif]' : '' }}
+                </option>
+              @endforeach
+            </select>
+            <div class="invalid-feedback">Silakan pilih tahun ajaran.</div>
+          </div>
+
+          <div class="row g-2">
+            <!-- Kelas (e.g. 1A, 1B) -->
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold" for="modal_kelas">
+                Kelas <span class="text-danger">*</span>
+              </label>
+              <input type="text" class="form-control text-uppercase" id="modal_kelas" name="kelas" placeholder="Contoh: 1A / 1B" maxlength="10" required />
+              <small class="text-muted">Misal: 1A, 1B, 2A, dll.</small>
+              <div class="invalid-feedback">Kelas wajib diisi.</div>
+            </div>
+
+            <!-- Tanggal Khatam -->
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold" for="modal_tanggal_khatam">
+                Tanggal Khatam <span class="text-danger">*</span>
+              </label>
+              <input type="date" class="form-control" id="modal_tanggal_khatam" name="tanggal_khatam" value="{{ date('Y-m-d') }}" required />
+              <div class="invalid-feedback">Tanggal khatam wajib diisi.</div>
+            </div>
+          </div>
+
+          <!-- Keterangan -->
+          <div class="mb-2">
+            <label class="form-label fw-semibold" for="modal_keterangan">Keterangan / Catatan</label>
+            <textarea class="form-control" id="modal_keterangan" name="keterangan" rows="2" placeholder="Catatan tambahan (opsional)..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer py-2">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary" id="btnSubmitKhotimin">
+            <i class="mdi mdi-content-save-outline me-1"></i> Simpan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+@endsection
+
+@section('page-script')
+<script>
+$(document).ready(function() {
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
+  // Init Select2 pada Modal
+  $('#modal_santri_id').select2({
+    dropdownParent: $('#modalKhotimin'),
+    placeholder: '-- Cari & Pilih Santri --',
+    allowClear: true,
+    width: '100%'
+  });
+
+  // Auto-fill kelas ketika santri dipilih jika kelas belum diisi
+  $('#modal_santri_id').on('change', function() {
+    var selectedOption = $(this).find('option:selected');
+    var kelasSantri = selectedOption.data('kelas');
+    if (kelasSantri && !$('#khotimin_id').val()) {
+      $('#modal_kelas').val(kelasSantri);
+    }
+  });
+
+  // Init DataTable Server-side
+  var dtTable = $('.datatables-khotimin').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: {
+      url: "{{ route('khotimin.index') }}",
+      data: function(d) {
+        d.filter_tahun_ajaran = $('#filterTahunAjaran').val();
+        d.filter_kelas = $('#filterKelas').val();
+      }
+    },
+    columns: [
+      { data: 'no', name: 'no', orderable: false, searchable: false },
+      { data: 'kode_santri', name: 'kode_santri' },
+      { data: 'nama_santri', name: 'santri.nama' },
+      { 
+        data: 'kelas', 
+        name: 'kelas',
+        render: function(data) {
+          return '<span class="badge bg-label-info fw-bold">' + (data || '-') + '</span>';
+        }
+      },
+      { data: 'tahun_ajaran', name: 'id_tahun_ajaran' },
+      { data: 'tanggal_khatam', name: 'tanggal_khatam' },
+      { data: 'keterangan', name: 'keterangan' },
+      {
+        data: 'id',
+        orderable: false,
+        searchable: false,
+        className: 'text-center',
+        render: function(data, type, row) {
+          return `
+            <div class="d-inline-flex gap-1">
+              <button type="button" class="btn btn-sm btn-icon btn-label-warning btn-edit" data-id="${data}" title="Edit">
+                <i class="mdi mdi-pencil-outline"></i>
+              </button>
+              <button type="button" class="btn btn-sm btn-icon btn-label-danger btn-delete" data-id="${data}" data-nama="${row.nama_santri}" title="Hapus">
+                <i class="mdi mdi-trash-can-outline"></i>
+              </button>
+            </div>
+          `;
+        }
+      }
+    ],
+    order: [[5, 'desc']], // Sort by tanggal_khatam
+    language: {
+      search: "",
+      searchPlaceholder: "Cari santri / kelas...",
+      lengthMenu: "Tampil _MENU_ data",
+      info: "Menampilkan _START_ s/d _END_ dari _TOTAL_ data",
+      infoEmpty: "Data tidak ditemukan",
+      zeroRecords: "Tidak ada data yang sesuai",
+      paginate: {
+        first: "Awal",
+        last: "Akhir",
+        next: "Lanjut",
+        previous: "Kembali"
+      }
+    }
+  });
+
+  // Filter Event
+  $('#filterTahunAjaran, #filterKelas').on('change', function() {
+    dtTable.draw();
+  });
+
+  $('#btnResetFilter').on('click', function() {
+    $('#filterTahunAjaran').val('{{ $activeTa ? $activeTa->id : "" }}');
+    $('#filterKelas').val('');
+    dtTable.draw();
+  });
+
+  // Buka Modal Tambah
+  $('#btnOpenAddModal').on('click', function() {
+    $('#formKhotimin')[0].reset();
+    $('#khotimin_id').val('');
+    $('#modal_santri_id').val('').trigger('change');
+    $('#modal_id_tahun_ajaran').val('{{ $activeTa ? $activeTa->id : "" }}');
+    $('#modal_tanggal_khatam').val('{{ date("Y-m-d") }}');
+    $('#modalKhotiminTitle').html('<i class="mdi mdi-plus-box-outline me-1"></i> Tambah Data Khotimin');
+    $('#modalKhotimin').modal('show');
+  });
+
+  // Form Submit (Create & Update)
+  $('#formKhotimin').on('submit', function(e) {
+    e.preventDefault();
+    var form = $(this);
+    var submitBtn = $('#btnSubmitKhotimin');
+    var originalBtnText = submitBtn.html();
+
+    submitBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Menyimpan...');
+
+    $.ajax({
+      url: "{{ route('khotimin.store') }}",
+      method: "POST",
+      data: form.serialize(),
+      dataType: "json",
+      success: function(res) {
+        submitBtn.prop('disabled', false).html(originalBtnText);
+        if (res.status === 'success' || res.success) {
+          $('#modalKhotimin').modal('hide');
+          Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: res.message || 'Data khotimin berhasil disimpan.',
+            timer: 1800,
+            showConfirmButton: false
+          });
+          dtTable.draw(false);
+          // Refresh total stat
+          refreshStats();
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            text: res.message || 'Terjadi kesalahan saat menyimpan data.'
+          });
+        }
+      },
+      error: function(xhr) {
+        submitBtn.prop('disabled', false).html(originalBtnText);
+        var msg = 'Terjadi kesalahan server.';
+        if (xhr.responseJSON && xhr.responseJSON.message) {
+          msg = xhr.responseJSON.message;
+        } else if (xhr.responseJSON && xhr.responseJSON.errors) {
+          var errList = [];
+          $.each(xhr.responseJSON.errors, function(k, v) {
+            errList.push(v[0]);
+          });
+          msg = errList.join('<br>');
+        }
+        Swal.fire({
+          icon: 'error',
+          title: 'Perhatian!',
+          html: msg
+        });
+      }
+    });
+  });
+
+  // Edit Action
+  $(document).on('click', '.btn-edit', function() {
+    var id = $(this).data('id');
+    var btn = $(this);
+    btn.prop('disabled', true);
+
+    $.ajax({
+      url: "{{ url('/khotimin') }}/" + id + "/edit",
+      type: "GET",
+      dataType: "json",
+      success: function(res) {
+        btn.prop('disabled', false);
+        if (res.success && res.data) {
+          var d = res.data;
+          $('#khotimin_id').val(d.id);
+          $('#modal_santri_id').val(d.santri_id).trigger('change');
+          $('#modal_id_tahun_ajaran').val(d.id_tahun_ajaran);
+          $('#modal_kelas').val(d.kelas);
+          $('#modal_tanggal_khatam').val(d.tanggal_khatam);
+          $('#modal_keterangan').val(d.keterangan);
+
+          $('#modalKhotiminTitle').html('<i class="mdi mdi-pencil-box-outline me-1"></i> Edit Data Khotimin');
+          $('#modalKhotimin').modal('show');
+        } else {
+          Swal.fire('Gagal!', 'Data tidak dapat dimuat.', 'error');
+        }
+      },
+      error: function() {
+        btn.prop('disabled', false);
+        Swal.fire('Error!', 'Tidak dapat mengambil data dari server.', 'error');
+      }
+    });
+  });
+
+  // Delete Action
+  $(document).on('click', '.btn-delete', function() {
+    var id = $(this).data('id');
+    var nama = $(this).data('nama') || 'santri ini';
+
+    Swal.fire({
+      title: 'Hapus Data Khotimin?',
+      text: 'Data khotimin atas nama "' + nama + '" akan dihapus secara permanen.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: '<i class="mdi mdi-trash-can-outline me-1"></i> Ya, Hapus!',
+      cancelButtonText: 'Batal'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "{{ url('/khotimin') }}/" + id,
+          type: "DELETE",
+          dataType: "json",
+          success: function(res) {
+            if (res.success || res.status === 'success') {
+              Swal.fire({
+                icon: 'success',
+                title: 'Dihapus!',
+                text: res.message || 'Data khotimin berhasil dihapus.',
+                timer: 1500,
+                showConfirmButton: false
+              });
+              dtTable.draw(false);
+              refreshStats();
+            } else {
+              Swal.fire('Gagal!', res.message || 'Gagal menghapus data.', 'error');
+            }
+          },
+          error: function(xhr) {
+            var msg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Terjadi kesalahan saat menghapus data.';
+            Swal.fire('Error!', msg, 'error');
+          }
+        });
+      }
+    });
+  });
+
+  // Helper untuk refresh total angka statistik jika diperlukan
+  function refreshStats() {
+    // Optional: reload page stats or make background request
+  }
+});
+</script>
+@endsection

@@ -199,6 +199,12 @@
       "slug": "kemadrasahan"
     },
     {
+      "url": "/khotimin",
+      "name": "Khotimin",
+      "icon": "menu-icon tf-icons mdi mdi-book-check-outline",
+      "slug": "khotimin"
+    },
+    {
       "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-account-plus",
       "name": "PSB",
@@ -220,12 +226,6 @@
           "slug": "psb-slide"
         }
       ]
-    },
-    {
-      "url": "/admin/akuntansi",
-      "icon": "menu-icon tf-icons mdi mdi-cash",
-      "name": "keuangan",
-      "slug": "akuntansi"
     },
     {
       "url": "/rekening",
@@ -263,11 +263,6 @@
       "slug": "laporan",
       "submenu": [
         {
-          "url": "/laporan/pembayaran",
-          "name": "Laporan Pembayaran",
-          "slug": "laporan-pembayaran"
-        },
-        {
           "url": "/laporan/laporan-pondok",
           "name": "Laporan Pondok",
           "slug": "laporan-pondok"
@@ -276,29 +271,6 @@
           "url": "/admin/laporan/uang_saku",
           "name": "Uang Saku Santri",
           "slug": "laporan-uang-saku"
-        }
-      ]
-    },
-    {
-      "url": "#",
-      "icon": "menu-icon tf-icons mdi mdi-cash",
-      "name": "Pembayaran",
-      "slug": "pembayaran",
-      "submenu": [
-        {
-          "url": "/pembayaran",
-          "name": "Daftar Pembayaran",
-          "slug": "daftar-pembayaran"
-        },
-        {
-          "url": "/admin/pembayaran/bukatutup",
-          "name": "Buka Tutup Pelaporan",
-          "slug": "buka-tutup-pembayaran"
-        },
-        {
-          "url": "/pembayaran/generate",
-          "name": "Generate Pembayaran",
-          "slug": "generate-pembayaran"
         }
       ]
     },

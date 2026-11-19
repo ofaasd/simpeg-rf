@@ -10,7 +10,7 @@ class Kelas extends Model
 {
   use HasFactory;
   protected $table = 'ref_kelas';
-
+/*  */
   protected $fillable = ['code', 'name', 'employee_id', 'tahun_ajaran_id'];
 
   protected $dateFormat = 'U';

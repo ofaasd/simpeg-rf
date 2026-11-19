@@ -69,6 +69,7 @@ use App\Http\Controllers\TanahController;
 use App\Http\Controllers\ustadz\KelengkapanController;
 use App\Http\Controllers\ustadz\PerilakuController;
 use App\Http\Controllers\admin\KemadrasahanWebController;
+use App\Http\Controllers\admin\KhotiminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -342,6 +343,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::put('/update/{idDetail}', [KemadrasahanWebController::class, 'update'])->name('update');
     Route::delete('/delete/{idDetail}', [KemadrasahanWebController::class, 'destroy'])->name('destroy');
   });
+
+  // Khotimin CRUD
+  Route::resource('/khotimin', KhotiminController::class);
 
   Route::resource('/new-menu', NewMenuController::class);
 });

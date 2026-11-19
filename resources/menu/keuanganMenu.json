@@ -41,44 +41,15 @@
       ]
     },
     {
-      "url": "/admin/akuntansi",
-      "icon": "menu-icon tf-icons mdi mdi-cash",
-      "name": "keuangan",
-      "slug": "akuntansi"
-    },
-    {
       "url": "#",
       "icon": "menu-icon tf-icons mdi mdi-chart-line",
       "name": "Laporan",
       "slug": "laporan",
       "submenu": [
         {
-          "url": "/laporan/pembayaran",
-          "name": "Laporan Pembayaran",
-          "slug": "laporan-pembayaran"
-        },
-        {
           "url": "/laporan/laporan-pondok",
           "name": "Laporan Pondok",
           "slug": "laporan-pondok"
-        }
-      ]
-    },
-    {
-      "url": "#",
-      "icon": "menu-icon tf-icons mdi mdi-cash",
-      "name": "Pembayaran",
-      "slug": "pembayaran",
-      "submenu": [
-        {
-          "url": "/pembayaran",
-          "name": "Daftar Pembayaran",
-          "slug": "daftar-pembayaran"
-        },
-        {
-          "url": "/admin/pembayaran/bukatutup",
-          "name": "Buka Tutup Pelaporan",
-          "slug": "buka-tutup-pembayaran"
         }
       ]
     }
