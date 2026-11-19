@@ -11,9 +11,9 @@ import 'datatables.net-buttons/js/buttons.html5';
 import 'datatables.net-buttons/js/buttons.print';
 import 'datatables.net-responsive';
 import 'datatables.net-responsive-bs5';
-import 'datatables.net-rowgroup-bs5';
+// import 'datatables.net-rowgroup-bs5';
 import 'jquery-datatables-checkboxes';
 
 DataTable.Buttons.jszip(JSZip);
 DataTable.Buttons.pdfMake(pdfMake);
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+pdfMake.vfs = (pdfFonts && pdfFonts.pdfMake) ? pdfFonts.pdfMake.vfs : (pdfFonts || {});
