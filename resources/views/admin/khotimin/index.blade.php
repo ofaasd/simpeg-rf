@@ -31,7 +31,13 @@
               <small class="text-muted">Pencatatan data santri aktif maupun alumni yang telah menyelesaikan khataman Al-Qur'an / Kitab.</small>
             </div>
           </div>
-          <div class="d-flex align-items-center gap-2">
+          <div class="d-flex align-items-center flex-wrap gap-2">
+            <button type="button" class="btn btn-outline-success" id="btnOpenExportModal">
+              <i class="mdi mdi-file-excel-outline me-1"></i> Export Data
+            </button>
+            <button type="button" class="btn btn-outline-primary" id="btnOpenImportModal">
+              <i class="mdi mdi-file-upload-outline me-1"></i> Import Data
+            </button>
             <button type="button" class="btn btn-primary" id="btnOpenAddModal">
               <i class="mdi mdi-plus me-1"></i> Tambah Khotimin
             </button>
@@ -134,9 +140,22 @@
           <label class="form-label small fw-semibold" for="filterKelas">Kelas</label>
           <select id="filterKelas" class="form-select form-select-sm">
             <option value="">-- Semua Kelas --</option>
-            @foreach($kelasList as $k)
-              <option value="{{ strtoupper($k->code) }}">{{ strtoupper($k->code) }} - {{ $k->name }}</option>
-            @endforeach
+            <optgroup label="Kelas A">
+              <option value="1A">1A</option>
+              <option value="2A">2A</option>
+              <option value="3A">3A</option>
+              <option value="4A">4A</option>
+              <option value="5A">5A</option>
+              <option value="6A">6A</option>
+            </optgroup>
+            <optgroup label="Kelas B">
+              <option value="1B">1B</option>
+              <option value="2B">2B</option>
+              <option value="3B">3B</option>
+              <option value="4B">4B</option>
+              <option value="5B">5B</option>
+              <option value="6B">6B</option>
+            </optgroup>
           </select>
         </div>
         <div class="col-md-3">
@@ -238,14 +257,31 @@
           </div>
 
           <div class="row g-2">
-            <!-- Kelas (e.g. 1A, 1B) -->
+            <!-- Kelas: Dropdown 1A - 6A & 1B - 6B -->
             <div class="col-md-6 mb-3">
               <label class="form-label fw-semibold" for="modal_kelas">
                 Kelas <span class="text-danger">*</span>
               </label>
-              <input type="text" class="form-control text-uppercase" id="modal_kelas" name="kelas" placeholder="Contoh: 1A / 1B" maxlength="10" required />
-              <small class="text-muted">Misal: 1A, 1B, 2A, dll.</small>
-              <div class="invalid-feedback">Kelas wajib diisi.</div>
+              <select class="form-select" id="modal_kelas" name="kelas" required>
+                <option value="">-- Pilih Kelas --</option>
+                <optgroup label="Kelas A">
+                  <option value="1A">1A</option>
+                  <option value="2A">2A</option>
+                  <option value="3A">3A</option>
+                  <option value="4A">4A</option>
+                  <option value="5A">5A</option>
+                  <option value="6A">6A</option>
+                </optgroup>
+                <optgroup label="Kelas B">
+                  <option value="1B">1B</option>
+                  <option value="2B">2B</option>
+                  <option value="3B">3B</option>
+                  <option value="4B">4B</option>
+                  <option value="5B">5B</option>
+                  <option value="6B">6B</option>
+                </optgroup>
+              </select>
+              <div class="invalid-feedback">Kelas wajib dipilih.</div>
             </div>
 
             <!-- Tanggal Khatam -->
@@ -274,6 +310,150 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Filter & Export Khotimin -->
+<div class="modal fade" id="modalExportKhotimin" tabindex="-1" aria-labelledby="modalExportTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form action="{{ route('khotimin.export') }}" method="GET" target="_blank">
+        <div class="modal-header bg-label-success py-3">
+          <h5 class="modal-title fw-bold" id="modalExportTitle">
+            <i class="mdi mdi-file-excel-outline me-1"></i> Export Data Khotimin
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-3">
+          <p class="text-muted small mb-3">
+            Tentukan kriteria filter untuk mendownload data dalam format Excel (.xlsx). Anda dapat memilih periode Tahun Ajaran tertentu atau rentang tanggal khatam.
+          </p>
+
+          <!-- Filter Status Santri / Alumni -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="export_tipe_santri">Status Santri / Alumni</label>
+            <select class="form-select" id="export_tipe_santri" name="tipe_santri">
+              <option value="all">Semua (Santri Aktif & Alumni)</option>
+              <option value="alumni" selected>Khusus Alumni</option>
+              <option value="santri">Khusus Santri Aktif</option>
+            </select>
+          </div>
+
+          <!-- Filter Periode Tahun Ajaran -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="export_id_tahun_ajaran">Periode Tahun Ajaran</label>
+            <select class="form-select" id="export_id_tahun_ajaran" name="id_tahun_ajaran">
+              <option value="">-- Semua Periode Tahun Ajaran --</option>
+              @foreach($tahunAjaranList as $ta)
+                <option value="{{ $ta->id }}">
+                  {{ $ta->awal }}/{{ $ta->akhir }} (Semester {{ $ta->jenis }}) {{ $ta->is_aktif ? '★ [Aktif]' : '' }}
+                </option>
+              @endforeach
+            </select>
+          </div>
+
+          <!-- Rentang Tanggal Khatam -->
+          <div class="row g-2 mb-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" for="export_tanggal_mulai">Tanggal Mulai</label>
+              <input type="date" class="form-control" id="export_tanggal_mulai" name="tanggal_mulai" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" for="export_tanggal_selesai">Tanggal Selesai</label>
+              <input type="date" class="form-control" id="export_tanggal_selesai" name="tanggal_selesai" />
+            </div>
+            <small class="text-muted">Kosongkan jika ingin mengekspor seluruh tanggal.</small>
+          </div>
+
+          <!-- Filter Kelas -->
+          <div class="mb-2">
+            <label class="form-label fw-semibold" for="export_kelas">Kelas</label>
+            <select class="form-select" id="export_kelas" name="kelas">
+              <option value="all">-- Semua Kelas --</option>
+              <optgroup label="Kelas A">
+                <option value="1A">1A</option>
+                <option value="2A">2A</option>
+                <option value="3A">3A</option>
+                <option value="4A">4A</option>
+                <option value="5A">5A</option>
+                <option value="6A">6A</option>
+              </optgroup>
+              <optgroup label="Kelas B">
+                <option value="1B">1B</option>
+                <option value="2B">2B</option>
+                <option value="3B">3B</option>
+                <option value="4B">4B</option>
+                <option value="5B">5B</option>
+                <option value="6B">6B</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer py-2">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
+          <button type="submit" class="btn btn-success">
+            <i class="mdi mdi-download me-1"></i> Download Excel (.xlsx)
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Import Khotimin -->
+<div class="modal fade" id="modalImportKhotimin" tabindex="-1" aria-labelledby="modalImportTitle" aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="formImportKhotimin" enctype="multipart/form-data">
+        @csrf
+        <div class="modal-header bg-label-primary py-3">
+          <h5 class="modal-title fw-bold" id="modalImportTitle">
+            <i class="mdi mdi-file-upload-outline me-1"></i> Import Data Khotimin
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-3">
+          <!-- Petunjuk & Download Template -->
+          <div class="alert alert-info py-2 px-3 mb-3 d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+              <i class="mdi mdi-information-outline mdi-20px me-2"></i>
+              <span class="small">Gunakan format file Excel sesuai template standar.</span>
+            </div>
+            <a href="{{ route('khotimin.template') }}" class="btn btn-sm btn-info text-nowrap">
+              <i class="mdi mdi-download me-1"></i> Template Excel
+            </a>
+          </div>
+
+          <!-- File Upload Input -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="import_file">
+              Pilih File Excel / CSV <span class="text-danger">*</span>
+            </label>
+            <input type="file" class="form-control" id="import_file" name="file" accept=".xlsx, .xls, .csv" required />
+            <small class="text-muted">Mendukung format .xlsx, .xls, atau .csv (maksimal 10MB).</small>
+          </div>
+
+          <!-- Tahun Ajaran Default -->
+          <div class="mb-2">
+            <label class="form-label fw-semibold" for="import_id_tahun_ajaran">Tahun Ajaran Default</label>
+            <select class="form-select" id="import_id_tahun_ajaran" name="id_tahun_ajaran">
+              @foreach($tahunAjaranList as $ta)
+                <option value="{{ $ta->id }}" {{ ($activeTa && $activeTa->id == $ta->id) ? 'selected' : '' }}>
+                  {{ $ta->awal }}/{{ $ta->akhir }} (Semester {{ $ta->jenis }}) {{ $ta->is_aktif ? '★ [Aktif]' : '' }}
+                </option>
+              @endforeach
+            </select>
+            <small class="text-muted">Digunakan bila kolom <code>tahun_ajaran_id</code> pada baris Excel tidak diisi.</small>
+          </div>
+        </div>
+        <div class="modal-footer py-2">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary" id="btnSubmitImport">
+            <i class="mdi mdi-upload me-1"></i> Mulai Import
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('page-script')
@@ -293,12 +473,12 @@ $(document).ready(function() {
     width: '100%'
   });
 
-  // Auto-fill kelas ketika santri/alumni dipilih jika kelas belum diisi
+  // Auto-fill kelas ketika santri/alumni dipilih jika kelas belum dipilih
   $('#modal_selected_santri').on('change', function() {
     var selectedOption = $(this).find('option:selected');
     var kelasSantri = selectedOption.data('kelas');
     if (kelasSantri && !$('#khotimin_id').val()) {
-      $('#modal_kelas').val(kelasSantri);
+      $('#modal_kelas').val(kelasSantri.toUpperCase());
     }
   });
 
@@ -404,9 +584,86 @@ $(document).ready(function() {
     $('#khotimin_id').val('');
     $('#modal_selected_santri').val('').trigger('change');
     $('#modal_id_tahun_ajaran').val('{{ $activeTa ? $activeTa->id : "" }}');
+    $('#modal_kelas').val('');
     $('#modal_tanggal_khatam').val('{{ date("Y-m-d") }}');
     $('#modalKhotiminTitle').html('<i class="mdi mdi-plus-box-outline me-1"></i> Tambah Data Khotimin');
     $('#modalKhotimin').modal('show');
+  });
+
+  // Buka Modal Export
+  $('#btnOpenExportModal').on('click', function() {
+    // Sesuaikan default filter export dengan filter tabel yang sedang aktif
+    var activeTaFilter = $('#filterTahunAjaran').val();
+    if (activeTaFilter) {
+      $('#export_id_tahun_ajaran').val(activeTaFilter);
+    }
+    var activeKelasFilter = $('#filterKelas').val();
+    if (activeKelasFilter) {
+      $('#export_kelas').val(activeKelasFilter);
+    }
+    $('#modalExportKhotimin').modal('show');
+  });
+
+  // Buka Modal Import
+  $('#btnOpenImportModal').on('click', function() {
+    $('#formImportKhotimin')[0].reset();
+    $('#modalImportKhotimin').modal('show');
+  });
+
+  // Submit Import Form via AJAX
+  $('#formImportKhotimin').on('submit', function(e) {
+    e.preventDefault();
+    var form = $(this)[0];
+    var formData = new FormData(form);
+    var submitBtn = $('#btnSubmitImport');
+    var originalBtnText = submitBtn.html();
+
+    submitBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Mengimpor...');
+
+    $.ajax({
+      url: "{{ route('khotimin.import') }}",
+      method: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: "json",
+      success: function(res) {
+        submitBtn.prop('disabled', false).html(originalBtnText);
+        if (res.status === 'success' || res.success) {
+          $('#modalImportKhotimin').modal('hide');
+
+          var alertHtml = res.message;
+          if (res.data && res.data.errors && res.data.errors.length > 0) {
+            alertHtml += '<hr><div class="text-start small text-danger" style="max-height:120px; overflow-y:auto;">' + res.data.errors.join('<br>') + '</div>';
+          }
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Import Berhasil!',
+            html: alertHtml,
+          });
+          dtTable.draw(false);
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            text: res.message || 'Gagal memproses file import.'
+          });
+        }
+      },
+      error: function(xhr) {
+        submitBtn.prop('disabled', false).html(originalBtnText);
+        var msg = 'Terjadi kesalahan saat mengunggah file.';
+        if (xhr.responseJSON && xhr.responseJSON.message) {
+          msg = xhr.responseJSON.message;
+        }
+        Swal.fire({
+          icon: 'error',
+          title: 'Perhatian!',
+          html: msg
+        });
+      }
+    });
   });
 
   // Form Submit (Create & Update)

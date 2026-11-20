@@ -8,6 +8,10 @@ use App\Models\Santri;
 use App\Models\TbAlumniSantriDetail;
 use App\Models\TahunAjaran;
 use App\Models\Kelas;
+use App\Exports\KhotiminExport;
+use App\Exports\KhotiminTemplateExport;
+use App\Imports\KhotiminImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -290,6 +294,93 @@ class KhotiminController extends Controller
                 'success' => false,
                 'status' => 'error',
                 'message' => 'Gagal menghapus data: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Export data khotimin ke Excel (.xlsx) dengan filter TA, rentang tanggal, status alumni/santri, dan kelas.
+     */
+    public function export(Request $request)
+    {
+        $filters = [
+            'id_tahun_ajaran' => $request->input('id_tahun_ajaran'),
+            'tanggal_mulai' => $request->input('tanggal_mulai'),
+            'tanggal_selesai' => $request->input('tanggal_selesai'),
+            'tipe_santri' => $request->input('tipe_santri', 'all'),
+            'kelas' => $request->input('kelas', 'all'),
+        ];
+
+        $filenameParts = ['data_khotimin'];
+        if (!empty($filters['tipe_santri']) && $filters['tipe_santri'] !== 'all') {
+            $filenameParts[] = $filters['tipe_santri'];
+        }
+        if (!empty($filters['id_tahun_ajaran'])) {
+            $ta = TahunAjaran::find($filters['id_tahun_ajaran']);
+            if ($ta) {
+                $filenameParts[] = 'TA_' . $ta->awal . '-' . $ta->akhir;
+            }
+        }
+        if (!empty($filters['tanggal_mulai']) && !empty($filters['tanggal_selesai'])) {
+            $filenameParts[] = $filters['tanggal_mulai'] . '_sd_' . $filters['tanggal_selesai'];
+        }
+        $filenameParts[] = date('Ymd_His');
+
+        $filename = implode('_', $filenameParts) . '.xlsx';
+
+        return Excel::download(new KhotiminExport($filters), $filename);
+    }
+
+    /**
+     * Download template format Excel untuk Import Khotimin.
+     */
+    public function downloadTemplate()
+    {
+        return Excel::download(new KhotiminTemplateExport(), 'template_import_khotimin.xlsx');
+    }
+
+    /**
+     * Import data khotimin dari file Excel / CSV.
+     */
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls,csv|max:10240',
+            'id_tahun_ajaran' => 'nullable|exists:ref_tahun_ajaran,id',
+        ], [
+            'file.required' => 'File Excel wajib diunggah.',
+            'file.mimes' => 'Format file harus berupa Excel (.xlsx, .xls) atau CSV.',
+            'file.max' => 'Ukuran file maksimal 10MB.',
+        ]);
+
+        try {
+            $defaultTaId = $request->input('id_tahun_ajaran');
+            $import = new KhotiminImport($defaultTaId);
+            Excel::import($import, $request->file('file'));
+
+            $msg = "Import selesai! {$import->successCount} data berhasil disimpan ({$import->santriCount} santri aktif, {$import->alumniCount} alumni).";
+            if (count($import->errors) > 0) {
+                $msg .= " Sebanyak " . count($import->errors) . " baris dilewati karena No Induk tidak ditemukan.";
+            }
+
+            return response()->json([
+                'success' => true,
+                'status' => 'success',
+                'message' => $msg,
+                'data' => [
+                    'total_rows' => $import->totalRows,
+                    'success_count' => $import->successCount,
+                    'santri_count' => $import->santriCount,
+                    'alumni_count' => $import->alumniCount,
+                    'errors' => $import->errors,
+                ],
+            ]);
+        } catch (\Exception $e) {
+            Log::error('KhotiminController@import error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'status' => 'error',
+                'message' => 'Gagal mengimpor file: ' . $e->getMessage(),
             ], 500);
         }
     }

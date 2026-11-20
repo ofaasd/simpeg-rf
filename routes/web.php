@@ -344,6 +344,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::delete('/delete/{idDetail}', [KemadrasahanWebController::class, 'destroy'])->name('destroy');
   });
 
+  // Khotimin Export, Import & Template
+  Route::get('/khotimin/export', [KhotiminController::class, 'export'])->name('khotimin.export');
+  Route::get('/khotimin/template', [KhotiminController::class, 'downloadTemplate'])->name('khotimin.template');
+  Route::post('/khotimin/import', [KhotiminController::class, 'import'])->name('khotimin.import');
+
   // Khotimin CRUD
   Route::resource('/khotimin', KhotiminController::class);
 
