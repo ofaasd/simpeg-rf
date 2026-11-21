@@ -400,7 +400,7 @@
 
 <!-- Modal Import Khotimin -->
 <div class="modal fade" id="modalImportKhotimin" tabindex="-1" aria-labelledby="modalImportTitle" aria-hidden="true" data-bs-backdrop="static">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <form id="formImportKhotimin" enctype="multipart/form-data">
         @csrf
@@ -411,15 +411,55 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body py-3">
-          <!-- Petunjuk & Download Template -->
-          <div class="alert alert-info py-2 px-3 mb-3 d-flex align-items-center justify-content-between">
+          <!-- Banner & Download Template -->
+          <div class="alert alert-info py-2 px-3 mb-3 d-flex flex-wrap align-items-center justify-content-between gap-2">
             <div class="d-flex align-items-center">
-              <i class="mdi mdi-information-outline mdi-20px me-2"></i>
-              <span class="small">Gunakan format file Excel sesuai template standar.</span>
+              <i class="mdi mdi-information-outline mdi-24px me-2 text-info"></i>
+              <div>
+                <strong class="d-block text-dark">Format Export Dapat Langsung Digunakan!</strong>
+                <span class="small text-muted">File hasil Export Data Khotimin (.xlsx) dapat langsung Anda isi/edit dan di-import kembali.</span>
+              </div>
             </div>
             <a href="{{ route('khotimin.template') }}" class="btn btn-sm btn-info text-nowrap">
-              <i class="mdi mdi-download me-1"></i> Template Excel
+              <i class="mdi mdi-download me-1"></i> Download Format Template Excel
             </a>
+          </div>
+
+          <!-- Petunjuk Pengisian Kolom -->
+          <div class="card border border-primary bg-light mb-3">
+            <div class="card-header py-2 bg-label-primary d-flex align-items-center justify-content-between">
+              <span class="fw-bold small text-primary">
+                <i class="mdi mdi-help-circle-outline me-1"></i> Petunjuk & Ketentuan Pengisian Format Excel:
+              </span>
+            </div>
+            <div class="card-body py-2 px-3">
+              <ul class="list-unstyled mb-0 small" style="line-height: 1.7;">
+                <li>
+                  <span class="badge bg-danger me-1">Wajib</span> <strong>No Induk:</strong>
+                  Nomor induk santri (NIS). Harus terdaftar di data Santri Aktif atau data Alumni sistem.
+                </li>
+                <li>
+                  <span class="badge bg-danger me-1">Wajib</span> <strong>Kelas Saat Khatam:</strong>
+                  Wajib diisi pilihan kelas yang valid, yaitu: <code>1A</code>, <code>2A</code>, <code>3A</code>, <code>4A</code>, <code>5A</code>, <code>6A</code> atau <code>1B</code>, <code>2B</code>, <code>3B</code>, <code>4B</code>, <code>5B</code>, <code>6B</code>.
+                </li>
+                <li>
+                  <span class="badge bg-danger me-1">Wajib</span> <strong>Tanggal Khatam:</strong>
+                  Tanggal pelaksanaan khatam. Format <code>DD/MM/YYYY</code> (misal: <code>20/11/2026</code>) atau <code>YYYY-MM-DD</code> atau format tanggal cell Excel.
+                </li>
+                <li>
+                  <span class="badge bg-secondary me-1">Opsional</span> <strong>Tahun Ajaran:</strong>
+                  Dapat diisi format tahun (contoh: <code>2025/2026</code> atau <code>2025</code>). Jika dikosongkan, otomatis menggunakan Tahun Ajaran Aktif di bawah.
+                </li>
+                <li>
+                  <span class="badge bg-secondary me-1">Opsional</span> <strong>Nama Santri & Status:</strong>
+                  Kolom nama dan status bersifat referensi visual bagi Anda. Sistem secara otomatis mencocokkan profil resmi & status santri/alumni berdasarkan Nomor Induk.
+                </li>
+                <li>
+                  <span class="badge bg-secondary me-1">Opsional</span> <strong>Keterangan:</strong>
+                  Catatan khataman tambahan (misal: <em>Khatam 30 Juz Al-Qur'an</em>).
+                </li>
+              </ul>
+            </div>
           </div>
 
           <!-- File Upload Input -->
@@ -433,7 +473,7 @@
 
           <!-- Tahun Ajaran Default -->
           <div class="mb-2">
-            <label class="form-label fw-semibold" for="import_id_tahun_ajaran">Tahun Ajaran Default</label>
+            <label class="form-label fw-semibold" for="import_id_tahun_ajaran">Tahun Ajaran Default (Fallback)</label>
             <select class="form-select" id="import_id_tahun_ajaran" name="id_tahun_ajaran">
               @foreach($tahunAjaranList as $ta)
                 <option value="{{ $ta->id }}" {{ ($activeTa && $activeTa->id == $ta->id) ? 'selected' : '' }}>
@@ -441,7 +481,7 @@
                 </option>
               @endforeach
             </select>
-            <small class="text-muted">Digunakan bila kolom <code>tahun_ajaran_id</code> pada baris Excel tidak diisi.</small>
+            <small class="text-muted">Digunakan secara otomatis apabila baris pada Excel tidak mencantumkan nilai Tahun Ajaran.</small>
           </div>
         </div>
         <div class="modal-footer py-2">
