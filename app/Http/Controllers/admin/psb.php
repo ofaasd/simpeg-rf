@@ -148,7 +148,7 @@ class psb extends Controller
           $nestedData['no_wa'] = $walisan->no_hp ?? '';
           $nestedData['password'] = $user->password_ori ?? '';
           $nestedData['umur_tahun'] = $year ?? '';
-          $nestedData['umur_bulan'] = $year ?? '';
+          $nestedData['umur_bulan'] = $month ?? '';
           $nestedData['jenis_kelamin'] = $row->jenis_kelamin ?? '';
           $nestedData['berat_badan'] = $PsbSeragam->berat_badan ?? '';
           $nestedData['tinggi_badan'] = $PsbSeragam->tinggi_badan ?? '';
